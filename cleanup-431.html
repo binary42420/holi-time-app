@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fix 431 Error - Cookie Cleanup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #e74c3c;
+            text-align: center;
+        }
+        button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            width: 100%;
+        }
+        button:hover {
+            background: #c0392b;
+        }
+        .success {
+            background: #27ae60;
+        }
+        .success:hover {
+            background: #229954;
+        }
+        .info {
+            background: #f39c12;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .step {
+            margin: 15px 0;
+            padding: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+        }
+        #status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚨 Fix HTTP 431 Error</h1>
+        <p><strong>Error:</strong> Request Header Fields Too Large</p>
+        
+        <div class="info">
+            <strong>What happened?</strong> Your browser cookies have grown too large, causing the server to reject requests.
+        </div>
+
+        <div id="status"></div>
+
+        <h3>Quick Fix Options:</h3>
+        
+        <div class="step">
+            <h4>Option 1: Clear Cookies Only</h4>
+            <button onclick="clearCookiesOnly()">Clear All Cookies</button>
+            <small>This will log you out but preserve other data.</small>
+        </div>
+
+        <div class="step">
+            <h4>Option 2: Full Cleanup</h4>
+            <button onclick="fullCleanup()">Clear All Browser Data</button>
+            <small>This will clear cookies, localStorage, and cache.</small>
+        </div>
+
+        <div class="step">
+            <h4>Option 3: Manual Steps</h4>
+            <ol>
+                <li>Press <kbd>F12</kbd> to open DevTools</li>
+                <li>Go to <strong>Application</strong> tab</li>
+                <li>Click <strong>Storage</strong> in left sidebar</li>
+                <li>Click <strong>"Clear site data"</strong></li>
+                <li>Go back to <a href="http://localhost:3000" target="_blank">localhost:3000</a></li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h4>After Cleanup:</h4>
+            <button class="success" onclick="testConnection()">Test Connection</button>
+        </div>
+    </div>
+
+    <script>
+        function showStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.style.display = 'block';
+            status.className = type;
+            status.innerHTML = message;
+        }
+
+        function clearCookiesOnly() {
+            try {
+                // Clear all cookies for localhost
+                document.cookie.split(";").forEach(function(c) { 
+                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+                });
+                
+                showStatus('✅ Cookies cleared successfully! You can now try accessing the site.', 'success');
+                
+                setTimeout(() => {
+                    if (confirm('Cookies cleared! Click OK to test the connection.')) {
+                        window.open('http://localhost:3000', '_blank');
+                    }
+                }, 1000);
+                
+            } catch (error) {
+                showStatus('❌ Error clearing cookies: ' + error.message, 'error');
+            }
+        }
+
+        function fullCleanup() {
+            try {
+                // Clear cookies
+                document.cookie.split(";").forEach(function(c) { 
+                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+                });
+                
+                // Clear localStorage and sessionStorage
+                if (typeof(Storage) !== "undefined") {
+                    localStorage.clear();
+                    sessionStorage.clear();
+                }
+                
+                // Clear cache if available
+                if ('caches' in window) {
+                    caches.keys().then(names => {
+                        names.forEach(name => {
+                            caches.delete(name);
+                        });
+                    });
+                }
+                
+                showStatus('✅ Full cleanup completed! All browser data cleared.', 'success');
+                
+                setTimeout(() => {
+                    if (confirm('Full cleanup completed! Click OK to test the connection.')) {
+                        window.open('http://localhost:3000', '_blank');
+                    }
+                }, 1000);
+                
+            } catch (error) {
+                showStatus('❌ Error during cleanup: ' + error.message, 'error');
+            }
+        }
+
+        function testConnection() {
+            showStatus('🔄 Testing connection...', 'info');
+            
+            fetch('http://localhost:3000')
+                .then(response => {
+                    if (response.ok) {
+                        showStatus('✅ Connection successful! The site should work now.', 'success');
+                        setTimeout(() => {
+                            window.open('http://localhost:3000', '_blank');
+                        }, 1000);
+                    } else {
+                        showStatus('⚠️ Connection test returned status: ' + response.status, 'warning');
+                    }
+                })
+                .catch(error => {
+                    if (error.message.includes('431')) {
+                        showStatus('❌ Still getting 431 error. Try the full cleanup option.', 'error');
+                    } else {
+                        showStatus('❌ Connection test failed: ' + error.message, 'error');
+                    }
+                });
+        }
+
+        // Auto-detect if we're on localhost and show appropriate message
+        if (window.location.hostname === 'localhost') {
+            showStatus('ℹ️ You are running this cleanup tool. Use the buttons above to fix the 431 error.', 'info');
+        }
+    </script>
+</body>
+</html>

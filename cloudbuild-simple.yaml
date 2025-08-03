@@ -1,0 +1,48 @@
+# Simplified Cloud Build pipeline that skips problematic migration job
+# Use this for immediate deployment while migration issues are resolved
+
+steps:
+  # Step 1: Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build-image'
+    args:
+      - 'build'
+      - '--build-arg'
+      - 'DATABASE_URL=postgresql://holitime-user:myDBpassWord1%21@35.235.75.173:5432/holitime'
+      - '-t'
+      - 'us-west2-docker.pkg.dev/elated-fabric-460119-t3/holi-repo/holi:latest'
+      - '.'
+
+  # Step 2: Push the Docker image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push-image'
+    waitFor: ['build-image']
+    args:
+      - 'push'
+      - 'us-west2-docker.pkg.dev/elated-fabric-460119-t3/holi-repo/holi:latest'
+
+  # Step 3: Deploy the main application to Cloud Run
+  # Migrations will be handled by the application startup script
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'deploy-service'
+    waitFor: ['push-image']
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'holitime'
+      - '--image=us-west2-docker.pkg.dev/elated-fabric-460119-t3/holi-repo/holi:latest'
+      - '--region=us-west2'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--port=3000'
+      - '--memory=1Gi'
+      - '--cpu=1'
+      - '--timeout=300s'
+      - '--min-instances=0'
+      - '--max-instances=2'
+      - '--set-cloudsql-instances=elated-fabric-460119-t3:us-west2:holitime-db'
+      - '--set-env-vars=GCS_BUCKET_NAME=timesheethandsonlaboravar,DATABASE_URL=postgresql://holitime-user:myDBpassWord1%21@35.235.75.173:5432/holitime,DB_USER=holitime-user,DB_PASS=myDBpassWord1!,DB_NAME=holitime,DB_HOST=/cloudsql/elated-fabric-460119-t3:us-west2:holitime-db,DB_PORT=5432,NEXTAUTH_URL=https://holitime-438323004618.us-west2.run.app,NEXTAUTH_SECRET=egegeuivbienHuivenbi245vrenbiiinbrenbirenbiivrevnurnei,GOOGLE_CLIENT_ID=438323004618-7351haftdo2dm9s8vgdo2gsaqfuj9h9i.apps.googleusercontent.com,GOOGLE_CLIENT_SECRET=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,NODE_ENV=production,NEXT_TELEMETRY_DISABLED=1'
+
+options:
+  machineType: 'E2_HIGHCPU_8'

@@ -1,0 +1,567 @@
+{
+    "checksum": "d80f0f3afe934121e56cd9213c9562bc3f6faa8ab119e05343d12978b094334a",
+    "data": {
+    "id": "a44c6ba4-b163-4c5d-bc95-154d41151725",
+    "createdAt": 1753820895251,
+    "updatedAt": 1753821763071,
+    "title": "Prisma Argument Error Fixes",
+    "messages": [
+        {
+            "id": "e6c02425-466a-498f-9bfb-fff261477a7e",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Unknown argument `timesheetId`. Available options are marked with ?."
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": ".idea\\.sourcegraph\\cody_settings.json",
+                    "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\.idea\\.sourcegraph\\cody_settings.json",
+                    "sources": [
+                        "opened_tab"
+                    ],
+                    "content": "{}\n"
+                },
+                "codebaseEnabled": false
+            },
+            "createdAt": 1753820895296,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Unknown argument `timesheetId`. Available options are marked with ?."
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph"
+                    }
+                ]
+            },
+            "autoAppliedRules": [
+                {
+                    "name": "Repository Information Overview",
+                    "description": "Repository Information Overview",
+                    "uri": "zen-rules://repo/repo",
+                    "content": "\n\n# Holitime App Information\n\n## Summary\nA Next.js application for time tracking and workforce management, named \"Holitime\". The app provides functionality for managing jobs, shifts, timesheets, and worker assignments with role-based access control.\n\n## Structure\n- **src/**: Main application code (components, hooks, features, app routes)\n- **prisma/**: Database schema and migrations using Prisma ORM\n- **public/**: Static assets and files\n- **tests/**: Test files for database, UI, and end-to-end testing\n- **scripts/**: Utility scripts for deployment, database operations, and maintenance\n\n## Language & Runtime\n**Language**: TypeScript/JavaScript\n**Version**: ES2017 target with Next.js 14\n**Build System**: Next.js build system\n**Package Manager**: npm\n\n## Dependencies\n**Main Dependencies**:\n- Next.js (14.2.30) - React framework\n- React (18.3.1) - UI library\n- Prisma (5.17.0) - ORM for PostgreSQL\n- NextAuth (4.24.7) - Authentication\n- TanStack Query (5.51.15) - Data fetching\n- Mantine (7.11.1) & Radix UI - UI components\n- Tailwind CSS (3.4.7) - Styling\n- Zod (3.23.8) - Schema validation\n- Zustand (4.5.4) - State management\n\n**Development Dependencies**:\n- TypeScript (5.5.4)\n- Jest (30.0.5) - Testing\n- ESLint (8.57.0) - Linting\n- Testing Library - Test utilities\n- Faker - Test data generation\n\n## Build & Installation\n```bash\n# Install dependencies\nnpm install\n\n# Development\nnpm run dev\n\n# Build for production\nnpm run build\n\n# Start production server\nnpm run start\n\n# Database operations\nnpm run migrate       # Development migrations\nnpm run migrate:prod  # Production migrations\nnpm run db:seed       # Seed database\nnpm run studio        # Prisma Studio UI\n```\n\n## Docker\n**Dockerfile**: Multi-stage build process\n**Base Image**: node:20-slim\n**Build Process**:\n1. Builder stage installs dependencies and builds the application\n2. Runtime stage copies only necessary files for production\n**Run Command**: `node server.js`\n\n## Testing\n**Framework**: Jest with Testing Library\n**Test Location**: `/tests` directory\n**Configuration**: jest.config.js and jest.setup.js\n**Test Types**:\n- Database tests: `npm run test:db`\n- UI functionality: `npm run test:ui`\n- End-to-end tests: `npm run test:e2e`\n- All tests: `npm run test:all`\n\n## Database\n**ORM**: Prisma\n**Database**: PostgreSQL\n**Schema**: Comprehensive data model for users, companies, jobs, shifts, timesheets\n**Models**: User, Company, Job, Shift, AssignedPersonnel, TimeEntry, Timesheet"
+                }
+            ]
+        },
+        {
+            "id": "e599678d-60b3-41d8-babd-7718017b571d",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "I can see you're working with a Holitime app (a Next.js time tracking application) and there's an error about an unknown argument `timesheetId`. This suggests there might be an issue with a Prisma query or schema definition.\n\nLet me help you investigate this issue. First, let me search for where `timesheetId` is being used in your codebase to understand the context better."
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01PCeZW5HXjnmX5t2KGi1LvM",
+                    "title": "Fulltext search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Now let me look at the Prisma schema to understand the current structure:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01Ka3HRVvVyuMjVYA5Wu7Ru9",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "prisma/schema.prisma",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\prisma\\schema.prisma"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Now let me check one of the API routes that's using `timesheetId` to understand the context of the error:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_012hGhRibgeFkvu2jcBMTUbS",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/app/api/timesheets/company-approval/route.ts",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\app\\api\\timesheets\\company-approval\\route.ts"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I notice there's an issue on line 91 - the code is trying to update a field called `pdf_url`, but looking at the Prisma schema, the Timesheet model has `unsigned_pdf_url` and `signed_pdf_url` fields, not `pdf_url`. Let me check another API route to see if there are similar issues:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01K7c9NYpGKDa6hzFrJbn4z1",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/app/api/timesheets/manager-approval/route.ts",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\app\\api\\timesheets\\manager-approval\\route.ts"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I found another issue! On line 51, the code is trying to set the status to `'completed'`, but looking at the TimesheetStatus enum in the schema, the correct value should be `'COMPLETED'` (uppercase).\n\nLet me check if there are any recent database migrations or if the Prisma client needs to be regenerated:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_014YLjvnpPtVF3NGVWUgG4eC",
+                    "statusText": "Viewed folder",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "prisma",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\prisma"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me check if there are any recent migrations that might have changed the schema:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01SzorLTwhcDkcMsXuTvgJfh",
+                    "statusText": "Viewed folder",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "prisma/migrations/20241201000000_update_timesheet_status_enum",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\prisma\\migrations\\20241201000000_update_timesheet_status_enum"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01Vy8AmkMehtsNKuzw1a49cd",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "prisma/migrations/20241201000000_update_timesheet_status_enum/migration.sql",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\prisma\\migrations\\20241201000000_update_timesheet_status_enum\\migration.sql"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Now let me check the current package.json to see what version of Prisma is being used:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01UPznS5VTteFGqVDxW9f4Bz",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "package.json",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\package.json"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Now I have a clear understanding of the issues. The error \"Unknown argument `timesheetId`\" is likely occurring because:\n\n1. **Field name mismatch**: In the company-approval route, the code tries to update a `pdf_url` field that doesn't exist in the schema (should be `signed_pdf_url` or `unsigned_pdf_url`)\n2. **Enum value mismatch**: In the manager-approval route, the code tries to set status to `'completed'` but the enum expects `'COMPLETED'`\n3. **Potential Prisma client sync issue**: The Prisma client might not be in sync with the current schema\n\nLet me fix these issues:\n\n## Issue 1: Fix the company-approval route"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01Sb9cRRX7mqXe91k4363amd",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/app/api/timesheets/company-approval/route.ts",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\app\\api\\timesheets\\company-approval\\route.ts"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/app/api/timesheets/company-approval/route.ts\n+++ C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/app/api/timesheets/company-approval/route.ts\n@@ -88,7 +88,7 @@\n     // Store PDF URL in database\n     await prisma.timesheet.update({\n       where: { id: updatedTimesheet.id },\n-      data: { pdf_url: responseData.pdfUrl }\n+      data: { signed_pdf_url: responseData.pdfUrl }\n     })\n \n     return NextResponse.json({",
+                    "refToolCallId": "toolu_01Sb9cRRX7mqXe91k4363amd"
+                },
+                {
+                    "type": "text",
+                    "text": "## Issue 2: Fix the manager-approval route"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01F7NALjrq8diLNptnTZG6bt",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/app/api/timesheets/manager-approval/route.ts",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\app\\api\\timesheets\\manager-approval\\route.ts"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/app/api/timesheets/manager-approval/route.ts\n+++ C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/app/api/timesheets/manager-approval/route.ts\n@@ -48,10 +48,11 @@\n     const updatedTimesheet = await prisma.timesheet.update({\n       where: { id: body.timesheetId },\n       data: { \n-        status: 'completed',\n+        status: 'COMPLETED',\n         manager_signature: body.signatureData,\n         manager_approved_at: new Date(),\n-        manager_notes: body.notes ?? null\n+        manager_notes: body.notes ?? null,\n+        managerApprovedBy: user.id\n       }\n     })\n ",
+                    "refToolCallId": "toolu_01F7NALjrq8diLNptnTZG6bt"
+                },
+                {
+                    "type": "text",
+                    "text": "Now let me also add the missing `companyApprovedBy` field to the company-approval route:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01D7K7pE6fjaqrtfdCjLPZ5D",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/app/api/timesheets/company-approval/route.ts",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\app\\api\\timesheets\\company-approval\\route.ts"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/app/api/timesheets/company-approval/route.ts\n+++ C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/app/api/timesheets/company-approval/route.ts\n@@ -60,7 +60,8 @@\n         status: 'PENDING_MANAGER_APPROVAL',\n         company_signature: body.signatureData,\n         company_approved_at: new Date(),\n-        company_notes: body.notes ?? null\n+        company_notes: body.notes ?? null,\n+        companyApprovedBy: user.id\n       }\n     })\n ",
+                    "refToolCallId": "toolu_01D7K7pE6fjaqrtfdCjLPZ5D"
+                },
+                {
+                    "type": "text",
+                    "text": "Now let me regenerate the Prisma client to ensure it's in sync with the current schema:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01UEMCjXRkG2ZrVs8BGXCREc",
+                    "status": "IN_PROGRESS",
+                    "isHidden": true,
+                    "localResult": "{\"status\":\"ERROR\",\"exitCode\":null,\"output\":null}"
+                },
+                {
+                    "type": "shellCommand",
+                    "command": "Set-Location \"C:/Users/ryley/WebstormProjects/untitled/my-next-app\"; npx prisma generate",
+                    "id": "19927162-e7d4-4aa2-a289-cce9856e8ec9",
+                    "status": "ERROR",
+                    "toolCallId": "toolu_01UEMCjXRkG2ZrVs8BGXCREc",
+                    "commandsRequiringConfirmation": [],
+                    "isBackground": false,
+                    "maxWaitTimeInSeconds": 600
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "3670c15b-7dd4-46b0-9dbf-cd5db407fb21"
+            },
+            "createdAt": 1753820897890,
+            "isInternal": false
+        },
+        {
+            "id": "ee4edb52-568e-45a3-a98f-823aec7456ee",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Let me try a different approach:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01BNrSuDsE6goEdoHrFXYfia",
+                    "status": "IN_PROGRESS",
+                    "isHidden": true,
+                    "localResult": "{\"status\":\"ERROR\",\"exitCode\":null,\"output\":null}"
+                },
+                {
+                    "type": "shellCommand",
+                    "command": "npx prisma generate --schema=\"C:/Users/ryley/WebstormProjects/untitled/my-next-app/prisma/schema.prisma\"",
+                    "id": "8fbc4fd9-8856-463f-82da-a7cf80ba5324",
+                    "status": "ERROR",
+                    "toolCallId": "toolu_01BNrSuDsE6goEdoHrFXYfia",
+                    "commandsRequiringConfirmation": [],
+                    "isBackground": false,
+                    "maxWaitTimeInSeconds": 600
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "d884b690-92bc-476e-9204-6abec1a17558"
+            },
+            "createdAt": 1753820971298,
+            "isInternal": false
+        },
+        {
+            "id": "9a13108c-a12b-41e3-9b0d-8729cae04c91",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Let me check if there are any other files that might be using incorrect field names or enum values:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_012G9P8jzJWZsWqTENZiecbw",
+                    "title": "Fulltext search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Good, it looks like the other files are using the correct field names. Now let me check for any incorrect enum values:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01V2dY7AqDUeVvs8XJ8pTsFV",
+                    "title": "Fulltext search",
+                    "statusText": "Failed",
+                    "status": "ERROR",
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01QC1HNaTGKzGzxNMoBkSJMV",
+                    "title": "Fulltext search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I found an issue! Let me check the admin timesheets page:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01DD2mYfBnu7x8CYWmEDkWq2",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/app/(app)/admin/timesheets/page.tsx",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\app\\(app)\\admin\\timesheets\\page.tsx"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codePatch",
+                    "diffs": [
+                        {
+                            "path": "src/app/api/timesheets/company-approval/route.ts",
+                            "patch": "@@ -1755,16 +1755,52 @@\n  ?? null\n+,%0A        companyApprovedBy: user.id\n %0A      %7D\n@@ -2621,16 +2621,23 @@\n data: %7B \n+signed_\n pdf_url:\n",
+                            "isNew": false,
+                            "isApplied": true,
+                            "isUnread": true
+                        },
+                        {
+                            "path": "src/app/api/timesheets/manager-approval/route.ts",
+                            "patch": "@@ -1270,17 +1270,17 @@\n s: '\n-completed\n+COMPLETED\n ',%0A \n@@ -1407,16 +1407,52 @@\n  ?? null\n+,%0A        managerApprovedBy: user.id\n %0A      %7D\n",
+                            "isNew": false,
+                            "isApplied": true,
+                            "isUnread": true
+                        }
+                    ]
+                },
+                {
+                    "type": "codePatch",
+                    "diffs": [
+                        {
+                            "path": "src/app/api/timesheets/manager-approval/route.ts",
+                            "patch": "@@ -1270,17 +1270,17 @@\n s: '\n-completed\n+COMPLETED\n ',%0A \n@@ -1407,16 +1407,52 @@\n  ?? null\n+,%0A        managerApprovedBy: user.id\n %0A      %7D\n",
+                            "isNew": false,
+                            "isApplied": true
+                        },
+                        {
+                            "path": "src/app/api/timesheets/company-approval/route.ts",
+                            "patch": "@@ -1755,16 +1755,52 @@\n  ?? null\n+,%0A        companyApprovedBy: user.id\n %0A      %7D\n@@ -2621,16 +2621,23 @@\n data: %7B \n+signed_\n pdf_url:\n",
+                            "isNew": false,
+                            "isApplied": true
+                        }
+                    ]
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "b8cca2a1-965c-4e71-a378-99744cc4a7ec"
+            },
+            "createdAt": 1753820978055,
+            "isInternal": false
+        },
+        {
+            "id": "560d14a5-4d7a-4785-806c-a7ed17bae5bc",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Continue. You were in the middle of request:"
+                },
+                {
+                    "type": "text",
+                    "text": "Unknown argument `timesheetId`. Available options are marked with ?."
+                },
+                {
+                    "type": "text",
+                    "text": "Avoid repeating steps you've already taken."
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": ".idea\\.sourcegraph\\cody_settings.json",
+                    "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\.idea\\.sourcegraph\\cody_settings.json",
+                    "sources": [
+                        "opened_tab"
+                    ],
+                    "content": "{}\n"
+                },
+                "codebaseEnabled": false
+            },
+            "createdAt": 1753821058376,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Continue. You were in the middle of request:"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Unknown argument `timesheetId`. Available options are marked with ?."
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph"
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Avoid repeating steps you've already taken."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "isHidden": true,
+            "autoAppliedRules": [
+                {
+                    "name": "Repository Information Overview",
+                    "description": "Repository Information Overview",
+                    "uri": "zen-rules://repo/repo",
+                    "content": "\n\n# Holitime App Information\n\n## Summary\nA Next.js application for time tracking and workforce management, named \"Holitime\". The app provides functionality for managing jobs, shifts, timesheets, and worker assignments with role-based access control.\n\n## Structure\n- **src/**: Main application code (components, hooks, features, app routes)\n- **prisma/**: Database schema and migrations using Prisma ORM\n- **public/**: Static assets and files\n- **tests/**: Test files for database, UI, and end-to-end testing\n- **scripts/**: Utility scripts for deployment, database operations, and maintenance\n\n## Language & Runtime\n**Language**: TypeScript/JavaScript\n**Version**: ES2017 target with Next.js 14\n**Build System**: Next.js build system\n**Package Manager**: npm\n\n## Dependencies\n**Main Dependencies**:\n- Next.js (14.2.30) - React framework\n- React (18.3.1) - UI library\n- Prisma (5.17.0) - ORM for PostgreSQL\n- NextAuth (4.24.7) - Authentication\n- TanStack Query (5.51.15) - Data fetching\n- Mantine (7.11.1) & Radix UI - UI components\n- Tailwind CSS (3.4.7) - Styling\n- Zod (3.23.8) - Schema validation\n- Zustand (4.5.4) - State management\n\n**Development Dependencies**:\n- TypeScript (5.5.4)\n- Jest (30.0.5) - Testing\n- ESLint (8.57.0) - Linting\n- Testing Library - Test utilities\n- Faker - Test data generation\n\n## Build & Installation\n```bash\n# Install dependencies\nnpm install\n\n# Development\nnpm run dev\n\n# Build for production\nnpm run build\n\n# Start production server\nnpm run start\n\n# Database operations\nnpm run migrate       # Development migrations\nnpm run migrate:prod  # Production migrations\nnpm run db:seed       # Seed database\nnpm run studio        # Prisma Studio UI\n```\n\n## Docker\n**Dockerfile**: Multi-stage build process\n**Base Image**: node:20-slim\n**Build Process**:\n1. Builder stage installs dependencies and builds the application\n2. Runtime stage copies only necessary files for production\n**Run Command**: `node server.js`\n\n## Testing\n**Framework**: Jest with Testing Library\n**Test Location**: `/tests` directory\n**Configuration**: jest.config.js and jest.setup.js\n**Test Types**:\n- Database tests: `npm run test:db`\n- UI functionality: `npm run test:ui`\n- End-to-end tests: `npm run test:e2e`\n- All tests: `npm run test:all`\n\n## Database\n**ORM**: Prisma\n**Database**: PostgreSQL\n**Schema**: Comprehensive data model for users, companies, jobs, shifts, timesheets\n**Models**: User, Company, Job, Shift, AssignedPersonnel, TimeEntry, Timesheet"
+                }
+            ]
+        },
+        {
+            "id": "056b27a5-c361-48a3-8eb9-ed01bf1dee18",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Unknown argument `timesheetId`. Available options are marked with ?."
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "src/app/api/timesheets/company-approval/route.ts",
+                    "fsPath": "C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/app/api/timesheets/company-approval/route.ts",
+                    "sources": [
+                        "opened_tab"
+                    ]
+                },
+                "codebaseEnabled": true
+            },
+            "createdAt": 1753821763071,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Unknown argument `timesheetId`. Available options are marked with ?."
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph"
+                    }
+                ]
+            },
+            "autoAppliedRules": [
+                {
+                    "name": "Repository Information Overview",
+                    "description": "Repository Information Overview",
+                    "uri": "zen-rules://repo/repo",
+                    "content": "\n\n# Holitime App Information\n\n## Summary\nA Next.js application for time tracking and workforce management, named \"Holitime\". The app provides functionality for managing jobs, shifts, timesheets, and worker assignments with role-based access control.\n\n## Structure\n- **src/**: Main application code (components, hooks, features, app routes)\n- **prisma/**: Database schema and migrations using Prisma ORM\n- **public/**: Static assets and files\n- **tests/**: Test files for database, UI, and end-to-end testing\n- **scripts/**: Utility scripts for deployment, database operations, and maintenance\n\n## Language & Runtime\n**Language**: TypeScript/JavaScript\n**Version**: ES2017 target with Next.js 14\n**Build System**: Next.js build system\n**Package Manager**: npm\n\n## Dependencies\n**Main Dependencies**:\n- Next.js (14.2.30) - React framework\n- React (18.3.1) - UI library\n- Prisma (5.17.0) - ORM for PostgreSQL\n- NextAuth (4.24.7) - Authentication\n- TanStack Query (5.51.15) - Data fetching\n- Mantine (7.11.1) & Radix UI - UI components\n- Tailwind CSS (3.4.7) - Styling\n- Zod (3.23.8) - Schema validation\n- Zustand (4.5.4) - State management\n\n**Development Dependencies**:\n- TypeScript (5.5.4)\n- Jest (30.0.5) - Testing\n- ESLint (8.57.0) - Linting\n- Testing Library - Test utilities\n- Faker - Test data generation\n\n## Build & Installation\n```bash\n# Install dependencies\nnpm install\n\n# Development\nnpm run dev\n\n# Build for production\nnpm run build\n\n# Start production server\nnpm run start\n\n# Database operations\nnpm run migrate       # Development migrations\nnpm run migrate:prod  # Production migrations\nnpm run db:seed       # Seed database\nnpm run studio        # Prisma Studio UI\n```\n\n## Docker\n**Dockerfile**: Multi-stage build process\n**Base Image**: node:20-slim\n**Build Process**:\n1. Builder stage installs dependencies and builds the application\n2. Runtime stage copies only necessary files for production\n**Run Command**: `node server.js`\n\n## Testing\n**Framework**: Jest with Testing Library\n**Test Location**: `/tests` directory\n**Configuration**: jest.config.js and jest.setup.js\n**Test Types**:\n- Database tests: `npm run test:db`\n- UI functionality: `npm run test:ui`\n- End-to-end tests: `npm run test:e2e`\n- All tests: `npm run test:all`\n\n## Database\n**ORM**: Prisma\n**Database**: PostgreSQL\n**Schema**: Comprehensive data model for users, companies, jobs, shifts, timesheets\n**Models**: User, Company, Job, Shift, AssignedPersonnel, TimeEntry, Timesheet"
+                }
+            ]
+        }
+    ],
+    "isAgent": true,
+    "isNameGenerated": true,
+    "isCustomAgent": false,
+    "isUnitTestsAgent": false,
+    "isE2EAgent": false,
+    "isQnaAgent": false,
+    "isRepoInfoAgent": false,
+    "autoApply": true
+}
+}

@@ -1,0 +1,422 @@
+{
+    "checksum": "d85b4a4cf4b876b7dce8e669b8b66062b2b75d0a12bdead1ce7b82f8256a168d",
+    "data": {
+    "id": "27c93733-ff0f-4e74-a4d1-5c450acb864b",
+    "createdAt": 1753949895627,
+    "updatedAt": 1753950109522,
+    "title": "OAuth Window Loading Issue",
+    "messages": [
+        {
+            "id": "8536856b-a975-440f-8779-66624cc64d4f",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "figure out why the app is not loading the oauth window after the user clicks the google login button"
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "cloudbuild.yaml",
+                    "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\cloudbuild.yaml",
+                    "sources": [
+                        "opened_tab"
+                    ],
+                    "content": "# cloudbuild.yaml\n# This file is responsible for ONLY building the Docker image and pushing it to Artifact Registry.\n# Deployment to Cloud Run will be handled manually in the GCP Console or via gcloud commands.\n\nsteps:\n  # This is the only step needed. It runs 'docker build' and passes the\n  # dummy DATABASE_URL required for the Next.js build process.\n  - name: 'gcr.io/cloud-builders/docker'\n    args:\n      - 'build'\n      - '--build-arg'\n      - 'DATABASE_URL=postgresql://dummy:dummy@dummy/dummy'\n      - '-t'\n      - 'us-west2-docker.pkg.dev/elated-fabric-460119-t3/holi-repo/holi:latest' # <-- Using the new repo name\n      - '.'\n\n# This 'images' section tells Cloud Build to push the successfully built image\n# to the specified location in Artifact Registry.\nimages:\n  - 'us-west2-docker.pkg.dev/elated-fabric-460119-t3/holi-repo/holi:latest'\n\n# Optional: You can specify a more powerful machine for faster builds.\noptions:\n  machineType: 'E2_HIGHCPU_8'"
+                },
+                "codebaseEnabled": false
+            },
+            "createdAt": 1753949895709,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "figure out why the app is not loading the oauth window after the user clicks the google login button"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "autoAppliedRules": [
+                {
+                    "name": "Repository Information Overview",
+                    "description": "Repository Information Overview",
+                    "uri": "zen-rules://repo/repo",
+                    "content": "\n\n# Holitime App Information\n\n## Summary\nA Next.js application for time tracking and workforce management, named \"Holitime\". The app provides functionality for managing jobs, shifts, timesheets, and worker assignments with role-based access control.\n\n## Structure\n- **src/**: Main application code (components, hooks, features, app routes)\n- **prisma/**: Database schema and migrations using Prisma ORM\n- **public/**: Static assets and files\n- **tests/**: Test files for database, UI, and end-to-end testing\n- **scripts/**: Utility scripts for deployment, database operations, and maintenance\n\n## Language & Runtime\n**Language**: TypeScript/JavaScript\n**Version**: ES2017 target with Next.js 14\n**Build System**: Next.js build system\n**Package Manager**: npm\n\n## Dependencies\n**Main Dependencies**:\n- Next.js (14.2.30) - React framework\n- React (18.3.1) - UI library\n- Prisma (5.17.0) - ORM for PostgreSQL\n- NextAuth (4.24.7) - Authentication\n- TanStack Query (5.51.15) - Data fetching\n- Mantine (7.11.1) & Radix UI - UI components\n- Tailwind CSS (3.4.7) - Styling\n- Zod (3.23.8) - Schema validation\n- Zustand (4.5.4) - State management\n\n**Development Dependencies**:\n- TypeScript (5.5.4)\n- Jest (30.0.5) - Testing\n- ESLint (8.57.0) - Linting\n- Testing Library - Test utilities\n- Faker - Test data generation\n\n## Build & Installation\n```bash\n# Install dependencies\nnpm install\n\n# Development\nnpm run dev\n\n# Build for production\nnpm run build\n\n# Start production server\nnpm run start\n\n# Database operations\nnpm run migrate       # Development migrations\nnpm run migrate:prod  # Production migrations\nnpm run db:seed       # Seed database\nnpm run studio        # Prisma Studio UI\n```\n\n## Docker\n**Dockerfile**: Multi-stage build process\n**Base Image**: node:20-slim\n**Build Process**:\n1. Builder stage installs dependencies and builds the application\n2. Runtime stage copies only necessary files for production\n**Run Command**: `node server.js`\n\n## Testing\n**Framework**: Jest with Testing Library\n**Test Location**: `/tests` directory\n**Configuration**: jest.config.js and jest.setup.js\n**Test Types**:\n- Database tests: `npm run test:db`\n- UI functionality: `npm run test:ui`\n- End-to-end tests: `npm run test:e2e`\n- All tests: `npm run test:all`\n\n## Database\n**ORM**: Prisma\n**Database**: PostgreSQL\n**Schema**: Comprehensive data model for users, companies, jobs, shifts, timesheets\n**Models**: User, Company, Job, Shift, AssignedPersonnel, TimeEntry, Timesheet"
+                }
+            ]
+        },
+        {
+            "id": "0f4b29ed-a533-4521-a5b8-930bde75bd69",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "I'll help you figure out why the OAuth window isn't loading after clicking the Google login button. Let me start by examining the authentication setup and related files."
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_018avkKCH8fdRcwNBXeQdGMh",
+                    "title": "File search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me examine the main authentication configuration files:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01HaxR4y2ynWaXJRQz171em2",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/app/api/auth/[...nextauth]/route.ts",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\app\\api\\auth\\[...nextauth]\\route.ts"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_012T2jriCdUn7shT5VaFB3oA",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/lib/auth-config.ts",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\lib\\auth-config.ts"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I can see the issue! The authentication configuration only has a `CredentialsProvider` but no Google OAuth provider. Let me search for login components to see how the Google login button is implemented:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01BzsYTW67hy6Uu4bAtF3ukM",
+                    "title": "File search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_014qmzKEkp3FDWHmzXxQa42T",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/app/login/page.tsx",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\app\\login\\page.tsx"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Now I can see the problem clearly! The login page has a Google sign-in button that calls `signIn('google', ...)` on line 51, but the authentication configuration in `auth-config.ts` only includes a `CredentialsProvider` and no Google OAuth provider.\n\nLet me check if there are any environment variables set up for Google OAuth:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01CgJMaPg6fz4NkdKCuyYF47",
+                    "title": "File search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01WZgtrSjXVskMFonhS2u4fL",
+                    "statusText": "Viewed folder",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": ".",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\."
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me check for environment files with different patterns:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_013biCw3rcVnCZ6AkLbTACnW",
+                    "title": "Fulltext search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Great! I can see there are environment files with Google OAuth credentials. Let me check the .env file:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01WqMxHNbzMspt7YpAtkcH1X",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": ".env",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\.env"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Perfect! The environment variables are set up correctly. Now let me check the debug route to see what it shows about the NextAuth configuration:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01E2c6Ji4oE4ThHHBDuaMwvU",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/app/api/debug/nextauth/route.ts",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\app\\api\\debug\\nextauth\\route.ts"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Now I understand the issue completely! The problem is that:\n\n1. **The Google OAuth credentials are set up in the environment variables**\n2. **The login page has a Google sign-in button that tries to use the 'google' provider**\n3. **But the NextAuth configuration (`auth-config.ts`) only includes a `CredentialsProvider` and no Google OAuth provider**\n\nThe solution is to add the Google OAuth provider to the NextAuth configuration. Let me fix this:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01Q1K7rnKts9Ufx87be9PzDX",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/lib/auth-config.ts",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\lib\\auth-config.ts"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/lib/auth-config.ts\n+++ C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/lib/auth-config.ts\n@@ -1,5 +1,6 @@\n import { NextAuthOptions } from 'next-auth';\n import CredentialsProvider from 'next-auth/providers/credentials';\n+import GoogleProvider from 'next-auth/providers/google';\n import { prisma } from './prisma';\n import bcrypt from 'bcryptjs';\n ",
+                    "refToolCallId": "toolu_01Q1K7rnKts9Ufx87be9PzDX"
+                },
+                {
+                    "type": "text",
+                    "text": "Now I need to add the Google provider to the providers array:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_018GrtrKT3AfR31UhPeeexiE",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/lib/auth-config.ts",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\lib\\auth-config.ts"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/lib/auth-config.ts\n+++ C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/lib/auth-config.ts\n@@ -6,6 +6,10 @@\n \n export const authOptions: NextAuthOptions = {\n   providers: [\n+    GoogleProvider({\n+      clientId: process.env.GOOGLE_CLIENT_ID!,\n+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,\n+    }),\n     CredentialsProvider({\n       name: 'credentials',\n       credentials: {",
+                    "refToolCallId": "toolu_018GrtrKT3AfR31UhPeeexiE"
+                },
+                {
+                    "type": "text",
+                    "text": "Now I need to handle the Google OAuth sign-in in the callbacks. When a user signs in with Google, we need to either find an existing user or create a new one. Let me update the callbacks:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01KCdA7SJdVVjz3xg7smoNd7",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/lib/auth-config.ts",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\lib\\auth-config.ts"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/lib/auth-config.ts\n+++ C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/lib/auth-config.ts\n@@ -53,12 +53,60 @@\n     strategy: 'jwt',\n   },\n   callbacks: {\n+    async signIn({ user, account, profile }) {\n+      if (account?.provider === 'google') {\n+        try {\n+          // Check if user exists in database\n+          const existingUser = await prisma.user.findUnique({\n+            where: { email: user.email! }\n+          });\n+\n+          if (existingUser) {\n+            // Update user info from Google profile if needed\n+            await prisma.user.update({\n+              where: { email: user.email! },\n+              data: {\n+                name: user.name || existingUser.name,\n+                avatarUrl: user.image || existingUser.avatarUrl,\n+              }\n+            });\n+          } else {\n+            // Create new user from Google profile\n+            await prisma.user.create({\n+              data: {\n+                email: user.email!,\n+                name: user.name || '',\n+                avatarUrl: user.image,\n+                role: 'WORKER', // Default role for Google sign-ups\n+                // Note: No password hash for OAuth users\n+              }\n+            });\n+          }\n+          return true;\n+        } catch (error) {\n+          console.error('Error during Google sign-in:', error);\n+          return false;\n+        }\n+      }\n+      return true; // Allow credentials sign-in to proceed as before\n+    },\n     async jwt({ token, user }) {\n       if (user) {\n         token.role = user.role;\n         token.id = user.id;\n         token.avatarUrl = user.avatarUrl;\n         token.companyId = user.companyId;\n+      } else if (token.email) {\n+        // For Google OAuth users, fetch user data from database\n+        const dbUser = await prisma.user.findUnique({\n+          where: { email: token.email }\n+        });\n+        if (dbUser) {\n+          token.role = dbUser.role;\n+          token.id = dbUser.id;\n+          token.avatarUrl = dbUser.avatarUrl;\n+          token.companyId = dbUser.companyId;\n+        }\n       }\n       return token;\n     },",
+                    "refToolCallId": "toolu_01KCdA7SJdVVjz3xg7smoNd7"
+                },
+                {
+                    "type": "text",
+                    "text": "Now I need to add the NEXTAUTH_SECRET environment variable, which is required for NextAuth to work properly. Let me check if it's missing:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_013S2zNBgDbzRhUhSEK8KNag",
+                    "title": "Fulltext search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I see that NEXTAUTH_SECRET is in the production and development env files, but not in the main .env file. Let me add it:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_018f2p7YpnGzQb2nPFeLjAGc",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": ".env",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\.env"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- C:/Users/ryley/WebstormProjects/untitled/my-next-app/.env\n+++ C:/Users/ryley/WebstormProjects/untitled/my-next-app/.env\n@@ -1,5 +1,6 @@\n DATABASE_URL=postgresql://holitime-user:myDBpassWord1!@35.235.75.173:5432/holitime\n NEXTAUTH_URL=http://localhost:3000\n+NEXTAUTH_SECRET=uivbienbuivenbivrenbiiinbrenbirenbiivrevnurnei\n GOOGLE_CLIENT_ID=438323004618-7351haftdo2dm9s8vgdo2gsaqfuj9h9i.apps.googleusercontent.com\n GOOGLE_CLIENT_SECRET=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\n JWT_SECRET=uivbienbuivenbivrenujujubiiinbrenbirenbiivrevnurnei",
+                    "refToolCallId": "toolu_018f2p7YpnGzQb2nPFeLjAGc"
+                },
+                {
+                    "type": "text",
+                    "text": "Now let me check the current database schema to make sure the User model supports the fields we're using:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_012kwCadzT4daHzbXfZjQNeL",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "prisma/schema.prisma",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\prisma\\schema.prisma"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_015UeHL74SVHV2aFVV5NsMtE",
+                    "title": "Fulltext search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "codePatch",
+                    "diffs": [
+                        {
+                            "path": "src/lib/auth-config.ts",
+                            "patch": "@@ -105,16 +105,73 @@\n tials';%0A\n+import GoogleProvider from 'next-auth/providers/google';%0A\n import %7B\n@@ -290,16 +290,147 @@\n ders: %5B%0A\n+    GoogleProvider(%7B%0A      clientId: process.env.GOOGLE_CLIENT_ID!,%0A      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,%0A    %7D),%0A\n     Cred\n@@ -1420,192 +1420,1852 @@\n ync \n-jwt(%7B token, user %7D) %7B%0A      if (user) %7B%0A        token.role = user.role;%0A        token.id = user.id;%0A        token.avatarUrl = user.avatarUrl;%0A        token.companyId = user.companyId;\n+signIn(%7B user, account, profile %7D) %7B%0A      if (account?.provider === 'google') %7B%0A        try %7B%0A          // Check if user exists in database%0A          const existingUser = await prisma.user.findUnique(%7B%0A            where: %7B email: user.email! %7D%0A          %7D);%0A%0A          if (existingUser) %7B%0A            // Update user info from Google profile if needed%0A            await prisma.user.update(%7B%0A              where: %7B email: user.email! %7D,%0A              data: %7B%0A                name: user.name %7C%7C existingUser.name,%0A                avatarUrl: user.image %7C%7C existingUser.avatarUrl,%0A              %7D%0A            %7D);%0A          %7D else %7B%0A            // Create new user from Google profile%0A            await prisma.user.create(%7B%0A              data: %7B%0A                email: user.email!,%0A                name: user.name %7C%7C '',%0A                avatarUrl: user.image,%0A                role: 'WORKER', // Default role for Google sign-ups%0A                // Note: No password hash for OAuth users%0A              %7D%0A            %7D);%0A          %7D%0A          return true;%0A        %7D catch (error) %7B%0A          console.error('Error during Google sign-in:', error);%0A          return false;%0A        %7D%0A      %7D%0A      return true; // Allow credentials sign-in to proceed as before%0A    %7D,%0A    async jwt(%7B token, user %7D) %7B%0A      if (user) %7B%0A        token.role = user.role;%0A        token.id = user.id;%0A        token.avatarUrl = user.avatarUrl;%0A        token.companyId = user.companyId;%0A      %7D else if (token.email) %7B%0A        // For Google OAuth users, fetch user data from database%0A        const dbUser = await prisma.user.findUnique(%7B%0A          where: %7B email: token.email %7D%0A        %7D);%0A        if (dbUser) %7B%0A          token.role = dbUser.role;%0A          token.id = dbUser.id;%0A          token.avatarUrl = dbUser.avatarUrl;%0A          token.companyId = dbUser.companyId;%0A        %7D\n %0A   \n",
+                            "isNew": false,
+                            "isApplied": true
+                        },
+                        {
+                            "path": ".env",
+                            "patch": "@@ -113,16 +113,80 @@\n t:3000%0D%0A\n+NEXTAUTH_SECRET=uivbienbuivenbivrenbiiinbrenbirenbiivrevnurnei%0D%0A\n GOOGLE_C\n",
+                            "isNew": false,
+                            "isApplied": true
+                        }
+                    ]
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "4241158d-d061-4fc8-af97-3bc2d9f25211"
+            },
+            "createdAt": 1753950017988,
+            "isInternal": false
+        },
+        {
+            "id": "1e2d5ef0-8b92-45b8-a292-6675477cf53b",
+            "role": "system",
+            "content": [
+                {
+                    "type": "warningText",
+                    "title": "Agent paused due to reaching step limit",
+                    "text": "You can continue if the agent is on the right track.",
+                    "actions": [
+                        {
+                            "type": "externalAction",
+                            "title": "Continue request",
+                            "action": "continueRequest"
+                        },
+                        {
+                            "type": "externalAction",
+                            "title": "Stop here",
+                            "action": "stopHere"
+                        }
+                    ]
+                },
+                {
+                    "type": "codePatch",
+                    "diffs": [
+                        {
+                            "path": "src/lib/auth-config.ts",
+                            "patch": "@@ -105,16 +105,73 @@\n tials';%0A\n+import GoogleProvider from 'next-auth/providers/google';%0A\n import %7B\n@@ -290,16 +290,147 @@\n ders: %5B%0A\n+    GoogleProvider(%7B%0A      clientId: process.env.GOOGLE_CLIENT_ID!,%0A      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,%0A    %7D),%0A\n     Cred\n@@ -1420,192 +1420,1852 @@\n ync \n-jwt(%7B token, user %7D) %7B%0A      if (user) %7B%0A        token.role = user.role;%0A        token.id = user.id;%0A        token.avatarUrl = user.avatarUrl;%0A        token.companyId = user.companyId;\n+signIn(%7B user, account, profile %7D) %7B%0A      if (account?.provider === 'google') %7B%0A        try %7B%0A          // Check if user exists in database%0A          const existingUser = await prisma.user.findUnique(%7B%0A            where: %7B email: user.email! %7D%0A          %7D);%0A%0A          if (existingUser) %7B%0A            // Update user info from Google profile if needed%0A            await prisma.user.update(%7B%0A              where: %7B email: user.email! %7D,%0A              data: %7B%0A                name: user.name %7C%7C existingUser.name,%0A                avatarUrl: user.image %7C%7C existingUser.avatarUrl,%0A              %7D%0A            %7D);%0A          %7D else %7B%0A            // Create new user from Google profile%0A            await prisma.user.create(%7B%0A              data: %7B%0A                email: user.email!,%0A                name: user.name %7C%7C '',%0A                avatarUrl: user.image,%0A                role: 'WORKER', // Default role for Google sign-ups%0A                // Note: No password hash for OAuth users%0A              %7D%0A            %7D);%0A          %7D%0A          return true;%0A        %7D catch (error) %7B%0A          console.error('Error during Google sign-in:', error);%0A          return false;%0A        %7D%0A      %7D%0A      return true; // Allow credentials sign-in to proceed as before%0A    %7D,%0A    async jwt(%7B token, user %7D) %7B%0A      if (user) %7B%0A        token.role = user.role;%0A        token.id = user.id;%0A        token.avatarUrl = user.avatarUrl;%0A        token.companyId = user.companyId;%0A      %7D else if (token.email) %7B%0A        // For Google OAuth users, fetch user data from database%0A        const dbUser = await prisma.user.findUnique(%7B%0A          where: %7B email: token.email %7D%0A        %7D);%0A        if (dbUser) %7B%0A          token.role = dbUser.role;%0A          token.id = dbUser.id;%0A          token.avatarUrl = dbUser.avatarUrl;%0A          token.companyId = dbUser.companyId;%0A        %7D\n %0A   \n",
+                            "isNew": false,
+                            "isApplied": true,
+                            "isUnread": true
+                        },
+                        {
+                            "path": ".env",
+                            "patch": "@@ -113,16 +113,80 @@\n t:3000%0D%0A\n+NEXTAUTH_SECRET=uivbienbuivenbivrenbiiinbrenbirenbiivrevnurnei%0D%0A\n GOOGLE_C\n",
+                            "isNew": false,
+                            "isApplied": true,
+                            "isUnread": true
+                        }
+                    ]
+                }
+            ],
+            "createdAt": 1753950109521,
+            "isInternal": false
+        }
+    ],
+    "isAgent": true,
+    "isNameGenerated": true,
+    "isCustomAgent": false,
+    "isUnitTestsAgent": false,
+    "isE2EAgent": false,
+    "isQnaAgent": false,
+    "isRepoInfoAgent": false,
+    "autoApply": true
+}
+}

@@ -1,0 +1,114 @@
+{
+    "checksum": "c8640c0c51ffdca2b406e3f2f92d1a51ae28c4d346eb8a39b1ee1f6550a0cb5d",
+    "data": {
+    "id": "18003243-c0e6-4099-af99-c688a88a9365",
+    "createdAt": 1753812303859,
+    "updatedAt": 1753812315744,
+    "title": "Debugging and Deploying to Cloud Run",
+    "messages": [
+        {
+            "id": "d98e5393-3ae2-4e63-8868-5b05fd71a995",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "run debug then deploy to cloud run"
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "test-app-health.js",
+                    "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\test-app-health.js",
+                    "sources": [
+                        "opened_tab"
+                    ],
+                    "content": "const { execSync } = require('child_process');\r\nconst fs = require('fs');\r\nconst path = require('path');\r\n\r\nconsole.log('🏥 Testing Application Health...\\n');\r\n\r\nlet allTestsPassed = true;\r\n\r\n// Test 1: Schema validation\r\nconsole.log('1. Testing Prisma schema validation...');\r\ntry {\r\n  execSync('npx prisma validate', { \r\n    encoding: 'utf8', \r\n    cwd: __dirname,\r\n    timeout: 30000,\r\n    stdio: 'pipe'\r\n  });\r\n  console.log('✅ Prisma schema validation passed');\r\n} catch (error) {\r\n  console.log('❌ Prisma schema validation failed');\r\n  console.log(`   Error: ${error.message}`);\r\n  allTestsPassed = false;\r\n}\r\n\r\n// Test 2: Prisma client generation\r\nconsole.log('\\n2. Testing Prisma client generation...');\r\ntry {\r\n  execSync('npx prisma generate', { \r\n    encoding: 'utf8', \r\n    cwd: __dirname,\r\n    timeout: 60000,\r\n    stdio: 'pipe'\r\n  });\r\n  console.log('✅ Prisma client generation successful');\r\n} catch (error) {\r\n  console.log('❌ Prisma client generation failed');\r\n  console.log(`   Error: ${error.message}`);\r\n  allTestsPassed = false;\r\n}\r\n\r\n// Test 3: TypeScript compilation\r\nconsole.log('\\n3. Testing TypeScript compilation...');\r\ntry {\r\n  execSync('npx tsc --noEmit', { \r\n    encoding: 'utf8', \r\n    cwd: __dirname,\r\n    timeout: 120000,\r\n    stdio: 'pipe'\r\n  });\r\n  console.log('✅ TypeScript compilation successful');\r\n} catch (error) {\r\n  console.log('❌ TypeScript compilation failed');\r\n  console.log(`   Error: ${error.message}`);\r\n  allTestsPassed = false;\r\n}\r\n\r\n// Test 4: Check critical imports\r\nconsole.log('\\n4. Testing critical imports...');\r\ntry {\r\n  // Test Prisma client import\r\n  delete require.cache[require.resolve('@prisma/client')];\r\n  const { PrismaClient, TimesheetStatus } = require('@prisma/client');\r\n  console.log('✅ Prisma client import successful');\r\n  \r\n  if (TimesheetStatus) {\r\n    console.log('✅ TimesheetStatus enum available');\r\n    const expectedStatuses = ['DRAFT', 'PENDING_COMPANY_APPROVAL', 'PENDING_MANAGER_APPROVAL', 'COMPLETED', 'REJECTED'];\r\n    const actualStatuses = Object.values(TimesheetStatus);\r\n    const hasAllStatuses = expectedStatuses.every(status => actualStatuses.includes(status));\r\n    \r\n    if (hasAllStatuses) {\r\n      console.log('✅ All expected TimesheetStatus values present');\r\n      console.log('   Values:', actualStatuses.join(', '));\r\n    } else {\r\n      console.log('❌ Missing expected TimesheetStatus values');\r\n      console.log('   Expected:', expectedStatuses.join(', '));\r\n      console.log('   Actual:', actualStatuses.join(', '));\r\n      allTestsPassed = false;\r\n    }\r\n  } else {\r\n    console.log('❌ TimesheetStatus enum not available');\r\n    allTestsPassed = false;\r\n  }\r\n  \r\n} catch (error) {\r\n  console.log('❌ Critical imports failed');\r\n  console.log(`   Error: ${error.message}`);\r\n  allTestsPassed = false;\r\n}\r\n\r\n// Test 5: Check middleware import\r\nconsole.log('\\n5. Testing middleware import...');\r\ntry {\r\n  const middlewarePath = path.join(__dirname, 'src', 'lib', 'middleware.ts');\r\n  if (fs.existsSync(middlewarePath)) {\r\n    const middlewareContent = fs.readFileSync(middlewarePath, 'utf8');\r\n    const hasGetCurrentUser = middlewareContent.includes('getCurrentUser');\r\n    \r\n    if (hasGetCurrentUser) {\r\n      console.log('✅ getCurrentUser function found in middleware');\r\n    } else {\r\n      console.log('❌ getCurrentUser function not found in middleware');\r\n      allTestsPassed = false;\r\n    }\r\n  } else {\r\n    console.log('❌ Middleware file not found');\r\n    allTestsPassed = false;\r\n  }\r\n} catch (error) {\r\n  console.log('❌ Middleware check failed');\r\n  console.log(`   Error: ${error.message}`);\r\n  allTestsPassed = false;\r\n}\r\n\r\n// Test 6: Check constants import\r\nconsole.log('\\n6. Testing constants import...');\r\ntry {\r\n  const constantsPath = path.join(__dirname, 'src', 'constants', 'index.ts');\r\n  if (fs.existsSync(constantsPath)) {\r\n    const constantsContent = fs.readFileSync(constantsPath, 'utf8');\r\n    const hasTimesheetStatus = constantsContent.includes('TIMESHEET_STATUS');\r\n    const hasUppercaseValues = constantsContent.includes('PENDING_COMPANY_APPROVAL');\r\n    \r\n    if (hasTimesheetStatus && hasUppercaseValues) {\r\n      console.log('✅ TIMESHEET_STATUS constants found with uppercase values');\r\n    } else {\r\n      console.log('❌ TIMESHEET_STATUS constants missing or incorrect');\r\n      allTestsPassed = false;\r\n    }\r\n  } else {\r\n    console.log('❌ Constants file not found');\r\n    allTestsPassed = false;\r\n  }\r\n} catch (error) {\r\n  console.log('❌ Constants check failed');\r\n  console.log(`   Error: ${error.message}`);\r\n  allTestsPassed = false;\r\n}\r\n\r\n// Test 7: Database connection test\r\nconsole.log('\\n7. Testing database connection...');\r\ntry {\r\n  const { PrismaClient } = require('@prisma/client');\r\n  const prisma = new PrismaClient();\r\n  \r\n  // This will be handled by the async wrapper\r\n  console.log('⏳ Database connection test initiated...');\r\n  \r\n  // Create a simple async test\r\n  (async () => {\r\n    try {\r\n      await prisma.$connect();\r\n      console.log('✅ Database connection successful');\r\n      \r\n      // Test a simple query\r\n      const userCount = await prisma.user.count();\r\n      console.log(`✅ Database query successful (${userCount} users found)`);\r\n      \r\n      await prisma.$disconnect();\r\n    } catch (dbError) {\r\n      console.log('❌ Database connection failed');\r\n      console.log(`   Error: ${dbError.message}`);\r\n      allTestsPassed = false;\r\n    }\r\n  })();\r\n  \r\n} catch (error) {\r\n  console.log('❌ Database test setup failed');\r\n  console.log(`   Error: ${error.message}`);\r\n  allTestsPassed = false;\r\n}\r\n\r\n// Final summary\r\nsetTimeout(() => {\r\n  console.log('\\n' + '='.repeat(50));\r\n  if (allTestsPassed) {\r\n    console.log('🎉 All application health tests passed!');\r\n    console.log('✅ Your application should be ready to run');\r\n  } else {\r\n    console.log('⚠️  Some application health tests failed');\r\n    console.log('❌ Please review the errors above');\r\n  }\r\n  console.log('='.repeat(50));\r\n}, 2000);"
+                },
+                "codebaseEnabled": true
+            },
+            "createdAt": 1753812303867,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "run debug then deploy to cloud run"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "autoAppliedRules": [
+                {
+                    "name": "Repository Information Overview",
+                    "description": "Repository Information Overview",
+                    "uri": "zen-rules://repo/repo",
+                    "content": "\n\n# Holitime App Information\n\n## Summary\nA Next.js application for time tracking and workforce management, named \"Holitime\". The app provides functionality for managing jobs, shifts, timesheets, and worker assignments with role-based access control.\n\n## Structure\n- **src/**: Main application code (components, hooks, features, app routes)\n- **prisma/**: Database schema and migrations using Prisma ORM\n- **public/**: Static assets and files\n- **tests/**: Test files for database, UI, and end-to-end testing\n- **scripts/**: Utility scripts for deployment, database operations, and maintenance\n\n## Language & Runtime\n**Language**: TypeScript/JavaScript\n**Version**: ES2017 target with Next.js 14\n**Build System**: Next.js build system\n**Package Manager**: npm\n\n## Dependencies\n**Main Dependencies**:\n- Next.js (14.2.30) - React framework\n- React (18.3.1) - UI library\n- Prisma (5.17.0) - ORM for PostgreSQL\n- NextAuth (4.24.7) - Authentication\n- TanStack Query (5.51.15) - Data fetching\n- Mantine (7.11.1) & Radix UI - UI components\n- Tailwind CSS (3.4.7) - Styling\n- Zod (3.23.8) - Schema validation\n- Zustand (4.5.4) - State management\n\n**Development Dependencies**:\n- TypeScript (5.5.4)\n- Jest (30.0.5) - Testing\n- ESLint (8.57.0) - Linting\n- Testing Library - Test utilities\n- Faker - Test data generation\n\n## Build & Installation\n```bash\n# Install dependencies\nnpm install\n\n# Development\nnpm run dev\n\n# Build for production\nnpm run build\n\n# Start production server\nnpm run start\n\n# Database operations\nnpm run migrate       # Development migrations\nnpm run migrate:prod  # Production migrations\nnpm run db:seed       # Seed database\nnpm run studio        # Prisma Studio UI\n```\n\n## Docker\n**Dockerfile**: Multi-stage build process\n**Base Image**: node:20-slim\n**Build Process**:\n1. Builder stage installs dependencies and builds the application\n2. Runtime stage copies only necessary files for production\n**Run Command**: `node server.js`\n\n## Testing\n**Framework**: Jest with Testing Library\n**Test Location**: `/tests` directory\n**Configuration**: jest.config.js and jest.setup.js\n**Test Types**:\n- Database tests: `npm run test:db`\n- UI functionality: `npm run test:ui`\n- End-to-end tests: `npm run test:e2e`\n- All tests: `npm run test:all`\n\n## Database\n**ORM**: Prisma\n**Database**: PostgreSQL\n**Schema**: Comprehensive data model for users, companies, jobs, shifts, timesheets\n**Models**: User, Company, Job, Shift, AssignedPersonnel, TimeEntry, Timesheet"
+                }
+            ]
+        },
+        {
+            "id": "3eb9f291-d29a-45aa-a13a-266aebfc1d8d",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "I'll help you run debug and then deploy to Cloud Run. Let me first examine the current project structure and then execute the debug process followed by deployment."
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01JKwTHQ9Ma9YsW4rnvB5P1q",
+                    "statusText": "Viewed folder",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": ".",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\."
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Now let me run the debug process using the test-app-health.js file that's currently open:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01Lzw9ds3UBEtpxz4m9gHuAW",
+                    "status": "IN_PROGRESS",
+                    "isHidden": true,
+                    "localResult": "{\"status\":\"ERROR\",\"exitCode\":null,\"output\":null}"
+                },
+                {
+                    "type": "shellCommand",
+                    "command": "node \"C:/Users/ryley/WebstormProjects/untitled/my-next-app/test-app-health.js\"",
+                    "id": "52d90550-278d-4ff0-8abc-e886997ca43e",
+                    "status": "ERROR",
+                    "toolCallId": "toolu_01Lzw9ds3UBEtpxz4m9gHuAW",
+                    "commandsRequiringConfirmation": []
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "da570577-3469-42c2-934a-6efda33edff6"
+            },
+            "createdAt": 1753812305400,
+            "isInternal": false
+        }
+    ],
+    "isAgent": true,
+    "isNameGenerated": true,
+    "isCustomAgent": false,
+    "isUnitTestsAgent": false,
+    "isE2EAgent": false,
+    "isQnaAgent": false,
+    "isRepoInfoAgent": false,
+    "autoApply": true
+}
+}

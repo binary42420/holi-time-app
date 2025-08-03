@@ -1,0 +1,568 @@
+{
+    "checksum": "08810b7bc9b4883b27acadd96d834af7155c9d865dab5de583a3b7dbf75c16ae",
+    "data": {
+    "id": "58ff95ef-dec6-4d2c-b36f-a2ffaae61f57",
+    "createdAt": 1753813523076,
+    "updatedAt": 1753813697040,
+    "title": "TypeScript Error Debugging",
+    "messages": [
+        {
+            "id": "1ba2f85e-2696-455b-bc30-df326000e466",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "src/components/enhanced-time-tracking.tsx:653:1 -\nerror TS1128: Declaration or statement expected.\n"
+                },
+                {
+                    "type": "text",
+                    "text": "Currently selected file, line number: 653"
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\components\\enhanced-time-tracking.tsx",
+                    "fsPath": "C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/components/enhanced-time-tracking.tsx",
+                    "content": "'use client';\n\nimport React, { useState, useMemo } from 'react';\nimport { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';\nimport { Button } from '@/components/ui/button';\nimport { Badge } from '@/components/ui/badge';\nimport { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';\nimport { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';\nimport {\n  Clock,\n  Play,\n  Pause,\n  Square,\n  Coffee,\n  AlertTriangle,\n  Users,\n  CheckCircle,\n  User\n} from 'lucide-react';\nimport { useToast } from '@/hooks/use-toast';\nimport { format } from 'date-fns';\nimport { ROLE_DEFINITIONS } from '@/lib/constants';\nimport type { RoleCode } from '@/lib/types';\n\ninterface TimeEntry {\n  id: string;\n  entryNumber: number;\n  clockIn?: string;\n  clockOut?: string;\n  isActive?: boolean;\n}\n\ninterface WorkerData {\n  id: string;\n  userId: string;\n  user: {\n    id: string;\n    name: string;\n    avatarUrl?: string;\n  };\n  roleCode: RoleCode;\n  status: string;\n  timeEntries: TimeEntry[];\n}\n\ninterface EnhancedTimeTrackingProps {\n  shiftId: string;\n  workers: WorkerData[];\n  onRefresh: () => void;\n  disabled?: boolean;\n}\n\n// Worker status types\ntype WorkerStatus = 'not_started' | 'clocked_in' | 'on_break' | 'clocked_out' | 'shift_ended' | 'no_show';\n\nexport default function EnhancedTimeTracking({\n  shiftId,\n  workers,\n  onRefresh,\n  disabled = false\n}: EnhancedTimeTrackingProps) {\n  const { toast } = useToast();\n  const [actionLoading, setActionLoading] = useState<Set<string>>(new Set());\n\n  // Determine worker status based on time entries\n  const getWorkerStatus = (worker: WorkerData): WorkerStatus => {\n    if (worker.status === 'no_show') return 'no_show';\n    if (worker.status === 'shift_ended') return 'shift_ended';\n    \n    const activeEntry = worker.timeEntries.find(entry => entry.isActive);\n    if (activeEntry) {\n      return 'clocked_in';\n    }\n    \n    const hasAnyEntry = worker.timeEntries.length > 0;\n    if (hasAnyEntry) {\n      return 'clocked_out';\n    }\n    \n    return 'not_started';\n  };\n\n  // Get current entry number for next clock in\n  const getNextEntryNumber = (worker: WorkerData): number => {\n    const maxEntry = Math.max(0, ...worker.timeEntries.map(e => e.entryNumber || 1));\n    return Math.min(maxEntry + 1, 3); // Max 3 entries\n  };\n\n  // Check if worker can have more entries\n  const canAddMoreEntries = (worker: WorkerData): boolean => {\n    return worker.timeEntries.length < 3;\n  };\n\n  // API call helper\n  const makeApiCall = async (endpoint: string, method: string, body?: any) => {\n    const response = await fetch(endpoint, {\n      method,\n      headers: {\n        'Content-Type': 'application/json',\n      },\n      body: body ? JSON.stringify(body) : undefined,\n    });\n\n    if (!response.ok) {\n      const errorData = await response.json().catch(() => ({}));\n      throw new Error(errorData.error || `HTTP ${response.status}`);\n    }\n\n    return response.json();\n  };\n\n  // Handle clock in\n  const handleClockIn = async (workerId: string) => {\n    const worker = workers.find(w => w.id === workerId);\n    if (!worker) return;\n\n    if (!canAddMoreEntries(worker)) {\n      toast({\n        title: 'Maximum Entries Reached',\n        description: 'This worker has already reached the maximum of 3 time entries.',\n        variant: 'destructive'\n      });\n      return;\n    }\n\n    const actionKey = `clockIn-${workerId}`;\n    setActionLoading(prev => new Set(prev).add(actionKey));\n\n    try {\n      await makeApiCall(`/api/shifts/${shiftId}/clock-in`, 'POST', {\n        workerId,\n        entryNumber: getNextEntryNumber(worker)\n      });\n\n      toast({\n        title: 'Success',\n        description: `${worker.user.name} clocked in successfully`,\n      });\n\n      onRefresh();\n    } catch (error) {\n      toast({\n        title: 'Error',\n        description: error instanceof Error ? error.message : 'Failed to clock in',\n        variant: 'destructive'\n      });\n    } finally {\n      setActionLoading(prev => {\n        const newSet = new Set(prev);\n        newSet.delete(actionKey);\n        return newSet;\n      });\n    }\n  };\n\n  // Handle clock out (for break)\n  const handleClockOut = async (workerId: string) => {\n    const actionKey = `clockOut-${workerId}`;\n    setActionLoading(prev => new Set(prev).add(actionKey));\n\n    try {\n      await makeApiCall(`/api/shifts/${shiftId}/clock-out`, 'POST', {\n        workerId\n      });\n\n      const worker = workers.find(w => w.id === workerId);\n      toast({\n        title: 'Success',\n        description: `${worker?.user.name} is now on break`,\n      });\n\n      onRefresh();\n    } catch (error) {\n      toast({\n        title: 'Error',\n        description: error instanceof Error ? error.message : 'Failed to clock out',\n        variant: 'destructive'\n      });\n    } finally {\n      setActionLoading(prev => {\n        const newSet = new Set(prev);\n        newSet.delete(actionKey);\n        return newSet;\n      });\n    }\n  };\n\n  // Handle end shift\n  const handleEndShift = async (workerId: string) => {\n    const actionKey = `endShift-${workerId}`;\n    setActionLoading(prev => new Set(prev).add(actionKey));\n\n    try {\n      await makeApiCall(`/api/shifts/${shiftId}/end-worker-shift`, 'POST', {\n        workerId\n      });\n\n      const worker = workers.find(w => w.id === workerId);\n      toast({\n        title: 'Success',\n        description: `${worker?.user.name}'s shift has ended`,\n      });\n\n      onRefresh();\n    } catch (error) {\n      toast({\n        title: 'Error',\n        description: error instanceof Error ? error.message : 'Failed to end shift',\n        variant: 'destructive'\n      });\n    } finally {\n      setActionLoading(prev => {\n        const newSet = new Set(prev);\n        newSet.delete(actionKey);\n        return newSet;\n      });\n    }\n  };\n\n  // Handle no show\n  const handleNoShow = async (workerId: string) => {\n    const actionKey = `noShow-${workerId}`;\n    setActionLoading(prev => new Set(prev).add(actionKey));\n\n    try {\n      await makeApiCall(`/api/shifts/${shiftId}/mark-no-show`, 'POST', {\n        workerId\n      });\n\n      const worker = workers.find(w => w.id === workerId);\n      toast({\n        title: 'Success',\n        description: `${worker?.user.name} marked as no show`,\n      });\n\n      onRefresh();\n    } catch (error) {\n      toast({\n        title: 'Error',\n        description: error instanceof Error ? error.message : 'Failed to mark no show',\n        variant: 'destructive'\n      });\n    } finally {\n      setActionLoading(prev => {\n        const newSet = new Set(prev);\n        newSet.delete(actionKey);\n        return newSet;\n      });\n    }\n  };\n\n  // Master actions\n  const handleMasterStartBreak = async () => {\n    const clockedInWorkers = workers.filter(w => getWorkerStatus(w) === 'clocked_in');\n    \n    if (clockedInWorkers.length === 0) {\n      toast({\n        title: 'No Workers to Break',\n        description: 'No workers are currently clocked in.',\n        variant: 'destructive'\n      });\n      return;\n    }\n\n    const actionKey = 'masterStartBreak';\n    setActionLoading(prev => new Set(prev).add(actionKey));\n\n    try {\n      await makeApiCall(`/api/shifts/${shiftId}/master-start-break`, 'POST', {});\n\n      toast({\n        title: 'Success',\n        description: `${clockedInWorkers.length} workers sent on break`,\n      });\n\n      onRefresh();\n    } catch (error) {\n      toast({\n        title: 'Error',\n        description: error instanceof Error ? error.message : 'Failed to start break for workers',\n        variant: 'destructive'\n      });\n    } finally {\n      setActionLoading(prev => {\n        const newSet = new Set(prev);\n        newSet.delete(actionKey);\n        return newSet;\n      });\n    }\n  };\n\n  const handleMasterEndShift = async () => {\n    const activeWorkers = workers.filter(w => {\n      const status = getWorkerStatus(w);\n      return status === 'clocked_in' || status === 'clocked_out';\n    });\n    \n    if (activeWorkers.length === 0) {\n      toast({\n        title: 'No Active Workers',\n        description: 'No workers have active shifts to end.',\n        variant: 'destructive'\n      });\n      return;\n    }\n\n    const actionKey = 'masterEndShift';\n    setActionLoading(prev => new Set(prev).add(actionKey));\n\n    try {\n      await makeApiCall(`/api/shifts/${shiftId}/master-end-shift`, 'POST', {});\n\n      toast({\n        title: 'Success',\n        description: `${activeWorkers.length} worker shifts ended`,\n      });\n\n      onRefresh();\n    } catch (error) {\n      toast({\n        title: 'Error',\n        description: error instanceof Error ? error.message : 'Failed to end shifts',\n        variant: 'destructive'\n      });\n    } finally {\n      setActionLoading(prev => {\n        const newSet = new Set(prev);\n        newSet.delete(actionKey);\n        return newSet;\n      });\n    }\n  };\n\n  // Get status badge\n  const getStatusBadge = (status: WorkerStatus) => {\n    switch (status) {\n      case 'not_started':\n        return <Badge variant=\"outline\">Not Started</Badge>;\n      case 'clocked_in':\n        return <Badge className=\"bg-green-500\">Clocked In</Badge>;\n      case 'on_break':\n        return <Badge className=\"bg-yellow-500\">On Break</Badge>;\n      case 'clocked_out':\n        return <Badge className=\"bg-blue-500\">Clocked Out</Badge>;\n      case 'shift_ended':\n        return <Badge className=\"bg-gray-500\">Shift Ended</Badge>;\n      case 'no_show':\n        return <Badge variant=\"destructive\">No Show</Badge>;\n      default:\n        return <Badge variant=\"outline\">{status}</Badge>;\n    }\n  };\n\n  // Render action buttons based on worker status\n  const renderActionButtons = (worker: WorkerData) => {\n    const status = getWorkerStatus(worker);\n    const isLoading = (action: string) => actionLoading.has(`${action}-${worker.id}`);\n\n    if (status === 'shift_ended' || status === 'no_show') {\n      return <span className=\"text-sm text-gray-500\">No actions available</span>;\n    }\n\n    // Check if worker's shift has been ended\n    const isShiftEnded = worker.status === 'ShiftEnded' || worker.status === 'Shift Ended';\n\n    // Check if worker is marked as no show\n    const isNoShow = worker.status === 'NoShow' || worker.status === 'no_show';\n\n    return (\n      <div className=\"flex gap-1\">\n        {isNoShow ? (\n          // Show \"No Show\" badge when worker is marked as no show\n          <Badge variant=\"destructive\" className=\"bg-red-600 text-red-100\">\n            <AlertTriangle className=\"h-3 w-3 mr-1\" />\n            No Show\n          </Badge>\n        ) : isShiftEnded ? (\n          // Show \"Shift Ended\" badge when worker's shift has been ended\n          <Badge variant=\"secondary\" className=\"bg-gray-600 text-gray-100\">\n            <CheckCircle className=\"h-3 w-3 mr-1\" />\n            Shift Ended\n          </Badge>\n        ) : status === 'not_started' ? (\n          <>\n            <Button\n              size=\"sm\"\n              onClick={() => handleClockIn(worker.id)}\n              disabled={disabled || isLoading('clockIn')}\n              className=\"bg-green-600 hover:bg-green-700\"\n            >\n              {isLoading('clockIn') ? (\n                <div className=\"animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1\" />\n              ) : (\n                <Play className=\"h-3 w-3 mr-1\" />\n              )}\n              Start Shift\n            </Button>\n            <Button\n              size=\"sm\"\n              variant=\"destructive\"\n              onClick={() => handleNoShow(worker.id)}\n              disabled={disabled || isLoading('noShow')}\n            >\n              {isLoading('noShow') ? (\n                <div className=\"animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1\" />\n              ) : (\n                <AlertTriangle className=\"h-3 w-3 mr-1\" />\n              )}\n              No Show\n            </Button>\n          </>\n        ) : status === 'clocked_in' ? (\n          <>\n            <Button\n              size=\"sm\"\n              variant=\"outline\"\n              onClick={() => handleClockOut(worker.id)}\n              disabled={disabled || isLoading('clockOut')}\n            >\n              {isLoading('clockOut') ? (\n                <div className=\"animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1\" />\n              ) : (\n                <Coffee className=\"h-3 w-3 mr-1\" />\n              )}\n              Start Break\n            </Button>\n            <Button\n              size=\"sm\"\n              variant=\"destructive\"\n              onClick={() => handleEndShift(worker.id)}\n              disabled={disabled || isLoading('endShift')}\n            >\n              {isLoading('endShift') ? (\n                <div className=\"animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1\" />\n              ) : (\n                <Square className=\"h-3 w-3 mr-1\" />\n              )}\n              End Shift\n            </Button>\n          </>\n        ) : status === 'clocked_out' ? (\n          <>\n            <Button\n              size=\"sm\"\n              onClick={() => handleClockIn(worker.id)}\n              disabled={disabled || isLoading('clockIn') || !canAddMoreEntries(worker)}\n              className=\"bg-green-600 hover:bg-green-700\"\n            >\n              {isLoading('clockIn') ? (\n                <div className=\"animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1\" />\n              ) : (\n                <Play className=\"h-3 w-3 mr-1\" />\n              )}\n              End Break\n            </Button>\n            <Button\n              size=\"sm\"\n              variant=\"destructive\"\n              onClick={() => handleEndShift(worker.id)}\n              disabled={disabled || isLoading('endShift')}\n            >\n              {isLoading('endShift') ? (\n                <div className=\"animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1\" />\n              ) : (\n                <Square className=\"h-3 w-3 mr-1\" />\n              )}\n              End Shift\n            </Button>\n          </>\n        ) : null}\n      </div>\n    );\n  };\n  };\n\n  // Format time for display\n  const formatTime = (timeString?: string) => {\n    if (!timeString) return '-';\n    try {\n      const date = new Date(timeString);\n      const hours = date.getHours();\n      const minutes = date.getMinutes();\n\n      const ampm = hours >= 12 ? 'PM' : 'AM';\n      const formattedHour = hours % 12 || 12;\n\n      if (minutes === 0) {\n        return `${formattedHour}:00 ${ampm}`;\n      }\n\n      const formattedMinute = minutes < 10 ? `0${minutes}` : minutes;\n      return `${formattedHour}:${formattedMinute} ${ampm}`;\n    } catch (error) {\n      return '-';\n    }\n  };\n\n  // Calculate total hours for a worker\n  const calculateTotalHours = (timeEntries: TimeEntry[]): number => {\n    let totalMinutes = 0;\n    timeEntries.forEach(entry => {\n      if (entry.clockIn && entry.clockOut) {\n        const start = new Date(entry.clockIn);\n        const end = new Date(entry.clockOut);\n        totalMinutes += (end.getTime() - start.getTime()) / (1000 * 60);\n      }\n    });\n    return totalMinutes / 60;\n  };\n\n  // Get workers that can be affected by master actions\n  const clockedInWorkers = workers.filter(w => getWorkerStatus(w) === 'clocked_in');\n  const activeWorkers = workers.filter(w => {\n    const status = getWorkerStatus(w);\n    return status === 'clocked_in' || status === 'clocked_out';\n  });\n\n  return (\n    <Card>\n      <CardHeader>\n        <div className=\"flex items-center justify-between\">\n          <div>\n            <CardTitle className=\"flex items-center gap-2\">\n              <Clock className=\"h-5 w-5\" />\n              Enhanced Time Tracking\n            </CardTitle>\n            <p className=\"text-sm text-muted-foreground mt-1\">\n              Track up to 3 in/out periods per worker with smart break management\n            </p>\n          </div>\n          <div className=\"flex gap-2\">\n            <Button\n              variant=\"outline\"\n              onClick={handleMasterStartBreak}\n              disabled={disabled || clockedInWorkers.length === 0 || actionLoading.has('masterStartBreak')}\n            >\n              {actionLoading.has('masterStartBreak') ? (\n                <div className=\"animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600 mr-2\" />\n              ) : (\n                <Coffee className=\"h-4 w-4 mr-2\" />\n              )}\n              Start Break All ({clockedInWorkers.length})\n            </Button>\n            <Button\n              variant=\"destructive\"\n              onClick={handleMasterEndShift}\n              disabled={disabled || activeWorkers.length === 0 || actionLoading.has('masterEndShift')}\n            >\n              {actionLoading.has('masterEndShift') ? (\n                <div className=\"animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2\" />\n              ) : (\n                <CheckCircle className=\"h-4 w-4 mr-2\" />\n              )}\n              End All Shifts ({activeWorkers.length})\n            </Button>\n          </div>\n        </div>\n      </CardHeader>\n      <CardContent>\n        <div className=\"overflow-x-auto\">\n          <Table className=\"min-w-full\">\n            <TableHeader>\n            <TableRow>\n              <TableHead className=\"w-20 sticky left-0 bg-background z-10 border-r\">Avatar</TableHead>\n              <TableHead>Worker</TableHead>\n              <TableHead>Role</TableHead>\n              <TableHead className=\"text-center\">In 1</TableHead>\n              <TableHead className=\"text-center\">Out 1</TableHead>\n              <TableHead className=\"text-center\">In 2</TableHead>\n              <TableHead className=\"text-center\">Out 2</TableHead>\n              <TableHead className=\"text-center\">In 3</TableHead>\n              <TableHead className=\"text-center\">Out 3</TableHead>\n              <TableHead>Status</TableHead>\n              <TableHead className=\"text-right\">Total Hours</TableHead>\n              <TableHead>Actions</TableHead>\n            </TableRow>\n          </TableHeader>\n          <TableBody>\n            {workers.map((worker) => {\n              const status = getWorkerStatus(worker);\n              const totalHours = calculateTotalHours(worker.timeEntries);\n\n              // Check if worker's shift has been ended or is no show\n              const isShiftEnded = worker.status === 'ShiftEnded' || worker.status === 'Shift Ended';\n              const isNoShow = worker.status === 'NoShow' || worker.status === 'no_show';\n\n              return (\n                <TableRow key={worker.id}>\n                  {/* Avatar Column - 96px x 96px - Sticky */}\n                  <TableCell className=\"w-20 sticky left-0 bg-background z-10 border-r\">\n                    <div className=\"flex justify-center\">\n                      <Link href={`/employees/${worker.user.id}`}>\n                        <Avatar className=\"w-24 h-24 cursor-pointer hover:opacity-80 transition-opacity\" style={{ width: '96px', height: '96px' }}>\n                          <AvatarImage src={worker.user.avatarUrl} />\n                          <AvatarFallback className=\"text-2xl font-bold\">\n                            {worker.user.name.split(' ').map(n => n[0]).join('')}\n                          </AvatarFallback>\n                        </Avatar>\n                      </Link>\n                    </div>\n                  </TableCell>\n\n                  <TableCell>\n                    <div className=\"flex items-center gap-3\">\n                      <span className=\"font-medium\">{worker.user.name}</span>\n                    </div>\n                  </TableCell>\n                  <TableCell>\n                    <Badge\n                      variant=\"outline\"\n                      className={ROLE_DEFINITIONS[worker.roleCode]?.badgeClasses || ''}\n                    >\n                      {worker.roleCode}\n                    </Badge>\n                  </TableCell>\n                  \n                  {/* Time entries for 3 periods - separate columns for in/out */}\n                  {[1, 2, 3].map((entryNum) => {\n                    const entry = worker.timeEntries.find(e => e.entryNumber === entryNum);\n                    return (\n                      <React.Fragment key={entryNum}>\n                        <TableCell className=\"text-center\">\n                          <div className=\"text-xs font-medium\">\n                            {formatTime(entry?.clockIn)}\n                          </div>\n                        </TableCell>\n                        <TableCell className=\"text-center\">\n                          <div className=\"text-xs font-medium text-muted-foreground\">\n                            {formatTime(entry?.clockOut)}\n                          </div>\n                        </TableCell>\n                      </React.Fragment>\n                    );\n                  })}\n                  \n                  <TableCell>\n                    {/* Only show status badge if worker hasn't ended shift or is no show */}\n                    {!isShiftEnded && !isNoShow && getStatusBadge(status)}\n                  </TableCell>\n                  <TableCell className=\"text-right font-medium\">\n                    {totalHours.toFixed(2)} hrs\n                  </TableCell>\n                  <TableCell>{renderActionButtons(worker)}</TableCell>\n                </TableRow>\n              );\n            })}\n          </TableBody>\n          </Table>\n        </div>\n      </CardContent>\n    </Card>\n  );\n}\n",
+                    "language": "typescript jsx"
+                },
+                "codebaseEnabled": true
+            },
+            "createdAt": 1753813523081,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "src/components/enhanced-time-tracking.tsx:653:1 -\nerror TS1128: Declaration or statement expected.\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Currently selected file, line number: 653"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "autoAppliedRules": [
+                {
+                    "name": "Repository Information Overview",
+                    "description": "Repository Information Overview",
+                    "uri": "zen-rules://repo/repo",
+                    "content": "\n\n# Holitime App Information\n\n## Summary\nA Next.js application for time tracking and workforce management, named \"Holitime\". The app provides functionality for managing jobs, shifts, timesheets, and worker assignments with role-based access control.\n\n## Structure\n- **src/**: Main application code (components, hooks, features, app routes)\n- **prisma/**: Database schema and migrations using Prisma ORM\n- **public/**: Static assets and files\n- **tests/**: Test files for database, UI, and end-to-end testing\n- **scripts/**: Utility scripts for deployment, database operations, and maintenance\n\n## Language & Runtime\n**Language**: TypeScript/JavaScript\n**Version**: ES2017 target with Next.js 14\n**Build System**: Next.js build system\n**Package Manager**: npm\n\n## Dependencies\n**Main Dependencies**:\n- Next.js (14.2.30) - React framework\n- React (18.3.1) - UI library\n- Prisma (5.17.0) - ORM for PostgreSQL\n- NextAuth (4.24.7) - Authentication\n- TanStack Query (5.51.15) - Data fetching\n- Mantine (7.11.1) & Radix UI - UI components\n- Tailwind CSS (3.4.7) - Styling\n- Zod (3.23.8) - Schema validation\n- Zustand (4.5.4) - State management\n\n**Development Dependencies**:\n- TypeScript (5.5.4)\n- Jest (30.0.5) - Testing\n- ESLint (8.57.0) - Linting\n- Testing Library - Test utilities\n- Faker - Test data generation\n\n## Build & Installation\n```bash\n# Install dependencies\nnpm install\n\n# Development\nnpm run dev\n\n# Build for production\nnpm run build\n\n# Start production server\nnpm run start\n\n# Database operations\nnpm run migrate       # Development migrations\nnpm run migrate:prod  # Production migrations\nnpm run db:seed       # Seed database\nnpm run studio        # Prisma Studio UI\n```\n\n## Docker\n**Dockerfile**: Multi-stage build process\n**Base Image**: node:20-slim\n**Build Process**:\n1. Builder stage installs dependencies and builds the application\n2. Runtime stage copies only necessary files for production\n**Run Command**: `node server.js`\n\n## Testing\n**Framework**: Jest with Testing Library\n**Test Location**: `/tests` directory\n**Configuration**: jest.config.js and jest.setup.js\n**Test Types**:\n- Database tests: `npm run test:db`\n- UI functionality: `npm run test:ui`\n- End-to-end tests: `npm run test:e2e`\n- All tests: `npm run test:all`\n\n## Database\n**ORM**: Prisma\n**Database**: PostgreSQL\n**Schema**: Comprehensive data model for users, companies, jobs, shifts, timesheets\n**Models**: User, Company, Job, Shift, AssignedPersonnel, TimeEntry, Timesheet"
+                }
+            ]
+        },
+        {
+            "id": "8d58ffe3-d8cf-48c3-9056-b5199e2b071f",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "I can see there's a TypeScript error at line 653 in the enhanced-time-tracking.tsx file. Let me examine the full file to understand the issue and help you fix it."
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_013GoFE3bvaJ7PxkVm3ft3j7",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/components/enhanced-time-tracking.tsx",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\components\\enhanced-time-tracking.tsx"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me view the area around line 653 to see what's causing the error:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_011YQh79zhjVN2LUmowtkrfP",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/components/enhanced-time-tracking.tsx",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\components\\enhanced-time-tracking.tsx"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "The file appears to end correctly at line 653. Let me check if there are any characters or content after line 653 that might be causing the issue:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01DQwAM2etLCef3ZRh2Qy1WY",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/components/enhanced-time-tracking.tsx",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\components\\enhanced-time-tracking.tsx"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "The file seems to end properly. Let me check if there might be some invisible characters or if the file is incomplete. Let me view a larger section to see the complete structure:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_015S1Hv9jYEPNtwJnm1MQ2mk",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/components/enhanced-time-tracking.tsx",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\components\\enhanced-time-tracking.tsx"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I found the issue! There's an extra closing brace `};` on line 474 that shouldn't be there. This is causing the TypeScript error. Let me fix it:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01T3mGmKMy4Gji8GuZemkL1h",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/components/enhanced-time-tracking.tsx",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\components\\enhanced-time-tracking.tsx"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/components/enhanced-time-tracking.tsx\n+++ C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/components/enhanced-time-tracking.tsx\n@@ -470,7 +470,6 @@\n         ) : null}\n       </div>\n     );\n-  };\n   };\n \n   // Format time for display",
+                    "refToolCallId": "toolu_01T3mGmKMy4Gji8GuZemkL1h"
+                },
+                {
+                    "type": "text",
+                    "text": "Now I need to check if there's a missing import for the `Link` component that I noticed is being used on line 592. Let me check the imports:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01GwXteJBx7P28nWVjU8Ard4",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/components/enhanced-time-tracking.tsx",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\components\\enhanced-time-tracking.tsx"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I can see that the `Link` component is being used but not imported. Let me add the missing import:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_015unH7qNSoF2e6CNeBNn1iT",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/components/enhanced-time-tracking.tsx",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\components\\enhanced-time-tracking.tsx"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/components/enhanced-time-tracking.tsx\n+++ C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/components/enhanced-time-tracking.tsx\n@@ -1,6 +1,7 @@\n 'use client';\n \n import React, { useState, useMemo } from 'react';\n+import Link from 'next/link';\n import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';\n import { Button } from '@/components/ui/button';\n import { Badge } from '@/components/ui/badge';",
+                    "refToolCallId": "toolu_015unH7qNSoF2e6CNeBNn1iT"
+                },
+                {
+                    "type": "text",
+                    "text": "Now let me check if there are any other TypeScript errors by running a type check:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01756Lhzpentq89F6wZxfwTP",
+                    "status": "IN_PROGRESS",
+                    "isHidden": true,
+                    "localResult": "{\"status\":\"ERROR\",\"exitCode\":null,\"output\":null}"
+                },
+                {
+                    "type": "codePatch",
+                    "diffs": [
+                        {
+                            "path": "src/components/enhanced-time-tracking.tsx",
+                            "patch": "@@ -50,32 +50,62 @@\n %7D from 'react';%0A\n+import Link from 'next/link';%0A\n import %7B Card, C\n@@ -14037,21 +14037,16 @@\n  );%0A  %7D;\n-%0A  %7D;\n %0A%0A  // F\n",
+                            "isNew": false,
+                            "isApplied": true
+                        }
+                    ]
+                },
+                {
+                    "type": "shellCommand",
+                    "command": "npx tsc --noEmit --project .",
+                    "id": "c4ce19e4-4806-410a-b8cc-37517a235420",
+                    "status": "ERROR",
+                    "toolCallId": "toolu_01756Lhzpentq89F6wZxfwTP",
+                    "commandsRequiringConfirmation": []
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "97eb6963-0620-40cf-bb81-2602c3e2dd52"
+            },
+            "createdAt": 1753813524919,
+            "isInternal": false
+        },
+        {
+            "id": "ff904b57-cbef-4b77-83cf-f928e93fcdbb",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Let me try a different approach to check for TypeScript errors:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_017gDrCnYAUe7gJdYBwz1wt8",
+                    "status": "IN_PROGRESS",
+                    "isHidden": true,
+                    "localResult": "{\"status\":\"ERROR\",\"exitCode\":null,\"output\":null}"
+                },
+                {
+                    "type": "shellCommand",
+                    "command": "npm run build",
+                    "id": "5188e6eb-f520-4851-8bd7-d70577311980",
+                    "status": "ERROR",
+                    "toolCallId": "toolu_017gDrCnYAUe7gJdYBwz1wt8",
+                    "commandsRequiringConfirmation": []
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "7299e41f-b380-4099-9670-34b83c97cac4"
+            },
+            "createdAt": 1753813572465,
+            "isInternal": false
+        },
+        {
+            "id": "95e71c3a-a8c3-412b-8f36-d97c0cba4e20",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Let me check if there's a TypeScript configuration file and try a simpler check:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01HxHxRe52gZuB2eCaiJJBjd",
+                    "statusText": "Viewed folder",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": ".",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\."
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me check the current file to make sure the fix was applied correctly:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01M9vJEe3Jf9tCtkR5jTL3uM",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/components/enhanced-time-tracking.tsx",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\components\\enhanced-time-tracking.tsx"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "! The fix has been applied. Let"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01BzF3zKAEr9nVBpBi7SdyPY",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/components/enhanced-time-tracking.tsx",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\components\\enhanced-time-tracking.tsx"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Great! The file now ends correctly. Let me try to run a simple syntax check to verify the fix:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01QUS3UyTXhHHU76ZJnF4HW9",
+                    "status": "IN_PROGRESS",
+                    "isHidden": true,
+                    "localResult": "{\"status\":\"ERROR\",\"exitCode\":null,\"output\":null}"
+                },
+                {
+                    "type": "shellCommand",
+                    "command": "node -c \"src/components/enhanced-time-tracking.tsx\"",
+                    "id": "ba5e70d7-140e-486e-98bf-b8fac34bfbab",
+                    "status": "ERROR",
+                    "toolCallId": "toolu_01QUS3UyTXhHHU76ZJnF4HW9",
+                    "commandsRequiringConfirmation": []
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "d0a09a6d-d433-4bda-817d-6d9af03b8cbc"
+            },
+            "createdAt": 1753813576276,
+            "isInternal": false
+        },
+        {
+            "id": "9440208f-2aad-417c-b657-c47d7673d471",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Let me try a different approach to validate the TypeScript syntax:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01Qpbiaj43dFe6LnzJUsgqQN",
+                    "status": "IN_PROGRESS",
+                    "isHidden": true,
+                    "localResult": "{\"status\":\"ERROR\",\"exitCode\":null,\"output\":null}"
+                },
+                {
+                    "type": "shellCommand",
+                    "command": "npx tsc --noEmit src/components/enhanced-time-tracking.tsx",
+                    "id": "dbddce38-6186-4364-8861-425c7924ef1d",
+                    "status": "ERROR",
+                    "toolCallId": "toolu_01Qpbiaj43dFe6LnzJUsgqQN",
+                    "commandsRequiringConfirmation": []
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "07c95422-5fac-4c42-a257-1182789cd69e"
+            },
+            "createdAt": 1753813594054,
+            "isInternal": false
+        },
+        {
+            "id": "72a9afc7-1569-4ee7-8e37-389f67819f8b",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Let me check if there are any other syntax issues by examining the structure more carefully. Let me look at the area around where the error was:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01M1uUZCz2kPvk7YRKNZxKeP",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/components/enhanced-time-tracking.tsx",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\components\\enhanced-time-tracking.tsx"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "The code looks correct now. Let me try to run the development server to see if the error is resolved:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01YUvjx6CAcUAzSG7bb4bnsm",
+                    "status": "IN_PROGRESS",
+                    "isHidden": true,
+                    "localResult": "{\"status\":\"ERROR\",\"exitCode\":null,\"output\":null}"
+                },
+                {
+                    "type": "shellCommand",
+                    "command": "npm run dev",
+                    "id": "4793d798-1fd1-4340-9097-5e0dbe77c10d",
+                    "status": "ERROR",
+                    "toolCallId": "toolu_01YUvjx6CAcUAzSG7bb4bnsm",
+                    "commandsRequiringConfirmation": []
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "7d2ae9ab-fe2c-406c-9af1-7670020fac81"
+            },
+            "createdAt": 1753813598354,
+            "isInternal": false
+        },
+        {
+            "id": "b5fc8a8f-2e3c-40c5-afa8-82bf2b111366",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Let me check if there are any package.json scripts available:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01XRp6JMJDAjvhJLNeUyfiRZ",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "package.json",
+                                "fsPath": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\package.json"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "7e20f379-16cc-4bc7-870d-c2926e4a78f7"
+            },
+            "createdAt": 1753813613372,
+            "isInternal": false
+        },
+        {
+            "id": "9bdba75c-1c3e-4902-848c-7ebd1c85e0bc",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Continue. You were in the middle of request:"
+                },
+                {
+                    "type": "text",
+                    "text": "src/components/enhanced-time-tracking.tsx:653:1 -\nerror TS1128: Declaration or statement expected.\n"
+                },
+                {
+                    "type": "text",
+                    "text": "Currently selected file, line number: 653"
+                },
+                {
+                    "type": "text",
+                    "text": "Avoid repeating steps you've already taken."
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "C:\\Users\\ryley\\WebstormProjects\\untitled\\my-next-app\\src\\components\\enhanced-time-tracking.tsx",
+                    "fsPath": "C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/components/enhanced-time-tracking.tsx",
+                    "content": "'use client';\n\nimport React, { useState, useMemo } from 'react';\nimport Link from 'next/link';\nimport { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';\nimport { Button } from '@/components/ui/button';\nimport { Badge } from '@/components/ui/badge';\nimport { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';\nimport { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';\nimport {\n  Clock,\n  Play,\n  Pause,\n  Square,\n  Coffee,\n  AlertTriangle,\n  Users,\n  CheckCircle,\n  User\n} from 'lucide-react';\nimport { useToast } from '@/hooks/use-toast';\nimport { format } from 'date-fns';\nimport { ROLE_DEFINITIONS } from '@/lib/constants';\nimport type { RoleCode } from '@/lib/types';\n\ninterface TimeEntry {\n  id: string;\n  entryNumber: number;\n  clockIn?: string;\n  clockOut?: string;\n  isActive?: boolean;\n}\n\ninterface WorkerData {\n  id: string;\n  userId: string;\n  user: {\n    id: string;\n    name: string;\n    avatarUrl?: string;\n  };\n  roleCode: RoleCode;\n  status: string;\n  timeEntries: TimeEntry[];\n}\n\ninterface EnhancedTimeTrackingProps {\n  shiftId: string;\n  workers: WorkerData[];\n  onRefresh: () => void;\n  disabled?: boolean;\n}\n\n// Worker status types\ntype WorkerStatus = 'not_started' | 'clocked_in' | 'on_break' | 'clocked_out' | 'shift_ended' | 'no_show';\n\nexport default function EnhancedTimeTracking({\n  shiftId,\n  workers,\n  onRefresh,\n  disabled = false\n}: EnhancedTimeTrackingProps) {\n  const { toast } = useToast();\n  const [actionLoading, setActionLoading] = useState<Set<string>>(new Set());\n\n  // Determine worker status based on time entries\n  const getWorkerStatus = (worker: WorkerData): WorkerStatus => {\n    if (worker.status === 'no_show') return 'no_show';\n    if (worker.status === 'shift_ended') return 'shift_ended';\n    \n    const activeEntry = worker.timeEntries.find(entry => entry.isActive);\n    if (activeEntry) {\n      return 'clocked_in';\n    }\n    \n    const hasAnyEntry = worker.timeEntries.length > 0;\n    if (hasAnyEntry) {\n      return 'clocked_out';\n    }\n    \n    return 'not_started';\n  };\n\n  // Get current entry number for next clock in\n  const getNextEntryNumber = (worker: WorkerData): number => {\n    const maxEntry = Math.max(0, ...worker.timeEntries.map(e => e.entryNumber || 1));\n    return Math.min(maxEntry + 1, 3); // Max 3 entries\n  };\n\n  // Check if worker can have more entries\n  const canAddMoreEntries = (worker: WorkerData): boolean => {\n    return worker.timeEntries.length < 3;\n  };\n\n  // API call helper\n  const makeApiCall = async (endpoint: string, method: string, body?: any) => {\n    const response = await fetch(endpoint, {\n      method,\n      headers: {\n        'Content-Type': 'application/json',\n      },\n      body: body ? JSON.stringify(body) : undefined,\n    });\n\n    if (!response.ok) {\n      const errorData = await response.json().catch(() => ({}));\n      throw new Error(errorData.error || `HTTP ${response.status}`);\n    }\n\n    return response.json();\n  };\n\n  // Handle clock in\n  const handleClockIn = async (workerId: string) => {\n    const worker = workers.find(w => w.id === workerId);\n    if (!worker) return;\n\n    if (!canAddMoreEntries(worker)) {\n      toast({\n        title: 'Maximum Entries Reached',\n        description: 'This worker has already reached the maximum of 3 time entries.',\n        variant: 'destructive'\n      });\n      return;\n    }\n\n    const actionKey = `clockIn-${workerId}`;\n    setActionLoading(prev => new Set(prev).add(actionKey));\n\n    try {\n      await makeApiCall(`/api/shifts/${shiftId}/clock-in`, 'POST', {\n        workerId,\n        entryNumber: getNextEntryNumber(worker)\n      });\n\n      toast({\n        title: 'Success',\n        description: `${worker.user.name} clocked in successfully`,\n      });\n\n      onRefresh();\n    } catch (error) {\n      toast({\n        title: 'Error',\n        description: error instanceof Error ? error.message : 'Failed to clock in',\n        variant: 'destructive'\n      });\n    } finally {\n      setActionLoading(prev => {\n        const newSet = new Set(prev);\n        newSet.delete(actionKey);\n        return newSet;\n      });\n    }\n  };\n\n  // Handle clock out (for break)\n  const handleClockOut = async (workerId: string) => {\n    const actionKey = `clockOut-${workerId}`;\n    setActionLoading(prev => new Set(prev).add(actionKey));\n\n    try {\n      await makeApiCall(`/api/shifts/${shiftId}/clock-out`, 'POST', {\n        workerId\n      });\n\n      const worker = workers.find(w => w.id === workerId);\n      toast({\n        title: 'Success',\n        description: `${worker?.user.name} is now on break`,\n      });\n\n      onRefresh();\n    } catch (error) {\n      toast({\n        title: 'Error',\n        description: error instanceof Error ? error.message : 'Failed to clock out',\n        variant: 'destructive'\n      });\n    } finally {\n      setActionLoading(prev => {\n        const newSet = new Set(prev);\n        newSet.delete(actionKey);\n        return newSet;\n      });\n    }\n  };\n\n  // Handle end shift\n  const handleEndShift = async (workerId: string) => {\n    const actionKey = `endShift-${workerId}`;\n    setActionLoading(prev => new Set(prev).add(actionKey));\n\n    try {\n      await makeApiCall(`/api/shifts/${shiftId}/end-worker-shift`, 'POST', {\n        workerId\n      });\n\n      const worker = workers.find(w => w.id === workerId);\n      toast({\n        title: 'Success',\n        description: `${worker?.user.name}'s shift has ended`,\n      });\n\n      onRefresh();\n    } catch (error) {\n      toast({\n        title: 'Error',\n        description: error instanceof Error ? error.message : 'Failed to end shift',\n        variant: 'destructive'\n      });\n    } finally {\n      setActionLoading(prev => {\n        const newSet = new Set(prev);\n        newSet.delete(actionKey);\n        return newSet;\n      });\n    }\n  };\n\n  // Handle no show\n  const handleNoShow = async (workerId: string) => {\n    const actionKey = `noShow-${workerId}`;\n    setActionLoading(prev => new Set(prev).add(actionKey));\n\n    try {\n      await makeApiCall(`/api/shifts/${shiftId}/mark-no-show`, 'POST', {\n        workerId\n      });\n\n      const worker = workers.find(w => w.id === workerId);\n      toast({\n        title: 'Success',\n        description: `${worker?.user.name} marked as no show`,\n      });\n\n      onRefresh();\n    } catch (error) {\n      toast({\n        title: 'Error',\n        description: error instanceof Error ? error.message : 'Failed to mark no show',\n        variant: 'destructive'\n      });\n    } finally {\n      setActionLoading(prev => {\n        const newSet = new Set(prev);\n        newSet.delete(actionKey);\n        return newSet;\n      });\n    }\n  };\n\n  // Master actions\n  const handleMasterStartBreak = async () => {\n    const clockedInWorkers = workers.filter(w => getWorkerStatus(w) === 'clocked_in');\n    \n    if (clockedInWorkers.length === 0) {\n      toast({\n        title: 'No Workers to Break',\n        description: 'No workers are currently clocked in.',\n        variant: 'destructive'\n      });\n      return;\n    }\n\n    const actionKey = 'masterStartBreak';\n    setActionLoading(prev => new Set(prev).add(actionKey));\n\n    try {\n      await makeApiCall(`/api/shifts/${shiftId}/master-start-break`, 'POST', {});\n\n      toast({\n        title: 'Success',\n        description: `${clockedInWorkers.length} workers sent on break`,\n      });\n\n      onRefresh();\n    } catch (error) {\n      toast({\n        title: 'Error',\n        description: error instanceof Error ? error.message : 'Failed to start break for workers',\n        variant: 'destructive'\n      });\n    } finally {\n      setActionLoading(prev => {\n        const newSet = new Set(prev);\n        newSet.delete(actionKey);\n        return newSet;\n      });\n    }\n  };\n\n  const handleMasterEndShift = async () => {\n    const activeWorkers = workers.filter(w => {\n      const status = getWorkerStatus(w);\n      return status === 'clocked_in' || status === 'clocked_out';\n    });\n    \n    if (activeWorkers.length === 0) {\n      toast({\n        title: 'No Active Workers',\n        description: 'No workers have active shifts to end.',\n        variant: 'destructive'\n      });\n      return;\n    }\n\n    const actionKey = 'masterEndShift';\n    setActionLoading(prev => new Set(prev).add(actionKey));\n\n    try {\n      await makeApiCall(`/api/shifts/${shiftId}/master-end-shift`, 'POST', {});\n\n      toast({\n        title: 'Success',\n        description: `${activeWorkers.length} worker shifts ended`,\n      });\n\n      onRefresh();\n    } catch (error) {\n      toast({\n        title: 'Error',\n        description: error instanceof Error ? error.message : 'Failed to end shifts',\n        variant: 'destructive'\n      });\n    } finally {\n      setActionLoading(prev => {\n        const newSet = new Set(prev);\n        newSet.delete(actionKey);\n        return newSet;\n      });\n    }\n  };\n\n  // Get status badge\n  const getStatusBadge = (status: WorkerStatus) => {\n    switch (status) {\n      case 'not_started':\n        return <Badge variant=\"outline\">Not Started</Badge>;\n      case 'clocked_in':\n        return <Badge className=\"bg-green-500\">Clocked In</Badge>;\n      case 'on_break':\n        return <Badge className=\"bg-yellow-500\">On Break</Badge>;\n      case 'clocked_out':\n        return <Badge className=\"bg-blue-500\">Clocked Out</Badge>;\n      case 'shift_ended':\n        return <Badge className=\"bg-gray-500\">Shift Ended</Badge>;\n      case 'no_show':\n        return <Badge variant=\"destructive\">No Show</Badge>;\n      default:\n        return <Badge variant=\"outline\">{status}</Badge>;\n    }\n  };\n\n  // Render action buttons based on worker status\n  const renderActionButtons = (worker: WorkerData) => {\n    const status = getWorkerStatus(worker);\n    const isLoading = (action: string) => actionLoading.has(`${action}-${worker.id}`);\n\n    if (status === 'shift_ended' || status === 'no_show') {\n      return <span className=\"text-sm text-gray-500\">No actions available</span>;\n    }\n\n    // Check if worker's shift has been ended\n    const isShiftEnded = worker.status === 'ShiftEnded' || worker.status === 'Shift Ended';\n\n    // Check if worker is marked as no show\n    const isNoShow = worker.status === 'NoShow' || worker.status === 'no_show';\n\n    return (\n      <div className=\"flex gap-1\">\n        {isNoShow ? (\n          // Show \"No Show\" badge when worker is marked as no show\n          <Badge variant=\"destructive\" className=\"bg-red-600 text-red-100\">\n            <AlertTriangle className=\"h-3 w-3 mr-1\" />\n            No Show\n          </Badge>\n        ) : isShiftEnded ? (\n          // Show \"Shift Ended\" badge when worker's shift has been ended\n          <Badge variant=\"secondary\" className=\"bg-gray-600 text-gray-100\">\n            <CheckCircle className=\"h-3 w-3 mr-1\" />\n            Shift Ended\n          </Badge>\n        ) : status === 'not_started' ? (\n          <>\n            <Button\n              size=\"sm\"\n              onClick={() => handleClockIn(worker.id)}\n              disabled={disabled || isLoading('clockIn')}\n              className=\"bg-green-600 hover:bg-green-700\"\n            >\n              {isLoading('clockIn') ? (\n                <div className=\"animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1\" />\n              ) : (\n                <Play className=\"h-3 w-3 mr-1\" />\n              )}\n              Start Shift\n            </Button>\n            <Button\n              size=\"sm\"\n              variant=\"destructive\"\n              onClick={() => handleNoShow(worker.id)}\n              disabled={disabled || isLoading('noShow')}\n            >\n              {isLoading('noShow') ? (\n                <div className=\"animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1\" />\n              ) : (\n                <AlertTriangle className=\"h-3 w-3 mr-1\" />\n              )}\n              No Show\n            </Button>\n          </>\n        ) : status === 'clocked_in' ? (\n          <>\n            <Button\n              size=\"sm\"\n              variant=\"outline\"\n              onClick={() => handleClockOut(worker.id)}\n              disabled={disabled || isLoading('clockOut')}\n            >\n              {isLoading('clockOut') ? (\n                <div className=\"animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1\" />\n              ) : (\n                <Coffee className=\"h-3 w-3 mr-1\" />\n              )}\n              Start Break\n            </Button>\n            <Button\n              size=\"sm\"\n              variant=\"destructive\"\n              onClick={() => handleEndShift(worker.id)}\n              disabled={disabled || isLoading('endShift')}\n            >\n              {isLoading('endShift') ? (\n                <div className=\"animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1\" />\n              ) : (\n                <Square className=\"h-3 w-3 mr-1\" />\n              )}\n              End Shift\n            </Button>\n          </>\n        ) : status === 'clocked_out' ? (\n          <>\n            <Button\n              size=\"sm\"\n              onClick={() => handleClockIn(worker.id)}\n              disabled={disabled || isLoading('clockIn') || !canAddMoreEntries(worker)}\n              className=\"bg-green-600 hover:bg-green-700\"\n            >\n              {isLoading('clockIn') ? (\n                <div className=\"animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1\" />\n              ) : (\n                <Play className=\"h-3 w-3 mr-1\" />\n              )}\n              End Break\n            </Button>\n            <Button\n              size=\"sm\"\n              variant=\"destructive\"\n              onClick={() => handleEndShift(worker.id)}\n              disabled={disabled || isLoading('endShift')}\n            >\n              {isLoading('endShift') ? (\n                <div className=\"animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1\" />\n              ) : (\n                <Square className=\"h-3 w-3 mr-1\" />\n              )}\n              End Shift\n            </Button>\n          </>\n        ) : null}\n      </div>\n    );\n  };\n\n  // Format time for display\n  const formatTime = (timeString?: string) => {\n    if (!timeString) return '-';\n    try {\n      const date = new Date(timeString);\n      const hours = date.getHours();\n      const minutes = date.getMinutes();\n\n      const ampm = hours >= 12 ? 'PM' : 'AM';\n      const formattedHour = hours % 12 || 12;\n\n      if (minutes === 0) {\n        return `${formattedHour}:00 ${ampm}`;\n      }\n\n      const formattedMinute = minutes < 10 ? `0${minutes}` : minutes;\n      return `${formattedHour}:${formattedMinute} ${ampm}`;\n    } catch (error) {\n      return '-';\n    }\n  };\n\n  // Calculate total hours for a worker\n  const calculateTotalHours = (timeEntries: TimeEntry[]): number => {\n    let totalMinutes = 0;\n    timeEntries.forEach(entry => {\n      if (entry.clockIn && entry.clockOut) {\n        const start = new Date(entry.clockIn);\n        const end = new Date(entry.clockOut);\n        totalMinutes += (end.getTime() - start.getTime()) / (1000 * 60);\n      }\n    });\n    return totalMinutes / 60;\n  };\n\n  // Get workers that can be affected by master actions\n  const clockedInWorkers = workers.filter(w => getWorkerStatus(w) === 'clocked_in');\n  const activeWorkers = workers.filter(w => {\n    const status = getWorkerStatus(w);\n    return status === 'clocked_in' || status === 'clocked_out';\n  });\n\n  return (\n    <Card>\n      <CardHeader>\n        <div className=\"flex items-center justify-between\">\n          <div>\n            <CardTitle className=\"flex items-center gap-2\">\n              <Clock className=\"h-5 w-5\" />\n              Enhanced Time Tracking\n            </CardTitle>\n            <p className=\"text-sm text-muted-foreground mt-1\">\n              Track up to 3 in/out periods per worker with smart break management\n            </p>\n          </div>\n          <div className=\"flex gap-2\">\n            <Button\n              variant=\"outline\"\n              onClick={handleMasterStartBreak}\n              disabled={disabled || clockedInWorkers.length === 0 || actionLoading.has('masterStartBreak')}\n            >\n              {actionLoading.has('masterStartBreak') ? (\n                <div className=\"animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600 mr-2\" />\n              ) : (\n                <Coffee className=\"h-4 w-4 mr-2\" />\n              )}\n              Start Break All ({clockedInWorkers.length})\n            </Button>\n            <Button\n              variant=\"destructive\"\n              onClick={handleMasterEndShift}\n              disabled={disabled || activeWorkers.length === 0 || actionLoading.has('masterEndShift')}\n            >\n              {actionLoading.has('masterEndShift') ? (\n                <div className=\"animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2\" />\n              ) : (\n                <CheckCircle className=\"h-4 w-4 mr-2\" />\n              )}\n              End All Shifts ({activeWorkers.length})\n            </Button>\n          </div>\n        </div>\n      </CardHeader>\n      <CardContent>\n        <div className=\"overflow-x-auto\">\n          <Table className=\"min-w-full\">\n            <TableHeader>\n            <TableRow>\n              <TableHead className=\"w-20 sticky left-0 bg-background z-10 border-r\">Avatar</TableHead>\n              <TableHead>Worker</TableHead>\n              <TableHead>Role</TableHead>\n              <TableHead className=\"text-center\">In 1</TableHead>\n              <TableHead className=\"text-center\">Out 1</TableHead>\n              <TableHead className=\"text-center\">In 2</TableHead>\n              <TableHead className=\"text-center\">Out 2</TableHead>\n              <TableHead className=\"text-center\">In 3</TableHead>\n              <TableHead className=\"text-center\">Out 3</TableHead>\n              <TableHead>Status</TableHead>\n              <TableHead className=\"text-right\">Total Hours</TableHead>\n              <TableHead>Actions</TableHead>\n            </TableRow>\n          </TableHeader>\n          <TableBody>\n            {workers.map((worker) => {\n              const status = getWorkerStatus(worker);\n              const totalHours = calculateTotalHours(worker.timeEntries);\n\n              // Check if worker's shift has been ended or is no show\n              const isShiftEnded = worker.status === 'ShiftEnded' || worker.status === 'Shift Ended';\n              const isNoShow = worker.status === 'NoShow' || worker.status === 'no_show';\n\n              return (\n                <TableRow key={worker.id}>\n                  {/* Avatar Column - 96px x 96px - Sticky */}\n                  <TableCell className=\"w-20 sticky left-0 bg-background z-10 border-r\">\n                    <div className=\"flex justify-center\">\n                      <Link href={`/employees/${worker.user.id}`}>\n                        <Avatar className=\"w-24 h-24 cursor-pointer hover:opacity-80 transition-opacity\" style={{ width: '96px', height: '96px' }}>\n                          <AvatarImage src={worker.user.avatarUrl} />\n                          <AvatarFallback className=\"text-2xl font-bold\">\n                            {worker.user.name.split(' ').map(n => n[0]).join('')}\n                          </AvatarFallback>\n                        </Avatar>\n                      </Link>\n                    </div>\n                  </TableCell>\n\n                  <TableCell>\n                    <div className=\"flex items-center gap-3\">\n                      <span className=\"font-medium\">{worker.user.name}</span>\n                    </div>\n                  </TableCell>\n                  <TableCell>\n                    <Badge\n                      variant=\"outline\"\n                      className={ROLE_DEFINITIONS[worker.roleCode]?.badgeClasses || ''}\n                    >\n                      {worker.roleCode}\n                    </Badge>\n                  </TableCell>\n                  \n                  {/* Time entries for 3 periods - separate columns for in/out */}\n                  {[1, 2, 3].map((entryNum) => {\n                    const entry = worker.timeEntries.find(e => e.entryNumber === entryNum);\n                    return (\n                      <React.Fragment key={entryNum}>\n                        <TableCell className=\"text-center\">\n                          <div className=\"text-xs font-medium\">\n                            {formatTime(entry?.clockIn)}\n                          </div>\n                        </TableCell>\n                        <TableCell className=\"text-center\">\n                          <div className=\"text-xs font-medium text-muted-foreground\">\n                            {formatTime(entry?.clockOut)}\n                          </div>\n                        </TableCell>\n                      </React.Fragment>\n                    );\n                  })}\n                  \n                  <TableCell>\n                    {/* Only show status badge if worker hasn't ended shift or is no show */}\n                    {!isShiftEnded && !isNoShow && getStatusBadge(status)}\n                  </TableCell>\n                  <TableCell className=\"text-right font-medium\">\n                    {totalHours.toFixed(2)} hrs\n                  </TableCell>\n                  <TableCell>{renderActionButtons(worker)}</TableCell>\n                </TableRow>\n              );\n            })}\n          </TableBody>\n          </Table>\n        </div>\n      </CardContent>\n    </Card>\n  );\n}\n",
+                    "language": "typescript jsx"
+                },
+                "codebaseEnabled": true
+            },
+            "createdAt": 1753813697039,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Continue. You were in the middle of request:"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "src/components/enhanced-time-tracking.tsx:653:1 -\nerror TS1128: Declaration or statement expected.\n"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Currently selected file, line number: 653"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Avoid repeating steps you've already taken."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "isHidden": true,
+            "autoAppliedRules": [
+                {
+                    "name": "Repository Information Overview",
+                    "description": "Repository Information Overview",
+                    "uri": "zen-rules://repo/repo",
+                    "content": "\n\n# Holitime App Information\n\n## Summary\nA Next.js application for time tracking and workforce management, named \"Holitime\". The app provides functionality for managing jobs, shifts, timesheets, and worker assignments with role-based access control.\n\n## Structure\n- **src/**: Main application code (components, hooks, features, app routes)\n- **prisma/**: Database schema and migrations using Prisma ORM\n- **public/**: Static assets and files\n- **tests/**: Test files for database, UI, and end-to-end testing\n- **scripts/**: Utility scripts for deployment, database operations, and maintenance\n\n## Language & Runtime\n**Language**: TypeScript/JavaScript\n**Version**: ES2017 target with Next.js 14\n**Build System**: Next.js build system\n**Package Manager**: npm\n\n## Dependencies\n**Main Dependencies**:\n- Next.js (14.2.30) - React framework\n- React (18.3.1) - UI library\n- Prisma (5.17.0) - ORM for PostgreSQL\n- NextAuth (4.24.7) - Authentication\n- TanStack Query (5.51.15) - Data fetching\n- Mantine (7.11.1) & Radix UI - UI components\n- Tailwind CSS (3.4.7) - Styling\n- Zod (3.23.8) - Schema validation\n- Zustand (4.5.4) - State management\n\n**Development Dependencies**:\n- TypeScript (5.5.4)\n- Jest (30.0.5) - Testing\n- ESLint (8.57.0) - Linting\n- Testing Library - Test utilities\n- Faker - Test data generation\n\n## Build & Installation\n```bash\n# Install dependencies\nnpm install\n\n# Development\nnpm run dev\n\n# Build for production\nnpm run build\n\n# Start production server\nnpm run start\n\n# Database operations\nnpm run migrate       # Development migrations\nnpm run migrate:prod  # Production migrations\nnpm run db:seed       # Seed database\nnpm run studio        # Prisma Studio UI\n```\n\n## Docker\n**Dockerfile**: Multi-stage build process\n**Base Image**: node:20-slim\n**Build Process**:\n1. Builder stage installs dependencies and builds the application\n2. Runtime stage copies only necessary files for production\n**Run Command**: `node server.js`\n\n## Testing\n**Framework**: Jest with Testing Library\n**Test Location**: `/tests` directory\n**Configuration**: jest.config.js and jest.setup.js\n**Test Types**:\n- Database tests: `npm run test:db`\n- UI functionality: `npm run test:ui`\n- End-to-end tests: `npm run test:e2e`\n- All tests: `npm run test:all`\n\n## Database\n**ORM**: Prisma\n**Database**: PostgreSQL\n**Schema**: Comprehensive data model for users, companies, jobs, shifts, timesheets\n**Models**: User, Company, Job, Shift, AssignedPersonnel, TimeEntry, Timesheet"
+                }
+            ]
+        }
+    ],
+    "isAgent": true,
+    "isNameGenerated": true
+}
+}

@@ -1,0 +1,37 @@
+{
+  "projectId": "elated-fabric-460119-t3",
+  "serviceName": "holitime",
+  "region": "us-west2",
+  "cloudSqlInstance": "holitime-db",
+  "environments": {
+    "development": {
+      "memory": "1Gi",
+      "cpu": "1",
+      "maxInstances": 1,
+      "minInstances": 0,
+      "timeout": 300
+    },
+    "staging": {
+      "memory": "1Gi", 
+      "cpu": "1",
+      "maxInstances": 1,
+      "minInstances": 0,
+      "timeout": 300
+    },
+    "production": {
+      "memory": "2Gi",
+      "cpu": "2", 
+      "maxInstances": 2,
+      "minInstances": 1,
+      "timeout": 300
+    }
+  },
+  "healthCheckEndpoints": [
+    "/",
+    "/api/health",
+    "/api/status"
+  ],
+  "backupRetentionDays": 7,
+  "migrationTimeout": 1600,
+  "deploymentTimeout": 1900
+}

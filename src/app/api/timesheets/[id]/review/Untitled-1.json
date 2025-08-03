@@ -1,0 +1,7400 @@
+{
+	"knownSymbols": {
+		"config": [
+			{
+				"name": "config",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\middleware.ts",
+				"type": "const",
+				"isDefault": true
+			}
+		],
+		"type { Config": [
+			{
+				"name": "type { Config",
+				"module": "tailwindcss",
+				"isDefault": true
+			}
+		],
+		"colors": [
+			{
+				"name": "colors",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\color-scheme.ts",
+				"type": "const",
+				"isDefault": false
+			},
+			{
+				"name": "colors",
+				"module": "tailwindcss/colors",
+				"isDefault": true
+			}
+		],
+		"MockSession": [
+			{
+				"name": "MockSession",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\tests\\utils\\test-utils.tsx",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"renderWithProviders": [
+			{
+				"name": "renderWithProviders",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\tests\\utils\\test-utils.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"mockUsers": [
+			{
+				"name": "mockUsers",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\mock-data.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"mockCompanies": [
+			{
+				"name": "mockCompanies",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\tests\\utils\\test-utils.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"mockJobs": [
+			{
+				"name": "mockJobs",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\tests\\utils\\test-utils.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"mockShifts": [
+			{
+				"name": "mockShifts",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\tests\\utils\\test-utils.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"mockApiResponses": [
+			{
+				"name": "mockApiResponses",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\tests\\utils\\test-utils.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"mockFetch": [
+			{
+				"name": "mockFetch",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\tests\\utils\\test-utils.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"createMockSession": [
+			{
+				"name": "createMockSession",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\tests\\utils\\test-utils.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"testHelpers": [
+			{
+				"name": "testHelpers",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\tests\\utils\\test-utils.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"everything": [
+			{
+				"name": "everything",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\tests\\utils\\test-utils.tsx",
+				"isDefault": false
+			}
+		],
+		"React": [
+			{
+				"name": "React",
+				"module": "react",
+				"isDefault": true,
+				"asDefinition": "* as React"
+			}
+		],
+		"{ ReactElement": [
+			{
+				"name": "{ ReactElement",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"render": [
+			{
+				"name": "render",
+				"module": "@testing-library/react",
+				"isDefault": false
+			}
+		],
+		"RenderOptions": [
+			{
+				"name": "RenderOptions",
+				"module": "@testing-library/react",
+				"isDefault": false
+			}
+		],
+		"RenderResult": [
+			{
+				"name": "RenderResult",
+				"module": "@testing-library/react",
+				"isDefault": false
+			}
+		],
+		"SessionProvider": [
+			{
+				"name": "SessionProvider",
+				"module": "next-auth/react",
+				"isDefault": false
+			}
+		],
+		"QueryProvider": [
+			{
+				"name": "QueryProvider",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\providers\\query-provider.tsx",
+				"type": "function",
+				"isDefault": false
+			},
+			{
+				"name": "QueryProvider",
+				"module": "@/providers/query-provider",
+				"isDefault": false
+			}
+		],
+		"UserRole": [
+			{
+				"name": "UserRole",
+				"module": "@prisma/client",
+				"isDefault": true
+			},
+			{
+				"name": "UserRole",
+				"module": "@/lib/types",
+				"isDefault": true
+			},
+			{
+				"name": "UserRole",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"async": [
+			{
+				"name": "async",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\api\\shifts\\by-slug\\route.ts",
+				"isDefault": false
+			}
+		],
+		"getToken": [
+			{
+				"name": "getToken",
+				"module": "next-auth/jwt",
+				"isDefault": false
+			}
+		],
+		"NextRequest": [
+			{
+				"name": "NextRequest",
+				"module": "next/server",
+				"isDefault": false
+			}
+		],
+		"NextResponse": [
+			{
+				"name": "NextResponse",
+				"module": "next/server",
+				"isDefault": false
+			}
+		],
+		"PrismaClient": [
+			{
+				"name": "PrismaClient",
+				"module": "@prisma/client",
+				"isDefault": false
+			}
+		],
+		"fs": [
+			{
+				"name": "fs",
+				"module": "fs",
+				"isDefault": true,
+				"asDefinition": "* as fs"
+			}
+		],
+		"path": [
+			{
+				"name": "path",
+				"module": "path",
+				"isDefault": true,
+				"asDefinition": "* as path"
+			}
+		],
+		"fileURLToPath": [
+			{
+				"name": "fileURLToPath",
+				"module": "url",
+				"isDefault": false
+			}
+		],
+		"chalk": [
+			{
+				"name": "chalk",
+				"module": "chalk",
+				"isDefault": true
+			}
+		],
+		"Timesheet": [
+			{
+				"name": "Timesheet",
+				"module": "@prisma/client",
+				"isDefault": false
+			},
+			{
+				"name": "Timesheet",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\types.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"parse": [
+			{
+				"name": "parse",
+				"module": "csv-parse/sync",
+				"isDefault": false
+			}
+		],
+		"useQueryClient": [
+			{
+				"name": "useQueryClient",
+				"module": "@tanstack/react-query",
+				"isDefault": false
+			},
+			{
+				"name": "useQueryClient",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\providers\\query-provider.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"withQueryInvalidation": [
+			{
+				"name": "withQueryInvalidation",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\providers\\query-provider.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useOptimisticUpdate": [
+			{
+				"name": "useOptimisticUpdate",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\providers\\query-provider.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useBackgroundRefetch": [
+			{
+				"name": "useBackgroundRefetch",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\providers\\query-provider.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useQuerySync": [
+			{
+				"name": "useQuerySync",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\providers\\query-provider.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useQueryDevTools": [
+			{
+				"name": "useQueryDevTools",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\providers\\query-provider.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"{ createContext": [
+			{
+				"name": "{ createContext",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"useContext": [
+			{
+				"name": "useContext",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"useCallback": [
+			{
+				"name": "useCallback",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"useRef": [
+			{
+				"name": "useRef",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"ApiResponse": [
+			{
+				"name": "ApiResponse",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ApiError": [
+			{
+				"name": "ApiError",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\api-error-handler.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"PaginatedResponse": [
+			{
+				"name": "PaginatedResponse",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ValidationError": [
+			{
+				"name": "ValidationError",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-handler.ts",
+				"type": "class",
+				"isDefault": false
+			}
+		],
+		"ValidationErrorResponse": [
+			{
+				"name": "ValidationErrorResponse",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"PaginationParams": [
+			{
+				"name": "PaginationParams",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"SortParams": [
+			{
+				"name": "SortParams",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"FilterParams": [
+			{
+				"name": "FilterParams",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ListRequestParams": [
+			{
+				"name": "ListRequestParams",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"CreateUserRequest": [
+			{
+				"name": "CreateUserRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"UpdateUserRequest": [
+			{
+				"name": "UpdateUserRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"UserResponse": [
+			{
+				"name": "UserResponse",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"CreateCompanyRequest": [
+			{
+				"name": "CreateCompanyRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"UpdateCompanyRequest": [
+			{
+				"name": "UpdateCompanyRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"CompanyResponse": [
+			{
+				"name": "CompanyResponse",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"CreateJobRequest": [
+			{
+				"name": "CreateJobRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"UpdateJobRequest": [
+			{
+				"name": "UpdateJobRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"JobResponse": [
+			{
+				"name": "JobResponse",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"CreateShiftRequest": [
+			{
+				"name": "CreateShiftRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"UpdateShiftRequest": [
+			{
+				"name": "UpdateShiftRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"WorkerRequirementRequest": [
+			{
+				"name": "WorkerRequirementRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ShiftResponse": [
+			{
+				"name": "ShiftResponse",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"AssignPersonnelRequest": [
+			{
+				"name": "AssignPersonnelRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"AssignedPersonnelResponse": [
+			{
+				"name": "AssignedPersonnelResponse",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ClockInRequest": [
+			{
+				"name": "ClockInRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ClockOutRequest": [
+			{
+				"name": "ClockOutRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"TimeEntryResponse": [
+			{
+				"name": "TimeEntryResponse",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"TimesheetResponse": [
+			{
+				"name": "TimesheetResponse",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ApproveTimesheetRequest": [
+			{
+				"name": "ApproveTimesheetRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"RejectTimesheetRequest": [
+			{
+				"name": "RejectTimesheetRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"NotificationResponse": [
+			{
+				"name": "NotificationResponse",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"CreateNotificationRequest": [
+			{
+				"name": "CreateNotificationRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"BulkNotificationActionRequest": [
+			{
+				"name": "BulkNotificationActionRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"CreateAnnouncementRequest": [
+			{
+				"name": "CreateAnnouncementRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"UpdateAnnouncementRequest": [
+			{
+				"name": "UpdateAnnouncementRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"AnnouncementResponse": [
+			{
+				"name": "AnnouncementResponse",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"WorkerRequirementResponse": [
+			{
+				"name": "WorkerRequirementResponse",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"DashboardStats": [
+			{
+				"name": "DashboardStats",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ClientDashboardData": [
+			{
+				"name": "ClientDashboardData",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"CrewChiefDashboardData": [
+			{
+				"name": "CrewChiefDashboardData",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ImportResult": [
+			{
+				"name": "ImportResult",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ExportRequest": [
+			{
+				"name": "ExportRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ApiMethod": [
+			{
+				"name": "ApiMethod",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"ApiEndpoint": [
+			{
+				"name": "ApiEndpoint",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"DatabaseUser": [
+			{
+				"name": "DatabaseUser",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"DatabaseCompany": [
+			{
+				"name": "DatabaseCompany",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"DatabaseJob": [
+			{
+				"name": "DatabaseJob",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"DatabaseShift": [
+			{
+				"name": "DatabaseShift",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\types\\api.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"Client": [
+			{
+				"name": "Client",
+				"module": "pg",
+				"isDefault": false
+			}
+		],
+		"net": [
+			{
+				"name": "net",
+				"module": "net",
+				"isDefault": true,
+				"asDefinition": "* as net"
+			}
+		],
+		"dns": [
+			{
+				"name": "dns",
+				"module": "dns",
+				"isDefault": true,
+				"asDefinition": "* as dns"
+			}
+		],
+		"promisify": [
+			{
+				"name": "promisify",
+				"module": "util",
+				"isDefault": false
+			}
+		],
+		"Pool": [
+			{
+				"name": "Pool",
+				"module": "pg",
+				"isDefault": false
+			}
+		],
+		"dotenv": [
+			{
+				"name": "dotenv",
+				"module": "dotenv",
+				"isDefault": true
+			}
+		],
+		"withAuthApi": [
+			{
+				"name": "withAuthApi",
+				"module": "@/lib/auth-api",
+				"isDefault": false
+			},
+			{
+				"name": "withAuthApi",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\auth-api.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"getServerSession": [
+			{
+				"name": "getServerSession",
+				"module": "next-auth",
+				"isDefault": false
+			},
+			{
+				"name": "getServerSession",
+				"module": "next-auth/next",
+				"isDefault": false
+			}
+		],
+		"authOptions": [
+			{
+				"name": "authOptions",
+				"module": "@/lib/auth-config",
+				"isDefault": false
+			},
+			{
+				"name": "authOptions",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\auth-config.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"api": [
+			{
+				"name": "api",
+				"module": "@/lib/api",
+				"isDefault": false
+			},
+			{
+				"name": "api",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\api.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useCrewChiefPermissions": [
+			{
+				"name": "useCrewChiefPermissions",
+				"module": "@/hooks/useCrewChiefPermissions",
+				"isDefault": false
+			},
+			{
+				"name": "useCrewChiefPermissions",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\useCrewChiefPermissions.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useUserCrewChiefPermissions": [
+			{
+				"name": "useUserCrewChiefPermissions",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\useCrewChiefPermissions.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"getPermissionDescription": [
+			{
+				"name": "getPermissionDescription",
+				"module": "@/hooks/useCrewChiefPermissions",
+				"isDefault": false
+			},
+			{
+				"name": "getPermissionDescription",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\useCrewChiefPermissions.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"canManageTimeEntries": [
+			{
+				"name": "canManageTimeEntries",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\useCrewChiefPermissions.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"getPermissionLevel": [
+			{
+				"name": "getPermissionLevel",
+				"module": "@/hooks/useCrewChiefPermissions",
+				"isDefault": false
+			},
+			{
+				"name": "getPermissionLevel",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\useCrewChiefPermissions.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useState": [
+			{
+				"name": "useState",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"useEffect": [
+			{
+				"name": "useEffect",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"useSession": [
+			{
+				"name": "useSession",
+				"module": "next-auth/react",
+				"isDefault": false
+			}
+		],
+		"type { CrewChiefPermissionCheck": [
+			{
+				"name": "type { CrewChiefPermissionCheck",
+				"module": "@/lib/types",
+				"isDefault": true
+			}
+		],
+		"DatabaseConnectionError": [
+			{
+				"name": "DatabaseConnectionError",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\api-error-handler.ts",
+				"type": "class",
+				"isDefault": false
+			}
+		],
+		"DatabaseTimeoutError": [
+			{
+				"name": "DatabaseTimeoutError",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\api-error-handler.ts",
+				"type": "class",
+				"isDefault": false
+			}
+		],
+		"handleDatabaseError": [
+			{
+				"name": "handleDatabaseError",
+				"module": "@/lib/api-error-handler",
+				"isDefault": false
+			},
+			{
+				"name": "handleDatabaseError",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\api-error-handler.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"createErrorResponse": [
+			{
+				"name": "createErrorResponse",
+				"module": "@/lib/api-error-handler",
+				"isDefault": false
+			},
+			{
+				"name": "createErrorResponse",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\api-error-handler.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"PrismaClientInitializationError": [
+			{
+				"name": "PrismaClientInitializationError",
+				"module": "@prisma/client/runtime/library",
+				"isDefault": false
+			}
+		],
+		"PrismaClientKnownRequestError": [
+			{
+				"name": "PrismaClientKnownRequestError",
+				"module": "@prisma/client/runtime/library",
+				"isDefault": false
+			}
+		],
+		"PrismaClientUnknownRequestError": [
+			{
+				"name": "PrismaClientUnknownRequestError",
+				"module": "@prisma/client/runtime/library",
+				"isDefault": false
+			}
+		],
+		"useUser": [
+			{
+				"name": "useUser",
+				"module": "@/hooks/use-user",
+				"isDefault": false
+			},
+			{
+				"name": "useUser",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useRouter": [
+			{
+				"name": "useRouter",
+				"module": "next/navigation",
+				"isDefault": false
+			}
+		],
+		"signIn": [
+			{
+				"name": "signIn",
+				"module": "next-auth/react",
+				"isDefault": false
+			}
+		],
+		"signOut": [
+			{
+				"name": "signOut",
+				"module": "next-auth/react",
+				"isDefault": false
+			}
+		],
+		"AuthenticatedUser": [
+			{
+				"name": "AuthenticatedUser",
+				"module": "@/lib/authorization",
+				"isDefault": false
+			},
+			{
+				"name": "AuthenticatedUser",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\authorization.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"AuthorizationContext": [
+			{
+				"name": "AuthorizationContext",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\authorization.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"hasMinimumRole": [
+			{
+				"name": "hasMinimumRole",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\authorization.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"hasAnyRole": [
+			{
+				"name": "hasAnyRole",
+				"module": "@/lib/auth",
+				"isDefault": false
+			},
+			{
+				"name": "hasAnyRole",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\auth.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"hasExactRole": [
+			{
+				"name": "hasExactRole",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\authorization.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"isAdmin": [
+			{
+				"name": "isAdmin",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\authorization.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"isCrewChief": [
+			{
+				"name": "isCrewChief",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\authorization.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"isCompanyUser": [
+			{
+				"name": "isCompanyUser",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\authorization.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"belongsToSameCompany": [
+			{
+				"name": "belongsToSameCompany",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\authorization.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"canAccessOwnResource": [
+			{
+				"name": "canAccessOwnResource",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\authorization.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"PERMISSIONS": [
+			{
+				"name": "PERMISSIONS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\authorization.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"hasPermission": [
+			{
+				"name": "hasPermission",
+				"module": "@/lib/authorization",
+				"isDefault": false
+			},
+			{
+				"name": "hasPermission",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\authorization.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"withAuthorization": [
+			{
+				"name": "withAuthorization",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\authorization.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"createAuthorizationErrorResponse": [
+			{
+				"name": "createAuthorizationErrorResponse",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\authorization.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"createAuthenticationErrorResponse": [
+			{
+				"name": "createAuthenticationErrorResponse",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\authorization.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"getCurrentUser": [
+			{
+				"name": "getCurrentUser",
+				"module": "@/lib/middleware",
+				"isDefault": false
+			}
+		],
+		"hasRequiredRole": [
+			{
+				"name": "hasRequiredRole",
+				"module": "@/lib/auth",
+				"isDefault": false
+			},
+			{
+				"name": "hasRequiredRole",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\auth.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"hasAdminAccess": [
+			{
+				"name": "hasAdminAccess",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\auth.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"verifySignatureRequest": [
+			{
+				"name": "verifySignatureRequest",
+				"module": "@/lib/auth",
+				"isDefault": false
+			},
+			{
+				"name": "verifySignatureRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\auth.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"prisma": [
+			{
+				"name": "prisma",
+				"module": "@/lib/prisma",
+				"isDefault": false
+			},
+			{
+				"name": "prisma",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\prisma.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"User": [
+			{
+				"name": "User",
+				"module": "@/lib/types",
+				"isDefault": true
+			},
+			{
+				"name": "User",
+				"module": "@prisma/client",
+				"isDefault": true
+			},
+			{
+				"name": "User",
+				"module": "lucide-react",
+				"isDefault": false
+			},
+			{
+				"name": "User",
+				"module": "next-auth",
+				"isDefault": false
+			},
+			{
+				"name": "User",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\types.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"bcrypt": [
+			{
+				"name": "bcrypt",
+				"module": "bcryptjs",
+				"isDefault": true
+			}
+		],
+		"NextAuthOptions": [
+			{
+				"name": "NextAuthOptions",
+				"module": "next-auth",
+				"isDefault": false
+			}
+		],
+		"GoogleProvider": [
+			{
+				"name": "GoogleProvider",
+				"module": "next-auth/providers/google",
+				"isDefault": true
+			}
+		],
+		"CredentialsProvider": [
+			{
+				"name": "CredentialsProvider",
+				"module": "next-auth/providers/credentials",
+				"isDefault": true
+			}
+		],
+		"useToast": [
+			{
+				"name": "useToast",
+				"module": "@/hooks/use-toast",
+				"isDefault": false
+			},
+			{
+				"name": "useToast",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-toast.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useScrollDirection": [
+			{
+				"name": "useScrollDirection",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-scroll-direction.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"QueryOptions": [
+			{
+				"name": "QueryOptions",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"MutationOptions": [
+			{
+				"name": "MutationOptions",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"useQuery": [
+			{
+				"name": "useQuery",
+				"module": "@tanstack/react-query",
+				"isDefault": false
+			},
+			{
+				"name": "useQuery",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useMutationQuery": [
+			{
+				"name": "useMutationQuery",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useUsers": [
+			{
+				"name": "useUsers",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useCompanies": [
+			{
+				"name": "useCompanies",
+				"module": "@/hooks/use-api",
+				"isDefault": false
+			},
+			{
+				"name": "useCompanies",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-api.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useCompany": [
+			{
+				"name": "useCompany",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useJobs": [
+			{
+				"name": "useJobs",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-api.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useJob": [
+			{
+				"name": "useJob",
+				"module": "@/hooks/use-api",
+				"isDefault": false
+			},
+			{
+				"name": "useJob",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-api.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useShifts": [
+			{
+				"name": "useShifts",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-api.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useShift": [
+			{
+				"name": "useShift",
+				"module": "@/hooks/use-api",
+				"isDefault": false
+			},
+			{
+				"name": "useShift",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-api.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useShiftsByDate": [
+			{
+				"name": "useShiftsByDate",
+				"module": "@/hooks/use-api",
+				"isDefault": false
+			},
+			{
+				"name": "useShiftsByDate",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-api.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useTimesheets": [
+			{
+				"name": "useTimesheets",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-api.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useTimesheet": [
+			{
+				"name": "useTimesheet",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useAnnouncements": [
+			{
+				"name": "useAnnouncements",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-api.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useNotifications": [
+			{
+				"name": "useNotifications",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\realtime.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useWorkerRequirements": [
+			{
+				"name": "useWorkerRequirements",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useClientDashboard": [
+			{
+				"name": "useClientDashboard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useCrewChiefDashboard": [
+			{
+				"name": "useCrewChiefDashboard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useManagerDashboard": [
+			{
+				"name": "useManagerDashboard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useEmployeeDashboard": [
+			{
+				"name": "useEmployeeDashboard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useCreateUser": [
+			{
+				"name": "useCreateUser",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useUpdateUser": [
+			{
+				"name": "useUpdateUser",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useDeleteUser": [
+			{
+				"name": "useDeleteUser",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useCreateJob": [
+			{
+				"name": "useCreateJob",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useUpdateJob": [
+			{
+				"name": "useUpdateJob",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useCreateShift": [
+			{
+				"name": "useCreateShift",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useClockIn": [
+			{
+				"name": "useClockIn",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useClockOut": [
+			{
+				"name": "useClockOut",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useApproveTimesheet": [
+			{
+				"name": "useApproveTimesheet",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useRejectTimesheet": [
+			{
+				"name": "useRejectTimesheet",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useCreateAnnouncement": [
+			{
+				"name": "useCreateAnnouncement",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useMarkNotificationRead": [
+			{
+				"name": "useMarkNotificationRead",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useBulkNotificationAction": [
+			{
+				"name": "useBulkNotificationAction",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useInfiniteQuery": [
+			{
+				"name": "useInfiniteQuery",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"usePaginatedQuery": [
+			{
+				"name": "usePaginatedQuery",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-query.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useMemo": [
+			{
+				"name": "useMemo",
+				"module": "react",
+				"isDefault": false
+			}
+		],
+		"useApi": [
+			{
+				"name": "useApi",
+				"module": "@/hooks/use-api",
+				"isDefault": false
+			},
+			{
+				"name": "useApi",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-api.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useMutation": [
+			{
+				"name": "useMutation",
+				"module": "@tanstack/react-query",
+				"isDefault": false
+			},
+			{
+				"name": "useMutation",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-api.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useTodaysShifts": [
+			{
+				"name": "useTodaysShifts",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-api.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useClients": [
+			{
+				"name": "useClients",
+				"module": "@/hooks/use-api",
+				"isDefault": false
+			},
+			{
+				"name": "useClients",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-api.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useRecentJobs": [
+			{
+				"name": "useRecentJobs",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-api.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useCompanyJobs": [
+			{
+				"name": "useCompanyJobs",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-api.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"enhancedFetch": [
+			{
+				"name": "enhancedFetch",
+				"module": "@/lib/error-handler",
+				"isDefault": false
+			}
+		],
+		"handleError": [
+			{
+				"name": "handleError",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-handler.ts",
+				"type": "function",
+				"isDefault": false
+			},
+			{
+				"name": "handleError",
+				"module": "@/lib/error-handler",
+				"isDefault": false
+			}
+		],
+		"useErrorHandler": [
+			{
+				"name": "useErrorHandler",
+				"module": "@/lib/error-handler",
+				"isDefault": false
+			},
+			{
+				"name": "useErrorHandler",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-handler.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"type ErrorContext": [
+			{
+				"name": "type ErrorContext",
+				"module": "@/lib/error-handler",
+				"isDefault": false
+			}
+		],
+		"globalCache": [
+			{
+				"name": "globalCache",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\cache.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"cacheKeys": [
+			{
+				"name": "cacheKeys",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\cache.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"cacheTags": [
+			{
+				"name": "cacheTags",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\cache.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"cacheHelpers": [
+			{
+				"name": "cacheHelpers",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\cache.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"useCache": [
+			{
+				"name": "useCache",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\cache.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useAccordionState": [
+			{
+				"name": "useAccordionState",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\hooks\\use-accordion-state.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"setupInterceptors": [
+			{
+				"name": "setupInterceptors",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\request-interceptors.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"getRealtimeManager": [
+			{
+				"name": "getRealtimeManager",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\realtime.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useRealtime": [
+			{
+				"name": "useRealtime",
+				"module": "@/lib/realtime",
+				"isDefault": false
+			},
+			{
+				"name": "useRealtime",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\realtime.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useShiftUpdates": [
+			{
+				"name": "useShiftUpdates",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\realtime.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useTimesheetUpdates": [
+			{
+				"name": "useTimesheetUpdates",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\realtime.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"type { Company": [
+			{
+				"name": "type { Company",
+				"module": "@prisma/client",
+				"isDefault": true
+			}
+		],
+		"Job": [
+			{
+				"name": "Job",
+				"module": "@prisma/client",
+				"isDefault": true
+			},
+			{
+				"name": "Job",
+				"module": "@/lib/types",
+				"isDefault": false
+			},
+			{
+				"name": "Job",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\types.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"Shift": [
+			{
+				"name": "Shift",
+				"module": "@prisma/client",
+				"isDefault": true
+			},
+			{
+				"name": "Shift",
+				"module": "@/lib/types",
+				"isDefault": false
+			},
+			{
+				"name": "Shift",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\types.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"readFileSync": [
+			{
+				"name": "readFileSync",
+				"module": "fs",
+				"isDefault": false
+			}
+		],
+		"join": [
+			{
+				"name": "join",
+				"module": "path",
+				"isDefault": false
+			}
+		],
+		"jwt": [
+			{
+				"name": "jwt",
+				"module": "jsonwebtoken",
+				"isDefault": true
+			}
+		],
+		"type { AssignedPersonnel as PrismaAssignedPersonnel": [
+			{
+				"name": "type { AssignedPersonnel as PrismaAssignedPersonnel",
+				"module": "@prisma/client",
+				"isDefault": true
+			}
+		],
+		"TimeEntry as PrismaTimeEntry": [
+			{
+				"name": "TimeEntry as PrismaTimeEntry",
+				"module": "@prisma/client",
+				"isDefault": true
+			}
+		],
+		"useShiftManagerStore": [
+			{
+				"name": "useShiftManagerStore",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\stores\\shift-manager-store.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"create": [
+			{
+				"name": "create",
+				"module": "zustand",
+				"isDefault": false
+			}
+		],
+		"AssignedPersonnel": [
+			{
+				"name": "AssignedPersonnel",
+				"module": "@prisma/client",
+				"isDefault": false
+			},
+			{
+				"name": "AssignedPersonnel",
+				"module": "@/lib/types",
+				"isDefault": false
+			}
+		],
+		"useAppStore": [
+			{
+				"name": "useAppStore",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\stores\\app-store.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"Session": [
+			{
+				"name": "Session",
+				"module": "next-auth",
+				"isDefault": false
+			}
+		],
+		"Prisma": [
+			{
+				"name": "Prisma",
+				"module": "@prisma/client",
+				"isDefault": true
+			}
+		],
+		"Company": [
+			{
+				"name": "Company",
+				"module": "@prisma/client",
+				"isDefault": false
+			},
+			{
+				"name": "Company",
+				"module": "@/lib/types",
+				"isDefault": false
+			},
+			{
+				"name": "Company",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\types.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"crypto": [
+			{
+				"name": "crypto",
+				"module": "crypto",
+				"isDefault": true
+			}
+		],
+		"DeletionResult": [
+			{
+				"name": "DeletionResult",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\cascade-deletion.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"type { Prisma": [
+			{
+				"name": "type { Prisma",
+				"module": "@prisma/client",
+				"isDefault": true
+			}
+		],
+		"User as PrismaUser": [
+			{
+				"name": "User as PrismaUser",
+				"module": "@prisma/client",
+				"isDefault": false
+			}
+		],
+		"withAuth": [
+			{
+				"name": "withAuth",
+				"module": "@/lib/withAuth",
+				"isDefault": false
+			},
+			{
+				"name": "withAuth",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\companies\\new\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"commonValidation": [
+			{
+				"name": "commonValidation",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\validation.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"userValidation": [
+			{
+				"name": "userValidation",
+				"module": "@/lib/validation",
+				"isDefault": false
+			},
+			{
+				"name": "userValidation",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\validation.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"companyValidation": [
+			{
+				"name": "companyValidation",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\validation.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"jobValidation": [
+			{
+				"name": "jobValidation",
+				"module": "@/lib/validation",
+				"isDefault": false
+			},
+			{
+				"name": "jobValidation",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\validation.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"shiftValidation": [
+			{
+				"name": "shiftValidation",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\validation.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"timesheetValidation": [
+			{
+				"name": "timesheetValidation",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\validation.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"notificationValidation": [
+			{
+				"name": "notificationValidation",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\validation.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"announcementValidation": [
+			{
+				"name": "announcementValidation",
+				"module": "@/lib/validation",
+				"isDefault": false
+			},
+			{
+				"name": "announcementValidation",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\validation.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"workerRequirementValidation": [
+			{
+				"name": "workerRequirementValidation",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\validation.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"timeEntryValidation": [
+			{
+				"name": "timeEntryValidation",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\validation.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"queryValidation": [
+			{
+				"name": "queryValidation",
+				"module": "@/lib/validation",
+				"isDefault": false
+			},
+			{
+				"name": "queryValidation",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\validation.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"validateRequest": [
+			{
+				"name": "validateRequest",
+				"module": "@/lib/validation",
+				"isDefault": false
+			},
+			{
+				"name": "validateRequest",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\validation.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"z": [
+			{
+				"name": "z",
+				"module": "zod",
+				"isDefault": true,
+				"asDefinition": "* as z"
+			}
+		],
+		"cn": [
+			{
+				"name": "cn",
+				"module": "@/lib/utils",
+				"isDefault": false
+			},
+			{
+				"name": "cn",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\utils.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"clsx": [
+			{
+				"name": "clsx",
+				"module": "clsx",
+				"isDefault": false
+			}
+		],
+		"type ClassValue": [
+			{
+				"name": "type ClassValue",
+				"module": "clsx",
+				"isDefault": false
+			}
+		],
+		"twMerge": [
+			{
+				"name": "twMerge",
+				"module": "tailwind-merge",
+				"isDefault": false
+			}
+		],
+		"generateShiftUrl": [
+			{
+				"name": "generateShiftUrl",
+				"module": "@/lib/url-utils",
+				"isDefault": false
+			},
+			{
+				"name": "generateShiftUrl",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\url-utils.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"generateShiftEditUrl": [
+			{
+				"name": "generateShiftEditUrl",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\url-utils.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"generateClientUrl": [
+			{
+				"name": "generateClientUrl",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\url-utils.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"generateClientEditUrl": [
+			{
+				"name": "generateClientEditUrl",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\url-utils.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"ShiftStatus": [
+			{
+				"name": "ShiftStatus",
+				"module": "@/lib/types",
+				"isDefault": false
+			},
+			{
+				"name": "ShiftStatus",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\types.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"WorkerRole": [
+			{
+				"name": "WorkerRole",
+				"module": "@/lib/types",
+				"isDefault": false
+			},
+			{
+				"name": "WorkerRole",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\types.ts",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"ROLE_DEFINITIONS": [
+			{
+				"name": "ROLE_DEFINITIONS",
+				"module": "@/lib/color-utils",
+				"isDefault": false
+			},
+			{
+				"name": "ROLE_DEFINITIONS",
+				"module": "@/lib/constants",
+				"isDefault": false
+			},
+			{
+				"name": "ROLE_DEFINITIONS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\color-utils.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"RoleCode": [
+			{
+				"name": "RoleCode",
+				"module": "@/lib/types",
+				"isDefault": true
+			},
+			{
+				"name": "RoleCode",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\types.ts",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"TimeEntry": [
+			{
+				"name": "TimeEntry",
+				"module": "@prisma/client",
+				"isDefault": false
+			},
+			{
+				"name": "TimeEntry",
+				"module": "@/lib/types",
+				"isDefault": false
+			},
+			{
+				"name": "TimeEntry",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\types.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"Assignment": [
+			{
+				"name": "Assignment",
+				"module": "@/lib/types",
+				"isDefault": false
+			},
+			{
+				"name": "Assignment",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\types.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"CompanyWithJobs": [
+			{
+				"name": "CompanyWithJobs",
+				"module": "@/lib/types",
+				"isDefault": false
+			},
+			{
+				"name": "CompanyWithJobs",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\types.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ShiftWithDetails": [
+			{
+				"name": "ShiftWithDetails",
+				"module": "@/lib/types",
+				"isDefault": false
+			},
+			{
+				"name": "ShiftWithDetails",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\dashboard\\shift-management\\types.ts",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"CrewChiefPermissionType": [
+			{
+				"name": "CrewChiefPermissionType",
+				"module": "@/lib/types",
+				"isDefault": true
+			},
+			{
+				"name": "CrewChiefPermissionType",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\types.ts",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"CrewChiefPermission": [
+			{
+				"name": "CrewChiefPermission",
+				"module": "@/lib/types",
+				"isDefault": false
+			},
+			{
+				"name": "CrewChiefPermission",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\types.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"WorkerRequirement": [
+			{
+				"name": "WorkerRequirement",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\types.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"describe": [
+			{
+				"name": "describe",
+				"module": "@jest/globals",
+				"isDefault": false
+			}
+		],
+		"it": [
+			{
+				"name": "it",
+				"module": "@jest/globals",
+				"isDefault": false
+			}
+		],
+		"expect": [
+			{
+				"name": "expect",
+				"module": "@jest/globals",
+				"isDefault": false
+			}
+		],
+		"CSV_HEADERS": [
+			{
+				"name": "CSV_HEADERS",
+				"module": "@/lib/types/csv",
+				"isDefault": false
+			},
+			{
+				"name": "CSV_HEADERS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\types\\csv.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"CSVRow": [
+			{
+				"name": "CSVRow",
+				"module": "@/lib/types/csv",
+				"isDefault": false
+			},
+			{
+				"name": "CSVRow",
+				"module": "@/app/api/import/csv/parse/route",
+				"isDefault": false
+			},
+			{
+				"name": "CSVRow",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\types\\csv.ts",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"type { WorkerRequirement": [
+			{
+				"name": "type { WorkerRequirement",
+				"module": "@/lib/types",
+				"isDefault": true
+			},
+			{
+				"name": "type { WorkerRequirement",
+				"module": "@prisma/client",
+				"isDefault": true
+			}
+		],
+		"getShift": [
+			{
+				"name": "getShift",
+				"module": "@/lib/services/shifts",
+				"isDefault": false
+			},
+			{
+				"name": "getShift",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\shifts.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"getShiftAssignments": [
+			{
+				"name": "getShiftAssignments",
+				"module": "@/lib/services/shifts",
+				"isDefault": false
+			},
+			{
+				"name": "getShiftAssignments",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\shifts.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"getAvailableEmployees": [
+			{
+				"name": "getAvailableEmployees",
+				"module": "@/lib/services/shifts",
+				"isDefault": false
+			},
+			{
+				"name": "getAvailableEmployees",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\shifts.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"getCrewChiefPermissions": [
+			{
+				"name": "getCrewChiefPermissions",
+				"module": "@/lib/services/shifts",
+				"isDefault": false
+			},
+			{
+				"name": "getCrewChiefPermissions",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\shifts.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"updateShiftNotes": [
+			{
+				"name": "updateShiftNotes",
+				"module": "@/lib/services/shifts",
+				"isDefault": false
+			},
+			{
+				"name": "updateShiftNotes",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\shifts.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"assignWorker": [
+			{
+				"name": "assignWorker",
+				"module": "@/lib/services/shifts",
+				"isDefault": false
+			},
+			{
+				"name": "assignWorker",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\shifts.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"unassignWorker": [
+			{
+				"name": "unassignWorker",
+				"module": "@/lib/services/shifts",
+				"isDefault": false
+			},
+			{
+				"name": "unassignWorker",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\shifts.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"clockIn": [
+			{
+				"name": "clockIn",
+				"module": "@/lib/services/shifts",
+				"isDefault": false
+			},
+			{
+				"name": "clockIn",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\shifts.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"clockOut": [
+			{
+				"name": "clockOut",
+				"module": "@/lib/services/shifts",
+				"isDefault": false
+			},
+			{
+				"name": "clockOut",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\shifts.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"endShift": [
+			{
+				"name": "endShift",
+				"module": "@/lib/services/shifts",
+				"isDefault": false
+			},
+			{
+				"name": "endShift",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\shifts.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"updateWorkerRequirements": [
+			{
+				"name": "updateWorkerRequirements",
+				"module": "@/lib/services/worker-requirements",
+				"isDefault": false
+			},
+			{
+				"name": "updateWorkerRequirements",
+				"module": "@/lib/services/shifts",
+				"isDefault": false
+			},
+			{
+				"name": "updateWorkerRequirements",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\shifts.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"notificationService": [
+			{
+				"name": "notificationService",
+				"module": "@/lib/services/notification-service",
+				"isDefault": true
+			},
+			{
+				"name": "notificationService",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\notification-service.ts",
+				"isDefault": true
+			}
+		],
+		"toast": [
+			{
+				"name": "toast",
+				"module": "@/hooks/use-toast",
+				"isDefault": false
+			},
+			{
+				"name": "toast",
+				"module": "sonner",
+				"isDefault": false
+			},
+			{
+				"name": "toast",
+				"module": "react-toastify",
+				"isDefault": false
+			}
+		],
+		"getNotificationService": [
+			{
+				"name": "getNotificationService",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\notification-service-safe.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"JobWithDetails": [
+			{
+				"name": "JobWithDetails",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\jobs.ts",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"JobForList": [
+			{
+				"name": "JobForList",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\jobs.ts",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"DriveFile": [
+			{
+				"name": "DriveFile",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\google-drive.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"DriveAuthUrl": [
+			{
+				"name": "DriveAuthUrl",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\google-drive.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"generateAuthUrl": [
+			{
+				"name": "generateAuthUrl",
+				"module": "@/lib/services/google-drive",
+				"isDefault": false
+			},
+			{
+				"name": "generateAuthUrl",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\google-drive.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"as": [
+			{
+				"name": "as",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\google-drive.ts",
+				"isDefault": false
+			}
+		],
+		"google": [
+			{
+				"name": "google",
+				"module": "googleapis",
+				"isDefault": false
+			}
+		],
+		"GeminiProcessor": [
+			{
+				"name": "GeminiProcessor",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\gemini-processor.ts",
+				"type": "class",
+				"isDefault": false
+			}
+		],
+		"ExtractedClient": [
+			{
+				"name": "ExtractedClient",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\gemini-ai.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ExtractedShift": [
+			{
+				"name": "ExtractedShift",
+				"module": "@/lib/services/gemini-ai",
+				"isDefault": true
+			},
+			{
+				"name": "ExtractedShift",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\gemini-ai.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ExtractedData": [
+			{
+				"name": "ExtractedData",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\gemini-ai.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"SpreadsheetAnalysis": [
+			{
+				"name": "SpreadsheetAnalysis",
+				"module": "@/lib/services/gemini-ai",
+				"isDefault": true
+			},
+			{
+				"name": "SpreadsheetAnalysis",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\services\\gemini-ai.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"GoogleGenerativeAI": [
+			{
+				"name": "GoogleGenerativeAI",
+				"module": "@google/generative-ai",
+				"isDefault": false
+			}
+		],
+		"formatTimeTo12Hour": [
+			{
+				"name": "formatTimeTo12Hour",
+				"module": "@/lib/time-utils",
+				"isDefault": false
+			},
+			{
+				"name": "formatTimeTo12Hour",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\time-utils.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"formatDate": [
+			{
+				"name": "formatDate",
+				"module": "@/lib/time-utils",
+				"isDefault": false
+			},
+			{
+				"name": "formatDate",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\time-utils.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"roundTime": [
+			{
+				"name": "roundTime",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\time-utils.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"calculateTotalRoundedHours": [
+			{
+				"name": "calculateTotalRoundedHours",
+				"module": "@/lib/time-utils",
+				"isDefault": false
+			},
+			{
+				"name": "calculateTotalRoundedHours",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\time-utils.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"getTimeEntryDisplay": [
+			{
+				"name": "getTimeEntryDisplay",
+				"module": "@/lib/time-utils",
+				"isDefault": false
+			},
+			{
+				"name": "getTimeEntryDisplay",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\time-utils.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"format": [
+			{
+				"name": "format",
+				"module": "date-fns",
+				"isDefault": false
+			}
+		],
+		"differenceInMinutes": [
+			{
+				"name": "differenceInMinutes",
+				"module": "date-fns",
+				"isDefault": false
+			}
+		],
+		"APP_CONFIG": [
+			{
+				"name": "APP_CONFIG",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"API_CONFIG": [
+			{
+				"name": "API_CONFIG",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"PAGINATION": [
+			{
+				"name": "PAGINATION",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"USER_ROLES": [
+			{
+				"name": "USER_ROLES",
+				"module": "@/constants",
+				"isDefault": false
+			},
+			{
+				"name": "USER_ROLES",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"ROLE_HIERARCHY": [
+			{
+				"name": "ROLE_HIERARCHY",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"ROLE_LABELS": [
+			{
+				"name": "ROLE_LABELS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"JOB_STATUS": [
+			{
+				"name": "JOB_STATUS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"JOB_STATUS_LABELS": [
+			{
+				"name": "JOB_STATUS_LABELS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"JOB_STATUS_COLORS": [
+			{
+				"name": "JOB_STATUS_COLORS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"SHIFT_STATUS": [
+			{
+				"name": "SHIFT_STATUS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"SHIFT_STATUS_LABELS": [
+			{
+				"name": "SHIFT_STATUS_LABELS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"SHIFT_STATUS_COLORS": [
+			{
+				"name": "SHIFT_STATUS_COLORS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"TIMESHEET_STATUS": [
+			{
+				"name": "TIMESHEET_STATUS",
+				"module": "@/constants",
+				"isDefault": false
+			},
+			{
+				"name": "TIMESHEET_STATUS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"TIMESHEET_STATUS_LABELS": [
+			{
+				"name": "TIMESHEET_STATUS_LABELS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"TIMESHEET_STATUS_COLORS": [
+			{
+				"name": "TIMESHEET_STATUS_COLORS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"ROLE_CODES": [
+			{
+				"name": "ROLE_CODES",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"ROLE_CODE_LABELS": [
+			{
+				"name": "ROLE_CODE_LABELS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"NOTIFICATION_TYPES": [
+			{
+				"name": "NOTIFICATION_TYPES",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"NOTIFICATION_TYPE_LABELS": [
+			{
+				"name": "NOTIFICATION_TYPE_LABELS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"DATE_FORMATS": [
+			{
+				"name": "DATE_FORMATS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"TIME_FORMATS": [
+			{
+				"name": "TIME_FORMATS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"VALIDATION_RULES": [
+			{
+				"name": "VALIDATION_RULES",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"FILE_UPLOAD": [
+			{
+				"name": "FILE_UPLOAD",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"CACHE_CONFIG": [
+			{
+				"name": "CACHE_CONFIG",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"ERROR_MESSAGES": [
+			{
+				"name": "ERROR_MESSAGES",
+				"module": "@/constants",
+				"isDefault": false
+			},
+			{
+				"name": "ERROR_MESSAGES",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"SUCCESS_MESSAGES": [
+			{
+				"name": "SUCCESS_MESSAGES",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"STORAGE_KEYS": [
+			{
+				"name": "STORAGE_KEYS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"THEME": [
+			{
+				"name": "THEME",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"FEATURES": [
+			{
+				"name": "FEATURES",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"EXTERNAL_URLS": [
+			{
+				"name": "EXTERNAL_URLS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"REGEX_PATTERNS": [
+			{
+				"name": "REGEX_PATTERNS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\constants\\index.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"ShiftPageProvider": [
+			{
+				"name": "ShiftPageProvider",
+				"module": "@/features/shift-management/ShiftPageProvider",
+				"isDefault": true
+			},
+			{
+				"name": "ShiftPageProvider",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\features\\shift-management\\ShiftPageProvider.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"QueryClient": [
+			{
+				"name": "QueryClient",
+				"module": "@tanstack/react-query",
+				"isDefault": false
+			}
+		],
+		"QueryClientProvider": [
+			{
+				"name": "QueryClientProvider",
+				"module": "@tanstack/react-query",
+				"isDefault": false
+			}
+		],
+		"ReactQueryDevtools": [
+			{
+				"name": "ReactQueryDevtools",
+				"module": "@tanstack/react-query-devtools",
+				"isDefault": false
+			}
+		],
+		"StaffingOverviewCard": [
+			{
+				"name": "StaffingOverviewCard",
+				"module": "@/features/shift-management/components/StaffingOverviewCard",
+				"isDefault": false
+			},
+			{
+				"name": "StaffingOverviewCard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\features\\shift-management\\components\\StaffingOverviewCard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"Card": [
+			{
+				"name": "Card",
+				"module": "@/components/ui/card",
+				"isDefault": false
+			},
+			{
+				"name": "Card",
+				"module": "@mantine/core",
+				"isDefault": false
+			},
+			{
+				"name": "Card",
+				"module": "@src/components/ui/card",
+				"isDefault": false
+			}
+		],
+		"CardContent": [
+			{
+				"name": "CardContent",
+				"module": "@/components/ui/card",
+				"isDefault": false
+			},
+			{
+				"name": "CardContent",
+				"module": "@src/components/ui/card",
+				"isDefault": false
+			}
+		],
+		"CardHeader": [
+			{
+				"name": "CardHeader",
+				"module": "@/components/ui/card",
+				"isDefault": false
+			},
+			{
+				"name": "CardHeader",
+				"module": "@src/components/ui/card",
+				"isDefault": false
+			}
+		],
+		"CardTitle": [
+			{
+				"name": "CardTitle",
+				"module": "@/components/ui/card",
+				"isDefault": false
+			},
+			{
+				"name": "CardTitle",
+				"module": "@src/components/ui/card",
+				"isDefault": false
+			}
+		],
+		"Badge": [
+			{
+				"name": "Badge",
+				"module": "@/components/ui/badge",
+				"isDefault": false
+			},
+			{
+				"name": "Badge",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"Users": [
+			{
+				"name": "Users",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"UserCheck": [
+			{
+				"name": "UserCheck",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"UserPlus": [
+			{
+				"name": "UserPlus",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Crown": [
+			{
+				"name": "Crown",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Progress": [
+			{
+				"name": "Progress",
+				"module": "@/components/ui/progress",
+				"isDefault": false
+			},
+			{
+				"name": "Progress",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"ShiftPermissionsManager": [
+			{
+				"name": "ShiftPermissionsManager",
+				"module": "@/features/shift-management/components/ShiftPermissionsManager",
+				"isDefault": false
+			},
+			{
+				"name": "ShiftPermissionsManager",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\features\\shift-management\\components\\ShiftPermissionsManager.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"Accordion": [
+			{
+				"name": "Accordion",
+				"module": "@/components/ui/accordion",
+				"isDefault": false
+			}
+		],
+		"AccordionContent": [
+			{
+				"name": "AccordionContent",
+				"module": "@/components/ui/accordion",
+				"isDefault": false
+			}
+		],
+		"AccordionItem": [
+			{
+				"name": "AccordionItem",
+				"module": "@/components/ui/accordion",
+				"isDefault": false
+			}
+		],
+		"AccordionTrigger": [
+			{
+				"name": "AccordionTrigger",
+				"module": "@/components/ui/accordion",
+				"isDefault": false
+			}
+		],
+		"CrewChiefPermissionManager": [
+			{
+				"name": "CrewChiefPermissionManager",
+				"module": "@/components/crew-chief-permission-manager",
+				"isDefault": false
+			},
+			{
+				"name": "CrewChiefPermissionManager",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\crew-chief-permission-manager.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"ShiftNotes": [
+			{
+				"name": "ShiftNotes",
+				"module": "@/features/shift-management/components/ShiftNotes",
+				"isDefault": false
+			},
+			{
+				"name": "ShiftNotes",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\features\\shift-management\\components\\ShiftNotes.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"Button": [
+			{
+				"name": "Button",
+				"module": "@/components/ui/button",
+				"isDefault": false
+			},
+			{
+				"name": "Button",
+				"module": "@mantine/core",
+				"isDefault": false
+			},
+			{
+				"name": "Button",
+				"module": "@src/components/ui/button",
+				"isDefault": false
+			}
+		],
+		"Textarea": [
+			{
+				"name": "Textarea",
+				"module": "@/components/ui/textarea",
+				"isDefault": false
+			},
+			{
+				"name": "Textarea",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"ShiftInfoCard": [
+			{
+				"name": "ShiftInfoCard",
+				"module": "@/features/shift-management/components/ShiftInfoCard",
+				"isDefault": false
+			},
+			{
+				"name": "ShiftInfoCard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\features\\shift-management\\components\\ShiftInfoCard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"Calendar": [
+			{
+				"name": "Calendar",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Clock": [
+			{
+				"name": "Clock",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"MapPin": [
+			{
+				"name": "MapPin",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Info": [
+			{
+				"name": "Info",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"ShiftHeader": [
+			{
+				"name": "ShiftHeader",
+				"module": "@/features/shift-management/components/ShiftHeader",
+				"isDefault": false
+			},
+			{
+				"name": "ShiftHeader",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\features\\shift-management\\components\\ShiftHeader.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"ArrowLeft": [
+			{
+				"name": "ArrowLeft",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Download": [
+			{
+				"name": "Download",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Pencil": [
+			{
+				"name": "Pencil",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"ShiftDangerZone": [
+			{
+				"name": "ShiftDangerZone",
+				"module": "@/features/shift-management/components/ShiftDangerZone",
+				"isDefault": false
+			},
+			{
+				"name": "ShiftDangerZone",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\features\\shift-management\\components\\ShiftDangerZone.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"DangerZone": [
+			{
+				"name": "DangerZone",
+				"module": "@/components/danger-zone",
+				"isDefault": false
+			},
+			{
+				"name": "DangerZone",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\danger-zone.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"ValidationSuccess": [
+			{
+				"name": "ValidationSuccess",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\middleware\\validation.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ValidationFailure": [
+			{
+				"name": "ValidationFailure",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\middleware\\validation.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ValidationResult": [
+			{
+				"name": "ValidationResult",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\middleware\\validation.ts",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"validateQueryParams": [
+			{
+				"name": "validateQueryParams",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\middleware\\validation.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"validatePathParams": [
+			{
+				"name": "validatePathParams",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\middleware\\validation.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"createValidationErrorResponse": [
+			{
+				"name": "createValidationErrorResponse",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\middleware\\validation.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"withValidation": [
+			{
+				"name": "withValidation",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\middleware\\validation.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"pathParamSchemas": [
+			{
+				"name": "pathParamSchemas",
+				"module": "@/lib/middleware/validation",
+				"isDefault": false
+			},
+			{
+				"name": "pathParamSchemas",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\middleware\\validation.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"validationHelpers": [
+			{
+				"name": "validationHelpers",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\middleware\\validation.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"validationMessages": [
+			{
+				"name": "validationMessages",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\middleware\\validation.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"withValidationAndAuth": [
+			{
+				"name": "withValidationAndAuth",
+				"module": "@/lib/middleware/validation",
+				"isDefault": false
+			},
+			{
+				"name": "withValidationAndAuth",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\middleware\\validation.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"LogLevel": [
+			{
+				"name": "LogLevel",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-logger.ts",
+				"type": "enum",
+				"isDefault": false
+			}
+		],
+		"LogContext": [
+			{
+				"name": "LogContext",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-logger.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"LogEntry": [
+			{
+				"name": "LogEntry",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-logger.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ErrorReport": [
+			{
+				"name": "ErrorReport",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-logger.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"logger": [
+			{
+				"name": "logger",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-logger.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"ErrorBoundaryLogger": [
+			{
+				"name": "ErrorBoundaryLogger",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-logger.ts",
+				"type": "class",
+				"isDefault": false
+			}
+		],
+		"ApiErrorLogger": [
+			{
+				"name": "ApiErrorLogger",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-logger.ts",
+				"type": "class",
+				"isDefault": false
+			}
+		],
+		"DatabaseErrorLogger": [
+			{
+				"name": "DatabaseErrorLogger",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-logger.ts",
+				"type": "class",
+				"isDefault": false
+			}
+		],
+		"AuthErrorLogger": [
+			{
+				"name": "AuthErrorLogger",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-logger.ts",
+				"type": "class",
+				"isDefault": false
+			}
+		],
+		"PerformanceLogger": [
+			{
+				"name": "PerformanceLogger",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-logger.ts",
+				"type": "class",
+				"isDefault": false
+			}
+		],
+		"ErrorContext": [
+			{
+				"name": "ErrorContext",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-handler.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"AppError": [
+			{
+				"name": "AppError",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-handler.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"NetworkError": [
+			{
+				"name": "NetworkError",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-handler.ts",
+				"type": "class",
+				"isDefault": false
+			}
+		],
+		"AuthenticationError": [
+			{
+				"name": "AuthenticationError",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-handler.ts",
+				"type": "class",
+				"isDefault": false
+			}
+		],
+		"ConflictError": [
+			{
+				"name": "ConflictError",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-handler.ts",
+				"type": "class",
+				"isDefault": false
+			}
+		],
+		"ServerError": [
+			{
+				"name": "ServerError",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-handler.ts",
+				"type": "class",
+				"isDefault": false
+			}
+		],
+		"classifyError": [
+			{
+				"name": "classifyError",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-handler.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"RetryConfig": [
+			{
+				"name": "RetryConfig",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-handler.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"DEFAULT_RETRY_CONFIG": [
+			{
+				"name": "DEFAULT_RETRY_CONFIG",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-handler.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"calculateDelay": [
+			{
+				"name": "calculateDelay",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-handler.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"logError": [
+			{
+				"name": "logError",
+				"module": "@/lib/error-handler",
+				"isDefault": false
+			},
+			{
+				"name": "logError",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-handler.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"getUserFriendlyMessage": [
+			{
+				"name": "getUserFriendlyMessage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-handler.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"handleClientError": [
+			{
+				"name": "handleClientError",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-handler-client.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useClientErrorHandler": [
+			{
+				"name": "useClientErrorHandler",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\error-handler-client.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"EnvConfig": [
+			{
+				"name": "EnvConfig",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\env-validation.ts",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"validateEnv": [
+			{
+				"name": "validateEnv",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\env-validation.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"getEnvConfig": [
+			{
+				"name": "getEnvConfig",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\env-validation.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"getFeatureFlags": [
+			{
+				"name": "getFeatureFlags",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\env-validation.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"nodemailer": [
+			{
+				"name": "nodemailer",
+				"module": "nodemailer",
+				"isDefault": true
+			}
+		],
+		"QueryResult": [
+			{
+				"name": "QueryResult",
+				"module": "pg",
+				"isDefault": false
+			}
+		],
+		"TimeConflict": [
+			{
+				"name": "TimeConflict",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\conflict-detector.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"SkillConflict": [
+			{
+				"name": "SkillConflict",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\conflict-detector.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ConflictDetectionResult": [
+			{
+				"name": "ConflictDetectionResult",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\conflict-detector.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"ConflictSuggestion": [
+			{
+				"name": "ConflictSuggestion",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\conflict-detector.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"getRoleColor": [
+			{
+				"name": "getRoleColor",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\lib\\color-utils.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"WorkerAssignmentsTimeTracking": [
+			{
+				"name": "WorkerAssignmentsTimeTracking",
+				"module": "@/features/shift-management/components/assignment/WorkerAssignmentsTimeTracking",
+				"isDefault": false
+			},
+			{
+				"name": "WorkerAssignmentsTimeTracking",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\features\\shift-management\\components\\assignment\\WorkerAssignmentsTimeTracking.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"{ useMemo": [
+			{
+				"name": "{ useMemo",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"WORKER_ROLE_DETAILS": [
+			{
+				"name": "WORKER_ROLE_DETAILS",
+				"module": "@/lib/types",
+				"isDefault": false
+			}
+		],
+		"PencilIcon": [
+			{
+				"name": "PencilIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			},
+			{
+				"name": "PencilIcon",
+				"module": "@/components/IconComponents",
+				"isDefault": false
+			}
+		],
+		"ClockInIcon": [
+			{
+				"name": "ClockInIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			},
+			{
+				"name": "ClockInIcon",
+				"module": "@/components/IconComponents",
+				"isDefault": false
+			}
+		],
+		"ClockOutIcon": [
+			{
+				"name": "ClockOutIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			},
+			{
+				"name": "ClockOutIcon",
+				"module": "@/components/IconComponents",
+				"isDefault": false
+			}
+		],
+		"CheckCircleIcon": [
+			{
+				"name": "CheckCircleIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			},
+			{
+				"name": "CheckCircleIcon",
+				"module": "@/components/IconComponents",
+				"isDefault": false
+			}
+		],
+		"WorkerSelector": [
+			{
+				"name": "WorkerSelector",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\WorkerSelector.tsx",
+				"isDefault": true
+			},
+			{
+				"name": "WorkerSelector",
+				"module": "@/components/WorkerSelector",
+				"isDefault": true
+			}
+		],
+		"Modal": [
+			{
+				"name": "Modal",
+				"module": "@mantine/core",
+				"isDefault": false
+			},
+			{
+				"name": "Modal",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\Modal.tsx",
+				"isDefault": true
+			},
+			{
+				"name": "Modal",
+				"module": "@/components/Modal",
+				"isDefault": true
+			}
+		],
+		"AuthGuard": [
+			{
+				"name": "AuthGuard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\auth-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"{ useEffect": [
+			{
+				"name": "{ useEffect",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"usePathname": [
+			{
+				"name": "usePathname",
+				"module": "next/navigation",
+				"isDefault": false
+			}
+		],
+		"EmptyAssignmentSlot": [
+			{
+				"name": "EmptyAssignmentSlot",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\features\\shift-management\\components\\assignment\\EmptyAssignmentSlot.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"Select": [
+			{
+				"name": "Select",
+				"module": "@/components/ui/select",
+				"isDefault": false
+			},
+			{
+				"name": "Select",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"SelectContent": [
+			{
+				"name": "SelectContent",
+				"module": "@/components/ui/select",
+				"isDefault": false
+			}
+		],
+		"SelectItem": [
+			{
+				"name": "SelectItem",
+				"module": "@/components/ui/select",
+				"isDefault": false
+			}
+		],
+		"SelectTrigger": [
+			{
+				"name": "SelectTrigger",
+				"module": "@/components/ui/select",
+				"isDefault": false
+			}
+		],
+		"SelectValue": [
+			{
+				"name": "SelectValue",
+				"module": "@/components/ui/select",
+				"isDefault": false
+			}
+		],
+		"Avatar": [
+			{
+				"name": "Avatar",
+				"module": "@mantine/core",
+				"isDefault": false
+			},
+			{
+				"name": "Avatar",
+				"module": "@/components/ui/avatar",
+				"isDefault": false
+			},
+			{
+				"name": "Avatar",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\Avatar.tsx",
+				"isDefault": true
+			}
+		],
+		"Image": [
+			{
+				"name": "Image",
+				"module": "next/image",
+				"isDefault": true
+			}
+		],
+		"AssignmentManager": [
+			{
+				"name": "AssignmentManager",
+				"module": "@/features/shift-management/components/assignment/AssignmentManager",
+				"isDefault": false
+			},
+			{
+				"name": "AssignmentManager",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\features\\shift-management\\components\\assignment\\AssignmentManager.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"LoadingSpinner": [
+			{
+				"name": "LoadingSpinner",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\data-fetching\\query-states.tsx",
+				"type": "function",
+				"isDefault": false
+			},
+			{
+				"name": "LoadingSpinner",
+				"module": "@/components/loading-states",
+				"isDefault": false
+			}
+		],
+		"AssignmentGroup": [
+			{
+				"name": "AssignmentGroup",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\features\\shift-management\\components\\assignment\\AssignmentGroup.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"AssignedWorkerCard": [
+			{
+				"name": "AssignedWorkerCard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\features\\shift-management\\components\\assignment\\AssignedWorkerCard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"AvatarFallback": [
+			{
+				"name": "AvatarFallback",
+				"module": "@/components/ui/avatar",
+				"isDefault": false
+			}
+		],
+		"AvatarImage": [
+			{
+				"name": "AvatarImage",
+				"module": "@/components/ui/avatar",
+				"isDefault": false
+			}
+		],
+		"AlertDialog": [
+			{
+				"name": "AlertDialog",
+				"module": "@/components/ui/alert-dialog",
+				"isDefault": false
+			}
+		],
+		"AlertDialogAction": [
+			{
+				"name": "AlertDialogAction",
+				"module": "@/components/ui/alert-dialog",
+				"isDefault": false
+			}
+		],
+		"AlertDialogCancel": [
+			{
+				"name": "AlertDialogCancel",
+				"module": "@/components/ui/alert-dialog",
+				"isDefault": false
+			}
+		],
+		"AlertDialogContent": [
+			{
+				"name": "AlertDialogContent",
+				"module": "@/components/ui/alert-dialog",
+				"isDefault": false
+			}
+		],
+		"AlertDialogDescription": [
+			{
+				"name": "AlertDialogDescription",
+				"module": "@/components/ui/alert-dialog",
+				"isDefault": false
+			}
+		],
+		"AlertDialogFooter": [
+			{
+				"name": "AlertDialogFooter",
+				"module": "@/components/ui/alert-dialog",
+				"isDefault": false
+			}
+		],
+		"AlertDialogHeader": [
+			{
+				"name": "AlertDialogHeader",
+				"module": "@/components/ui/alert-dialog",
+				"isDefault": false
+			}
+		],
+		"AlertDialogTitle": [
+			{
+				"name": "AlertDialogTitle",
+				"module": "@/components/ui/alert-dialog",
+				"isDefault": false
+			}
+		],
+		"AlertDialogTrigger": [
+			{
+				"name": "AlertDialogTrigger",
+				"module": "@/components/ui/alert-dialog",
+				"isDefault": false
+			}
+		],
+		"X": [
+			{
+				"name": "X",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"RequirementsEditor": [
+			{
+				"name": "RequirementsEditor",
+				"module": "@/features/shift-management/components/requirements/RequirementsEditor",
+				"isDefault": false
+			},
+			{
+				"name": "RequirementsEditor",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\features\\shift-management\\components\\requirements\\RequirementsEditor.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"CardFooter": [
+			{
+				"name": "CardFooter",
+				"module": "@/components/ui/card",
+				"isDefault": false
+			}
+		],
+		"RequirementInput": [
+			{
+				"name": "RequirementInput",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\features\\shift-management\\components\\requirements\\RequirementInput.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"Input": [
+			{
+				"name": "Input",
+				"module": "@/components/ui/input",
+				"isDefault": false
+			},
+			{
+				"name": "Input",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"Label": [
+			{
+				"name": "Label",
+				"module": "@/components/ui/label",
+				"isDefault": false
+			}
+		],
+		"WorkerStatusBadge": [
+			{
+				"name": "WorkerStatusBadge",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\features\\shift-management\\components\\assignment\\WorkerStatusBadge.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"CSVDataPreview": [
+			{
+				"name": "CSVDataPreview",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\csv-data-preview.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"{ useState": [
+			{
+				"name": "{ useState",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"Table": [
+			{
+				"name": "Table",
+				"module": "@/components/ui/table",
+				"isDefault": false
+			},
+			{
+				"name": "Table",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"TableBody": [
+			{
+				"name": "TableBody",
+				"module": "@/components/ui/table",
+				"isDefault": false
+			}
+		],
+		"TableCell": [
+			{
+				"name": "TableCell",
+				"module": "@/components/ui/table",
+				"isDefault": false
+			}
+		],
+		"TableHead": [
+			{
+				"name": "TableHead",
+				"module": "@/components/ui/table",
+				"isDefault": false
+			}
+		],
+		"TableHeader": [
+			{
+				"name": "TableHeader",
+				"module": "@/components/ui/table",
+				"isDefault": false
+			}
+		],
+		"TableRow": [
+			{
+				"name": "TableRow",
+				"module": "@/components/ui/table",
+				"isDefault": false
+			}
+		],
+		"ScrollArea": [
+			{
+				"name": "ScrollArea",
+				"module": "@/components/ui/scroll-area",
+				"isDefault": false
+			},
+			{
+				"name": "ScrollArea",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"ScrollBar": [
+			{
+				"name": "ScrollBar",
+				"module": "@/components/ui/scroll-area",
+				"isDefault": false
+			}
+		],
+		"Checkbox": [
+			{
+				"name": "Checkbox",
+				"module": "@/components/ui/checkbox",
+				"isDefault": false
+			},
+			{
+				"name": "Checkbox",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"Edit": [
+			{
+				"name": "Edit",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Save": [
+			{
+				"name": "Save",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Check": [
+			{
+				"name": "Check",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"CardDescription": [
+			{
+				"name": "CardDescription",
+				"module": "@/components/ui/card",
+				"isDefault": false
+			},
+			{
+				"name": "CardDescription",
+				"module": "@src/components/ui/card",
+				"isDefault": false
+			}
+		],
+		"Dialog": [
+			{
+				"name": "Dialog",
+				"module": "@/components/ui/dialog",
+				"isDefault": false
+			}
+		],
+		"DialogContent": [
+			{
+				"name": "DialogContent",
+				"module": "@/components/ui/dialog",
+				"isDefault": false
+			}
+		],
+		"DialogHeader": [
+			{
+				"name": "DialogHeader",
+				"module": "@/components/ui/dialog",
+				"isDefault": false
+			}
+		],
+		"DialogTitle": [
+			{
+				"name": "DialogTitle",
+				"module": "@/components/ui/dialog",
+				"isDefault": false
+			}
+		],
+		"DialogFooter": [
+			{
+				"name": "DialogFooter",
+				"module": "@/components/ui/dialog",
+				"isDefault": false
+			}
+		],
+		"DialogDescription": [
+			{
+				"name": "DialogDescription",
+				"module": "@/components/ui/dialog",
+				"isDefault": false
+			}
+		],
+		"Alert": [
+			{
+				"name": "Alert",
+				"module": "@/components/ui/alert",
+				"isDefault": false
+			},
+			{
+				"name": "Alert",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"AlertTitle": [
+			{
+				"name": "AlertTitle",
+				"module": "@/components/ui/alert",
+				"isDefault": false
+			}
+		],
+		"AlertDescription": [
+			{
+				"name": "AlertDescription",
+				"module": "@/components/ui/alert",
+				"isDefault": false
+			}
+		],
+		"Shield": [
+			{
+				"name": "Shield",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Plus": [
+			{
+				"name": "Plus",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Trash2": [
+			{
+				"name": "Trash2",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Building": [
+			{
+				"name": "Building",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Briefcase": [
+			{
+				"name": "Briefcase",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"ShieldCheck": [
+			{
+				"name": "ShieldCheck",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"User as UserIcon": [
+			{
+				"name": "User as UserIcon",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Loader2": [
+			{
+				"name": "Loader2",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"type { CrewChiefPermission": [
+			{
+				"name": "type { CrewChiefPermission",
+				"module": "@/lib/types",
+				"isDefault": true
+			}
+		],
+		"CrewChiefPermissionBadge": [
+			{
+				"name": "CrewChiefPermissionBadge",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\crew-chief-permission-badge.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"PermissionGuard": [
+			{
+				"name": "PermissionGuard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\crew-chief-permission-badge.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"PermissionStatus": [
+			{
+				"name": "PermissionStatus",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\crew-chief-permission-badge.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"Tooltip": [
+			{
+				"name": "Tooltip",
+				"module": "@/components/ui/tooltip",
+				"isDefault": false
+			}
+		],
+		"TooltipContent": [
+			{
+				"name": "TooltipContent",
+				"module": "@/components/ui/tooltip",
+				"isDefault": false
+			}
+		],
+		"TooltipProvider": [
+			{
+				"name": "TooltipProvider",
+				"module": "@/components/ui/tooltip",
+				"isDefault": false
+			}
+		],
+		"TooltipTrigger": [
+			{
+				"name": "TooltipTrigger",
+				"module": "@/components/ui/tooltip",
+				"isDefault": false
+			}
+		],
+		"ShieldX": [
+			{
+				"name": "ShieldX",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"AlertTriangle": [
+			{
+				"name": "AlertTriangle",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"CSVImport": [
+			{
+				"name": "CSVImport",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\csv-import.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"Upload": [
+			{
+				"name": "Upload",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"FileText": [
+			{
+				"name": "FileText",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"AlertCircle": [
+			{
+				"name": "AlertCircle",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"CheckCircle": [
+			{
+				"name": "CheckCircle",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Eye": [
+			{
+				"name": "Eye",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"CompanyCard": [
+			{
+				"name": "CompanyCard",
+				"module": "@/components/CompanyCard",
+				"isDefault": true
+			},
+			{
+				"name": "CompanyCard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\CompanyCard.tsx",
+				"isDefault": true
+			}
+		],
+		"Building2": [
+			{
+				"name": "Building2",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"MoreHorizontal": [
+			{
+				"name": "MoreHorizontal",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"CompanyPortalLanding": [
+			{
+				"name": "CompanyPortalLanding",
+				"module": "@/components/company-portal-landing",
+				"isDefault": false
+			},
+			{
+				"name": "CompanyPortalLanding",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\company-portal-landing.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"Link": [
+			{
+				"name": "Link",
+				"module": "next/link",
+				"isDefault": true
+			}
+		],
+		"Hand": [
+			{
+				"name": "Hand",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"LogIn": [
+			{
+				"name": "LogIn",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Phone": [
+			{
+				"name": "Phone",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"SimpleTestPage": [
+			{
+				"name": "SimpleTestPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\simple-test\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"UnauthorizedPage": [
+			{
+				"name": "UnauthorizedPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\unauthorized\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"useTheme": [
+			{
+				"name": "useTheme",
+				"module": "@/components/providers/theme-provider",
+				"isDefault": false
+			},
+			{
+				"name": "useTheme",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\providers\\theme-provider.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"ThemeProvider": [
+			{
+				"name": "ThemeProvider",
+				"module": "@/components/providers/theme-provider",
+				"isDefault": false
+			},
+			{
+				"name": "ThemeProvider",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\providers\\theme-provider.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"NextAuthSessionProvider": [
+			{
+				"name": "NextAuthSessionProvider",
+				"module": "@/components/providers/session-provider",
+				"isDefault": true
+			},
+			{
+				"name": "NextAuthSessionProvider",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\providers\\session-provider.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"ReactNode": [
+			{
+				"name": "ReactNode",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"Providers": [
+			{
+				"name": "Providers",
+				"module": "@/components/providers/providers",
+				"isDefault": false
+			},
+			{
+				"name": "Providers",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\providers\\providers.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"MantineProvider": [
+			{
+				"name": "MantineProvider",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\providers\\mantine-provider.tsx",
+				"type": "function",
+				"isDefault": false
+			},
+			{
+				"name": "MantineProvider",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"createTheme": [
+			{
+				"name": "createTheme",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"useShiftPageStore": [
+			{
+				"name": "useShiftPageStore",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\features\\shift-management\\hooks\\useShiftPageStore.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"MantineProvider as BaseMantineProvider": [
+			{
+				"name": "MantineProvider as BaseMantineProvider",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"Notifications": [
+			{
+				"name": "Notifications",
+				"module": "@mantine/notifications",
+				"isDefault": false
+			}
+		],
+		"useShiftPageData": [
+			{
+				"name": "useShiftPageData",
+				"module": "@/features/shift-management/hooks/useShiftPageData",
+				"isDefault": false
+			},
+			{
+				"name": "useShiftPageData",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\features\\shift-management\\hooks\\useShiftPageData.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"PDFViewer": [
+			{
+				"name": "PDFViewer",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\pdf-viewer-wrapper.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"Document": [
+			{
+				"name": "Document",
+				"module": "react-pdf",
+				"isDefault": false
+			}
+		],
+		"Page": [
+			{
+				"name": "Page",
+				"module": "react-pdf",
+				"isDefault": false
+			}
+		],
+		"pdfjs": [
+			{
+				"name": "pdfjs",
+				"module": "react-pdf",
+				"isDefault": false
+			}
+		],
+		"dynamic": [
+			{
+				"name": "dynamic",
+				"module": "next/dynamic",
+				"isDefault": true
+			},
+			{
+				"name": "dynamic",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\api\\crew-chief-permissions\\check\\route.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"NotificationCenter": [
+			{
+				"name": "NotificationCenter",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\notification-center.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"Bell": [
+			{
+				"name": "Bell",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Popover": [
+			{
+				"name": "Popover",
+				"module": "@/components/ui/popover",
+				"isDefault": false
+			}
+		],
+		"PopoverContent": [
+			{
+				"name": "PopoverContent",
+				"module": "@/components/ui/popover",
+				"isDefault": false
+			}
+		],
+		"PopoverTrigger": [
+			{
+				"name": "PopoverTrigger",
+				"module": "@/components/ui/popover",
+				"isDefault": false
+			}
+		],
+		"NavItem": [
+			{
+				"name": "NavItem",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\NavigationBar.tsx",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"NavigationBar": [
+			{
+				"name": "NavigationBar",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\NavigationBar.tsx",
+				"isDefault": true
+			}
+		],
+		"SignupPage": [
+			{
+				"name": "SignupPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\signup\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"ResetPasswordPage": [
+			{
+				"name": "ResetPasswordPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\reset-password\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"Suspense": [
+			{
+				"name": "Suspense",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"useSearchParams": [
+			{
+				"name": "useSearchParams",
+				"module": "next/navigation",
+				"isDefault": false
+			}
+		],
+		"EyeOff": [
+			{
+				"name": "EyeOff",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"TestAuthPage": [
+			{
+				"name": "TestAuthPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\test-auth\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"Home": [
+			{
+				"name": "Home",
+				"module": "lucide-react",
+				"isDefault": false
+			},
+			{
+				"name": "Home",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"MobileProfileNav": [
+			{
+				"name": "MobileProfileNav",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\mobile-profile-nav.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"metadata": [
+			{
+				"name": "metadata",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\layout.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"viewport": [
+			{
+				"name": "viewport",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\layout.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"RootLayout": [
+			{
+				"name": "RootLayout",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\layout.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"type { Metadata": [
+			{
+				"name": "type { Metadata",
+				"module": "next",
+				"isDefault": true
+			}
+		],
+		"Viewport": [
+			{
+				"name": "Viewport",
+				"module": "next",
+				"isDefault": true
+			}
+		],
+		"SearchAndFilter": [
+			{
+				"name": "SearchAndFilter",
+				"module": "@/components/SearchAndFilter",
+				"isDefault": true
+			},
+			{
+				"name": "SearchAndFilter",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\SearchAndFilter.tsx",
+				"isDefault": true
+			}
+		],
+		"ButtonLoading": [
+			{
+				"name": "ButtonLoading",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\loading-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"ShiftCardSkeleton": [
+			{
+				"name": "ShiftCardSkeleton",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\loading-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"ShiftsListSkeleton": [
+			{
+				"name": "ShiftsListSkeleton",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\loading-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"EmployeeAssignmentSkeleton": [
+			{
+				"name": "EmployeeAssignmentSkeleton",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\loading-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"TimesheetTableSkeleton": [
+			{
+				"name": "TimesheetTableSkeleton",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\loading-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"DashboardStatsSkeleton": [
+			{
+				"name": "DashboardStatsSkeleton",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\loading-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"ProgressIndicator": [
+			{
+				"name": "ProgressIndicator",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\loading-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"InlineLoading": [
+			{
+				"name": "InlineLoading",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\loading-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"PageLoading": [
+			{
+				"name": "PageLoading",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\loading-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"WorkerRequirementsSkeleton": [
+			{
+				"name": "WorkerRequirementsSkeleton",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\loading-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"LoadingWithRetry": [
+			{
+				"name": "LoadingWithRetry",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\loading-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"Skeleton": [
+			{
+				"name": "Skeleton",
+				"module": "@/components/ui/skeleton",
+				"isDefault": false
+			}
+		],
+		"ShiftManager": [
+			{
+				"name": "ShiftManager",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\dashboard\\shift-management\\shift-manager.tsx",
+				"isDefault": true
+			}
+		],
+		"ErrorBoundary": [
+			{
+				"name": "ErrorBoundary",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\error-boundary.tsx",
+				"type": "class",
+				"isDefault": false
+			},
+			{
+				"name": "ErrorBoundary",
+				"module": "@/components/error-boundary",
+				"isDefault": false
+			}
+		],
+		"RefreshCw": [
+			{
+				"name": "RefreshCw",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"WorkerRequirements": [
+			{
+				"name": "WorkerRequirements",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\worker-requirements.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"CustomButton": [
+			{
+				"name": "CustomButton",
+				"module": "@/src/components/ui/custom-button",
+				"isDefault": false
+			},
+			{
+				"name": "CustomButton",
+				"module": "@/components/ui/custom-button",
+				"isDefault": false
+			}
+		],
+		"Minus": [
+			{
+				"name": "Minus",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"ShiftActions": [
+			{
+				"name": "ShiftActions",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\dashboard\\shift-management\\shift-actions.tsx",
+				"isDefault": true
+			}
+		],
+		"StopCircle": [
+			{
+				"name": "StopCircle",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"WorkerTypeSelector": [
+			{
+				"name": "WorkerTypeSelector",
+				"module": "@/components/worker-type-selector",
+				"isDefault": true
+			},
+			{
+				"name": "WorkerTypeSelector",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\worker-type-selector.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"ImportPage": [
+			{
+				"name": "ImportPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\staffing\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"ImportPageClient": [
+			{
+				"name": "ImportPageClient",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\import-page-client.tsx",
+				"type": "function",
+				"isDefault": true
+			},
+			{
+				"name": "ImportPageClient",
+				"module": "@/components/import-page-client",
+				"isDefault": true
+			}
+		],
+		"WorkerAssignments": [
+			{
+				"name": "WorkerAssignments",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\worker-assignments.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"useShiftManager": [
+			{
+				"name": "useShiftManager",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\dashboard\\shift-management\\hooks.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"WorkerAssignmentManager": [
+			{
+				"name": "WorkerAssignmentManager",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\worker-assignment-manager.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"WorkerAssignmentDisplay": [
+			{
+				"name": "WorkerAssignmentDisplay",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\worker-assignment-display.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"Group": [
+			{
+				"name": "Group",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"Text": [
+			{
+				"name": "Text",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"ActionIcon": [
+			{
+				"name": "ActionIcon",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"Grid": [
+			{
+				"name": "Grid",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"Stack": [
+			{
+				"name": "Stack",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"Title": [
+			{
+				"name": "Title",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"ComboboxItem": [
+			{
+				"name": "ComboboxItem",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"Truck": [
+			{
+				"name": "Truck",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"notifications": [
+			{
+				"name": "notifications",
+				"module": "@mantine/notifications",
+				"isDefault": false
+			}
+		],
+		"ShiftStats": [
+			{
+				"name": "ShiftStats",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\dashboard\\shift-management\\shift-stats.tsx",
+				"isDefault": true
+			}
+		],
+		"LoginPage": [
+			{
+				"name": "LoginPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\login\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"UserNav": [
+			{
+				"name": "UserNav",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\user-nav.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"ChevronsUpDown": [
+			{
+				"name": "ChevronsUpDown",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"LogOut": [
+			{
+				"name": "LogOut",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Sun": [
+			{
+				"name": "Sun",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Moon": [
+			{
+				"name": "Moon",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"TimeEntryWithDetails": [
+			{
+				"name": "TimeEntryWithDetails",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\dashboard\\shift-management\\types.ts",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"AssignedPersonnelWithDetails": [
+			{
+				"name": "AssignedPersonnelWithDetails",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\dashboard\\shift-management\\types.ts",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"ClockAction": [
+			{
+				"name": "ClockAction",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\dashboard\\shift-management\\types.ts",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"WorkerStatus": [
+			{
+				"name": "WorkerStatus",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\dashboard\\shift-management\\types.ts",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"IShiftManagerProps": [
+			{
+				"name": "IShiftManagerProps",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\dashboard\\shift-management\\types.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"IWorkerCardProps": [
+			{
+				"name": "IWorkerCardProps",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\dashboard\\shift-management\\types.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"IShiftActionsProps": [
+			{
+				"name": "IShiftActionsProps",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\dashboard\\shift-management\\types.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"IShiftStatsProps": [
+			{
+				"name": "IShiftStatsProps",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\dashboard\\shift-management\\types.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"WorkerCard": [
+			{
+				"name": "WorkerCard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\dashboard\\shift-management\\worker-card.tsx",
+				"isDefault": true
+			}
+		],
+		"Play": [
+			{
+				"name": "Play",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Coffee": [
+			{
+				"name": "Coffee",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"CheckCircle2": [
+			{
+				"name": "CheckCircle2",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"ChevronDown": [
+			{
+				"name": "ChevronDown",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"TimesheetStatusIndicator": [
+			{
+				"name": "TimesheetStatusIndicator",
+				"module": "@/components/timesheet-status-indicator",
+				"isDefault": false
+			},
+			{
+				"name": "TimesheetStatusIndicator",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\timesheet-status-indicator.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"TimesheetWorkflowIndicator": [
+			{
+				"name": "TimesheetWorkflowIndicator",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\timesheet-status-indicator.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"TimesheetManagement": [
+			{
+				"name": "TimesheetManagement",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\timesheet-management.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"ClockIcon": [
+			{
+				"name": "ClockIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			},
+			{
+				"name": "ClockIcon",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"TimesheetDetails": [
+			{
+				"name": "TimesheetDetails",
+				"module": "@/components/timesheet-details",
+				"isDefault": false
+			},
+			{
+				"name": "TimesheetDetails",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\timesheet-details.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"type { TimesheetDetails": [
+			{
+				"name": "type { TimesheetDetails",
+				"module": "@/lib/types",
+				"isDefault": true
+			}
+		],
+		"TabName": [
+			{
+				"name": "TabName",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\TabNavigation.tsx",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"TabNavigation": [
+			{
+				"name": "TabNavigation",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\TabNavigation.tsx",
+				"isDefault": true
+			}
+		],
+		"SignaturePadRef": [
+			{
+				"name": "SignaturePadRef",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\signature-pad.tsx",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"SignaturePad": [
+			{
+				"name": "SignaturePad",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\signature-pad.tsx",
+				"isDefault": true
+			}
+		],
+		"{ useRef": [
+			{
+				"name": "{ useRef",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"useImperativeHandle": [
+			{
+				"name": "useImperativeHandle",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"forwardRef": [
+			{
+				"name": "forwardRef",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"SignatureCanvas": [
+			{
+				"name": "SignatureCanvas",
+				"module": "react-signature-canvas",
+				"isDefault": true
+			}
+		],
+		"Separator": [
+			{
+				"name": "Separator",
+				"module": "@/components/ui/separator",
+				"isDefault": false
+			}
+		],
+		"SignatureCaptureModal": [
+			{
+				"name": "SignatureCaptureModal",
+				"module": "@/components/signature-capture-modal",
+				"isDefault": true
+			},
+			{
+				"name": "SignatureCaptureModal",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\signature-capture-modal.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"RotateCcw": [
+			{
+				"name": "RotateCcw",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"ShiftsTableSkeleton": [
+			{
+				"name": "ShiftsTableSkeleton",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\shifts-table-skeleton.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"ShiftCard": [
+			{
+				"name": "ShiftCard",
+				"module": "@/components/ShiftCard",
+				"isDefault": true
+			},
+			{
+				"name": "ShiftCard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\ShiftCard.tsx",
+				"isDefault": true
+			}
+		],
+		"ShiftTimeManagement": [
+			{
+				"name": "ShiftTimeManagement",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\shift-time-management.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"JobDetailModal": [
+			{
+				"name": "JobDetailModal",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\JobDetailModal.tsx",
+				"isDefault": true
+			}
+		],
+		"JobCard": [
+			{
+				"name": "JobCard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\JobCard.tsx",
+				"isDefault": true
+			}
+		],
+		"DialogPrimitive": [
+			{
+				"name": "DialogPrimitive",
+				"module": "@radix-ui/react-dialog",
+				"isDefault": true,
+				"asDefinition": "* as DialogPrimitive"
+			}
+		],
+		"DropdownMenuPrimitive": [
+			{
+				"name": "DropdownMenuPrimitive",
+				"module": "@radix-ui/react-dropdown-menu",
+				"isDefault": true,
+				"asDefinition": "* as DropdownMenuPrimitive"
+			}
+		],
+		"ChevronRight": [
+			{
+				"name": "ChevronRight",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Circle": [
+			{
+				"name": "Circle",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"ButtonProps": [
+			{
+				"name": "ButtonProps",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\ui\\button.tsx",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"cva": [
+			{
+				"name": "cva",
+				"module": "class-variance-authority",
+				"isDefault": false
+			}
+		],
+		"type VariantProps": [
+			{
+				"name": "type VariantProps",
+				"module": "class-variance-authority",
+				"isDefault": false
+			}
+		],
+		"CheckboxPrimitive": [
+			{
+				"name": "CheckboxPrimitive",
+				"module": "@radix-ui/react-checkbox",
+				"isDefault": true,
+				"asDefinition": "* as CheckboxPrimitive"
+			}
+		],
+		"ForgotPasswordPage": [
+			{
+				"name": "ForgotPasswordPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\forgot-password\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"GoogleDriveOAuthCallback": [
+			{
+				"name": "GoogleDriveOAuthCallback",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\google-drive-callback\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"Slot": [
+			{
+				"name": "Slot",
+				"module": "@radix-ui/react-slot",
+				"isDefault": false
+			}
+		],
+		"RoleGuard": [
+			{
+				"name": "RoleGuard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\role-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"withRoleGuard": [
+			{
+				"name": "withRoleGuard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\role-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"usePermissions": [
+			{
+				"name": "usePermissions",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\role-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"ROLE_GROUPS": [
+			{
+				"name": "ROLE_GROUPS",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\role-guard.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"AdminOnlyGuard": [
+			{
+				"name": "AdminOnlyGuard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\role-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"ManagementGuard": [
+			{
+				"name": "ManagementGuard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\role-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"CrewLeaderGuard": [
+			{
+				"name": "CrewLeaderGuard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\role-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"ClientAccessGuard": [
+			{
+				"name": "ClientAccessGuard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\role-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"JobGuard": [
+			{
+				"name": "JobGuard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\role-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"ShiftGuard": [
+			{
+				"name": "ShiftGuard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\role-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"TimesheetGuard": [
+			{
+				"name": "TimesheetGuard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\role-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"{ ReactNode": [
+			{
+				"name": "{ ReactNode",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"BadgeProps": [
+			{
+				"name": "BadgeProps",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\ui\\badge.tsx",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"NavigationGuard": [
+			{
+				"name": "NavigationGuard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\navigation-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useRouteAccess": [
+			{
+				"name": "useRouteAccess",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\navigation-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"ConditionalLink": [
+			{
+				"name": "ConditionalLink",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\navigation-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"SecureNavLink": [
+			{
+				"name": "SecureNavLink",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\navigation-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"filterNavItems": [
+			{
+				"name": "filterNavItems",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\navigation-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"RouteProtection": [
+			{
+				"name": "RouteProtection",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\navigation-guard.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"ActionGuard": [
+			{
+				"name": "ActionGuard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\action-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"SecureButton": [
+			{
+				"name": "SecureButton",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\action-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"CreateButton": [
+			{
+				"name": "CreateButton",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\action-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"EditButton": [
+			{
+				"name": "EditButton",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\action-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"DeleteButton": [
+			{
+				"name": "DeleteButton",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\action-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"ApproveButton": [
+			{
+				"name": "ApproveButton",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\action-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"RejectButton": [
+			{
+				"name": "RejectButton",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\action-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"SecureField": [
+			{
+				"name": "SecureField",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\action-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"SecureMenuItem": [
+			{
+				"name": "SecureMenuItem",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\action-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"SecureTab": [
+			{
+				"name": "SecureTab",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\security\\action-guard.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"AvatarPrimitive": [
+			{
+				"name": "AvatarPrimitive",
+				"module": "@radix-ui/react-avatar",
+				"isDefault": true,
+				"asDefinition": "* as AvatarPrimitive"
+			}
+		],
+		"CardVariant": [
+			{
+				"name": "CardVariant",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\ui\\enhanced-card.tsx",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"CardSize": [
+			{
+				"name": "CardSize",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\ui\\enhanced-card.tsx",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"EnhancedCard": [
+			{
+				"name": "EnhancedCard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\ui\\enhanced-card.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"MetricCard": [
+			{
+				"name": "MetricCard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\ui\\enhanced-card.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"StatusCard": [
+			{
+				"name": "StatusCard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\ui\\enhanced-card.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"LucideIcon": [
+			{
+				"name": "LucideIcon",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"AlertDialogPrimitive": [
+			{
+				"name": "AlertDialogPrimitive",
+				"module": "@radix-ui/react-alert-dialog",
+				"isDefault": true,
+				"asDefinition": "* as AlertDialogPrimitive"
+			}
+		],
+		"buttonVariants": [
+			{
+				"name": "buttonVariants",
+				"module": "@/components/ui/button",
+				"isDefault": false
+			}
+		],
+		"AccordionPrimitive": [
+			{
+				"name": "AccordionPrimitive",
+				"module": "@radix-ui/react-accordion",
+				"isDefault": true,
+				"asDefinition": "* as AccordionPrimitive"
+			}
+		],
+		"ChevronDownIcon": [
+			{
+				"name": "ChevronDownIcon",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Tabs": [
+			{
+				"name": "Tabs",
+				"module": "@/components/ui/tabs",
+				"isDefault": false
+			},
+			{
+				"name": "Tabs",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"TabsContent": [
+			{
+				"name": "TabsContent",
+				"module": "@/components/ui/tabs",
+				"isDefault": false
+			}
+		],
+		"TabsList": [
+			{
+				"name": "TabsList",
+				"module": "@/components/ui/tabs",
+				"isDefault": false
+			}
+		],
+		"TabsTrigger": [
+			{
+				"name": "TabsTrigger",
+				"module": "@/components/ui/tabs",
+				"isDefault": false
+			}
+		],
+		"FileSpreadsheet": [
+			{
+				"name": "FileSpreadsheet",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"UsersIcon": [
+			{
+				"name": "UsersIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"BuildingOfficeIcon": [
+			{
+				"name": "BuildingOfficeIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"CalendarDaysIcon": [
+			{
+				"name": "CalendarDaysIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"XIcon": [
+			{
+				"name": "XIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"CalendarIcon": [
+			{
+				"name": "CalendarIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"PlusIcon": [
+			{
+				"name": "PlusIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"SparklesIcon": [
+			{
+				"name": "SparklesIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"UsersGroupIcon": [
+			{
+				"name": "UsersGroupIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"DocumentTextIcon": [
+			{
+				"name": "DocumentTextIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"CogIcon": [
+			{
+				"name": "CogIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"SearchIcon": [
+			{
+				"name": "SearchIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"MoreHorizontalIcon": [
+			{
+				"name": "MoreHorizontalIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"EyeIcon": [
+			{
+				"name": "EyeIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"Trash2Icon": [
+			{
+				"name": "Trash2Icon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"BriefcaseIcon": [
+			{
+				"name": "BriefcaseIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"ArrowLeftIcon": [
+			{
+				"name": "ArrowLeftIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"CopyIcon": [
+			{
+				"name": "CopyIcon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"Building2Icon": [
+			{
+				"name": "Building2Icon",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\IconComponents.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"CalendarDays": [
+			{
+				"name": "CalendarDays",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Copy": [
+			{
+				"name": "Copy",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"ClockIcon as LucideClockIcon": [
+			{
+				"name": "ClockIcon as LucideClockIcon",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"LucideProps": [
+			{
+				"name": "LucideProps",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Sparkles": [
+			{
+				"name": "Sparkles",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Users as UsersGroup": [
+			{
+				"name": "Users as UsersGroup",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"FileText as DocumentText": [
+			{
+				"name": "FileText as DocumentText",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Settings as Cog": [
+			{
+				"name": "Settings as Cog",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Search": [
+			{
+				"name": "Search",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"Header": [
+			{
+				"name": "Header",
+				"module": "@/components/Header",
+				"isDefault": true
+			},
+			{
+				"name": "Header",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\Header.tsx",
+				"isDefault": true
+			}
+		],
+		"AdminEmployeesPage": [
+			{
+				"name": "AdminEmployeesPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\admin\\employees\\page.tsx",
+				"isDefault": true
+			}
+		],
+		"NewEmployeePage": [
+			{
+				"name": "NewEmployeePage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\admin\\employees\\new\\page.tsx",
+				"isDefault": true
+			}
+		],
+		"useForm": [
+			{
+				"name": "useForm",
+				"module": "react-hook-form",
+				"isDefault": false
+			}
+		],
+		"zodResolver": [
+			{
+				"name": "zodResolver",
+				"module": "@hookform/resolvers/zod",
+				"isDefault": false
+			}
+		],
+		"EmployeeReportsPage": [
+			{
+				"name": "EmployeeReportsPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\admin\\employees\\reports\\page.tsx",
+				"isDefault": true
+			}
+		],
+		"subDays": [
+			{
+				"name": "subDays",
+				"module": "date-fns",
+				"isDefault": false
+			}
+		],
+		"startOfMonth": [
+			{
+				"name": "startOfMonth",
+				"module": "date-fns",
+				"isDefault": false
+			}
+		],
+		"endOfMonth": [
+			{
+				"name": "endOfMonth",
+				"module": "date-fns",
+				"isDefault": false
+			}
+		],
+		"revalidate": [
+			{
+				"name": "revalidate",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\admin\\layout.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"AdminLayout": [
+			{
+				"name": "AdminLayout",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\admin\\layout.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"AdminCompaniesPage": [
+			{
+				"name": "AdminCompaniesPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\admin\\companies\\page.tsx",
+				"isDefault": true
+			}
+		],
+		"}": [
+			{
+				"name": "}",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"NewClientPage": [
+			{
+				"name": "NewClientPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\admin\\companies\\new\\page.tsx",
+				"isDefault": true
+			}
+		],
+		"TextInput": [
+			{
+				"name": "TextInput",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"ImportClientsPage": [
+			{
+				"name": "ImportClientsPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\admin\\companies\\import\\page.tsx",
+				"isDefault": true
+			}
+		],
+		"FileInput": [
+			{
+				"name": "FileInput",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"PendingTimesheetsPage": [
+			{
+				"name": "PendingTimesheetsPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\timesheets\\pending\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"TimesheetViewPage": [
+			{
+				"name": "TimesheetViewPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\timesheets\\[id]\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"useParams": [
+			{
+				"name": "useParams",
+				"module": "next/navigation",
+				"isDefault": false
+			}
+		],
+		"ManagerApprovalPage": [
+			{
+				"name": "ManagerApprovalPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\timesheets\\manager-approval\\[id]\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"FileSignature": [
+			{
+				"name": "FileSignature",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"ManagerReviewPage": [
+			{
+				"name": "ManagerReviewPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\timesheets\\[id]\\manager-review\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"ApproveTimesheetPage": [
+			{
+				"name": "ApproveTimesheetPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\timesheets\\[id]\\approve\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"use": [
+			{
+				"name": "use",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"notFound": [
+			{
+				"name": "notFound",
+				"module": "next/navigation",
+				"isDefault": false
+			}
+		],
+		"useDisclosure": [
+			{
+				"name": "useDisclosure",
+				"module": "@mantine/hooks",
+				"isDefault": false
+			}
+		],
+		"type { SignaturePadRef": [
+			{
+				"name": "type { SignaturePadRef",
+				"module": "@/components/signature-pad",
+				"isDefault": true
+			}
+		],
+		"ClientReviewPage": [
+			{
+				"name": "ClientReviewPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\timesheets\\[id]\\client-review\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"TimesheetsPage": [
+			{
+				"name": "TimesheetsPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\timesheets\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"Center": [
+			{
+				"name": "Center",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"Loader": [
+			{
+				"name": "Loader",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"TimesheetDetails as TimesheetDetailsComponent": [
+			{
+				"name": "TimesheetDetails as TimesheetDetailsComponent",
+				"module": "@/components/timesheet-details",
+				"isDefault": false
+			}
+		],
+		"ClientApprovalPage": [
+			{
+				"name": "ClientApprovalPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\timesheets\\company-approval\\[id]\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"TimesheetDetails as TimesheetDetailsType": [
+			{
+				"name": "TimesheetDetails as TimesheetDetailsType",
+				"module": "@/lib/types",
+				"isDefault": false
+			}
+		],
+		"TimesheetReviewPage": [
+			{
+				"name": "TimesheetReviewPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\timesheets\\[id]\\review\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"hashPassword": [
+			{
+				"name": "hashPassword",
+				"module": "@/lib/auth",
+				"isDefault": false
+			}
+		],
+		"Cloud": [
+			{
+				"name": "Cloud",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"getAllShifts": [
+			{
+				"name": "getAllShifts",
+				"module": "@/lib/services/shifts",
+				"isDefault": false
+			}
+		],
+		"createShift": [
+			{
+				"name": "createShift",
+				"module": "@/lib/services/shifts",
+				"isDefault": false
+			}
+		],
+		"getShiftsByCrewChief": [
+			{
+				"name": "getShiftsByCrewChief",
+				"module": "@/lib/services/shifts",
+				"isDefault": false
+			}
+		],
+		"connectPrisma": [
+			{
+				"name": "connectPrisma",
+				"module": "@/lib/prisma",
+				"isDefault": false
+			}
+		],
+		"getShiftById": [
+			{
+				"name": "getShiftById",
+				"module": "@/lib/services/shifts",
+				"isDefault": false
+			}
+		],
+		"updateShift": [
+			{
+				"name": "updateShift",
+				"module": "@/lib/services/shifts",
+				"isDefault": false
+			}
+		],
+		"deleteShift": [
+			{
+				"name": "deleteShift",
+				"module": "@/lib/services/shifts",
+				"isDefault": false
+			}
+		],
+		"GET": [
+			{
+				"name": "GET",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\api\\announcements\\[id]\\route.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"startOfWeek": [
+			{
+				"name": "startOfWeek",
+				"module": "date-fns",
+				"isDefault": false
+			}
+		],
+		"endOfWeek": [
+			{
+				"name": "endOfWeek",
+				"module": "date-fns",
+				"isDefault": false
+			}
+		],
+		"addDays": [
+			{
+				"name": "addDays",
+				"module": "date-fns",
+				"isDefault": false
+			}
+		],
+		"TimesheetStatus": [
+			{
+				"name": "TimesheetStatus",
+				"module": "@prisma/client",
+				"isDefault": false
+			}
+		],
+		"jsPDF": [
+			{
+				"name": "jsPDF",
+				"module": "jspdf",
+				"isDefault": true
+			}
+		],
+		"ShiftDetailsPage": [
+			{
+				"name": "ShiftDetailsPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\shifts\\[id]\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"ShiftsPage": [
+			{
+				"name": "ShiftsPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\shifts\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"isToday": [
+			{
+				"name": "isToday",
+				"module": "date-fns",
+				"isDefault": false
+			}
+		],
+		"isTomorrow": [
+			{
+				"name": "isTomorrow",
+				"module": "date-fns",
+				"isDefault": false
+			}
+		],
+		"isYesterday": [
+			{
+				"name": "isYesterday",
+				"module": "date-fns",
+				"isDefault": false
+			}
+		],
+		"EditShiftPage": [
+			{
+				"name": "EditShiftPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\shifts\\[id]\\edit\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"SettingsPage": [
+			{
+				"name": "SettingsPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\settings\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"Switch": [
+			{
+				"name": "Switch",
+				"module": "@/components/ui/switch",
+				"isDefault": false
+			}
+		],
+		"ProfilePage": [
+			{
+				"name": "ProfilePage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\profile\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"DashboardPage": [
+			{
+				"name": "DashboardPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\dashboard\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"Metadata": [
+			{
+				"name": "Metadata",
+				"module": "next",
+				"isDefault": false
+			}
+		],
+		"getJobById": [
+			{
+				"name": "getJobById",
+				"module": "@/lib/services/jobs",
+				"isDefault": false
+			}
+		],
+		"updateJob": [
+			{
+				"name": "updateJob",
+				"module": "@/lib/services/jobs",
+				"isDefault": false
+			}
+		],
+		"deleteJob": [
+			{
+				"name": "deleteJob",
+				"module": "@/lib/services/jobs",
+				"isDefault": false
+			}
+		],
+		"getAllJobs": [
+			{
+				"name": "getAllJobs",
+				"module": "@/lib/services/jobs",
+				"isDefault": false
+			}
+		],
+		"createJob": [
+			{
+				"name": "createJob",
+				"module": "@/lib/services/jobs",
+				"isDefault": false
+			}
+		],
+		"listSpreadsheetFiles": [
+			{
+				"name": "listSpreadsheetFiles",
+				"module": "@/lib/services/google-drive",
+				"isDefault": false
+			}
+		],
+		"type { ExtractedClient": [
+			{
+				"name": "type { ExtractedClient",
+				"module": "@/lib/services/gemini-ai",
+				"isDefault": true
+			}
+		],
+		"exchangeCodeForTokens": [
+			{
+				"name": "exchangeCodeForTokens",
+				"module": "@/lib/services/google-drive",
+				"isDefault": false
+			}
+		],
+		"downloadFile": [
+			{
+				"name": "downloadFile",
+				"module": "@/lib/services/google-drive",
+				"isDefault": false
+			}
+		],
+		"XLSX": [
+			{
+				"name": "XLSX",
+				"module": "xlsx",
+				"isDefault": true,
+				"asDefinition": "* as XLSX"
+			}
+		],
+		"AppLayout": [
+			{
+				"name": "AppLayout",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\layout.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"Inter": [
+			{
+				"name": "Inter",
+				"module": "next/font/google",
+				"isDefault": false
+			}
+		],
+		"ToastContainer": [
+			{
+				"name": "ToastContainer",
+				"module": "react-toastify",
+				"isDefault": false
+			}
+		],
+		"NewJobShiftPage": [
+			{
+				"name": "NewJobShiftPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\jobs\\[id]\\shifts\\new\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"JobDetailPage": [
+			{
+				"name": "JobDetailPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\jobs\\[id]\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"JobEditPage": [
+			{
+				"name": "JobEditPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\jobs\\[id]\\edit\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"{ use": [
+			{
+				"name": "{ use",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"NewJobPage": [
+			{
+				"name": "NewJobPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\jobs\\new\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"EmployeesPage": [
+			{
+				"name": "EmployeesPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\employees\\page.tsx",
+				"isDefault": true
+			}
+		],
+		"NumberInput": [
+			{
+				"name": "NumberInput",
+				"module": "@mantine/core",
+				"isDefault": false
+			}
+		],
+		"Settings": [
+			{
+				"name": "Settings",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"type { User": [
+			{
+				"name": "type { User",
+				"module": "@/lib/types",
+				"isDefault": true
+			}
+		],
+		"checkCrewChiefPermission": [
+			{
+				"name": "checkCrewChiefPermission",
+				"module": "@/lib/services/crew-chief-permissions",
+				"isDefault": false
+			}
+		],
+		"DocumentDetailPage": [
+			{
+				"name": "DocumentDetailPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\documents\\[id]\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"DocumentsPage": [
+			{
+				"name": "DocumentsPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\documents\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"getCompanyById": [
+			{
+				"name": "getCompanyById",
+				"module": "@/lib/services/companies",
+				"isDefault": false
+			}
+		],
+		"updateCompany": [
+			{
+				"name": "updateCompany",
+				"module": "@/lib/services/companies",
+				"isDefault": false
+			}
+		],
+		"deleteCompany": [
+			{
+				"name": "deleteCompany",
+				"module": "@/lib/services/companies",
+				"isDefault": false
+			}
+		],
+		"getJobsByCompanyId": [
+			{
+				"name": "getJobsByCompanyId",
+				"module": "@/lib/services/jobs",
+				"isDefault": false
+			}
+		],
+		"CompaniesPage": [
+			{
+				"name": "CompaniesPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\companies\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"Mail": [
+			{
+				"name": "Mail",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"getAllCompanies": [
+			{
+				"name": "getAllCompanies",
+				"module": "@/lib/services/companies",
+				"isDefault": false
+			}
+		],
+		"NextAuth": [
+			{
+				"name": "NextAuth",
+				"module": "next-auth",
+				"isDefault": true
+			}
+		],
+		"deleteShiftCascade": [
+			{
+				"name": "deleteShiftCascade",
+				"module": "@/lib/services/cascade-deletion",
+				"isDefault": false
+			}
+		],
+		"getDeletionImpact": [
+			{
+				"name": "getDeletionImpact",
+				"module": "@/lib/services/cascade-deletion",
+				"isDefault": false
+			}
+		],
+		"cookies": [
+			{
+				"name": "cookies",
+				"module": "next/headers",
+				"isDefault": false
+			}
+		],
+		"refreshUserData": [
+			{
+				"name": "refreshUserData",
+				"module": "@/lib/auth",
+				"isDefault": false
+			}
+		],
+		"sendPasswordResetEmail": [
+			{
+				"name": "sendPasswordResetEmail",
+				"module": "@/lib/email",
+				"isDefault": false
+			}
+		],
+		"deleteJobCascade": [
+			{
+				"name": "deleteJobCascade",
+				"module": "@/lib/services/cascade-deletion",
+				"isDefault": false
+			}
+		],
+		"createUser": [
+			{
+				"name": "createUser",
+				"module": "@/lib/auth",
+				"isDefault": false
+			}
+		],
+		"getUserByEmail": [
+			{
+				"name": "getUserByEmail",
+				"module": "@/lib/auth",
+				"isDefault": false
+			}
+		],
+		"deleteClientCompanyCascade": [
+			{
+				"name": "deleteClientCompanyCascade",
+				"module": "@/lib/services/cascade-deletion",
+				"isDefault": false
+			}
+		],
+		"CompanyDetailPage": [
+			{
+				"name": "CompanyDetailPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\companies\\[id]\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"POST": [
+			{
+				"name": "POST",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\api\\announcements\\route.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"CrewChiefDashboard": [
+			{
+				"name": "CrewChiefDashboard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\(dashboards)\\crew-chief\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"EmployeeDashboard": [
+			{
+				"name": "EmployeeDashboard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\(dashboards)\\employee\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"TooltipPrimitive": [
+			{
+				"name": "TooltipPrimitive",
+				"module": "@radix-ui/react-tooltip",
+				"isDefault": true,
+				"asDefinition": "* as TooltipPrimitive"
+			}
+		],
+		"TabsPrimitive": [
+			{
+				"name": "TabsPrimitive",
+				"module": "@radix-ui/react-tabs",
+				"isDefault": true,
+				"asDefinition": "* as TabsPrimitive"
+			}
+		],
+		"SwitchPrimitives": [
+			{
+				"name": "SwitchPrimitives",
+				"module": "@radix-ui/react-switch",
+				"isDefault": true,
+				"asDefinition": "* as SwitchPrimitives"
+			}
+		],
+		"SeparatorPrimitive": [
+			{
+				"name": "SeparatorPrimitive",
+				"module": "@radix-ui/react-separator",
+				"isDefault": true,
+				"asDefinition": "* as SeparatorPrimitive"
+			}
+		],
+		"SelectPrimitive": [
+			{
+				"name": "SelectPrimitive",
+				"module": "@radix-ui/react-select",
+				"isDefault": true,
+				"asDefinition": "* as SelectPrimitive"
+			}
+		],
+		"ChevronUp": [
+			{
+				"name": "ChevronUp",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"ScrollAreaPrimitive": [
+			{
+				"name": "ScrollAreaPrimitive",
+				"module": "@radix-ui/react-scroll-area",
+				"isDefault": true,
+				"asDefinition": "* as ScrollAreaPrimitive"
+			}
+		],
+		"ProgressPrimitive": [
+			{
+				"name": "ProgressPrimitive",
+				"module": "@radix-ui/react-progress",
+				"isDefault": true,
+				"asDefinition": "* as ProgressPrimitive"
+			}
+		],
+		"PopoverPrimitive": [
+			{
+				"name": "PopoverPrimitive",
+				"module": "@radix-ui/react-popover",
+				"isDefault": true,
+				"asDefinition": "* as PopoverPrimitive"
+			}
+		],
+		"LabelPrimitive": [
+			{
+				"name": "LabelPrimitive",
+				"module": "@radix-ui/react-label",
+				"isDefault": true,
+				"asDefinition": "* as LabelPrimitive"
+			}
+		],
+		"StatusType": [
+			{
+				"name": "StatusType",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\ui\\enhanced-status-badge.tsx",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"BadgeSize": [
+			{
+				"name": "BadgeSize",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\ui\\enhanced-status-badge.tsx",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"BadgeVariant": [
+			{
+				"name": "BadgeVariant",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\ui\\enhanced-status-badge.tsx",
+				"type": "type",
+				"isDefault": false
+			}
+		],
+		"EnhancedStatusBadge": [
+			{
+				"name": "EnhancedStatusBadge",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\ui\\enhanced-status-badge.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"GoogleSheetsIdInput": [
+			{
+				"name": "GoogleSheetsIdInput",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\google-sheets-id-input.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"ExternalLink": [
+			{
+				"name": "ExternalLink",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"GoogleSheetsGeminiProcessor": [
+			{
+				"name": "GoogleSheetsGeminiProcessor",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\google-sheets-gemini-processor.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"GoogleDrivePicker": [
+			{
+				"name": "GoogleDrivePicker",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\google-drive-picker.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"ErrorState": [
+			{
+				"name": "ErrorState",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\data-fetching\\query-states.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"NotFoundState": [
+			{
+				"name": "NotFoundState",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\error-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"PermissionDeniedState": [
+			{
+				"name": "PermissionDeniedState",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\error-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"NetworkErrorState": [
+			{
+				"name": "NetworkErrorState",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\error-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"InlineError": [
+			{
+				"name": "InlineError",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\error-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"EmptyState": [
+			{
+				"name": "EmptyState",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\data-fetching\\query-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"useErrorBoundary": [
+			{
+				"name": "useErrorBoundary",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\error-boundary.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"withErrorBoundary": [
+			{
+				"name": "withErrorBoundary",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\error-boundary.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"AsyncErrorBoundary": [
+			{
+				"name": "AsyncErrorBoundary",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\error-boundary.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"{ Component": [
+			{
+				"name": "{ Component",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"ErrorInfo": [
+			{
+				"name": "ErrorInfo",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"Bug": [
+			{
+				"name": "Bug",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"type AppError": [
+			{
+				"name": "type AppError",
+				"module": "@/lib/error-handler",
+				"isDefault": false
+			}
+		],
+		"EnhancedNotificationCenter": [
+			{
+				"name": "EnhancedNotificationCenter",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\enhanced-notification-center.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"WifiOff": [
+			{
+				"name": "WifiOff",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"CompanyDashboard": [
+			{
+				"name": "CompanyDashboard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\(dashboards)\\company\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"ManagerDashboard": [
+			{
+				"name": "ManagerDashboard",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\(app)\\(dashboards)\\manager\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"CascadeDeleteDialog": [
+			{
+				"name": "CascadeDeleteDialog",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\cascade-delete-dialog.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"Database": [
+			{
+				"name": "Database",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"BulkShiftOperations": [
+			{
+				"name": "BulkShiftOperations",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\bulk-shift-operations.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"faker": [
+			{
+				"name": "faker",
+				"module": "@faker-js/faker",
+				"isDefault": false
+			}
+		],
+		"CrewChiefPermissionsPage": [
+			{
+				"name": "CrewChiefPermissionsPage",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\app\\admin\\crew-chief-permissions\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"DialogTrigger": [
+			{
+				"name": "DialogTrigger",
+				"module": "@/components/ui/dialog",
+				"isDefault": false
+			}
+		],
+		"ClientCompany": [
+			{
+				"name": "ClientCompany",
+				"module": "@/lib/types",
+				"isDefault": true
+			}
+		],
+		"LoadingSkeleton": [
+			{
+				"name": "LoadingSkeleton",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\data-fetching\\query-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"LoadingState": [
+			{
+				"name": "LoadingState",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\data-fetching\\query-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"NetworkStatus": [
+			{
+				"name": "NetworkStatus",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\data-fetching\\query-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"QueryStateWrapper": [
+			{
+				"name": "QueryStateWrapper",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\data-fetching\\query-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"StaleDataIndicator": [
+			{
+				"name": "StaleDataIndicator",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\src\\components\\data-fetching\\query-states.tsx",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"Wifi": [
+			{
+				"name": "Wifi",
+				"module": "lucide-react",
+				"isDefault": false
+			}
+		],
+		"PageProps": [
+			{
+				"name": "PageProps",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\.next\\types\\app\\api\\admin\\migrate\\route.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"LayoutProps": [
+			{
+				"name": "LayoutProps",
+				"path": "c:\\Users\\ryley\\holiiiii\\holitime\\.next\\types\\app\\api\\admin\\migrate\\route.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"type { ResolvingMetadata": [
+			{
+				"name": "type { ResolvingMetadata",
+				"module": "next/dist/lib/metadata/types/metadata-interface.js",
+				"isDefault": true
+			}
+		],
+		"ResolvingViewport": [
+			{
+				"name": "ResolvingViewport",
+				"module": "next/dist/lib/metadata/types/metadata-interface.js",
+				"isDefault": true
+			}
+		],
+		"type { NextRequest": [
+			{
+				"name": "type { NextRequest",
+				"module": "next/server.js",
+				"isDefault": true
+			}
+		]
+	}
+}

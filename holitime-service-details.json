@@ -1,0 +1,177 @@
+{
+  "apiVersion": "serving.knative.dev/v1",
+  "kind": "Service",
+  "metadata": {
+    "annotations": {
+      "run.googleapis.com/client-name": "cloud-console",
+      "run.googleapis.com/ingress": "all",
+      "run.googleapis.com/ingress-status": "all",
+      "run.googleapis.com/invoker-iam-disabled": "true",
+      "run.googleapis.com/launch-stage": "BETA",
+      "run.googleapis.com/maxScale": "1",
+      "run.googleapis.com/operation-id": "009f00df-1e0e-46e8-885c-35a2df28fc4f",
+      "run.googleapis.com/urls": "[\"https://holitime-438323004618.us-west2.run.app\",\"https://holitime-ddlvgnnmiq-wl.a.run.app\"]",
+      "serving.knative.dev/creator": "binary411@gmail.com",
+      "serving.knative.dev/lastModifier": "binary411@gmail.com"
+    },
+    "creationTimestamp": "2025-07-22T06:23:56.284132Z",
+    "generation": 23,
+    "labels": {
+      "cloud.googleapis.com/location": "us-west2"
+    },
+    "name": "holitime",
+    "namespace": "438323004618",
+    "resourceVersion": "AAY6jT0V8mc",
+    "selfLink": "/apis/serving.knative.dev/v1/namespaces/438323004618/services/holitime",
+    "uid": "d39e817e-220b-4796-bc52-fb1c006f9bb1"
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "annotations": {
+          "autoscaling.knative.dev/maxScale": "5",
+          "run.googleapis.com/client-name": "cloud-console",
+          "run.googleapis.com/cloudsql-instances": "elated-fabric-460119-t3:us-west2:holitime-db",
+          "run.googleapis.com/startup-cpu-boost": "true"
+        },
+        "labels": {
+          "client.knative.dev/nonce": "62842ae4-930e-45ae-9cab-7ee566ef347b",
+          "run.googleapis.com/startupProbeType": "Default"
+        }
+      },
+      "spec": {
+        "containerConcurrency": 80,
+        "containers": [
+          {
+            "env": [
+              {
+                "name": "DATABASE_URL",
+                "value": "postgresql://postgres:NewSecurePass2024!@35.235.75.173:5432/holitime"
+              },
+              {
+                "name": "DATABASE_URL_DIRECT",
+                "value": "postgresql://postgres:NewSecurePass2024!@35.235.75.173:5432/holitime"
+              },
+              {
+                "name": "NEXTAUTH_SECRET",
+                "value": "uivbienbuivenbivrenbiiinbrenbirenbiivrevnurnei"
+              },
+              {
+                "name": "NEXTAUTH_URL",
+                "value": "https://holitime-438323004618.us-west2.run.app"
+              },
+              {
+                "name": "GOOGLE_CLIENT_ID",
+                "value": "438323004618-7351haftdo2dm9s8vgdo2gsaqfuj9h9i.apps.googleusercontent.com"
+              },
+              {
+                "name": "GOOGLE_CLIENT_SECRET",
+                "value": "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"
+              },
+              {
+                "name": "JWT_SECRET",
+                "value": "uivbienbuivenbivrenujujubiiinbrenbirenbiivrevnurnei"
+              },
+              {
+                "name": "SMTP_HOST",
+                "value": "smtp.gmail.com"
+              },
+              {
+                "name": "SMTP_PORT",
+                "value": "587"
+              },
+              {
+                "name": "SMTP_USER",
+                "value": "binary411@gmail.com"
+              },
+              {
+                "name": "SMTP_PASS",
+                "value": "qrovseyublwyiskx"
+              },
+              {
+                "name": "GOOGLE_AI_API_KEY",
+                "value": "AIzaSyDZ2W8uqVhvXm38NqWSXmXneREt4UilG_A"
+              },
+              {
+                "name": "GOOGLE_API_KEY",
+                "value": "AIzaSyAaMQ6qq0iVnyt2w1IERTPwXGrllSLnhZQ"
+              },
+              {
+                "name": "PROJECT_ID",
+                "value": "elated-fabric-460119-t3"
+              },
+              {
+                "name": "GENERATE_SOURCEMAP",
+                "value": "false"
+              },
+              {
+            
+            "image": "gcr.io/elated-fabric-460119-t3/holitime@sha256:e71bc5b6cf3130fd585aeb8bd8b57bd22847932869f68ff55b77667cd9cace1f",
+            "name": "holitime-1",
+            "ports": [
+              {
+                "containerPort": 3000,
+                "name": "http1"
+              }
+            ],
+            "resources": {
+              "limits": {
+                "cpu": "1000m",
+                "memory": "1Gi"
+              }
+            },
+            "startupProbe": {
+              "failureThreshold": 1,
+              "periodSeconds": 240,
+              "tcpSocket": {
+                "port": 3000
+              },
+              "timeoutSeconds": 240
+            }
+          }
+        ],
+        "serviceAccountName": "438323004618-compute@developer.gserviceaccount.com",
+        "timeoutSeconds": 300
+      }
+    },
+    "traffic": [
+      {
+        "latestRevision": true,
+        "percent": 100
+      }
+    ]
+  },
+  "status": {
+    "address": {
+      "url": "https://holitime-ddlvgnnmiq-wl.a.run.app"
+    },
+    "conditions": [
+      {
+        "lastTransitionTime": "2025-07-22T23:49:09.912167Z",
+        "status": "True",
+        "type": "Ready"
+      },
+      {
+        "lastTransitionTime": "2025-07-22T23:49:08.666754Z",
+        "status": "True",
+        "type": "ConfigurationsReady"
+      },
+      {
+        "lastTransitionTime": "2025-07-22T23:49:09.881689Z",
+        "status": "True",
+        "type": "RoutesReady"
+      }
+    ],
+    "latestCreatedRevisionName": "holitime-00021-b8p",
+    "latestReadyRevisionName": "holitime-00021-b8p",
+    "observedGeneration": 23,
+    "traffic": [
+      {
+        "latestRevision": true,
+        "percent": 100,
+        "revisionName": "holitime-00021-b8p"
+      }
+    ],
+    "url": "https://holitime-ddlvgnnmiq-wl.a.run.app"
+  }
+}

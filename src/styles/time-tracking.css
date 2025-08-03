@@ -1,0 +1,112 @@
+/* Time Tracking Sticky Avatar Styles */
+
+/* Ensure sticky positioning works in tables */
+.time-tracking-table {
+  position: relative;
+  overflow-x: auto;
+}
+
+.sticky-avatar-header {
+  position: sticky;
+  left: 0;
+  z-index: 20;
+  background: hsl(var(--background));
+  border-right: 1px solid hsl(var(--border));
+}
+
+.sticky-avatar-cell {
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background: hsl(var(--background));
+  border-right: 1px solid hsl(var(--border));
+}
+
+/* Dark mode support */
+.dark .sticky-avatar-header,
+.dark .sticky-avatar-cell {
+  background: hsl(var(--background));
+}
+
+/* Card-based sticky avatar */
+.sticky-avatar-card {
+  position: sticky;
+  left: 1rem;
+  z-index: 10;
+  background: hsl(var(--card));
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.dark .sticky-avatar-card {
+  background: hsl(var(--card));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Ensure proper scrolling behavior */
+.time-tracking-scroll-container {
+  overflow-x: auto;
+  overflow-y: visible;
+  position: relative;
+}
+
+/* Smooth scrolling */
+.time-tracking-scroll-container {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar on webkit browsers for cleaner look */
+.time-tracking-scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.time-tracking-scroll-container::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 4px;
+}
+
+.time-tracking-scroll-container::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground));
+  border-radius: 4px;
+}
+
+.time-tracking-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--accent));
+}
+
+/* Ensure minimum width for content */
+.time-tracking-content {
+  min-width: 600px;
+}
+
+/* Avatar border enhancement for better visibility when sticky */
+.sticky-avatar-enhanced {
+  border: 2px solid hsl(var(--border));
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dark .sticky-avatar-enhanced {
+  border: 2px solid hsl(var(--border));
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sticky-avatar-card {
+    left: 0.5rem;
+  }
+  
+  .time-tracking-content {
+    min-width: 500px;
+  }
+}
+
+@media (max-width: 640px) {
+  .sticky-avatar-card {
+    left: 0.25rem;
+  }
+  
+  .time-tracking-content {
+    min-width: 400px;
+  }
+}

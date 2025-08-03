@@ -1,0 +1,140 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { getCurrentUser } from '@/lib/middleware';
+import { dbQueryService } from '@/lib/services/database-query-service';
+import { ShiftWithDetails, User } from '@/lib/types';
+import { UserRole } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
+
+const shiftWithDetailsInclude = {
+  job: {
+    select: {
+      id: true,
+      name: true,
+      company: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  },
+  assignedPersonnel: {
+    select: {
+      id: true,
+      roleCode: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  },
+  timesheets: {
+    select: {
+      id: true,
+      status: true,
+    },
+  },
+};
+
+function transformShiftToShiftWithDetails(shift: any): ShiftWithDetails {
+  const { assignedPersonnel, ...rest } = shift;
+  return {
+    ...rest,
+    assignments: assignedPersonnel,
+  } as ShiftWithDetails;
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const user = await getCurrentUser(request);
+    if (!user) {
+      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '50');
+    const status = searchParams.get('status');
+    const date = searchParams.get('date');
+    const companyId = searchParams.get('companyId');
+    const search = searchParams.get('search');
+
+    // Use optimized database query service
+    const result = await dbQueryService.getShiftsOptimized({
+      userId: user.id,
+      userRole: user.role,
+      companyId: companyId || user.companyId || undefined,
+      status: status || undefined,
+      date: date || undefined,
+      search: search || undefined,
+      page,
+      limit,
+    });
+
+    // Transform to match expected format
+    const transformedShifts = result.shifts.map(shift => ({
+      ...shift,
+      assignments: shift.assignedPersonnel,
+    }));
+
+    // Add cache-busting headers in development
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const headers = new Headers();
+
+    if (isDevelopment) {
+      headers.set('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
+      headers.set('Pragma', 'no-cache');
+      headers.set('Expires', '0');
+    } else {
+      headers.set('Cache-Control', 'public, max-age=60'); // 1 minute cache in production
+    }
+
+    return NextResponse.json({
+      success: true,
+      shifts: transformedShifts,
+      total: result.total,
+      pages: result.pages,
+      currentPage: result.currentPage,
+      timestamp: new Date().toISOString(),
+      cacheInfo: {
+        environment: isDevelopment ? 'development' : 'production',
+        cacheBusting: isDevelopment,
+        timestamp: Date.now()
+      }
+    }, { headers });
+
+  } catch (error) {
+    console.error('Error getting shifts:', error);
+    const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
+    return NextResponse.json({ error: 'Internal server error', details: errorMessage }, { status: 500 });
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const user = await getCurrentUser(request);
+    if (!user || (user.role !== UserRole.Admin)) {
+      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
+    }
+
+    const body = await request.json();
+    const { jobId, date, startTime, endTime } = body;
+
+    if (!jobId || !date || !startTime || !endTime) {
+      return NextResponse.json({ error: 'Job, date, start time, and end time are required' }, { status: 400 });
+    }
+
+    const shift = await prisma.shift.create({ data: body });
+
+    return NextResponse.json({
+      success: true,
+      shift,
+    });
+  } catch (error) {
+    console.error('Error creating shift:', error);
+    const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
+    return NextResponse.json({ error: 'Internal server error', details: errorMessage }, { status: 500 });
+  }
+}

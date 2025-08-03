@@ -1,0 +1,94 @@
+# This Cloud Build pipeline builds a Docker image, runs database migrations,
+# and deploys the application to Cloud Run. All variables are hardcoded for reliability.
+
+steps:
+  # Step 1: Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build-image'
+    args:
+      - 'build'
+      - '--build-arg'
+      - 'DATABASE_URL=postgresql://user:pass@host:port/db' # Dummy URL for build time
+      - '-t'
+      - 'us-west2-docker.pkg.dev/elated-fabric-460119-t3/holi-repo/holi:latest'
+      - '.'
+
+  # Step 1.5: Push the Docker image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push-image'
+    waitFor: ['build-image']
+    args:
+      - 'push'
+      - 'us-west2-docker.pkg.dev/elated-fabric-460119-t3/holi-repo/holi:latest'
+
+  # Step 2: Create the Database Migration Job
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'create-migration-job'
+    waitFor: ['push-image']
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'jobs'
+      - 'update'
+      - 'holitime-migrate-job'
+      - '--image=us-west2-docker.pkg.dev/elated-fabric-460119-t3/holi-repo/holi:latest'
+      - '--command=npm'
+      - '--args=run,migrate:prod'
+      - '--region=us-west2'
+      - '--set-cloudsql-instances=elated-fabric-460119-t3:us-west2:holitime-db'
+      - '--set-env-vars=^##^DATABASE_URL=postgresql://holitime-user:myDBpassWord1!@/holitime?host=/cloudsql/elated-fabric-460119-t3:us-west2:holitime-db'
+
+  # Step 3: Execute the Database Migration Job
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'migrate-database'
+    waitFor: ['create-migration-job']
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'jobs'
+      - 'execute'
+      - 'holitime-migrate-job'
+      - '--region=us-west2'
+      - '--wait'
+
+  # Step 4: Deploy the main application to Cloud Run.
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'deploy-service'
+    waitFor: ['migrate-database']
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'holitime' # Your main service name
+      - '--image=us-west2-docker.pkg.dev/elated-fabric-460119-t3/holi-repo/holi:latest'
+      - '--region=us-west2'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--port=3000'
+      - '--memory=1Gi' # Allocate 1Gi of memory to the main service
+      - '--cpu=1'
+      - '--timeout=1300s'
+      - '--min-instances=0' # Set to 0 to scale to zero and save costs
+      - '--max-instances=2' # Set a reasonable max
+      - '--set-cloudsql-instances=elated-fabric-460119-t3:us-west2:holitime-db'
+      # Environment variables are now sourced from Google Secret Manager
+      - '--set-secrets=DATABASE_URL=DATABASE_URL:latest,NEXTAUTH_SECRET=NEXTAUTH_SECRET:latest,GOOGLE_CLIENT_ID=GOOGLE_CLIENT_ID:latest,GOOGLE_CLIENT_SECRET=GOOGLE_CLIENT_SECRET:latest'
+      - '--set-env-vars=GCS_BUCKET_NAME=timesheethandsonlaboravar,DB_HOST=/cloudsql/elated-fabric-460119-t3:us-west2:holitime-db,DB_PORT=5432,NEXTAUTH_URL=https://holitime-438323004618.us-west2.run.app,NODE_ENV=production,NEXT_TELEMETRY_DISABLED=1'
+
+  # Step 5: Clean up the migration job
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'delete-migration-job'
+    waitFor: ['deploy-service']
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'jobs'
+      - 'delete'
+      - 'holitime-migrate-job'
+      - '--region=us-west2'
+      - '--quiet'
+
+# Images are now pushed explicitly in the push-image step
+
+options:
+  machineType: 'E2_HIGHCPU_8'

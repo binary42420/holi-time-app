@@ -1,0 +1,330 @@
+// Complete and validated Prisma schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x", "debian-openssl-3.0.x"]
+}
+
+enum UserRole {
+  Staff
+  Admin
+  CompanyUser
+  CrewChief
+  Employee
+}
+
+enum JobStatus {
+  Pending
+  Active
+  OnHold
+  Completed
+  Cancelled
+}
+
+enum ShiftStatus {
+  Pending
+  Active
+  InProgress
+  Completed
+  Cancelled
+}
+
+enum TimesheetStatus {
+  DRAFT
+  PENDING_COMPANY_APPROVAL
+  PENDING_MANAGER_APPROVAL
+  COMPLETED
+  REJECTED
+}
+
+enum WorkerStatus {
+  Assigned
+  ClockedIn
+  OnBreak
+  ClockedOut
+  ShiftEnded
+  NoShow
+  UpForGrabs
+}
+
+model User {
+  id                     String   @id @default(cuid())
+  name                   String
+  email                  String   @unique
+  passwordHash           String?
+  role                   UserRole @default(Staff)
+  avatarData             String? // Base64 encoded image data or external URL
+  isActive               Boolean  @default(true)
+  crew_chief_eligible    Boolean  @default(false)
+  fork_operator_eligible Boolean  @default(false)
+  certifications         String[] @default([])
+  performance            Float?
+  location               String?
+  phone                  String? // Added phone field
+
+  // Relation to Company. If a company is deleted, the user's companyId is set to null.
+  companyId           String?
+  company             Company?             @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  assignments         AssignedPersonnel[]
+  notifications       Notification[]
+  announcements       Announcement[]
+  passwordResetTokens PasswordResetToken[]
+
+  @@index([name])
+  @@index([email])
+  @@index([companyId, role])
+  @@index([role, isActive])
+  @@index([companyId, isActive])
+  @@map("users")
+}
+
+model Company {
+  id               String   @id @default(cuid())
+  name             String   @unique
+  company_logo_url String?
+  address          String?
+  phone            String?
+  email            String?
+  website          String?
+  description      String?
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Relations
+  users User[]
+  jobs  Job[]
+
+  @@map("companies")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("password_reset_tokens")
+}
+
+model AssignedPersonnel {
+  id        String       @id @default(cuid())
+  shift     Shift        @relation(fields: [shiftId], references: [id])
+  shiftId   String
+  user      User         @relation(fields: [userId], references: [id])
+  userId    String
+  roleCode  String       @default("WR") // WR = Worker, CC = Crew Chief
+  status    WorkerStatus @default(Assigned)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  // Relations
+  timeEntries TimeEntry[]
+  permissions CrewChiefPermission[]
+
+  @@index([shiftId])
+  @@index([userId])
+  @@index([shiftId, roleCode])
+  @@index([userId, status])
+  @@index([shiftId, status])
+  @@map("assigned_personnel")
+}
+
+model TimeEntry {
+  id                  String            @id @default(cuid())
+  assignedPersonnel   AssignedPersonnel @relation(fields: [assignedPersonnelId], references: [id])
+  assignedPersonnelId String
+  clockIn             DateTime
+  clockOut            DateTime?
+  breakStart          DateTime?
+  breakEnd            DateTime?
+  notes               String?
+  verified            Boolean           @default(false)
+  entryNumber         Int               @default(1)
+  isActive            Boolean           @default(false)
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+
+  @@index([assignedPersonnelId])
+  @@index([assignedPersonnelId, entryNumber])
+  @@index([assignedPersonnelId, isActive])
+  @@map("time_entries")
+}
+
+model CrewChiefPermission {
+  id                  String            @id @default(cuid())
+  permissionType      String // 'shift' or 'job'
+  targetId            String // shiftId or jobId
+  assignedPersonnel   AssignedPersonnel @relation(fields: [assignedPersonnelId], references: [id])
+  assignedPersonnelId String
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+
+  @@index([assignedPersonnelId])
+  @@map("crew_chief_permissions")
+}
+
+model Shift {
+  id                         String              @id @default(cuid())
+  job                        Job                 @relation(fields: [jobId], references: [id])
+  jobId                      String
+  date                       DateTime
+  startTime                  DateTime
+  endTime                    DateTime
+  requestedWorkers           Int?
+  status                     ShiftStatus         @default(Pending)
+  location                   String?
+  description                String?
+  notes                      String?
+  requiredCrewChiefs         Int                 @default(0)
+  requiredStagehands         Int                 @default(0)
+  requiredForkOperators      Int                 @default(0)
+  requiredReachForkOperators Int                 @default(0)
+  requiredRiggers            Int                 @default(0)
+  requiredGeneralLaborers    Int                 @default(0)
+  createdAt                  DateTime            @default(now())
+  updatedAt                  DateTime            @updatedAt
+  // Relations
+  assignedPersonnel          AssignedPersonnel[]
+  timesheets                 Timesheet?
+
+  @@index([jobId])
+  @@index([date])
+  @@index([status])
+  @@index([jobId, date])
+  @@index([date, status])
+  @@index([status, date])
+  @@index([jobId, status])
+  @@map("shifts")
+}
+
+model Job {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  status      JobStatus @default(Pending)
+  startDate   DateTime?
+  endDate     DateTime?
+  location    String?
+  budget      String?
+  notes       String?
+  isCompleted Boolean   @default(false)
+  company     Company   @relation(fields: [companyId], references: [id])
+  companyId   String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  shifts    Shift[]
+  documents Document[]
+
+  @@unique([name, companyId])
+  @@index([companyId])
+  @@index([status])
+  @@index([companyId, status])
+  @@index([status, startDate])
+  @@index([companyId, startDate])
+  @@map("jobs")
+}
+
+model Document {
+  id        String   @id @default(cuid())
+  name      String
+  url       String
+  job       Job?     @relation(fields: [jobId], references: [id])
+  jobId     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([jobId])
+  @@map("documents")
+}
+
+model Timesheet {
+  id                  String          @id @default(cuid())
+  shiftId             String          @unique // This creates the unique constraint
+  status              TimesheetStatus @default(DRAFT)
+  submittedBy         String?
+  submittedAt         DateTime?
+  company_signature   String?
+  company_approved_at DateTime?
+  company_notes       String?
+  companyApprovedBy   String?
+  manager_signature   String?
+  manager_approved_at DateTime?
+  manager_notes       String?
+  managerApprovedBy   String?
+  unsigned_pdf_url    String?
+  signed_pdf_url      String?
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+
+  shift Shift @relation(fields: [shiftId], references: [id], onDelete: Cascade)
+  entries TimesheetEntry[]
+
+  @@map("timesheets")
+}
+
+model TimesheetEntry {
+  id                  String    @id @default(cuid())
+  timesheet           Timesheet @relation(fields: [timesheetId], references: [id], onDelete: Cascade)
+  timesheetId         String
+  
+  // Denormalized data from the original AssignedPersonnel and User
+  userId              String
+  userName            String
+  userAvatar          String?
+  roleOnShift         String
+  roleCode            String
+
+  // Denormalized data from the original TimeEntry
+  clockIn             DateTime
+  clockOut            DateTime?
+  breakStart          DateTime?
+  breakEnd            DateTime?
+  notes               String?
+  
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  @@index([timesheetId])
+  @@map("timesheet_entries")
+}
+
+model Notification {
+  id                 String   @id @default(cuid())
+  user               User     @relation(fields: [userId], references: [id])
+  userId             String
+  type               String // 'timesheet_ready_for_approval', 'timesheet_approved', etc.
+  title              String
+  message            String
+  relatedTimesheetId String?
+  relatedShiftId     String?
+  isRead             Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@index([userId, isRead])
+  @@map("notifications")
+}
+
+model Announcement {
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  date        DateTime @default(now())
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdById String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("announcements")
+}
+

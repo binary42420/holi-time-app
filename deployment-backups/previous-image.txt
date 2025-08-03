@@ -1,0 +1,1 @@
+PREVIOUS_IMAGE=gcr.io/elated-fabric-460119-t3/holitime:latest

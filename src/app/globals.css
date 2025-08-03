@@ -1,0 +1,179 @@
+/*
+ * Holitime Global Styles - Mobile-First Color System
+ */
+
+/* Import time tracking styles - must be first */
+@import '../styles/time-tracking.css';
+
+/* Import enhanced dashboard styles */
+@import '../styles/enhanced-dashboard.css';
+
+/* Import custom animations */
+@import '../styles/animations.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Primary Brand Colors */
+    --color-primary-50: #f0f9ff;
+    --color-primary-100: #e0f2fe;
+    --color-primary-200: #bae6fd;
+    --color-primary-300: #7dd3fc;
+    --color-primary-400: #38bdf8;
+    --color-primary-500: #0ea5e9;
+    --color-primary-600: #0284c7;
+    --color-primary-700: #0369a1;
+    --color-primary-800: #075985;
+    --color-primary-900: #0c4a6e;
+
+    /* Light Theme Colors */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 233 50% 48%; /* Deep Blue #3F51B5 */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --accent-green: 142 71% 45%; /* A vibrant green */
+    --accent-orange: 27 87% 58%; /* A warm orange */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+
+    /* Surface & Background Colors - Light Theme */
+    --color-background: #ffffff;
+    --color-surface: #f9fafb;
+    --color-surface-2: #f3f4f6;
+    
+    /* Text Colors - Light Theme */
+    --color-text-primary: #111827;
+    --color-text-secondary: #374151;
+    --color-text-muted: #6b7280;
+
+    /* Border Colors - Light Theme */
+    --color-border: #e5e7eb;
+    --color-border-2: #d1d5db;
+
+    /* Semantic Colors */
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
+    --color-info: #3b82f6;
+
+    /* Mobile-Focused Sizes */
+    --header-height: 56px;
+    --container-padding: 1rem;
+  }
+
+  .dark {
+    /* Dark Theme Colors */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 233 50% 48%; /* Deep Blue #3F51B5 */
+    --accent-green: 142 71% 45%; /* A vibrant green */
+    --accent-orange: 27 87% 58%; /* A warm orange */
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
+
+    /* Surface & Background Colors - Dark Theme */
+    --color-background: #111827;
+    --color-surface: #1f2937;
+    --color-surface-2: #374151;
+
+    /* Text Colors - Dark Theme */
+    --color-text-primary: #f9fafb;
+    --color-text-secondary: #d1d5db;
+    --color-text-muted: #9ca3af;
+
+    /* Border Colors - Dark Theme */
+    --color-border: #374151;
+    --color-border-2: #4b5563;
+
+    /* Semantic Colors */
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
+    --color-info: #3b82f6;
+  }
+
+  /* Base Styles */
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    min-height: 100vh;
+    -webkit-tap-highlight-color: transparent;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Mobile Tap Target Sizes */
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Scrollbar Styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-surface);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border-2);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+  }
+
+  /* Focus styles */
+  :focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+}
+
+/* Mantine Overrides */
+[data-mantine-color-scheme] {
+  --mantine-color-body: var(--color-background);
+}
+
+/* Responsive Container */
+.container {
+  @apply mx-auto px-[var(--container-padding)];
+  max-width: 1280px;
+}
