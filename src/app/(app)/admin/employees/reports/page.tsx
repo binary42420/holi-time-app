@@ -69,6 +69,8 @@ function EmployeeReportsPage() {
   const generatePerformanceReport = () => {
     const { start, end } = getDateRange()
     
+    if (!shifts) return []
+    
     return employees.map(employee => {
       const employeeShifts = shifts.filter(shift =>
         shift.assignedPersonnel.some(a => a.userId === employee.id) &&
