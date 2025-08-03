@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useUser } from '@/hooks/use-user';
+import { useUser } from "@/hooks/use-user";
 import { useLoading } from '@/providers/loading-provider';
 import { 
   BriefcaseIcon, 

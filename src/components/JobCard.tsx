@@ -1,6 +1,6 @@
 import React from 'react';
 import { Job } from '@/lib/types';
-import { Briefcase, MoreHorizontal, Edit, Trash2, Eye, Clock, MapPin, FileText } from 'lucide-react';
+import { Briefcase, MoreHorizontal, Edit, Trash2, Eye, Clock, MapPin, FileText } from "lucide-react";
 import { Button } from './ui/button';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from './ui/dropdown-menu';
 import { StatusBadge, getFulfillmentStatus, getPriorityBadge } from './ui/status-badge';

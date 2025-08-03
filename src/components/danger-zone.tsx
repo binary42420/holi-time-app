@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle } from "lucide-react";
 import { CascadeDeleteDialog } from './cascade-delete-dialog';
 import { UserRole } from '@prisma/client';
 import ShiftActions from './dashboard/shift-management/shift-actions';

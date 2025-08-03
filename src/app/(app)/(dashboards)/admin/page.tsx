@@ -23,7 +23,7 @@ import {
   CheckCircle,
   XCircle,
   Clock
-} from 'lucide-react';
+} from "lucide-react";
 import { CompanyAvatar } from "@/components/CompanyAvatar";
 import { Enhanced3DStatusBadge, EnhancedDateStatusIndicator } from '@/components/enhanced-date-status-indicators';
 import { getShiftStatus, getShiftStatusDisplay } from '@/lib/shift-status';

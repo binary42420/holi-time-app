@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from "@/hooks/use-toast"
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -31,7 +31,7 @@ import {
   Trash2,
   Copy,
   Edit
-} from 'lucide-react'
+} from "lucide-react"
 
 interface BulkShiftOperationsProps {
   selectedShifts: string[]

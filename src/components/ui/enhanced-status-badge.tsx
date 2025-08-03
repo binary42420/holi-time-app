@@ -18,7 +18,7 @@ import {
   Star,
   TrendingUp,
   AlertTriangle
-} from 'lucide-react';
+} from "lucide-react";
 
 export type StatusType = 
   | 'active' | 'completed' | 'pending' | 'cancelled' | 'in-progress' 

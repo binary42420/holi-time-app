@@ -5822,7 +5822,7 @@
                 },
                 {
                     "type": "codeHunk",
-                    "lineBasedDiff": "--- C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/components/enhanced-time-tracking.tsx\n+++ C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/components/enhanced-time-tracking.tsx\n@@ -17,7 +17,6 @@\n   CheckCircle,\n   User\n } from 'lucide-react';\n-import { Badge } from '@/components/ui/badge';\n import { useToast } from '@/hooks/use-toast';\n import { format } from 'date-fns';\n import { ROLE_DEFINITIONS } from '@/lib/constants';",
+                    "lineBasedDiff": "--- C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/components/enhanced-time-tracking.tsx\n+++ C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/components/enhanced-time-tracking.tsx\n@@ -17,7 +17,6 @@\n   CheckCircle,\n   User\n } from "lucide-react";\n-import { Badge } from '@/components/ui/badge';\n import { useToast } from '@/hooks/use-toast';\n import { format } from 'date-fns';\n import { ROLE_DEFINITIONS } from '@/lib/constants';",
                     "refToolCallId": "toolu_01PNvPYFMWUjPtRgy63Dcvsh"
                 },
                 {

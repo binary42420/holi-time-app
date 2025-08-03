@@ -3,7 +3,7 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Shield, ShieldCheck, ShieldX, Crown, Building, Briefcase } from 'lucide-react';
+import { Shield, ShieldCheck, ShieldX, Crown, Building, Briefcase } from "lucide-react";
 import { useCrewChiefPermissions, getPermissionDescription, getPermissionLevel } from '@/hooks/useCrewChiefPermissions';
 import type { CrewChiefPermissionCheck } from '@/lib/types';
 

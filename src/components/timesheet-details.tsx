@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Calendar, MapPin, Building, Users, Clock, CheckCircle, XCircle, FileText, Download, Eye, AlertCircle } from 'lucide-react'
+import { Calendar, MapPin, Building, Users, Clock, CheckCircle, XCircle, FileText, Download, Eye, AlertCircle } from "lucide-react"
 import { format, differenceInHours, differenceInMinutes } from 'date-fns'
 import { CompanyAvatar } from '@/components/CompanyAvatar'
 import { Avatar } from '@/components/Avatar'

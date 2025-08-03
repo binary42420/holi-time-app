@@ -3,7 +3,7 @@ import { Avatar } from '@/components/Avatar';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Clock, Play, StopCircle, Coffee, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Clock, Play, StopCircle, Coffee, CheckCircle2, AlertCircle } from "lucide-react";
 import { IWorkerCardProps } from './types';
 import { format, differenceInMinutes } from 'date-fns';
 

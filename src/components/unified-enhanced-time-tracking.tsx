@@ -20,9 +20,9 @@ import {
   Edit,
   User as UserIcon,
   FileText
-} from 'lucide-react';
+} from "lucide-react";
 import { Avatar } from '@/components/Avatar';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from "@/hooks/use-toast";
 import { format } from 'date-fns';
 import { ROLE_DEFINITIONS } from '@/lib/constants';
 import EnhancedWorkerSelector from '@/components/EnhancedWorkerSelector';

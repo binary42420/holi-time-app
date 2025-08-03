@@ -21,7 +21,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from "@/hooks/use-toast";
 import {
   Shield,
   Plus,
@@ -33,7 +33,7 @@ import {
   User as UserIcon,
   Loader2,
   MoreVertical,
-} from 'lucide-react';
+} from "lucide-react";
 import type { CrewChiefPermission, CrewChiefPermissionType } from '@/lib/types';
 import { User, UserRole } from '@prisma/client';
 

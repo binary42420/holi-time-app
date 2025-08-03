@@ -15,7 +15,7 @@ import {
   Clock,
   CheckCircle,
   Play,
-} from 'lucide-react';
+} from "lucide-react";
 import { format, formatDistanceToNow } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { CompanyAvatar } from '@/components/CompanyAvatar';

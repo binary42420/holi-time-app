@@ -13,7 +13,7 @@ import {
   Clock,
   Building2,
   CheckCircle2
-} from 'lucide-react';
+} from "lucide-react";
 
 // Mock data generators for testing the dashboards
 export function generateCrewChiefMockData() {

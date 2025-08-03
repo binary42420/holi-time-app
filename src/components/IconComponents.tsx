@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, Building2, CalendarDays, X, Calendar, Clock, Plus, Pencil, MoreHorizontal, Eye, Trash2, Briefcase, ArrowLeft, Copy, ClockIcon as LucideClockIcon, CheckCircle, LucideProps, Sparkles, Users as UsersGroup, FileText as DocumentText, Settings as Cog, Search } from 'lucide-react';
+import { Users, Building2, CalendarDays, X, Calendar, Clock, Plus, Pencil, MoreHorizontal, Eye, Trash2, Briefcase, ArrowLeft, Copy, ClockIcon as LucideClockIcon, CheckCircle, LucideProps, Sparkles, Users as UsersGroup, FileText as DocumentText, Settings as Cog, Search } from "lucide-react";
 
 const createIcon = (IconComponent: React.FC<LucideProps>, defaultClassName: string) => {
   const Component: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (

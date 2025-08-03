@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
-import { useUser } from '@/hooks/use-user'
+import { useUser } from "@/hooks/use-user"
 
 interface AuthGuardProps {
   children: React.ReactNode

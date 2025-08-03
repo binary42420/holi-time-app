@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { LucideIcon } from 'lucide-react';
+import { LucideIcon } from "lucide-react";
 
 export type CardVariant = 'default' | 'gradient' | 'glass' | 'elevated' | 'bordered';
 export type CardSize = 'sm' | 'md' | 'lg';

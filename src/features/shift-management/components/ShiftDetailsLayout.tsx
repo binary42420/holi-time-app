@@ -14,7 +14,7 @@ import { ShiftNotes } from './ShiftNotes';
 import { ShiftPermissionsManager } from './ShiftPermissionsManager';
 import { ShiftDangerZone } from './ShiftDangerZone';
 import { ShiftWithDetails } from '@/lib/types';
-import { FileText } from 'lucide-react';
+import { FileText } from "lucide-react";
 
 interface ShiftDetailsLayoutProps {
   shift: ShiftWithDetails;

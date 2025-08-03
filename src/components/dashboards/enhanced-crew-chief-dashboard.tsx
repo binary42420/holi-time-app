@@ -23,7 +23,7 @@ import {
   Zap,
   Phone,
   MessageSquare,
-} from 'lucide-react';
+} from "lucide-react";
 import { useDashboardData } from '@/hooks/use-dashboard-data';
 import { TimesheetSection } from '@/components/dashboard/timesheet-section';
 import { RecentJobsSection } from '@/components/dashboard/recent-jobs-section';

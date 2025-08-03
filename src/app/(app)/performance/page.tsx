@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/hooks/use-user';
+import { useUser } from "@/hooks/use-user";
 import { usePerformance } from '@/hooks/use-performance';
 import PerformanceDashboard from '@/components/PerformanceDashboard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,7 +18,7 @@ import {
   Database,
   Activity,
   ExternalLink
-} from 'lucide-react';
+} from "lucide-react";
 
 export default function PerformancePage() {
   const { user } = useUser();

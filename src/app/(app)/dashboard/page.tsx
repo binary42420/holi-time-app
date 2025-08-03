@@ -1,6 +1,6 @@
 'use client';
 
-import { useUser } from '@/hooks/use-user';
+import { useUser } from "@/hooks/use-user";
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import CompanyDashboard from '../(dashboards)/company/page';

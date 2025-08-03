@@ -26,7 +26,7 @@ import {
   Sparkles,
   Rocket,
   Crown
-} from 'lucide-react';
+} from "lucide-react";
 import { format, isToday, isTomorrow, addDays } from 'date-fns';
 import { cn } from '@/lib/utils';
 

@@ -29,7 +29,7 @@ import {
   Play,
   Pause,
   StopCircle
-} from 'lucide-react';
+} from "lucide-react";
 import { format, differenceInDays, formatDistanceToNow } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';

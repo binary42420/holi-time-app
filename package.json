@@ -74,6 +74,7 @@
     "@tanstack/react-query-persist-client": "^5.83.0",
     "@types/node-fetch": "^2.6.12",
     "@types/pusher-js": "^5.1.0",
+    "@vercel/speed-insights": "1.2.0",
     "autoprefixer": "^10.4.19",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
@@ -118,7 +119,8 @@
     "ws": "^8.18.0",
     "xlsx": "^0.18.5",
     "zod": "^3.23.8",
-    "zustand": "^4.5.4"
+    "zustand": "^4.5.4",
+    "puppeteer": "^24.15.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-class-static-block": "^7.27.1",
@@ -144,7 +146,6 @@
     "jest": "^30.0.5",
     "jest-environment-jsdom": "^30.0.5",
     "prisma": "5.17.0",
-    "puppeteer": "^24.15.0",
     "tsx": "^4.16.2",
     "typescript": "^5.5.4"
   }

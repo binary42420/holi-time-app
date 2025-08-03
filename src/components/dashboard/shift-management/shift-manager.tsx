@@ -1,17 +1,17 @@
 "use client";
 
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import { ErrorBoundary } from "@/components/error-boundary";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
-import { IShiftManagerProps } from './types';
-import { useShiftManager } from './hooks';
-import ShiftStats from './shift-stats';
-import WorkerCard from './worker-card';
-import ShiftActions from './shift-actions';
+import { IShiftManagerProps } from "./types";
+import { useShiftManager } from "./hooks";
+import ShiftStats from "./shift-stats";
+import WorkerCard from "./worker-card";
+import ShiftActions from "./shift-actions";
 
 const ShiftManager: React.FC<IShiftManagerProps> = ({ shift, onUpdate, isOnline = true }) => {
   const {

@@ -4,14 +4,14 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
-import { Home, Briefcase, Calendar, Users, LogOut, Building, FileText, Settings, LayoutDashboard } from 'lucide-react'
+import { Home, Briefcase, Calendar, Users, LogOut, Building, FileText, Settings, LayoutDashboard } from "lucide-react"
 import { signOut } from 'next-auth/react'
 import { MobileNavMenu } from './MobileNavMenu'
 import { ThemeSwitcher } from './theme-switcher'
 import { MobileProfileNav } from './mobile-profile-nav'
 import { UserNav } from './user-nav'
 import React from 'react'
-import { useUser } from '@/hooks/use-user'
+import { useUser } from "@/hooks/use-user"
 import { UserRole } from '@prisma/client'
 
 const navItems = [

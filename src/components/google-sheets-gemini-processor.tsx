@@ -7,7 +7,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Textarea } from '@/components/ui/textarea'
 import { Progress } from '@/components/ui/progress'
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from "@/hooks/use-toast"
 import { 
   Loader2, 
   FileSpreadsheet, 
@@ -20,7 +20,7 @@ import {
   TrendingUp,
   Eye,
   RefreshCw,
-} from 'lucide-react'
+} from "lucide-react"
 
 interface GoogleSheetsGeminiProcessorProps {
   selectedFile: any

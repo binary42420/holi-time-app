@@ -3,8 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { FileText, Clock, CheckCircle, AlertCircle } from 'lucide-react';
-import { useUser } from '@/hooks/use-user';
+import { FileText, Clock, CheckCircle, AlertCircle } from "lucide-react";
+import { useUser } from "@/hooks/use-user";
 import type { TimesheetStatus } from '@prisma/client';
 
 interface TimesheetApprovalButtonProps {

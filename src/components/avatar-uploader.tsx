@@ -3,9 +3,9 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { Avatar } from '@/components/Avatar';
 import { Button } from '@/components/ui/button';
-import { Camera, Upload, X, Loader2 } from 'lucide-react';
+import { Camera, Upload, X, Loader2 } from "lucide-react";
 import { avatarApi } from '@/lib/api-client';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from "@/hooks/use-toast";
 
 interface AvatarUploaderProps {
   src?: string | null;

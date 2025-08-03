@@ -28,7 +28,7 @@ import {
   WifiOff,
   Home,
   Building2
-} from 'lucide-react';
+} from "lucide-react";
 import { format, differenceInMinutes, formatDistanceToNow, differenceInDays, isToday } from 'date-fns';
 import { cn } from '@/lib/utils';
 

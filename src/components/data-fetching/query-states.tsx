@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Loader2, RefreshCw, AlertCircle, Wifi, WifiOff } from 'lucide-react';
+import { Loader2, RefreshCw, AlertCircle, Wifi, WifiOff } from "lucide-react";
 
 // Loading States
 interface LoadingSpinnerProps {

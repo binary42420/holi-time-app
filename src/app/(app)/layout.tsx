@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import useDataPrefetch from '@/hooks/useDataPrefetch';
-import Header from '@/components/Header';
-import { LoadingProvider } from '@/providers/loading-provider';
-
+import React from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useDataPrefetch from "@/hooks/useDataPrefetch";
+import Header from "@/components/Header";
+import { LoadingProvider } from "@/providers/loading-provider";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   useDataPrefetch();
 

@@ -9,7 +9,7 @@ import {
   Briefcase,
   CheckCircle2,
   AlertTriangle 
-} from 'lucide-react';
+} from "lucide-react";
 
 /**
  * Quick Start Example: Enhancing Existing JobCard with Status Badges

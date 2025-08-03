@@ -43,7 +43,7 @@ import {
   Cable,
   Hammer,
   PersonStanding
-} from 'lucide-react';
+} from "lucide-react";
 
 export interface StatusBadgeProps {
   status: string;

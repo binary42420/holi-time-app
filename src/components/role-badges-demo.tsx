@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { RoleIcon, RoleBadge, RoleLegend, getAllRoles } from '@/components/ui/role-icons';
 import { Badge } from '@/components/ui/badge';
-import { Users, TrendingUp, Clock, Activity } from 'lucide-react';
+import { Users, TrendingUp, Clock, Activity } from "lucide-react";
 
 // Mock data for demonstration
 const mockWorkers = [

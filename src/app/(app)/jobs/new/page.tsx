@@ -12,12 +12,12 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { useToast } from '@/hooks/use-toast'
-import { ArrowLeft, Save, AlertCircle, RefreshCw } from 'lucide-react'
+import { useToast } from "@/hooks/use-toast"
+import { ArrowLeft, Save, AlertCircle, RefreshCw } from "lucide-react"
 
 import { Skeleton } from '@/components/ui/skeleton'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { useUser } from '@/hooks/use-user'
+import { useUser } from "@/hooks/use-user"
 import Header from "@/components/Header"
 
 function NewJobForm() {

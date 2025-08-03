@@ -4,7 +4,7 @@ import { Shift, WorkerRole } from '@/lib/types';
 import { ROLE_DEFINITIONS } from '@/lib/constants';
 import { ShiftStatus } from '@prisma/client';
 import { BuildingOfficeIcon, CalendarIcon, ClockIcon } from './IconComponents';
-import { FileText } from 'lucide-react';
+import { FileText } from "lucide-react";
 
 interface ShiftCardProps {
   shift: Shift;

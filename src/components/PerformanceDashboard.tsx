@@ -15,7 +15,7 @@ import {
   Trash2,
   Activity,
   BarChart3
-} from 'lucide-react';
+} from "lucide-react";
 
 interface PerformanceDashboardProps {
   className?: string;

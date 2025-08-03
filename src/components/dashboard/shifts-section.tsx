@@ -20,7 +20,7 @@ import {
   UserCheck,
   Coffee,
   Building2,
-} from 'lucide-react';
+} from "lucide-react";
 import { format, isToday, isTomorrow, isYesterday } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Avatar } from '@/components/Avatar';

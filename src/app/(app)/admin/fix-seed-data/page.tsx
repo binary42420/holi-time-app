@@ -13,8 +13,8 @@ import {
   CheckCircle,
   Eye,
   Wrench
-} from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+} from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface SeedDataIssues {
   wrAssignments: number;

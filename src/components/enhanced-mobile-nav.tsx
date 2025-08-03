@@ -19,7 +19,7 @@ import {
   Clock,
   AlertCircle,
   CheckCircle2
-} from 'lucide-react';
+} from "lucide-react";
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 

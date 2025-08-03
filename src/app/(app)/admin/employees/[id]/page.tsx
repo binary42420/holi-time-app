@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { useUserById } from '@/hooks/use-api';
 import { UserRole } from '@prisma/client';
 import { withAuth } from '@/lib/withAuth';
-import { ArrowLeft, Edit, User } from 'lucide-react';
+import { ArrowLeft, Edit, User } from "lucide-react";
 import { DashboardPage } from '@/components/DashboardPage';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';

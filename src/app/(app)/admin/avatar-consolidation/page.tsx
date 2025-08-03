@@ -5,8 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, CheckCircle, AlertTriangle, RefreshCw, Users, Image } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { Loader2, CheckCircle, AlertTriangle, RefreshCw, Users, Image } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface ConsolidationStatus {
   isConsolidated: boolean;

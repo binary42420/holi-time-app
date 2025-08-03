@@ -2,11 +2,11 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { StopCircle, FileText, UserMinus } from 'lucide-react';
+import { StopCircle, FileText, UserMinus } from "lucide-react";
 import { IShiftActionsProps } from './types';
 import Link from 'next/link';
-import { useUser } from '@/hooks/use-user';
-import { useToast } from '@/hooks/use-toast';
+import { useUser } from "@/hooks/use-user";
+import { useToast } from "@/hooks/use-toast";
 
 const ShiftActions: React.FC<IShiftActionsProps> = ({ shift, onEndAllShifts, onFinalizeTimesheet, loading, isOnline }) => {
   const { user } = useUser();

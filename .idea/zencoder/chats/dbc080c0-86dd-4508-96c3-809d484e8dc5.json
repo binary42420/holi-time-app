@@ -1193,7 +1193,7 @@
                 },
                 {
                     "type": "codeHunk",
-                    "lineBasedDiff": "--- C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/features/shift-management/components/ShiftDetailsLayout.tsx\n+++ C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/features/shift-management/components/ShiftDetailsLayout.tsx\n@@ -1,6 +1,7 @@\n 'use client';\n \n import { useState } from 'react';\n+import Link from 'next/link';\n import * as Tabs from '@radix-ui/react-tabs';\n import { ShiftHeader } from './ShiftHeader';\n import { ShiftInfoCard } from './ShiftInfoCard';\n@@ -13,6 +14,7 @@\n import { ShiftPermissionsManager } from './ShiftPermissionsManager';\n import { ShiftDangerZone } from './ShiftDangerZone';\n import { ShiftWithDetails } from '@/lib/types';\n+import { FileText } from 'lucide-react';\n \n interface ShiftDetailsLayoutProps {\n   shift: ShiftWithDetails;",
+                    "lineBasedDiff": "--- C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/features/shift-management/components/ShiftDetailsLayout.tsx\n+++ C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/features/shift-management/components/ShiftDetailsLayout.tsx\n@@ -1,6 +1,7 @@\n 'use client';\n \n import { useState } from 'react';\n+import Link from 'next/link';\n import * as Tabs from '@radix-ui/react-tabs';\n import { ShiftHeader } from './ShiftHeader';\n import { ShiftInfoCard } from './ShiftInfoCard';\n@@ -13,6 +14,7 @@\n import { ShiftPermissionsManager } from './ShiftPermissionsManager';\n import { ShiftDangerZone } from './ShiftDangerZone';\n import { ShiftWithDetails } from '@/lib/types';\n+import { FileText } from "lucide-react";\n \n interface ShiftDetailsLayoutProps {\n   shift: ShiftWithDetails;",
                     "refToolCallId": "toolu_vrtx_014QPeK2tidGGh7h4i4yaV5n"
                 },
                 {
@@ -1315,7 +1315,7 @@
                 },
                 {
                     "type": "codeHunk",
-                    "lineBasedDiff": "--- C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/components/ShiftCard.tsx\n+++ C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/components/ShiftCard.tsx\n@@ -1,8 +1,10 @@\n import React from 'react';\n+import Link from 'next/link';\n import { Shift, WorkerRole } from '@/lib/types';\n import { ROLE_DEFINITIONS } from '@/lib/constants';\n import { ShiftStatus } from '@prisma/client';\n import { BuildingOfficeIcon, CalendarIcon, ClockIcon } from './IconComponents';\n+import { FileText } from 'lucide-react';\n \n interface ShiftCardProps {\n   shift: Shift;",
+                    "lineBasedDiff": "--- C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/components/ShiftCard.tsx\n+++ C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/components/ShiftCard.tsx\n@@ -1,8 +1,10 @@\n import React from 'react';\n+import Link from 'next/link';\n import { Shift, WorkerRole } from '@/lib/types';\n import { ROLE_DEFINITIONS } from '@/lib/constants';\n import { ShiftStatus } from '@prisma/client';\n import { BuildingOfficeIcon, CalendarIcon, ClockIcon } from './IconComponents';\n+import { FileText } from "lucide-react";\n \n interface ShiftCardProps {\n   shift: Shift;",
                     "refToolCallId": "toolu_vrtx_01JzzqDetpBQMWDzvhRYbbB7"
                 },
                 {

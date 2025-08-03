@@ -14,7 +14,7 @@ import {
   Sun,
   Sunset,
   Moon
-} from 'lucide-react';
+} from "lucide-react";
 import { format, differenceInDays, differenceInHours, isToday, isTomorrow, isYesterday } from 'date-fns';
 
 interface DateStatusIndicatorProps {

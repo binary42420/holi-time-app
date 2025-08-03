@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { X, User } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { X, User } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface Worker {
   id: string;

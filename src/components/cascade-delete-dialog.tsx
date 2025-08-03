@@ -11,8 +11,8 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
-import { useToast } from '@/hooks/use-toast';
-import { Trash2, AlertTriangle, Loader2, Database, Users, Clock, Briefcase, Building } from 'lucide-react';
+import { useToast } from "@/hooks/use-toast";
+import { Trash2, AlertTriangle, Loader2, Database, Users, Clock, Briefcase, Building } from "lucide-react";
 
 interface DeletionImpact {
   timeEntries: number;

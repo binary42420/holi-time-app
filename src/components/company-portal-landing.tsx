@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Hand, LogIn, Calendar, Users, FileText, Clock, Shield, Phone } from 'lucide-react';
+import { Hand, LogIn, Calendar, Users, FileText, Clock, Shield, Phone } from "lucide-react";
 
 const features = [
   { icon: Calendar, title: 'Schedule Shifts', description: 'Create and manage work shifts for your projects and events.' },

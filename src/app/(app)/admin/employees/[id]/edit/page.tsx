@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { useUser } from '@/hooks/use-user';
+import { useUser } from "@/hooks/use-user";
 import { useQueryClient } from '@tanstack/react-query';
 import { useUserById } from '@/hooks/use-api';
 import { useEnhancedAvatar } from '@/hooks/use-enhanced-performance';

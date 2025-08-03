@@ -3,7 +3,7 @@
 import { useEffect, useMemo } from "react"
 import { useRouter, useParams } from 'next/navigation';
 import { useUserById } from '@/hooks/use-api';
-import { useUser } from '@/hooks/use-user';
+import { useUser } from "@/hooks/use-user";
 import { UserRole, ShiftStatus } from '@prisma/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ArrowLeft, User, Edit, Phone, Mail, MapPin, Briefcase, Plus, Calendar, Users, AlertCircle, RefreshCw, Clock, CheckCircle, XCircle, UserCheck, UserX, TrendingUp, Activity } from 'lucide-react';
+import { ArrowLeft, User, Edit, Phone, Mail, MapPin, Briefcase, Plus, Calendar, Users, AlertCircle, RefreshCw, Clock, CheckCircle, XCircle, UserCheck, UserX, TrendingUp, Activity } from "lucide-react";
 import { useToast } from "@/hooks/use-toast"
 import { format, isPast, isFuture, isToday, isYesterday, isTomorrow, differenceInHours } from 'date-fns';
 import { Progress } from "@/components/ui/progress"; // Assuming a Progress component exists

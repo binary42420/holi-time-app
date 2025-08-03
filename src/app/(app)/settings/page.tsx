@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react';
-import { useUser } from '@/hooks/use-user';
+import { useUser } from "@/hooks/use-user";
 import { useTheme } from 'next-themes';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,7 @@ import {
   Mail,
   Lock,
   Eye
-} from 'lucide-react';
+} from "lucide-react";
 
 export default function SettingsPage() {
   const { user } = useUser();

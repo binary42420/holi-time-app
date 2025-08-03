@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
-import { useUser } from '@/hooks/use-user';
+import { useUser } from "@/hooks/use-user";
 import { useSession } from 'next-auth/react';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,7 +20,7 @@ import {
   Edit,
   Save,
   X
-} from 'lucide-react';
+} from "lucide-react";
 
 import { useRouter } from 'next/navigation';
 

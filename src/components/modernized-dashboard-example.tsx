@@ -19,7 +19,7 @@ import {
   AlertCircle,
   TrendingUp,
   RefreshCw
-} from 'lucide-react';
+} from "lucide-react";
 import { cn } from '@/lib/utils';
 
 // Mock data types based on your Prisma schema

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Company } from '@/lib/types';
-import { Building2, MoreHorizontal, Edit, Trash2, Eye, Briefcase } from 'lucide-react';
+import { Building2, MoreHorizontal, Edit, Trash2, Eye, Briefcase } from "lucide-react";
 import { Button } from './ui/button';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from './ui/dropdown-menu';
 

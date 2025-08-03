@@ -4,7 +4,7 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { Users, Settings, LayoutDashboard, Building, Calendar, FileText } from 'lucide-react';
+import { Users, Settings, LayoutDashboard, Building, Calendar, FileText } from "lucide-react";
 
 const adminNavLinks = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },

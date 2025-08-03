@@ -22,7 +22,7 @@ import {
   MessageSquare,
   MapPin,
   Timer,
-} from 'lucide-react';
+} from "lucide-react";
 import { useDashboardData } from '@/hooks/use-dashboard-data';
 import { RecentJobsSection } from '@/components/dashboard/recent-jobs-section';
 import { ShiftsSection } from '@/components/dashboard/shifts-section';

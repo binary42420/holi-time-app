@@ -21,10 +21,10 @@ import {
   AlertCircle,
   ArrowLeft,
   Signature
-} from 'lucide-react';
+} from "lucide-react";
 import { format } from 'date-fns';
 import SignatureCaptureModal from '@/components/signature-capture-modal';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from "@/hooks/use-toast";
 import { formatTimeTo12Hour, calculateTotalRoundedHours, formatDate, getTimeEntryDisplay } from "@/lib/time-utils";
 import { TIMESHEET_STATUS, USER_ROLES } from '@/lib/constants';
 import { api } from '@/lib/api';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { User } from '@/lib/types';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown } from "lucide-react";
 import { Avatar } from './Avatar';
 
 interface WorkerSelectorProps {

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
+import { Plus } from "lucide-react";
 import { PageWrapper } from '@/components/page-wrapper';
 
 interface DashboardPageProps {

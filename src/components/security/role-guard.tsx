@@ -1,7 +1,7 @@
 'use client';
 
 import React, { ReactNode } from 'react';
-import { useUser } from '@/hooks/use-user';
+import { useUser } from "@/hooks/use-user";
 import { UserRole } from '@prisma/client';
 import { hasPermission } from '@/lib/authorization';
 

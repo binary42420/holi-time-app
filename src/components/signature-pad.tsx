@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 ;
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { RefreshCw, Download } from 'lucide-react';
+import { RefreshCw, Download } from "lucide-react";
 
 interface SignaturePadProps {
   penColor?: string;

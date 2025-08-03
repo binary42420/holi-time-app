@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Button } from '@/components/ui/button'
 
 import { Separator } from '@/components/ui/separator'
-import { RotateCcw, Check, X } from 'lucide-react'
+import { RotateCcw, Check, X } from "lucide-react"
 
 interface SignatureCaptureModalProps {
   isOpen: boolean

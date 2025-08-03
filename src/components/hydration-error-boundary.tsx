@@ -3,7 +3,7 @@
 import React, { Component, ReactNode } from 'react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { RefreshCw, AlertTriangle } from 'lucide-react';
+import { RefreshCw, AlertTriangle } from "lucide-react";
 import { emergencyCookieCleanup } from '@/lib/cookie-cleanup';
 
 interface Props {

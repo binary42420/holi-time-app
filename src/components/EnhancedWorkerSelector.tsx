@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { User } from '@/lib/types';
-import { ChevronDown, Search, X, Filter, UserCheck, UserX, MapPin, Award } from 'lucide-react';
+import { ChevronDown, Search, X, Filter, UserCheck, UserX, MapPin, Award } from "lucide-react";
 import { Avatar } from './Avatar';
 
 interface EnhancedWorkerSelectorProps {

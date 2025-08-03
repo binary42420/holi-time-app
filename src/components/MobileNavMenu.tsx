@@ -10,13 +10,13 @@ import {
   SheetHeader,
   SheetTitle,
 } from "./ui/sheet"
-import { Menu, LogOut, Home, Briefcase, Calendar, Users, Building, FileText, Settings } from 'lucide-react'
+import { Menu, LogOut, Home, Briefcase, Calendar, Users, Building, FileText, Settings } from "lucide-react"
 import { Button } from './ui/button'
 import { ThemeSwitcher } from './theme-switcher'
 import { cn } from '@/lib/utils'
 import { signOut } from 'next-auth/react'
 import { Separator } from './ui/separator'
-import { useUser } from '@/hooks/use-user'
+import { useUser } from "@/hooks/use-user"
 import { Avatar } from './Avatar'
 
 interface MobileNavMenuProps {

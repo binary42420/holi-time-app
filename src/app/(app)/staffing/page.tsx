@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Loader2, Upload, FileSpreadsheet, Download, CheckCircle, AlertCircle, Cloud } from "lucide-react"
+import { useState, useEffect } from "react";
+import { Loader2, Upload, FileSpreadsheet, Download, CheckCircle, AlertCircle, Cloud } from "lucide-react";
 
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
 
 import {
   Card,
@@ -12,11 +12,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Badge } from '@/components/ui/badge'
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
-import { useToast } from "@/hooks/use-toast"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useToast } from "@/hooks/use-toast";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface DriveFile {
   id: string;

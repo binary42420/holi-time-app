@@ -17,8 +17,8 @@ import {
   Edit,
   Trash2,
   AlertTriangle
-} from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+} from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { ROLE_DEFINITIONS } from '@/lib/constants';
 import type { RoleCode } from '@/lib/types';
 

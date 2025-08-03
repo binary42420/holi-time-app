@@ -4,7 +4,7 @@ import React, { useMemo, useState, useRef, useEffect, useCallback } from 'react'
 import { Shift, User as UserType, Assignment, WorkerRole, RoleCode } from '@/lib/types';
 import { ROLE_DEFINITIONS } from '@/lib/constants';
 import { PencilIcon } from '@/components/IconComponents';
-import { User, CheckCircle, AlertTriangle } from 'lucide-react';
+import { User, CheckCircle, AlertTriangle } from "lucide-react";
 import EnhancedWorkerSelector from '@/components/EnhancedWorkerSelector';
 import { Avatar } from '@/components/Avatar';
 import { RoleBadge } from '@/components/RoleBadge';
@@ -12,7 +12,7 @@ import { format } from 'date-fns';
 import Link from 'next/link';
 import Modal from '@/components/Modal';
 import { LoadingSpinner, ButtonLoading } from '@/components/loading-states';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from "@/hooks/use-toast";
 
 interface UnifiedTimeTrackingProps {
   shift: Shift;

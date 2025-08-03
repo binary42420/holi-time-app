@@ -10,7 +10,7 @@ import {
   Activity,
   Construction,
   Wrench
-} from 'lucide-react';
+} from "lucide-react";
 import { cn } from '@/lib/utils';
 
 export interface RoleIconProps {

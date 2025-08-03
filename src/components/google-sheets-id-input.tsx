@@ -7,8 +7,8 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Label } from '@/components/ui/label'
-import { useToast } from '@/hooks/use-toast'
-import { Loader2, FileSpreadsheet, ExternalLink, AlertCircle, Info } from 'lucide-react'
+import { useToast } from "@/hooks/use-toast"
+import { Loader2, FileSpreadsheet, ExternalLink, AlertCircle, Info } from "lucide-react"
 
 interface GoogleSheetsIdInputProps {
   onFileSelected: (file: any) => void

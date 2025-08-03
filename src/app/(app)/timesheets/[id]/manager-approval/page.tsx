@@ -10,9 +10,9 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { ArrowLeft, Building2, Calendar, CheckCircle, Clock, FileSignature, MapPin, User, Shield, Download } from 'lucide-react'
+import { ArrowLeft, Building2, Calendar, CheckCircle, Clock, FileSignature, MapPin, User, Shield, Download } from "lucide-react"
 import { formatTimeTo12Hour, calculateTotalRoundedHours, formatDate, getTimeEntryDisplay } from "@/lib/time-utils"
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from "@/hooks/use-toast"
 import { useSession } from 'next-auth/react'
 
 interface TimeEntry {

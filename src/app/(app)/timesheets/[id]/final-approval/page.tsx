@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { useUser } from '@/hooks/use-user'
+import { useUser } from "@/hooks/use-user"
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { useToast } from '@/hooks/use-toast'
-import { ArrowLeft, Shield, CheckCircle, XCircle, Download } from 'lucide-react'
+import { useToast } from "@/hooks/use-toast"
+import { ArrowLeft, Shield, CheckCircle, XCircle, Download } from "lucide-react"
 import SignatureCaptureModal from '@/components/signature-capture-modal'
 import { TimesheetDetails } from '@/components/timesheet-details'
 import { UserRole } from '@prisma/client'

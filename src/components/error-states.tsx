@@ -14,7 +14,7 @@ import {
   WifiOff,
   Shield,
   Clock
-} from 'lucide-react'
+} from "lucide-react"
 
 interface ErrorStateProps {
   title?: string

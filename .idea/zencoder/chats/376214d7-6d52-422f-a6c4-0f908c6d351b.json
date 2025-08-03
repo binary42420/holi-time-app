@@ -1154,7 +1154,7 @@
                 },
                 {
                     "type": "codeHunk",
-                    "lineBasedDiff": "--- C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/app/(app)/profile/page.tsx\n+++ C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/app/(app)/profile/page.tsx\n@@ -2,6 +2,7 @@\n \n import React, { useState, useEffect } from 'react';\n import { useUser } from '@/hooks/use-user';\n+import { useSession } from 'next-auth/react';\n import Header from '@/components/Header';\n import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';\n import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';",
+                    "lineBasedDiff": "--- C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/app/(app)/profile/page.tsx\n+++ C:/Users/ryley/WebstormProjects/untitled/my-next-app/src/app/(app)/profile/page.tsx\n@@ -2,6 +2,7 @@\n \n import React, { useState, useEffect } from 'react';\n import { useUser } from "@/hooks/use-user";\n+import { useSession } from 'next-auth/react';\n import Header from '@/components/Header';\n import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';\n import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';",
                     "refToolCallId": "toolu_016wwYdqkFfUqDHVrPp7FAZQ"
                 },
                 {

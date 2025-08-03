@@ -2,11 +2,11 @@
 
 import { DashboardPage } from '@/components/DashboardPage';
 import { CompanyDashboardClient } from './CompanyDashboardClient';
-import { useUser } from '@/hooks/use-user';
+import { useUser } from "@/hooks/use-user";
 import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle } from "lucide-react";
 
 import { Job, Shift } from '@prisma/client';
 

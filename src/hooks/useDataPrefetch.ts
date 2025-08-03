@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useCallback } from 'react';
-import { useUser } from '@/hooks/use-user';
+import { useUser } from "@/hooks/use-user";
 import { apiService } from '@/lib/services/api';
 import { UserRole } from '@prisma/client';
 

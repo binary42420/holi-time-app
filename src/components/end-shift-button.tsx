@@ -23,8 +23,8 @@ import {
   Users, 
   FileText,
   ArrowRight
-} from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+} from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { api } from '@/lib/api';
 
 interface EndShiftButtonProps {

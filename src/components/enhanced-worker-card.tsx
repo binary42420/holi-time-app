@@ -31,7 +31,7 @@ import {
   Crown,
   Shield,
   Activity
-} from 'lucide-react';
+} from "lucide-react";
 import { format, differenceInMinutes, formatDistanceToNow } from 'date-fns';
 import { cn } from '@/lib/utils';
 

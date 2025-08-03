@@ -12,7 +12,7 @@ import {
   AlertCircle, 
   XCircle,
   Loader2
-} from 'lucide-react'
+} from "lucide-react"
 
 interface TimesheetStatusIndicatorProps {
   status: string

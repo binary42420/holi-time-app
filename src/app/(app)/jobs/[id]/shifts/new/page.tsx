@@ -11,10 +11,10 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { useToast } from '@/hooks/use-toast'
-import { ArrowLeft, Save } from 'lucide-react'
+import { useToast } from "@/hooks/use-toast"
+import { ArrowLeft, Save } from "lucide-react"
 import { generateShiftUrl } from "@/lib/url-utils"
-import { useUser } from '@/hooks/use-user'
+import { useUser } from "@/hooks/use-user"
 
 interface JobShiftPageProps {
   params: {

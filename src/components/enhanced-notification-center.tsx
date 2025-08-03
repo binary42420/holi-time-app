@@ -1,14 +1,14 @@
 'use client'
 
 import React, { useState, useEffect, useCallback } from 'react'
-import { Bell, X, CheckCircle, AlertCircle, Info, AlertTriangle, WifiOff } from 'lucide-react'
+import { Bell, X, CheckCircle, AlertCircle, Info, AlertTriangle, WifiOff } from "lucide-react"
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useRealtime } from '@/lib/realtime'
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from "@/hooks/use-toast"
 import { format } from 'date-fns'
 
 // Add React JSX types

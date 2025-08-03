@@ -30,7 +30,7 @@ import {
   Target,
   Award,
   Sparkles
-} from 'lucide-react';
+} from "lucide-react";
 import { format, differenceInDays, formatDistanceToNow, isToday, isTomorrow } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';

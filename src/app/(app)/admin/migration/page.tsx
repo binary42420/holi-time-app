@@ -9,7 +9,7 @@ import {
   Users, 
   AlertTriangle,
   Info
-} from 'lucide-react';
+} from "lucide-react";
 import WRMigrationTool from '@/components/admin/wr-migration-tool';
 
 export default function MigrationPage() {
