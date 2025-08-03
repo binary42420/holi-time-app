@@ -7,7 +7,7 @@ import { Skeleton } from './ui/skeleton';
  interface PageWrapperProps {
    children: React.ReactNode;
   className?: string;
-  title?: string;
+  title?: string | React.ReactNode;
   description?: string;
   actions?: React.ReactNode;
 }

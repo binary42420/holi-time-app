@@ -83,7 +83,7 @@ function AdminShiftsPage() {
       }
 
       const required = (shift as any).workerRequirements ? (shift as any).workerRequirements.reduce((acc, req) => acc + req.requiredCount, 0) : 0;
-      const assigned = shift.assignedPersonnel ? shift.assignedPersonnel.filter(p => !(p as any).isPlaceholder).length : 0;
+      const assigned = shift.assignedPersonnel ? shift.assignedPersonnel.filter(p => p.userId).length : 0;
       if (assigned < required && shift.status !== ShiftStatus.Completed) {
         understaffedCount++
       }

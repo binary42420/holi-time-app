@@ -113,7 +113,6 @@ export function EnhancedMobileNav({
             <div className="flex items-center gap-4">
               <div className="relative">
                 <Avatar
-                  src={user.avatarUrl}
                   name={user.name}
                   userId={user.id}
                   size="lg"

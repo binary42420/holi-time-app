@@ -3,7 +3,7 @@
 import { useQuery, useMutation, useQueryClient, UseQueryOptions, UseMutationOptions } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { apiService } from '@/lib/services/api';
-import { ShiftWithDetails, Job, Company, Timesheet, TimesheetDetails, Notification, Announcement, User } from '@/lib/types';
+import { ShiftWithDetails, Job, Company, Timesheet, TimesheetDetails, Notification, Announcement, User, UserWithAssignments } from '@/lib/types';
 
 // --- Generic Query Hook ---
 // This can be used for one-off queries, but specific hooks are preferred.
@@ -55,7 +55,7 @@ export const useShift = (id: string, options?: Omit<UseQueryOptions<ShiftWithDet
   });
 };
 
-export const useUserById = (id: string, options?: Omit<UseQueryOptions<User, Error>, 'queryKey' | 'queryFn'>) => {
+export const useUserById = (id: string, options?: Omit<UseQueryOptions<UserWithAssignments, Error>, 'queryKey' | 'queryFn'>) => {
   return useQuery({
     queryKey: ['users', id],
     queryFn: () => apiService.getUserById(id),

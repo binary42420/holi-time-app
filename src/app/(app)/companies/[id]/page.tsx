@@ -17,6 +17,7 @@ import { ArrowLeft, Building2, Phone, Mail, MapPin, Briefcase, Plus, Calendar, U
 import { useToast } from "@/hooks/use-toast"
 import { useUser } from "@/hooks/use-user"
 import { ShiftStatus } from "@prisma/client"
+import { getAssignedWorkerCount, getTotalRequiredWorkers } from "@/lib/worker-count-utils"
 
 // Helper functions for status indicators
 const getShiftStatusColor = (status: string) => {
@@ -402,10 +403,18 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
                                     <span>{shift.location || 'No location'}</span>
                                   </div>
                                   <div className="flex items-center gap-1">
-                                    {getAssignmentStatusIcon(shift.assignedPersonnel?.length || 0, shift.requiredWorkers || 1)}
-                                    <span className={getAssignmentStatusColor(shift.assignedPersonnel?.length || 0, shift.requiredWorkers || 1)}>
-                                      {shift.assignedPersonnel?.length || 0}/{shift.requiredWorkers || 1} workers
-                                    </span>
+                                    {(() => {
+                                      const assigned = getAssignedWorkerCount(shift);
+                                      const total = getTotalRequiredWorkers(shift);
+                                      return (
+                                        <>
+                                          {getAssignmentStatusIcon(assigned, total)}
+                                          <span className={getAssignmentStatusColor(assigned, total)}>
+                                            {assigned}/{total} workers
+                                          </span>
+                                        </>
+                                      );
+                                    })()}
                                   </div>
                                 </div>
                               </div>
@@ -464,10 +473,18 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
                                     <span>{shift.location || 'No location'}</span>
                                   </div>
                                   <div className="flex items-center gap-1">
-                                    {getAssignmentStatusIcon(shift.assignedPersonnel?.length || 0, shift.requiredWorkers || 1)}
-                                    <span className={getAssignmentStatusColor(shift.assignedPersonnel?.length || 0, shift.requiredWorkers || 1)}>
-                                      {shift.assignedPersonnel?.length || 0}/{shift.requiredWorkers || 1} workers assigned
-                                    </span>
+                                    {(() => {
+                                      const assigned = getAssignedWorkerCount(shift);
+                                      const total = getTotalRequiredWorkers(shift);
+                                      return (
+                                        <>
+                                          {getAssignmentStatusIcon(assigned, total)}
+                                          <span className={getAssignmentStatusColor(assigned, total)}>
+                                            {assigned}/{total} workers assigned
+                                          </span>
+                                        </>
+                                      );
+                                    })()}
                                   </div>
                                   <div className="flex items-center gap-1">
                                     <Activity className="h-3 w-3" />

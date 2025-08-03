@@ -126,13 +126,14 @@ export async function GET(request: NextRequest) {
         shift.requiredRiggers +
         shift.requiredGeneralLaborers;
 
-      const totalAssigned = shift.assignedPersonnel.length;
-      const fulfillmentPercentage = totalRequired > 0 ? (totalAssigned / totalRequired) * 100 : 0;
+      const totalAssigned = shift.assignedPersonnel.filter(ap => ap.userId).length;
+      const requested = totalRequired || shift.requestedWorkers || 0;
+      const fulfillmentPercentage = requested > 0 ? (totalAssigned / requested) * 100 : 0;
 
       // Calculate shift timing status
       const shiftDate = new Date(shift.date);
-      const shiftStart = shift.startTime ? new Date(`${shift.date}T${shift.startTime}`) : shiftDate;
-      const shiftEnd = shift.endTime ? new Date(`${shift.date}T${shift.endTime}`) : shiftDate;
+      const shiftStart = shift.startTime ? new Date(shift.startTime) : shiftDate;
+      const shiftEnd = shift.endTime ? new Date(shift.endTime) : shiftDate;
       
       let timingStatus = 'upcoming';
       if (now >= shiftStart && now <= shiftEnd) {
@@ -177,7 +178,7 @@ export async function GET(request: NextRequest) {
       return {
         ...shift,
         fulfillment: {
-          totalRequired,
+          totalRequired: requested,
           totalAssigned,
           percentage: fulfillmentPercentage,
           status: fulfillmentPercentage >= 100 ? 'full' : fulfillmentPercentage >= 80 ? 'good' : 'critical',

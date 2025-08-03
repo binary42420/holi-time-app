@@ -14,6 +14,7 @@ const shiftWithDetailsInclude = {
         select: {
           id: true,
           name: true,
+          company_logo_url: true,
         },
       },
     },
@@ -21,6 +22,7 @@ const shiftWithDetailsInclude = {
   assignedPersonnel: {
     select: {
       id: true,
+      userId: true,
       roleCode: true,
       user: {
         select: {
@@ -73,11 +75,30 @@ export async function GET(request: NextRequest) {
       limit,
     });
 
-    // Transform to match expected format
-    const transformedShifts = result.shifts.map(shift => ({
-      ...shift,
-      assignments: shift.assignedPersonnel,
-    }));
+    // Transform to match expected format with consistent fulfillment data
+    const transformedShifts = result.shifts.map(shift => {
+      const totalRequired = (shift.requiredCrewChiefs || 0) +
+                           (shift.requiredStagehands || 0) +
+                           (shift.requiredForkOperators || 0) +
+                           (shift.requiredReachForkOperators || 0) +
+                           (shift.requiredRiggers || 0) +
+                           (shift.requiredGeneralLaborers || 0);
+      
+      const totalAssigned = shift.assignedPersonnel.filter(ap => ap.userId).length;
+      const requested = totalRequired || shift.requestedWorkers || 0;
+      
+      return {
+        ...shift,
+        assignments: shift.assignedPersonnel,
+        fulfillment: {
+          totalRequired: requested,
+          totalAssigned,
+          percentage: requested > 0 ? Math.round((totalAssigned / requested) * 100) : 100,
+          status: requested > 0 && totalAssigned >= requested ? 'full' : 
+                  requested > 0 && totalAssigned >= requested * 0.8 ? 'good' : 'critical',
+        }
+      };
+    });
 
     // Add cache-busting headers in development
     const isDevelopment = process.env.NODE_ENV === 'development';

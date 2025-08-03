@@ -260,7 +260,7 @@ function AdminTimesheetsPage() {
                     <TableCell>
                       <div className="flex items-center gap-1">
                         <Users className="h-4 w-4 text-muted-foreground" />
-                        {timesheet.shift?.assignedPersonnel?.filter(p => p.user).length || 0}
+                        {timesheet.shift?.assignedPersonnel?.filter(p => p.userId).length || 0}
                       </div>
                     </TableCell>
                     <TableCell>{getStatusBadge(timesheet.status)}</TableCell>

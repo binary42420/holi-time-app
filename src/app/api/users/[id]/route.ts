@@ -30,6 +30,19 @@ export async function GET(
 
     const userData = await prisma.user.findUnique({
       where: { id },
+      include: {
+        assignments: {
+          include: {
+            shift: {
+              include: {
+                job: true,
+                timesheets: true,
+              },
+            },
+            timeEntries: true,
+          },
+        },
+      },
     });
 
     if (!userData) {
@@ -42,10 +55,10 @@ export async function GET(
     // Prepare user data with avatar information
     const userResponse = {
       ...userData,
-      // If user has base64 data in avatarUrl, provide a URL to access it
-      avatarUrl: userData.avatarUrl && userData.avatarUrl.startsWith('data:')
+      // If user has base64 data in avatarData, provide a URL to access it
+      avatarUrl: userData.avatarData && userData.avatarData.startsWith('data:')
         ? `/api/users/${id}/avatar/image` 
-        : userData.avatarUrl,
+        : userData.avatarData,
     };
 
     return NextResponse.json({
@@ -87,7 +100,7 @@ export async function PUT(
     console.log('Received body:', body);
 
     // Transform camelCase to snake_case for Prisma
-    const { crewChiefEligible, forkOperatorEligible, ...rest } = body;
+    const { crewChiefEligible, forkOperatorEligible, avatarUrl, ...rest } = body;
     
     // If user is updating their own profile, only allow basic fields
     let data;
@@ -96,12 +109,13 @@ export async function PUT(
       data = {
         name: rest.name,
         email: rest.email,
-        avatarUrl: rest.avatarUrl,
+        avatarData: avatarUrl,
       };
     } else {
       // Admins can update all fields
       data = {
         ...rest,
+        ...(avatarUrl !== undefined && { avatarData: avatarUrl }),
         ...(crewChiefEligible !== undefined && { crew_chief_eligible: crewChiefEligible }),
         ...(forkOperatorEligible !== undefined && { fork_operator_eligible: forkOperatorEligible }),
       };

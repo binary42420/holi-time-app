@@ -875,7 +875,10 @@ export default function UnifiedEnhancedTimeTracking({
                           <Avatar
                             src={assignment.user.avatarUrl}
                             name={assignment.user.name}
+                            userId={assignment.user.id}
                             className="w-16 h-16"
+                            size="md"
+                            enableSmartCaching={true}
                           />
                           <p className="text-[10px] leading-tight mt-1">{assignment.user.name}</p>
                         </>

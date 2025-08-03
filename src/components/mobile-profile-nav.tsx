@@ -69,7 +69,6 @@ export function MobileProfileNav({ className = "" }: MobileProfileNavProps) {
           >
             <div className="flex items-center gap-2">
               <Avatar
-                src={user.avatarUrl}
                 name={user.name || user.email || 'User'}
                 userId={user.id}
                 size="sm"

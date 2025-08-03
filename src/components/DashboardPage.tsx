@@ -6,7 +6,7 @@ import { Plus } from 'lucide-react';
 import { PageWrapper } from '@/components/page-wrapper';
 
 interface DashboardPageProps {
-  title: string;
+  title: string | React.ReactNode;
   description?: string;
   buttonText?: string;
   buttonAction?: () => void;

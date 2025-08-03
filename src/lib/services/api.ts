@@ -1,6 +1,7 @@
 import {
   Assignment,
   User,
+  UserWithAssignments,
   CrewChiefPermission,
   ShiftWithDetails,
   Job,
@@ -56,7 +57,7 @@ export const apiService = {
     if (params?.excludeCompanyUsers) searchParams.append('excludeCompanyUsers', 'true');
     return fetchFromApi<{ users: User[]; pagination: any }>(`/users?${searchParams.toString()}`);
   },
-  getUserById: (id: string) => fetchFromApi<{ user: User }>(`/users/${id}`).then(data => data.user),
+  getUserById: (id: string) => fetchFromApi<{ user: UserWithAssignments }>(`/users/${id}`).then(data => data.user),
   getAvailableEmployees: () => fetchFromApi<{ users: User[] }>('/users?role=Employee').then(data => data.users),
 
   // Crew Chief

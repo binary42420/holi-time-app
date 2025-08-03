@@ -49,7 +49,19 @@ export type RoleCode = WorkerRole;
 
 
 // Models
-export interface User extends PrismaUser {}
+export interface User extends PrismaUser {
+  avatarUrl?: string; // Added by API transformation from avatarData
+}
+
+export interface UserWithAssignments extends User {
+  assignments: (PrismaAssignment & {
+    shift: PrismaShift & {
+      job: PrismaJob;
+      timesheets: PrismaTimesheet[];
+    };
+    timeEntries: PrismaTimeEntry[];
+  })[];
+}
 
 export interface UserAuth {
   id: string;

@@ -93,8 +93,10 @@ const AssignmentSlot: React.FC<{
           {selectedUser ? (
             <Link href={`/employees/${selectedUser.id}`}>
               <Avatar
+                src={selectedUser.avatarUrl}
                 name={selectedUser.name}
                 userId={selectedUser.id}
+                size="xl"
                 enableSmartCaching={true}
                 className="w-28 h-28 bg-gray-800 border-2 border-gray-600"
               />

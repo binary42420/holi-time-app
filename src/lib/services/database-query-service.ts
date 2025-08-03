@@ -157,6 +157,7 @@ export class DatabaseQueryService {
                 select: {
                   id: true,
                   name: true,
+                  company_logo_url: true,
                 },
               },
             },
@@ -164,6 +165,7 @@ export class DatabaseQueryService {
           assignedPersonnel: {
             select: {
               id: true,
+              userId: true,
               roleCode: true,
               status: true,
               user: {
@@ -186,7 +188,10 @@ export class DatabaseQueryService {
         const [shifts, total] = await prisma.$transaction([
           prisma.shift.findMany({
             where,
-            select,
+            select: {
+              ...select, // Keep existing selections
+              requestedWorkers: true, // Add requestedWorkers
+            },
             orderBy: [
               { date: 'desc' },
               { startTime: 'asc' }
@@ -296,6 +301,7 @@ export class DatabaseQueryService {
                 requiredReachForkOperators: true,
                 requiredRiggers: true,
                 requiredGeneralLaborers: true,
+                requestedWorkers: true,
                 assignedPersonnel: {
                   select: {
                     id: true,
@@ -338,12 +344,15 @@ export class DatabaseQueryService {
                            (shift.requiredReachForkOperators ?? 0) +
                            (shift.requiredRiggers ?? 0) +
                            (shift.requiredGeneralLaborers ?? 0);
-            // Only count assignments that have actual users assigned
-            const assigned = shift.assignedPersonnel.filter(p => p.user && p.userId).length;
+            // Only count assignments that have actual users assigned (not placeholders)
+            const assigned = shift.assignedPersonnel.filter(p => p.userId).length;
+            const requested = required || shift.requestedWorkers || 0;
             return { 
               ...shift, 
-              fulfillment: `${assigned}/${required}`,
-              fulfillmentPercentage: required > 0 ? Math.round((assigned / required) * 100) : 100
+              fulfillment: `${assigned}/${requested}`,
+              fulfillmentPercentage: requested > 0 ? Math.round((assigned / requested) * 100) : 100,
+              totalRequired: requested,
+              totalAssigned: assigned
             };
           });
           

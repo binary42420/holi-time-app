@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { getInitials } from "@/lib/utils";
 import Link from "next/link";
-import { SimpleAvatar } from "@/components/SimpleAvatar";
+import { Avatar } from "@/components/Avatar";
 import { ChevronsUpDown, LogOut, User as UserIcon, Sun, Moon } from "lucide-react"
 import { useTheme } from "next-themes"
 
@@ -34,8 +34,8 @@ export function UserNav() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-full justify-start gap-2 px-2">
-          <SimpleAvatar
-            src={user.avatarUrl}
+          <Avatar
+            userId={user.id}
             name={user.name || user.email || 'User'}
             size="sm"
             className="h-8 w-8"

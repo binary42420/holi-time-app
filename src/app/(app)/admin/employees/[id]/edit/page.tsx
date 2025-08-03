@@ -210,7 +210,7 @@ function EditEmployeePage() {
                 <Label htmlFor="role">Role</Label>
                 <Select name="role" value={formData.role} onValueChange={(value) => handleSelectChange('role', value)}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a role" />
+                    <SelectValue>{formData.role || "Select a role"}</SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                     {Object.values(UserRole).map(role => (

@@ -180,8 +180,8 @@ export default function AdminDashboard() {
     
     const shiftsIn72HourWindow = shifts.filter(shift => {
       const shiftDate = new Date(shift.date);
-      const shiftStartTime = shift.startTime ? new Date(`${shift.date}T${shift.startTime}`) : shiftDate;
-      const shiftEndTime = shift.endTime ? new Date(`${shift.date}T${shift.endTime}`) : shiftDate;
+      const shiftStartTime = shift.startTime ? new Date(shift.startTime) : shiftDate;
+      const shiftEndTime = shift.endTime ? new Date(shift.endTime) : shiftDate;
       
       // For future shifts, use start time
       if (shiftStartTime > now) {
@@ -193,8 +193,8 @@ export default function AdminDashboard() {
       }
     }).sort((a, b) => {
       // Sort by start time for upcoming shifts, end time for past shifts
-      const aTime = new Date(`${a.date}T${a.startTime || '00:00'}`);
-      const bTime = new Date(`${b.date}T${b.startTime || '00:00'}`);
+      const aTime = a.startTime ? new Date(a.startTime) : new Date(a.date);
+      const bTime = b.startTime ? new Date(b.startTime) : new Date(b.date);
       return aTime.getTime() - bTime.getTime();
     });
     
@@ -445,7 +445,7 @@ export default function AdminDashboard() {
                                         {shiftIndex + 1}
                                       </div>
                                       <span className="font-medium">{format(new Date(shift.date), 'MMM d')}</span>
-                                      <span className="text-muted-foreground">{format(new Date(`2000-01-01T${shift.startTime}`), 'h:mm a')}</span>
+                                      <span className="text-muted-foreground">{format(new Date(shift.startTime), 'h:mm a')}</span>
                                     </div>
                                     <Enhanced3DStatusBadge status={shiftStatus.status} size="sm" />
                                   </div>

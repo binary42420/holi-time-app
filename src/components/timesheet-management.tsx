@@ -376,7 +376,7 @@ export default function TimesheetManagement({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {assignedPersonnel.filter(p => p.user).map((worker) => {
+              {assignedPersonnel.filter(p => p.userId).map((worker) => {
                 const roleDef = ROLE_DEFINITIONS[worker.roleCode as RoleCode];
                 const buttonState = getButtonState(worker);
                 const sortedTimeEntries = [...(worker.timeEntries as TimeEntry[] || [])]

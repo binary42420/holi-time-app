@@ -55,7 +55,7 @@ const WorkerSelector: React.FC<WorkerSelectorProps> = ({ users, selectedUserId, 
                 className="relative cursor-pointer select-none py-2 pl-3 pr-9 text-white hover:bg-gray-700"
               >
                 <div className="flex items-center gap-2">
-                  <Avatar src={user.avatarUrl} name={user.name} className="w-6 h-6" />
+                  <Avatar src={user.avatarUrl} name={user.name} userId={user.id} size="sm" enableSmartCaching={true} className="w-6 h-6" />
                   <span className="truncate">{user.name}</span>
                 </div>
               </li>

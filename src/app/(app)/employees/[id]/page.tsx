@@ -1,10 +1,10 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { useRouter, useParams } from 'next/navigation';
 import { useUserById } from '@/hooks/use-api';
 import { useUser } from '@/hooks/use-user';
-import { UserRole } from '@prisma/client';
+import { UserRole, ShiftStatus } from '@prisma/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -13,6 +13,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ArrowLeft, User, Edit, Phone, Mail, MapPin, Briefcase, Plus, Calendar, Users, AlertCircle, RefreshCw, Clock, CheckCircle, XCircle, UserCheck, UserX, TrendingUp, Activity } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast"
+import { format, isPast, isFuture, isToday, isYesterday, isTomorrow, differenceInHours } from 'date-fns';
+import { Progress } from "@/components/ui/progress"; // Assuming a Progress component exists
 
 // Helper functions for status indicators (copied from companies/[id]/page.tsx for consistency)
 const getShiftStatusColor = (status: string) => {
@@ -59,9 +61,92 @@ export default function EmployeeProfilePage() {
 
   // Check if current user can edit this profile
   const canEdit = currentUser && (
-    currentUser.role === UserRole.Admin || 
+    currentUser.role === UserRole.Admin ||
     currentUser.id === id
   );
+
+  const {
+    totalShifts,
+    completedShifts,
+    upcomingShifts,
+    completionRate,
+    totalHours,
+    recentActivity,
+  } = useMemo(() => {
+    if (!employee || !employee.assignments) {
+      return {
+        totalShifts: 0,
+        completedShifts: 0,
+        upcomingShifts: 0,
+        completionRate: 0,
+        totalHours: 0,
+        recentActivity: [],
+      };
+    }
+
+    const now = new Date();
+    let totalShifts = 0;
+    let completedShifts = 0;
+    let upcomingShifts = 0;
+    let totalHours = 0;
+    const recentActivity: any[] = [];
+
+    employee.assignments.forEach((assignment: any) => {
+      const shift = assignment.shift;
+      if (!shift) return;
+
+      totalShifts++;
+
+      const shiftDate = new Date(shift.date);
+      const shiftStartTime = new Date(shift.startTime);
+      const shiftEndTime = new Date(shift.endTime);
+
+      if (shift.status === ShiftStatus.Completed) {
+        completedShifts++;
+      } else if (isFuture(shiftStartTime)) {
+        upcomingShifts++;
+      }
+
+      // Calculate total hours from time entries
+      assignment.timeEntries.forEach((entry: any) => {
+        if (entry.clockIn && entry.clockOut) {
+          const clockInTime = new Date(entry.clockIn);
+          const clockOutTime = new Date(entry.clockOut);
+          if (!isNaN(clockInTime.getTime()) && !isNaN(clockOutTime.getTime())) {
+            totalHours += differenceInHours(clockOutTime, clockInTime);
+          }
+        }
+      });
+
+      // Add to recent activity if within last 30 days or upcoming
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(now.getDate() - 30);
+
+      if (shiftDate >= thirtyDaysAgo || isFuture(shiftDate)) {
+        recentActivity.push({
+          type: 'shift',
+          date: shiftDate,
+          shift,
+          assignment,
+        });
+      }
+    });
+
+    const completionRate = totalShifts > 0 ? (completedShifts / totalShifts) * 100 : 0;
+
+    // Sort recent activity by date, most recent first
+    recentActivity.sort((a, b) => b.date.getTime() - a.date.getTime());
+
+    return {
+      totalShifts,
+      completedShifts,
+      upcomingShifts,
+      completionRate,
+      totalHours,
+      recentActivity: recentActivity.slice(0, 5), // Limit to 5 recent activities
+    };
+  }, [employee]);
+
 
   if (isLoading) {
     return (
@@ -134,7 +219,7 @@ export default function EmployeeProfilePage() {
           </Button>
         </div>
         {canEdit && (
-          <Button 
+          <Button
             onClick={() => router.push(`/admin/employees/${id}/edit`)}
             className="flex items-center gap-2"
           >
@@ -152,7 +237,7 @@ export default function EmployeeProfilePage() {
             <CardHeader>
               <div className="flex items-center gap-4">
                 <Avatar className="w-16 h-16">
-                  <AvatarImage src={employee.avatarUrl} />
+                  <AvatarImage src={employee.avatarData || undefined} />
                   <AvatarFallback>{employee.name.split(' ').map((n: string) => n[0]).join('')}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
@@ -193,7 +278,7 @@ export default function EmployeeProfilePage() {
                   <Phone className="h-4 w-4 text-muted-foreground" />
                   <div>
                     <p className="text-sm font-medium">Phone</p>
-                    <p className="text-sm text-muted-foreground">{(employee as any).phone || 'N/A'}</p>
+                    <p className="text-sm text-muted-foreground">{employee.phone || 'N/A'}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -225,61 +310,86 @@ export default function EmployeeProfilePage() {
             </CardContent>
           </Card>
 
-          {/* Placeholder for Tabs Section - can be expanded with shifts/timesheets */}
+          {/* Recent Activity */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Calendar className="h-5 w-5" />
-                Recent Activity (Placeholder)
+                Recent Activity ({recentActivity.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-col items-center justify-center py-12">
-                <Activity className="h-12 w-12 text-muted-foreground mb-4" />
-                <h3 className="text-lg font-semibold mb-2">No Recent Activity</h3>
-                <p className="text-muted-foreground text-center">This employee has no recent activity to display.</p>
-              </div>
+              {recentActivity.length > 0 ? (
+                <div className="space-y-4">
+                  {recentActivity.map((activity, index) => (
+                    <div key={index} className="flex items-center gap-3 p-3 border rounded-lg">
+                      <div className="flex-shrink-0">
+                        <Calendar className="h-5 w-5 text-muted-foreground" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium">{activity.shift.job?.name || 'Unknown Job'}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {format(new Date(activity.shift.date), 'MMM d, yyyy')} - {format(new Date(activity.shift.startTime), 'h:mm a')} to {format(new Date(activity.shift.endTime), 'h:mm a')}
+                        </p>
+                      </div>
+                      <Badge variant={getShiftStatusBadgeVariant(activity.shift.status)}>
+                        {activity.shift.status}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-12">
+                  <Activity className="h-12 w-12 text-muted-foreground mb-4" />
+                  <h3 className="text-lg font-semibold mb-2">No Recent Activity</h3>
+                  <p className="text-muted-foreground text-center">This employee has no recent activity to display.</p>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
 
         {/* Sidebar */}
         <div className="space-y-6">
-          {/* Quick Stats (Placeholder) */}
+          {/* Quick Stats */}
           <Card>
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <TrendingUp className="h-5 w-5" />
-                Quick Stats (Placeholder)
+                Quick Stats
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-sm">Total Shifts</span>
-                  <Badge variant="outline">N/A</Badge>
+                  <Badge variant="outline">{totalShifts}</Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm">Completed Shifts</span>
-                  <Badge variant="secondary">N/A</Badge>
+                  <Badge variant="secondary">{completedShifts}</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Total Hours</span>
+                  <Badge variant="secondary">{totalHours.toFixed(2)}</Badge>
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-sm">
                     <span>Completion Rate</span>
-                    <span className="font-medium">N/A</span>
+                    <span className="font-medium">{completionRate.toFixed(2)}%</span>
                   </div>
-                  {/* <Progress value={0} className="h-2" /> */}
+                  <Progress value={completionRate} className="h-2" />
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Activity Summary (Placeholder) */}
+          {/* Activity Summary */}
           <Card>
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Activity className="h-5 w-5" />
-                Activity Summary (Placeholder)
+                Activity Summary
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -288,14 +398,14 @@ export default function EmployeeProfilePage() {
                   <div className="w-2 h-2 rounded-full bg-green-500" />
                   <div className="flex-1">
                     <p className="text-sm font-medium">Completed Shifts</p>
-                    <p className="text-xs text-muted-foreground">N/A</p>
+                    <p className="text-xs text-muted-foreground">{completedShifts}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-blue-500" />
                   <div className="flex-1">
                     <p className="text-sm font-medium">Upcoming Shifts</p>
-                    <p className="text-xs text-muted-foreground">N/A</p>
+                    <p className="text-xs text-muted-foreground">{upcomingShifts}</p>
                   </div>
                 </div>
               </div>

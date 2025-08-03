@@ -46,8 +46,8 @@ export const userValidation = {
     location: commonValidation.optionalString,
     certifications: z.array(z.string()).optional(),
     performance: z.number().min(0).max(100).optional(),
-    crewChiefEligible: commonValidation.boolean.optional(),
-    forkOperatorEligible: commonValidation.boolean.optional(),
+    crew_chief_eligible: commonValidation.boolean.optional(),
+    fork_operator_eligible: commonValidation.boolean.optional(),
     isActive: commonValidation.boolean.optional(),
   }),
 };

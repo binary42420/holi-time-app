@@ -25,7 +25,7 @@ const AvatarStack: React.FC<{ users: (User | undefined)[]; maxVisible?: number }
     <div className="flex items-center">
       <div className="flex -space-x-3 overflow-hidden">
         {visibleUsers.map(user => (
-          <Avatar key={user.id} src={user.avatarUrl} name={user.name || ''} className="h-8 w-8" />
+          <Avatar key={user.id} src={user.avatarUrl} name={user.name || ''} userId={user.id} size="sm" enableSmartCaching={true} className="h-8 w-8" />
         ))}
       </div>
       {hiddenCount > 0 && (

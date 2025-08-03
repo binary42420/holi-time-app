@@ -190,6 +190,8 @@ export function TimesheetSection({
                     src={ap.user.avatarUrl}
                     name={ap.user.name}
                     userId={ap.user.id}
+                    size="sm"
+                    enableSmartCaching={true}
                     className={cn(
                       "h-8 w-8 border-2 border-background",
                       index > 0 && "ml-0"

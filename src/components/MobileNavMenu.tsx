@@ -67,7 +67,6 @@ export function MobileNavMenu({ className }: MobileNavMenuProps) {
           {user && (
             <div className="flex items-center gap-3 p-4 border-b border-border">
               <Avatar
-                src={user.avatarUrl}
                 name={user.name || user.email || 'User'}
                 userId={user.id}
                 size="sm"

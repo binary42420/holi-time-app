@@ -29,23 +29,25 @@ import { CompanyAvatar } from '@/components/CompanyAvatar';
 // Helper function to safely format time strings
 const formatTime = (timeString: string | null | undefined): string => {
   if (!timeString) return '';
-  
+
   try {
-    // Handle different time formats
-    let timeToFormat = timeString;
-    
-    // If it's just HH:MM, add seconds
-    if (/^\d{2}:\d{2}$/.test(timeString)) {
-      timeToFormat = `${timeString}:00`;
-    }
-    
-    // Create date with the time
-    const date = new Date(`2000-01-01T${timeToFormat}`);
-    
-    // Check if the date is valid
-    if (isNaN(date.getTime())) {
-      console.warn(`Invalid time format: ${timeString}`);
-      return timeString; // Return original string if parsing fails
+    let date: Date;
+
+    // Attempt to parse directly first (handles ISO strings like "2025-08-02T17:00:00.000Z")
+    const directDate = new Date(timeString);
+    if (!isNaN(directDate.getTime())) {
+      date = directDate;
+    } else {
+      // If direct parsing fails, assume it's a time-only string (e.g., "17:00")
+      // Prepend a dummy date to create a valid Date object for time formatting
+      const dummyDate = new Date(`2000-01-01T${timeString}`);
+      if (!isNaN(dummyDate.getTime())) {
+        date = dummyDate;
+      } else {
+        // If still invalid, log and return original string
+        console.warn(`Invalid time format: ${timeString}`);
+        return timeString;
+      }
     }
     
     return format(date, 'h:mm a');
@@ -122,41 +124,28 @@ const ShiftStatusBadge = ({ status, size = 'sm' }: { status: string, size?: 'xs'
   );
 };
 
-const FulfillmentBadge = ({ fulfillment }: { fulfillment: any }) => {
-  const getConfig = (status: string) => {
-    switch (status) {
-      case 'full':
-        return {
-          className: 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400',
-          label: 'Full'
-        };
-      case 'good':
-        return {
-          className: 'bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400',
-          label: 'Good'
-        };
-      case 'critical':
-        return {
-          className: 'bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400',
-          label: 'Critical'
-        };
-      default:
-        return {
-          className: 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400',
-          label: 'Unknown'
-        };
-    }
-  };
+interface FulfillmentBadgeProps {
+  assigned: number;
+  requested: number;
+}
 
-  const config = getConfig(fulfillment.status);
+export const FulfillmentBadge = ({ assigned, requested }: FulfillmentBadgeProps) => {
+  const status = assigned >= requested ? 'full' : 
+               assigned >= requested * 0.7 ? 'good' : 'critical';
+  
+  const statusClasses = {
+    full: 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400',
+    good: 'bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400',
+    critical: 'bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400'
+  };
 
   return (
     <div className={cn(
       "inline-flex items-center gap-1 rounded-full text-xs font-medium px-2 py-1",
-      config.className
+      statusClasses[status]
     )}>
       <Users className="h-3 w-3" />
-      {fulfillment.totalAssigned}/{fulfillment.totalRequired}
+      {assigned}/{requested}
     </div>
   );
 };
@@ -326,7 +315,10 @@ export function ShiftsSection({
                 <div className="flex items-center gap-2 mb-1">
                   <h4 className="font-medium truncate">{shift.job.name}</h4>
                   <ShiftStatusBadge status={shift.status} size="xs" />
-                  <FulfillmentBadge fulfillment={shift.fulfillment} />
+                  <FulfillmentBadge 
+                    assigned={shift.fulfillment.totalAssigned}
+                    requested={shift.fulfillment.totalRequired}
+                  />
                 </div>
                 
                 <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2">
@@ -366,7 +358,7 @@ export function ShiftsSection({
                     name={ap.user.name}
                     userId={ap.user.id}
                     size="sm"
-                    enableSmartCaching={!!ap.user.avatarUrl}
+                    enableSmartCaching={true}
                     className={cn(
                       "h-8 w-8 border-2 border-background",
                       index > 0 && "ml-0"

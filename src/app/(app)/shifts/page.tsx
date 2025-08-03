@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState, useEffect } from "react"
@@ -34,6 +35,7 @@ import {
 } from "lucide-react"
 import { CompanyAvatar } from "@/components/CompanyAvatar"
 import { StatusBadge } from "@/components/ui/status-badge"
+import { FulfillmentBadge } from "@/components/dashboard/shifts-section"
 
 // Update the date and time formatting functions
 const formatSimpleDate = (date: string | Date) => {
@@ -373,9 +375,28 @@ export default function ShiftsPage() {
                             <span className="truncate">{shift.location}</span>
                           </div>
                         )}
-                        <div className="flex items-center text-sm">
+                        <div className="flex items-center text-sm gap-2">
                           <Users className="h-4 w-4 mr-2 text-muted-foreground" />
-                          {shift.assignedPersonnel?.length || 0} / {shift.requestedWorkers || 0} workers
+                          <div className="text-muted-foreground">
+                            {(() => {
+                              // Use fulfillment data if available, otherwise calculate
+                              if (shift.fulfillment) {
+                                return `${shift.fulfillment.totalAssigned} of ${shift.fulfillment.totalRequired} Workers Assigned`;
+                              }
+                              
+                              // Fallback calculation
+                              const assignedCount = shift.assignedPersonnel?.filter((p: any) => p.userId).length || 0;
+                              const totalRequired = (shift.requiredCrewChiefs || 0) + 
+                                                   (shift.requiredStagehands || 0) + 
+                                                   (shift.requiredForkOperators || 0) + 
+                                                   (shift.requiredReachForkOperators || 0) + 
+                                                   (shift.requiredRiggers || 0) + 
+                                                   (shift.requiredGeneralLaborers || 0);
+                              const requested = totalRequired || shift.requestedWorkers || 0;
+                              
+                              return `${assignedCount} of ${requested} Workers Assigned`;
+                            })()}
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -18,6 +18,7 @@ import { DangerZone } from "@/components/danger-zone"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ShiftStatus } from "@prisma/client"
+import { getAssignedWorkerCount, getTotalRequiredWorkers } from "@/lib/worker-count-utils"
 
 // Helper functions for status indicators (copied from companies/[id]/page.tsx for consistency)
 const getShiftStatusColor = (status: string) => {
