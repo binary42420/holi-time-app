@@ -13,7 +13,7 @@ export function withAuth(Component: any, role?: string) {
       if (status === "loading") return; // Do nothing while loading
       if (!session) router.push("/login"); // Redirect if not authenticated
       if (role && session?.user?.role !== role) router.push("/unauthorized"); // Redirect if not authorized
-    }, [session, status]);
+    }, [session, status, router, role]);
 
     if (session) {
       return <Component {...props} />;

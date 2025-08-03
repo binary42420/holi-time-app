@@ -1,5 +1,6 @@
 "use client"
 
+import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
@@ -35,6 +36,7 @@ const allNavItems = [
 export function MobileNavMenu({ className }: MobileNavMenuProps) {
   const pathname = usePathname()
   const { user } = useUser()
+  const [open, setOpen] = React.useState(false)
 
   // Filter nav items based on user role
   const getVisibleNavItems = () => {
@@ -47,7 +49,7 @@ export function MobileNavMenu({ className }: MobileNavMenuProps) {
   const visibleNavItems = getVisibleNavItems();
 
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild className={className}>
         <Button 
           variant="ghost" 
@@ -98,6 +100,7 @@ export function MobileNavMenu({ className }: MobileNavMenuProps) {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={() => setOpen(false)}
                   className={cn(
                     "flex items-center space-x-3 px-3 py-3 rounded-lg text-base font-medium transition-colors",
                     isActive

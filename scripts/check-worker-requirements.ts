@@ -77,7 +77,7 @@ async function checkWorkerRequirements() {
       console.log('🎯 Shifts with actual requirements:');
       shiftsWithRequirements.forEach((shift, index) => {
         console.log(`${index + 1}. ${shift.id} - ${shift.date.toISOString().split('T')[0]}`);
-        const requirements = [];
+        const requirements: string[] = [];
         if (shift.requiredCrewChiefs) requirements.push(`CC: ${shift.requiredCrewChiefs}`);
         if (shift.requiredStagehands) requirements.push(`SH: ${shift.requiredStagehands}`);
         if (shift.requiredForkOperators) requirements.push(`FO: ${shift.requiredForkOperators}`);
