@@ -65,8 +65,8 @@ steps:
       - '--platform=managed'
       - '--allow-unauthenticated'
       - '--port=3000'
-      - '--memory=1Gi' # Allocate 1Gi of memory to the main service
-      - '--cpu=1'
+      - '--memory=2Gi' # Allocate 2Gi of memory for PDF generation with Puppeteer
+      - '--cpu=2'
       - '--timeout=1300s'
       - '--min-instances=0' # Set to 0 to scale to zero and save costs
       - '--max-instances=2' # Set a reasonable max

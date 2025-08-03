@@ -80,7 +80,7 @@ export default function CompanyDashboard() {
     );
   }
 
-  if (error || !user?.companyId) {
+  if (error || !user?.companyId || !data) {
     return (
       <DashboardPage title="Error">
         <div className="flex items-center justify-center min-h-[60vh]">

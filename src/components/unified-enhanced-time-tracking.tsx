@@ -28,7 +28,8 @@ import { ROLE_DEFINITIONS } from '@/lib/constants';
 import EnhancedWorkerSelector from '@/components/EnhancedWorkerSelector';
 import WorkerRequirementsManager from '@/components/worker-requirements-manager';
 import QuickRequirementsEditor from '@/components/quick-requirements-editor';
-import type { RoleCode, Assignment as WorkerAssignment, User, TimeEntry as TimeEntryType } from '@/lib/types';
+import { TimesheetApprovalButton } from '@/components/timesheet-approval-button';
+import type { RoleCode, Assignment as WorkerAssignment, User, TimeEntry as TimeEntryType, TimesheetStatus } from '@/lib/types';
 
 interface WorkerRequirement {
   roleCode: RoleCode;
@@ -44,6 +45,10 @@ interface UnifiedEnhancedTimeTrackingProps {
   onRequirementsChange?: (requirements: WorkerRequirement[]) => void;
   disabled?: boolean;
   shiftStatus?: string;
+  timesheets?: {
+    id: string;
+    status: string;
+  }[];
 }
 
 // Worker status types
@@ -57,7 +62,8 @@ export default function UnifiedEnhancedTimeTracking({
   onRefresh,
   onRequirementsChange,
   disabled = false,
-  shiftStatus
+  shiftStatus,
+  timesheets = []
 }: UnifiedEnhancedTimeTrackingProps) {
   const { toast } = useToast();
   const [actionLoading, setActionLoading] = useState<Set<string>>(new Set());
@@ -807,9 +813,20 @@ export default function UnifiedEnhancedTimeTracking({
               </>
             )}
             {isShiftCompleted && (
-              <div className="flex items-center gap-2 px-4 py-2 bg-green-900/20 border border-green-500/30 rounded-md text-green-400">
-                <CheckCircle className="h-4 w-4" />
-                <span className="text-sm font-medium">Shift Completed - Time Tracking Locked</span>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                <div className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-green-900/20 border border-green-500/30 rounded-md text-green-400">
+                  <CheckCircle className="h-4 w-4" />
+                  <span className="text-xs sm:text-sm font-medium">
+                    <span className="hidden sm:inline">Shift Completed - Time Tracking Locked</span>
+                    <span className="sm:hidden">Shift Completed</span>
+                  </span>
+                </div>
+                {timesheets.length > 0 && (
+                  <TimesheetApprovalButton
+                    timesheetId={timesheets[0].id}
+                    status={timesheets[0].status as TimesheetStatus}
+                  />
+                )}
               </div>
             )}
           </div>

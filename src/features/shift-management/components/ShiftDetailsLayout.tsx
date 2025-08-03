@@ -98,6 +98,7 @@ export function ShiftDetailsLayout({
               onRefresh?.();
             }}
             shiftStatus={shift.status}
+            timesheets={shift.timesheets}
           />
         </Tabs.Content>
         <Tabs.Content value="details" className="py-6">
