@@ -15,7 +15,7 @@ $REGION = "us-west2"
 function Write-Status { param([string]$msg) Write-Host "🚀 $msg" -ForegroundColor Cyan }
 function Write-Success { param([string]$msg) Write-Host "✅ $msg" -ForegroundColor Green }
 function Write-Error { param([string]$msg) Write-Host "❌ $msg" -ForegroundColor Red }
-function Write-Info { param([string]$msg) Write-Host "ℹ️  $msg" -ForegroundColor Blue }
+function Write-Info { param([string]$msg) Write-Host "INFO: $msg" -ForegroundColor Blue }
 
 Write-Status "HoliTime - One-Click Cloud Run Deployment"
 Write-Info "Project: $PROJECT_ID"
@@ -110,7 +110,7 @@ try {
         # Open the app in browser
         if (-not $Force) {
             $openBrowser = Read-Host "Open your app in browser? (y/n)"
-            if ($openBrowser -eq 'y') {
+            if ($openBrowser -eq "y") {
                 Start-Process $serviceUrl
             }
         }

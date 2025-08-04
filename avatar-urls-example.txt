@@ -1,0 +1,15 @@
+# Example Avatar URLs File
+# Remove this file and create your own 'avatar-urls.txt'
+
+# Format 1: CSV (identifier,url) - RECOMMENDED
+john.doe@company.com,https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face
+jane.smith@company.com,https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face
+mike.johnson@company.com,https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face
+
+# Format 2: JSON (one per line)
+{"email": "sarah.wilson@company.com", "url": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"}
+{"id": "emp001", "name": "David Brown", "email": "david.brown@company.com", "url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face"}
+
+# Format 3: Plain URLs (will need manual matching)
+https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=150&h=150&fit=crop&crop=face
+https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face

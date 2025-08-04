@@ -11,8 +11,15 @@ import { NextResponse } from 'next/server';
  * Checks if we're in build time and should skip database operations
  */
 export function isBuildTime(): boolean {
-  // During build, NODE_ENV is production but DATABASE_URL might not be available
-  return process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL;
+  // Check for build-specific environment variables
+  const isBuild = process.env.npm_lifecycle_event?.includes('build') || 
+                  process.env.NEXT_PHASE === 'phase-production-build' ||
+                  process.env.BUILD_TIME === 'true';
+  
+  // During actual build, DATABASE_URL might not be available
+  const noDatabaseInBuild = isBuild && !process.env.DATABASE_URL;
+  
+  return isBuild || noDatabaseInBuild;
 }
 
 /**

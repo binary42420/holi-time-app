@@ -237,8 +237,15 @@ export default function EmployeeProfilePage() {
             <CardHeader>
               <div className="flex items-center gap-4">
                 <Avatar className="w-16 h-16">
-                  <AvatarImage src={employee.avatarData || undefined} />
-                  <AvatarFallback>{employee.name.split(' ').map((n: string) => n[0]).join('')}</AvatarFallback>
+                  {employee.avatarData ? (
+                    <img 
+                      src={employee.avatarData} 
+                      alt={employee.name}
+                      className="object-cover w-full h-full"
+                    />
+                  ) : (
+                    <AvatarFallback>{employee.name.split(' ').map((n: string) => n[0]).join('')}</AvatarFallback>
+                  )}
                 </Avatar>
                 <div className="flex-1">
                   <CardTitle className="text-2xl">{employee.name}</CardTitle>

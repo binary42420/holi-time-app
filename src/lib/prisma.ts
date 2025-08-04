@@ -1,13 +1,11 @@
 import { PrismaClient } from '@prisma/client'
+import { isBuildTime } from './build-time-check'
 
 declare global {
   // allow global `var` declarations
   // eslint-disable-next-line no-var
   var prisma: PrismaClient | undefined
 }
-
-// Check if we're in build time (production without DATABASE_URL)
-const isBuildTime = process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL;
 
 // Create a mock Prisma client for build time
 const mockPrismaClient = {
@@ -26,13 +24,20 @@ const mockPrismaClient = {
   // Add other models as needed
 } as any;
 
-export const prisma = isBuildTime 
+const buildTime = isBuildTime();
+
+export const prisma = buildTime 
   ? mockPrismaClient
   : (global.prisma ||
     new PrismaClient({
-      log: ['query'],
+      log: process.env.NODE_ENV === 'development' ? ['query'] : ['error'],
+      datasources: {
+        db: {
+          url: process.env.DATABASE_URL
+        }
+      }
     }));
 
-if (process.env.NODE_ENV !== 'production' && !isBuildTime) {
+if (process.env.NODE_ENV !== 'production' && !buildTime) {
   global.prisma = prisma as PrismaClient;
 }

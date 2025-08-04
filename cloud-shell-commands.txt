@@ -1,0 +1,9 @@
+﻿# Run these commands in Google Cloud Shell:
+
+# 1. Upload your project (run this from your local machine):
+gcloud cloud-shell scp --recurse "C:\Users\ryley\WebstormProjects\untitled\my-next-app" cloudshell:~/holitime-app
+
+# 2. Then in Cloud Shell, run:
+cd ~/holitime-app
+chmod +x deploy-cloud-shell.sh
+./deploy-cloud-shell.sh
