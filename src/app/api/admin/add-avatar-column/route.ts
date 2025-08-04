@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { isBuildTime, buildTimeResponse } from '@/lib/build-time-check';
 
+// Force dynamic rendering to prevent static generation during build
+export const dynamic = 'force-dynamic';
+
 /**
  * Admin endpoint to add the avatarData column to the users table
  * This is a one-time setup endpoint

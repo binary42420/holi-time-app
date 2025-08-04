@@ -10,6 +10,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // Skip static generation for API routes during build
+  generateBuildId: async () => {
+    return 'build-' + Date.now();
+  },
   images: {
     domains: ['localhost', 'lh3.googleusercontent.com', 'avatars.githubusercontent.com'],
   },

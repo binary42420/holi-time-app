@@ -3,6 +3,9 @@ import { prisma } from '@/lib/prisma';
 import { getCurrentUser } from '@/lib/middleware';
 import { isBuildTime, buildTimeResponse } from '@/lib/build-time-check';
 
+// Force dynamic rendering to prevent static generation during build
+export const dynamic = 'force-dynamic';
+
 /**
  * Admin endpoint to consolidate avatar data
  * Ensures all users have their avatar/profile picture data in the avatarUrl field only
