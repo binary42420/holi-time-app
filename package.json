@@ -155,6 +155,7 @@
     "jest": "^30.0.5",
     "jest-environment-jsdom": "^30.0.5",
     "prisma": "5.17.0",
+    "puppeteer": "^24.15.0",
     "tsx": "^4.16.2",
     "typescript": "^5.5.4"
   }
