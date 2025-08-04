@@ -149,6 +149,12 @@ function validateEmployeeRow(row: any, rowNumber: number): EmployeeCSVRow {
   if (row.fork_operator_eligible && !['true', 'false'].includes(row.fork_operator_eligible.toLowerCase())) {
     errors.push('fork_operator_eligible must be true or false')
   }
+  if (row.OSHA_10_Certifications && !['true', 'false'].includes(row.OSHA_10_Certifications.toLowerCase())) {
+    errors.push('OSHA_10_Certifications must be true or false')
+  }
+  if (row.OSHA_10_Certifications && !['true', 'false'].includes(row.OSHA_10_Certifications.toLowerCase())) {
+    errors.push('OSHA_10_Certifications must be true or false')
+  }
 
   return {
     name: row.name || '',
@@ -158,6 +164,8 @@ function validateEmployeeRow(row: any, rowNumber: number): EmployeeCSVRow {
     company_name: row.company_name || '',
     crew_chief_eligible: row.crew_chief_eligible || 'false',
     fork_operator_eligible: row.fork_operator_eligible || 'false',
+    OSHA_10_Certifications: row.OSHA_10_Certifications || 'false',
+    OSHA_10_Certifications: row.OSHA_10_Certifications || 'false',
     certifications: row.certifications || '',
     location: row.location || '',
     _rowNumber: rowNumber,

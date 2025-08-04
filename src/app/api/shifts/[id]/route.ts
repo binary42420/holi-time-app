@@ -22,6 +22,7 @@ const shiftWithDetailsInclude = {
           companyId: true,
           crew_chief_eligible: true,
           fork_operator_eligible: true,
+          OSHA_10_Certifications: true,
           certifications: true,
           performance: true,
           location: true,

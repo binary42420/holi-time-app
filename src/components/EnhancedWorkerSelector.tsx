@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { User } from '@/lib/types';
-import { ChevronDown, Search, X, Filter, UserCheck, UserX, MapPin, Award } from "lucide-react";
+import { ChevronDown, Search, X, Filter, UserCheck, UserX, MapPin, Award, Crown, Truck, HardHat } from "lucide-react";
 import { Avatar } from './Avatar';
 
 interface EnhancedWorkerSelectorProps {
@@ -229,6 +229,7 @@ const EnhancedWorkerSelector: React.FC<EnhancedWorkerSelectorProps> = ({
     if (user.crew_chief_eligible) {
       badges.push(
         <span key="cc" className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+          <Crown className="w-3 h-3 mr-1" />
           CC
         </span>
       );
@@ -237,7 +238,17 @@ const EnhancedWorkerSelector: React.FC<EnhancedWorkerSelectorProps> = ({
     if (user.fork_operator_eligible) {
       badges.push(
         <span key="fo" className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+          <Truck className="w-3 h-3 mr-1" />
           FO
+        </span>
+      );
+    }
+
+    if (user.OSHA_10_Certifications) {
+      badges.push(
+        <span key="osha" className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+          <HardHat className="w-3 h-3 mr-1" />
+          OSHA
         </span>
       );
     }

@@ -48,6 +48,7 @@ export const userValidation = {
     performance: z.number().min(0).max(100).optional(),
     crew_chief_eligible: commonValidation.boolean.optional(),
     fork_operator_eligible: commonValidation.boolean.optional(),
+    OSHA_10_Certifications: commonValidation.boolean.optional(),
     isActive: commonValidation.boolean.optional(),
   }),
 };

@@ -62,6 +62,7 @@ model User {
   isActive               Boolean  @default(true)
   crew_chief_eligible    Boolean  @default(false)
   fork_operator_eligible Boolean  @default(false)
+  OSHA_10_Certifications Boolean  @default(false)
   certifications         String[] @default([])
   performance            Float?
   location               String?

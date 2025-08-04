@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { useUserById } from '@/hooks/use-api';
 import { UserRole } from '@prisma/client';
 import { withAuth } from '@/lib/withAuth';
-import { ArrowLeft, Edit, User } from "lucide-react";
+import { ArrowLeft, Edit, User, Crown, Truck, HardHat } from "lucide-react";
 import { DashboardPage } from '@/components/DashboardPage';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -84,15 +84,33 @@ function EmployeeProfilePage() {
                 <p className="text-muted-foreground">{employee.location || 'Not specified'}</p>
               </div>
               <div className="flex justify-between">
-                <p className="font-medium">Crew Chief Eligible:</p>
-                <Badge variant={employee.crew_chief_eligible ? 'default' : 'secondary'}>
+                <p className="font-medium flex items-center gap-2">
+                  <Crown className="h-4 w-4 text-blue-500" />
+                  Crew Chief Eligible:
+                </p>
+                <Badge variant={employee.crew_chief_eligible ? 'default' : 'secondary'} className={employee.crew_chief_eligible ? 'bg-blue-100 text-blue-800' : ''}>
+                  <Crown className="h-3 w-3 mr-1" />
                   {employee.crew_chief_eligible ? 'Yes' : 'No'}
                 </Badge>
               </div>
               <div className="flex justify-between">
-                <p className="font-medium">Fork Operator Eligible:</p>
-                <Badge variant={employee.fork_operator_eligible ? 'default' : 'secondary'}>
+                <p className="font-medium flex items-center gap-2">
+                  <Truck className="h-4 w-4 text-green-500" />
+                  Fork Operator Eligible:
+                </p>
+                <Badge variant={employee.fork_operator_eligible ? 'default' : 'secondary'} className={employee.fork_operator_eligible ? 'bg-green-100 text-green-800' : ''}>
+                  <Truck className="h-3 w-3 mr-1" />
                   {employee.fork_operator_eligible ? 'Yes' : 'No'}
+                </Badge>
+              </div>
+              <div className="flex justify-between">
+                <p className="font-medium flex items-center gap-2">
+                  <HardHat className="h-4 w-4 text-orange-500" />
+                  OSHA 10 Certified:
+                </p>
+                <Badge variant={employee.OSHA_10_Certifications ? 'default' : 'secondary'} className={employee.OSHA_10_Certifications ? 'bg-orange-100 text-orange-800' : ''}>
+                  <HardHat className="h-3 w-3 mr-1" />
+                  {employee.OSHA_10_Certifications ? 'Yes' : 'No'}
                 </Badge>
               </div>
               <div className="flex justify-between">

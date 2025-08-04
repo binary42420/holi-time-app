@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ArrowLeft, User, Edit, Phone, Mail, MapPin, Briefcase, Plus, Calendar, Users, AlertCircle, RefreshCw, Clock, CheckCircle, XCircle, UserCheck, UserX, TrendingUp, Activity } from "lucide-react";
+import { ArrowLeft, User, Edit, Phone, Mail, MapPin, Briefcase, Plus, Calendar, Users, AlertCircle, RefreshCw, Clock, CheckCircle, XCircle, UserCheck, UserX, TrendingUp, Activity, Crown, Truck, HardHat } from "lucide-react";
 import { useToast } from "@/hooks/use-toast"
 import { format, isPast, isFuture, isToday, isYesterday, isTomorrow, differenceInHours } from 'date-fns';
 import { Progress } from "@/components/ui/progress"; // Assuming a Progress component exists
@@ -296,20 +296,32 @@ export default function EmployeeProfilePage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Briefcase className="h-4 w-4 text-muted-foreground" />
+                  <Crown className="h-4 w-4 text-blue-500" />
                   <div>
                     <p className="text-sm font-medium">Crew Chief Eligible</p>
-                    <Badge variant={employee.crew_chief_eligible ? 'default' : 'secondary'}>
+                    <Badge variant={employee.crew_chief_eligible ? 'default' : 'secondary'} className={employee.crew_chief_eligible ? 'bg-blue-100 text-blue-800' : ''}>
+                      <Crown className="h-3 w-3 mr-1" />
                       {employee.crew_chief_eligible ? 'Yes' : 'No'}
                     </Badge>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Briefcase className="h-4 w-4 text-muted-foreground" />
+                  <Truck className="h-4 w-4 text-green-500" />
                   <div>
                     <p className="text-sm font-medium">Fork Operator Eligible</p>
-                    <Badge variant={employee.fork_operator_eligible ? 'default' : 'secondary'}>
+                    <Badge variant={employee.fork_operator_eligible ? 'default' : 'secondary'} className={employee.fork_operator_eligible ? 'bg-green-100 text-green-800' : ''}>
+                      <Truck className="h-3 w-3 mr-1" />
                       {employee.fork_operator_eligible ? 'Yes' : 'No'}
+                    </Badge>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <HardHat className="h-4 w-4 text-orange-500" />
+                  <div>
+                    <p className="text-sm font-medium">OSHA 10 Certified</p>
+                    <Badge variant={employee.OSHA_10_Certifications ? 'default' : 'secondary'} className={employee.OSHA_10_Certifications ? 'bg-orange-100 text-orange-800' : ''}>
+                      <HardHat className="h-3 w-3 mr-1" />
+                      {employee.OSHA_10_Certifications ? 'Yes' : 'No'}
                     </Badge>
                   </div>
                 </div>

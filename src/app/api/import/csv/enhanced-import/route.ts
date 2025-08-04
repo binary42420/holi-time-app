@@ -564,9 +564,11 @@ async function importEmployeeData(rows: EmployeeCSVRow[]): Promise<ImportSummary
               phone: row.phone || null,
               role: (row.role as UserRole) || UserRole.Staff,
               companyId,
-              crewChiefEligible: row.crew_chief_eligible === 'true',
-              forkOperatorEligible: row.fork_operator_eligible === 'true',
-              certifications: row.certifications || null,
+              crew_chief_e_eigible: row.crew_chief_eligible === 'true',
+              fork_operator_e_eigible: row.fork_operator_eligible === 'true',
+              OSHA_10_Certifications: row.OSHA_10_Certifications === 'true',
+              OSHA_10_Certifications: row.OSHA_10_Certifications === 'true',
+              certifications: row.certifications ? row.certifications.split(',').map(c => c.trim()) : []? row.certifications.split(',').map(c => c.trim()) : [],
               location: row.location || null
             }
 

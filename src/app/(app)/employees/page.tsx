@@ -27,7 +27,10 @@ import {
   Eye,
   Edit,
   Trash2,
-  MoreHorizontal
+  MoreHorizontal,
+  Crown,
+  Truck,
+  HardHat
 } from "lucide-react"
 import { UserRole } from "@prisma/client"
 import { useToast } from "@/hooks/use-toast"
@@ -46,6 +49,7 @@ interface User {
   avatarUrl?: string;
   crew_chief_eligible?: boolean;
   fork_operator_eligible?: boolean;
+  OSHA_10_Certifications?: boolean;
   location?: string;
   certifications?: string[];
   performance?: number;
@@ -107,15 +111,25 @@ export default function EmployeesPage() {
     const badges = []
     if (user.crew_chief_eligible) {
       badges.push(
-        <Badge key="cc" variant="outline" className="text-blue-400 border-blue-400">
+        <Badge key="cc" variant="outline" className="text-blue-400 border-blue-400 flex items-center gap-1" title="Crew Chief Eligible">
+          <Crown className="h-3 w-3" />
           CC
         </Badge>
       )
     }
     if (user.fork_operator_eligible) {
       badges.push(
-        <Badge key="fo" variant="outline" className="text-green-400 border-green-400">
+        <Badge key="fo" variant="outline" className="text-green-400 border-green-400 flex items-center gap-1" title="Fork Operator Eligible">
+          <Truck className="h-3 w-3" />
           FO
+        </Badge>
+      )
+    }
+    if (user.OSHA_10_Certifications) {
+      badges.push(
+        <Badge key="osha" variant="outline" className="text-orange-400 border-orange-400 flex items-center gap-1" title="OSHA 10 Certified">
+          <HardHat className="h-3 w-3" />
+          OSHA
         </Badge>
       )
     }
