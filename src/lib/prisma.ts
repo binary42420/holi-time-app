@@ -6,10 +6,33 @@ declare global {
   var prisma: PrismaClient | undefined
 }
 
-export const prisma =
-  global.prisma ||
-  new PrismaClient({
-    log: ['query'],
-  })
+// Check if we're in build time (production without DATABASE_URL)
+const isBuildTime = process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL;
 
-if (process.env.NODE_ENV !== 'production') global.prisma = prisma
+// Create a mock Prisma client for build time
+const mockPrismaClient = {
+  $connect: () => Promise.resolve(),
+  $disconnect: () => Promise.resolve(),
+  $queryRaw: () => Promise.resolve([]),
+  $executeRaw: () => Promise.resolve(0),
+  user: {
+    findMany: () => Promise.resolve([]),
+    findUnique: () => Promise.resolve(null),
+    create: () => Promise.resolve({}),
+    update: () => Promise.resolve({}),
+    delete: () => Promise.resolve({}),
+    count: () => Promise.resolve(0),
+  },
+  // Add other models as needed
+} as any;
+
+export const prisma = isBuildTime 
+  ? mockPrismaClient
+  : (global.prisma ||
+    new PrismaClient({
+      log: ['query'],
+    }));
+
+if (process.env.NODE_ENV !== 'production' && !isBuildTime) {
+  global.prisma = prisma as PrismaClient;
+}
