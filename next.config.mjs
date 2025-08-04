@@ -15,7 +15,7 @@ const nextConfig = {
     return 'build-' + Date.now();
   },
   images: {
-    domains: ['localhost', 'lh3.googleusercontent.com', 'avatars.githubusercontent.com'],
+    domains: ['localhost', 'lh3.googleusercontent.com', 'avatars.githubusercontent.com', 'ui-avatars.com', 'storage.googleapis.com'],
   },
   webpack: (config, { isServer }) => {
     if (isServer) {

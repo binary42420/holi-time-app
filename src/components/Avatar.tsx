@@ -32,7 +32,6 @@ export const Avatar = memo(function Avatar({
   onLoadError,
   onLoadSuccess
 }: AvatarProps) {
-  console.log('Avatar Component Rendered:', { src, name, userId, size, enableSmartCaching });
   const [imageUrl, setImageUrl] = useState<string | null>(src ?? null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -40,29 +39,25 @@ export const Avatar = memo(function Avatar({
 
   // Handle image load success
   const handleImageLoad = useCallback(() => {
-    console.log('Image loaded successfully:', imageUrl);
     setIsLoading(false);
     setHasError(false);
     onLoadSuccess?.();
-  }, [onLoadSuccess, imageUrl]);
+  }, [onLoadSuccess]);
 
   // Handle image load error
   const handleImageError = useCallback((e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    console.error('Image failed to load:', imageUrl, e);
     setIsLoading(false);
     setHasError(true);
     setImageUrl(null);
     onLoadError?.();
-  }, [onLoadError, imageUrl]);
+  }, [onLoadError]);
 
   // Fetch avatar with smart caching
   const fetchAvatar = useCallback(async () => {
     if (!userId || !enableSmartCaching) {
-      console.log('fetchAvatar skipped: userId or enableSmartCaching not present', { userId, enableSmartCaching });
       return;
     }
 
-    console.log('Attempting to fetch avatar for userId:', userId);
     try {
       setIsLoading(true);
 
@@ -72,7 +67,6 @@ export const Avatar = memo(function Avatar({
       });
 
       if (avatarData && avatarData.url) {
-        console.log('Avatar data fetched:', avatarData);
         // Add cache busting parameter
         const url = new URL(avatarData.url, window.location.origin);
         url.searchParams.set('t', Date.now().toString());
@@ -80,19 +74,15 @@ export const Avatar = memo(function Avatar({
         setImageUrl(url.toString());
         setCacheKey(Date.now().toString());
         setHasError(false);
-        console.log('setImageUrl (fetchAvatar success):', url.toString());
       } else {
-        console.log('No avatar URL found in fetched data for userId:', userId, avatarData);
         setImageUrl(null);
         setHasError(true);
       }
     } catch (error) {
-      console.error('Error fetching avatar:', error);
       setHasError(true);
       setImageUrl(null);
     } finally {
       setIsLoading(false);
-      console.log('fetchAvatar finished. isLoading:', false);
     }
   }, [userId, enableSmartCaching]);
 
@@ -128,47 +118,39 @@ export const Avatar = memo(function Avatar({
 
   // Initial load
   useEffect(() => {
-    console.log('Initial load useEffect triggered. Current src:', src, 'userId:', userId);
     setIsLoading(true);
     setHasError(false);
     
     if (userId) {
-      console.log('Initial load: userId present. Using unified API endpoint.');
-      // Always use the unified avatar API endpoint when userId is available
-      // This ensures consistency regardless of src value
-      const avatarUrl = `/api/users/${userId}/avatar/image?t=${Date.now()}`;
+      // Use a more stable cache key based on userId and current cache key
+      const timestamp = cacheKey || Date.now();
+      const avatarUrl = `/api/users/${userId}/avatar/image?t=${timestamp}`;
       setImageUrl(avatarUrl);
       setIsLoading(false);
-      console.log('setImageUrl (initial load - userId):', avatarUrl);
       
       // If smart caching is enabled, also try to fetch avatar data
       if (enableSmartCaching) {
-        console.log('Initial load: Smart caching enabled, calling fetchAvatar.');
         fetchAvatar();
       }
     } else if (src) {
-      console.log('Initial load: src present, no userId. Using src directly or with cache busting.');
       // Only use src if no userId is provided (for external/legacy usage)
       if (src.includes('/avatar/image')) {
         // Add cache busting for our avatar API
         const url = new URL(src, window.location.origin);
-        url.searchParams.set('t', Date.now().toString());
+        url.searchParams.set('t', cacheKey || Date.now().toString());
         setImageUrl(url.toString());
-        console.log('setImageUrl (initial load - src with cache busting):', url.toString());
       } else {
         // Use src as-is (external URLs, data URLs, etc.)
         setImageUrl(src);
-        console.log('setImageUrl (initial load - src as-is):', src);
       }
       setIsLoading(false);
     } else {
-      console.log('Initial load: No src and no userId. Showing initials only.');
       // No src and no userId - show initials only
       setIsLoading(false);
       setImageUrl(null);
       setHasError(false);
     }
-  }, [src, userId, enableSmartCaching, fetchAvatar]);
+  }, [src, userId, enableSmartCaching, fetchAvatar, cacheKey]);
 
   // Listen for global avatar updates
   useEffect(() => {
@@ -234,26 +216,21 @@ export const Avatar = memo(function Avatar({
             onError={handleImageError}
           />
         ) : (
-          <>
-            {console.log('Rendering Next.js Image component with src:', imageUrl)}
-            <Image
-              src={imageUrl}
-              alt={name}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover"
-              onLoad={handleImageLoad}
-              onError={handleImageError}
-            />
-          </>
+          <Image
+            src={imageUrl}
+            alt={name}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
+            onLoad={handleImageLoad}
+            onError={handleImageError}
+            unoptimized={true}
+          />
         )
       ) : (
-        <>
-          {console.log('Rendering initials for:', name, 'due to no imageUrl or hasError:', hasError)}
-          <span className="font-medium text-gray-600 dark:text-gray-300">
-            {initials}
-          </span>
-        </>
+        <span className="font-medium text-gray-600 dark:text-gray-300">
+          {initials}
+        </span>
       )}
     </div>
   );

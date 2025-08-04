@@ -322,7 +322,7 @@ const UnifiedTimeTrackingComponent: React.FC<UnifiedTimeTrackingProps> = ({
     })));
 
     return slots;
-  }, [shift.assignedPersonnel, shift.id]); // More specific dependencies
+  }, [shift.assignedPersonnel, shift.id, shift]); // Include shift dependency for required worker counts
 
   const handleSelectChange = (assignmentId: string, newUserId: string | null) => {
     onAssignmentUpdate(assignmentId, newUserId);

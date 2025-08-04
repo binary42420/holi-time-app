@@ -12,7 +12,22 @@ const shiftWithDetailsInclude = {
   },
   assignedPersonnel: {
     include: {
-      user: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+          isActive: true,
+          companyId: true,
+          crew_chief_eligible: true,
+          fork_operator_eligible: true,
+          certifications: true,
+          performance: true,
+          location: true,
+          avatarData: true, // Include avatarData for avatar transformation
+        },
+      },
       timeEntries: true,
     },
   },
@@ -20,7 +35,21 @@ const shiftWithDetailsInclude = {
 };
 
 function transformShiftToShiftWithDetails(shift: any): ShiftWithDetails {
-  return shift as ShiftWithDetails;
+  // Transform avatarData to avatarUrl for all assigned personnel users
+  const transformedShift = {
+    ...shift,
+    assignedPersonnel: shift.assignedPersonnel?.map((assignment: any) => ({
+      ...assignment,
+      user: assignment.user ? {
+        ...assignment.user,
+        avatarUrl: assignment.user.avatarData && assignment.user.avatarData.startsWith('data:')
+          ? `/api/users/${assignment.user.id}/avatar/image`
+          : assignment.user.avatarData,
+      } : null,
+    })) || [],
+  };
+  
+  return transformedShift as ShiftWithDetails;
 }
 
 async function getShiftById(

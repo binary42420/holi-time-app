@@ -435,6 +435,7 @@ export class DatabaseQueryService {
           certifications: true,
           performance: true,
           location: true,
+          avatarData: true, // Include avatarData for avatar transformation
           company: {
             select: {
               id: true,
@@ -450,8 +451,16 @@ export class DatabaseQueryService {
             orderBy: { name: 'asc' },
           });
           
+          // Transform avatarData to avatarUrl for each user
+          const usersWithAvatarUrl = users.map(user => ({
+            ...user,
+            avatarUrl: user.avatarData && user.avatarData.startsWith('data:')
+              ? `/api/users/${user.id}/avatar/image`
+              : user.avatarData,
+          }));
+          
           return {
-            users,
+            users: usersWithAvatarUrl,
             total: users.length,
             pages: 1,
             currentPage: 1,
@@ -469,8 +478,16 @@ export class DatabaseQueryService {
           prisma.user.count({ where }),
         ]);
 
+        // Transform avatarData to avatarUrl for each user
+        const usersWithAvatarUrl = users.map(user => ({
+          ...user,
+          avatarUrl: user.avatarData && user.avatarData.startsWith('data:')
+            ? `/api/users/${user.id}/avatar/image`
+            : user.avatarData,
+        }));
+
         return {
-          users,
+          users: usersWithAvatarUrl,
           total,
           pages: Math.ceil(total / pageSize),
           currentPage: page,

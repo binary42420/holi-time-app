@@ -25,7 +25,7 @@ const adminNavItems = [
   { href: '/companies', label: 'Companies', icon: Building, roles: ['Admin'] },
   { href: '/clients', label: 'Clients', icon: Users, roles: ['Admin'] },
   { href: '/timesheets', label: 'Timesheets', icon: FileText, roles: ['Admin'] },
-  { href: '/admin-panel', label: 'Admin', icon: Settings, roles: ['Admin'] },
+  { href: '/admin', label: 'Admin Dashboard', icon: LayoutDashboard, roles: ['Admin'] },
 ];
 
 export default function Header({ children }: { children?: React.ReactNode }) {

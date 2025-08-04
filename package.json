@@ -30,7 +30,14 @@
     "test:ui": "jest tests/ui-functionality.test.js",
     "test:e2e": "jest tests/e2e-comprehensive.test.js",
     "test:all": "npm run test:db && npm run test:ui && npm run test:e2e",
-    "migrate:avatar-data": "node scripts/migrate-avatar-data.js"
+    "migrate:avatar-data": "node scripts/migrate-avatar-data.js",
+    "convert:avatars": "node convert-avatars-to-gcs.js",
+    "convert:avatars:dry-run": "node convert-avatars-to-gcs.js --dry-run",
+    "convert:avatars:force": "node convert-avatars-to-gcs.js --force",
+    "test:gcs": "node test-gcs-connection.js",
+    "test:avatar-upload": "node test-avatar-upload.js",
+    "configure:bucket-public": "node configure-bucket-public.js",
+    "fix:gcs-urls": "node fix-gcs-urls.js"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -68,12 +75,12 @@
     "@radix-ui/react-tabs": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.1",
     "@radix-ui/react-tooltip": "^1.1.2",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "0.5.16",
     "@tanstack/query-sync-storage-persister": "^5.83.0",
     "@tanstack/react-query": "^5.51.15",
     "@tanstack/react-query-devtools": "^5.83.0",
     "@tanstack/react-query-persist-client": "^5.83.0",
-    "@tailwindcss/forms": "^0.5.10",
-    "@tailwindcss/typography": "0.5.16",
     "@types/node-fetch": "^2.6.12",
     "@types/pusher-js": "^5.1.0",
     "@vercel/speed-insights": "1.2.0",

@@ -8,32 +8,51 @@ const prisma = new PrismaClient();
 
 async function checkAvatarData() {
   try {
-    const userId = 'cmdtsfp6k006vme9ewx4cjtsiq'; // Allison Osband
-    
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
+    // Get users with avatar data (not null)
+    const users = await prisma.user.findMany({
+      where: {
+        avatarData: {
+          not: null
+        }
+      },
       select: {
         id: true,
         name: true,
-        avatarUrl: true,
         avatarData: true,
-      }
+      },
+      take: 10
     });
 
-    if (!user) {
-      console.log('User not found');
-      return;
-    }
-
-    console.log(`User: ${user.name}`);
-    console.log(`avatarUrl: ${user.avatarUrl}`);
-    console.log(`avatarData type: ${typeof user.avatarData}`);
-    console.log(`avatarData length: ${user.avatarData ? user.avatarData.length : 'null'}`);
+    console.log(`Found ${users.length} users with avatar data`);
+    console.log('=== Avatar Data Check ===');
     
-    if (user.avatarData) {
-      console.log(`avatarData starts with: ${user.avatarData.substring(0, 50)}...`);
-      console.log(`Is data URL: ${user.avatarData.startsWith('data:')}`);
-    }
+    let gcsCount = 0;
+    let dataUrlCount = 0;
+    let otherCount = 0;
+    
+    users.forEach(user => {
+      console.log(`\nUser: ${user.name} (${user.id})`);
+      console.log(`avatarData type: ${typeof user.avatarData}`);
+      console.log(`avatarData length: ${user.avatarData ? user.avatarData.length : 'null'}`);
+      
+      if (user.avatarData && typeof user.avatarData === 'string') {
+        console.log(`avatarData starts with: ${user.avatarData.substring(0, 50)}...`);
+        const isDataUrl = user.avatarData.startsWith('data:');
+        const isGcsUrl = user.avatarData.startsWith('https://storage.googleapis.com/');
+        console.log(`Is data URL: ${isDataUrl}`);
+        console.log(`Is GCS URL: ${isGcsUrl}`);
+        
+        if (isGcsUrl) gcsCount++;
+        else if (isDataUrl) dataUrlCount++;
+        else otherCount++;
+      }
+      console.log('---');
+    });
+    
+    console.log(`\n=== Summary ===`);
+    console.log(`GCS URLs: ${gcsCount}`);
+    console.log(`Data URLs: ${dataUrlCount}`);
+    console.log(`Other: ${otherCount}`);
 
   } catch (error) {
     console.error('Error:', error);

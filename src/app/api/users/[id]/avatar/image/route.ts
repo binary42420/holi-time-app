@@ -36,15 +36,18 @@ export async function GET(
       return NextResponse.redirect(fallbackUrl);
     }
 
-    // If it's a data URL, parse it
+    // If it's a data URL, parse it and serve directly
     if (avatarData.startsWith('data:')) {
       try {
         const { buffer, mimeType } = parseDataUrl(avatarData);
+        
+        console.log(`Avatar request: Serving base64 data for user ${user.name} (${id}), type: ${mimeType}, size: ${buffer.length} bytes`);
         
         return new NextResponse(buffer, {
           headers: {
             'Content-Type': mimeType,
             'Cache-Control': 'public, max-age=31536000, immutable',
+            'X-Avatar-Source': 'base64-data',
           },
         });
       } catch (parseError) {
@@ -57,7 +60,13 @@ export async function GET(
       }
     }
 
-    // If it's an external URL, fetch, convert to base64, and save permanently
+    // If it's a GCS URL, redirect directly to it (no conversion needed)
+    if (avatarData.startsWith('https://storage.googleapis.com/')) {
+      console.log(`Avatar request: Redirecting to GCS URL for user ${user.name} (${id}): ${avatarData}`);
+      return NextResponse.redirect(avatarData);
+    }
+
+    // If it's any other external URL, fetch, convert to base64, and save permanently
     if (avatarData.startsWith('http://') || avatarData.startsWith('https://')) {
       console.log(`Avatar request: Converting external URL to local storage for user ${user.name} (${id}): ${avatarData}`);
       
@@ -185,7 +194,18 @@ export async function HEAD(
       }
     }
 
-    // If it's an external URL, return success
+    // If it's a GCS URL, return success (redirect will happen on GET)
+    if (avatarData.startsWith('https://storage.googleapis.com/')) {
+      return new NextResponse(null, {
+        status: 200,
+        headers: {
+          'Content-Type': 'image/jpeg', // Most avatars are JPEG
+          'Cache-Control': 'public, max-age=31536000, immutable',
+        },
+      });
+    }
+
+    // If it's any other external URL, return success
     if (avatarData.startsWith('http://') || avatarData.startsWith('https://')) {
       return new NextResponse(null, {
         status: 200,
