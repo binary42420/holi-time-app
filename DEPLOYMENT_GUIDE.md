@@ -93,7 +93,7 @@ gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/holitime-app
 gcloud run deploy holitime-app \
   --image gcr.io/YOUR_PROJECT_ID/holitime-app \
   --platform managed \
-  --region us-central1 \
+  --region us-west2 \
   --allow-unauthenticated \
   --memory 2Gi \
   --cpu 2 \
@@ -114,7 +114,7 @@ docker push gcr.io/YOUR_PROJECT_ID/holitime-app
 gcloud run deploy holitime-app \
   --image gcr.io/YOUR_PROJECT_ID/holitime-app \
   --platform managed \
-  --region us-central1 \
+  --region us-west2 \
   --allow-unauthenticated \
   --memory 2Gi \
   --cpu 2 \
@@ -196,7 +196,7 @@ The app is optimized for mobile field workers:
 gcloud logging read "resource.type=cloud_run_revision AND resource.labels.service_name=holitime-app" --limit 50
 
 # Monitor performance
-gcloud run services describe holitime-app --region=us-central1
+gcloud run services describe holitime-app --region=us-west2
 ```
 
 ## 📊 Performance Optimizations

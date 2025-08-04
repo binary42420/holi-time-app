@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // Simple startup script for Cloud Run
-const { spawn } = require('child_process');
+import { spawn } from 'child_process';
 
 // Set the port from environment variable
 const port = process.env.PORT || 3000;
