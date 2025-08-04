@@ -116,18 +116,17 @@ export default function AvatarDisplayTest() {
                     <div className="flex flex-col items-center gap-2">
                       <span className="text-sm font-medium">Avatar Component</span>
                       <Avatar 
-                        src={user.avatarUrl} 
                         name={user.name} 
                         userId={user.id} 
                         size="lg" 
-                        enableSmartCaching={true}
+                        enableSmartCaching={false}
                       />
                     </div>
                     
                     <div className="flex flex-col items-center gap-2">
                       <span className="text-sm font-medium">SimpleAvatar Component</span>
                       <SimpleAvatar 
-                        src={user.avatarUrl} 
+                        src={`/api/users/${user.id}/avatar/image?t=${Date.now()}`}
                         name={user.name} 
                         size="lg"
                       />

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React, { useState, useEffect, useCallback, memo } from 'react';
 import { getInitials } from "@/lib/utils";
-import { avatarApi } from "@/lib/api-client";
+
 
 interface AvatarProps {
   src?: string | null;
@@ -35,56 +35,30 @@ export const Avatar = memo(function Avatar({
   const [imageUrl, setImageUrl] = useState<string | null>(src ?? null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const [cacheKey, setCacheKey] = useState<string>('');
+  const [cacheKey, setCacheKey] = useState<string>(() => Date.now().toString());
+
 
   // Handle image load success
   const handleImageLoad = useCallback(() => {
+    console.log(`Avatar loaded successfully for ${name}`);
     setIsLoading(false);
     setHasError(false);
     onLoadSuccess?.();
-  }, [onLoadSuccess]);
+  }, [onLoadSuccess, name]);
 
   // Handle image load error
   const handleImageError = useCallback((e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    console.log(`Avatar failed to load for ${name}`);
     setIsLoading(false);
     setHasError(true);
     setImageUrl(null);
     onLoadError?.();
-  }, [onLoadError]);
+  }, [onLoadError, name]);
 
-  // Fetch avatar with smart caching
-  const fetchAvatar = useCallback(async () => {
-    if (!userId || !enableSmartCaching) {
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-
-      // Try to get cached avatar first
-      const avatarData = await avatarApi.getUserAvatar(userId, {
-        revalidate: false
-      });
-
-      if (avatarData && avatarData.url) {
-        // Add cache busting parameter
-        const url = new URL(avatarData.url, window.location.origin);
-        url.searchParams.set('t', Date.now().toString());
-
-        setImageUrl(url.toString());
-        setCacheKey(Date.now().toString());
-        setHasError(false);
-      } else {
-        setImageUrl(null);
-        setHasError(true);
-      }
-    } catch (error) {
-      setHasError(true);
-      setImageUrl(null);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [userId, enableSmartCaching]);
+  // Generate avatar URL with cache busting
+  const getAvatarUrl = useCallback((userId: string, cacheKey: string) => {
+    return `/api/users/${userId}/avatar/image?t=${cacheKey}`;
+  }, []);
 
   // Listen for avatar updates
   useEffect(() => {
@@ -96,14 +70,16 @@ export const Avatar = memo(function Avatar({
           setImageUrl(null);
           setHasError(false);
         } else {
-          fetchAvatar();
+          // Update cache key to force refresh
+          setCacheKey(Date.now().toString());
         }
       }
     };
 
     const handleCacheInvalidation = (event: CustomEvent) => {
       if (event.detail.userId === userId) {
-        fetchAvatar();
+        // Update cache key to force refresh
+        setCacheKey(Date.now().toString());
       }
     };
 
@@ -114,79 +90,40 @@ export const Avatar = memo(function Avatar({
       window.removeEventListener('avatarUpdated', handleAvatarUpdate as any);
       window.removeEventListener('avatarCacheInvalidated', handleCacheInvalidation as any);
     };
-  }, [userId, fetchAvatar]);
+  }, [userId]);
 
-  // Initial load
+  // Initial load and URL generation
   useEffect(() => {
-    setIsLoading(true);
+    console.log(`Avatar useEffect triggered for ${name} (userId: ${userId}, cacheKey: ${cacheKey})`);
+    setIsLoading(false);
     setHasError(false);
     
     if (userId) {
-      // Use a more stable cache key based on userId and current cache key
-      const timestamp = cacheKey || Date.now();
-      const avatarUrl = `/api/users/${userId}/avatar/image?t=${timestamp}`;
+      // Generate direct API URL with cache busting
+      const avatarUrl = getAvatarUrl(userId, cacheKey);
+      console.log(`Setting avatar URL for ${name}: ${avatarUrl}`);
       setImageUrl(avatarUrl);
-      setIsLoading(false);
-      
-      // If smart caching is enabled, also try to fetch avatar data
-      if (enableSmartCaching) {
-        fetchAvatar();
-      }
     } else if (src) {
       // Only use src if no userId is provided (for external/legacy usage)
       if (src.includes('/avatar/image')) {
         // Add cache busting for our avatar API
         const url = new URL(src, window.location.origin);
-        url.searchParams.set('t', cacheKey || Date.now().toString());
+        url.searchParams.set('t', cacheKey);
         setImageUrl(url.toString());
       } else {
         // Use src as-is (external URLs, data URLs, etc.)
         setImageUrl(src);
       }
-      setIsLoading(false);
     } else {
       // No src and no userId - show initials only
-      setIsLoading(false);
       setImageUrl(null);
       setHasError(false);
     }
-  }, [src, userId, enableSmartCaching, fetchAvatar, cacheKey]);
+  }, [src, userId, cacheKey, getAvatarUrl, name]);
 
-  // Listen for global avatar updates
-  useEffect(() => {
-    if (!userId) return;
 
-    const handleAvatarUpdate = (event: CustomEvent) => {
-      const { userId: updatedUserId, deleted } = event.detail;
 
-      if (updatedUserId === userId) {
-        console.log(`Avatar updated for user ${userId}, refreshing...`);
 
-        if (deleted) {
-          // Avatar was deleted, clear the image
-          setImageUrl(null);
-          setHasError(false);
-        } else {
-          // Avatar was updated, fetch fresh version
-          if (enableSmartCaching) {
-            fetchAvatar();
-          } else {
-            // Force refresh with cache busting
-            const freshUrl = avatarApi.getAvatarUrl(userId, Date.now());
-            setImageUrl(freshUrl);
-          }
-        }
-
-        setCacheKey(Date.now().toString());
-      }
-    };
-
-    window.addEventListener('avatarUpdated', handleAvatarUpdate as any);
-
-    return () => {
-      window.removeEventListener('avatarUpdated', handleAvatarUpdate as any);
-    };
-  }, [userId, enableSmartCaching, fetchAvatar]);
 
   const sizeClass = sizeClasses[size];
   const initials = getInitials(name);
