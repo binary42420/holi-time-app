@@ -64,7 +64,7 @@ steps:
       - '--region=us-west2'
       - '--platform=managed'
       - '--allow-unauthenticated'
-      - '--port=3000'
+      - '--port=8080'
       - '--memory=2Gi' # Allocate 2Gi of memory for PDF generation with Puppeteer
       - '--cpu=2'
       - '--timeout=1300s'
