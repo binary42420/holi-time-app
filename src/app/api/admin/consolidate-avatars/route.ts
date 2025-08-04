@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getCurrentUser } from '@/lib/middleware';
+import { isBuildTime, buildTimeResponse } from '@/lib/build-time-check';
 
 /**
  * Admin endpoint to consolidate avatar data
@@ -96,6 +97,10 @@ export async function POST(request: NextRequest) {
  * GET endpoint to check avatar consolidation status
  */
 export async function GET(request: NextRequest) {
+  if (isBuildTime()) {
+    return buildTimeResponse('Avatar consolidation check');
+  }
+
   try {
     const user = await getCurrentUser(request);
     if (!user || user.role !== 'Admin') {

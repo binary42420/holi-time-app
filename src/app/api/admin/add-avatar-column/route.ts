@@ -1,18 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { isBuildTime, buildTimeResponse } from '@/lib/build-time-check';
 
 /**
  * Admin endpoint to add the avatarData column to the users table
  * This is a one-time setup endpoint
  */
 export async function POST(request: NextRequest) {
-  // Skip database operations during build time
-  if (process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL) {
-    return NextResponse.json({
-      success: false,
-      error: 'Database not available during build',
-      message: 'Avatar column setup is skipped during build time'
-    });
+  if (isBuildTime()) {
+    return buildTimeResponse('Avatar column setup');
   }
 
   try {
@@ -66,6 +62,10 @@ export async function POST(request: NextRequest) {
  * GET endpoint to check if the column exists
  */
 export async function GET(request: NextRequest) {
+  if (isBuildTime()) {
+    return buildTimeResponse('Avatar column check');
+  }
+
   try {
     // Check if column exists
     const columnInfo = await prisma.$queryRaw`
