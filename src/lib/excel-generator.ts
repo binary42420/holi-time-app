@@ -132,13 +132,13 @@ export async function generateTimesheetExcel(timesheetId: string): Promise<Excel
   worksheet.getCell(config.shiftNotes).value = shift.notes || '';
 
   // Populate Client Information (if available)
-  worksheet.getCell(config.clientContact).value = timesheet.clientContactName || company.name || 'N/A';
+  worksheet.getCell(config.clientContact).value = company.name || 'N/A';
 
   // Add client signature if available
-  if (timesheet.clientSignature) {
+  if (timesheet.company_signature) {
     try {
       const signatureImage = workbook.addImage({
-        buffer: Buffer.from(timesheet.clientSignature.split('base64,')[1], 'base64'),
+        buffer: Buffer.from(timesheet.company_signature.split('base64,')[1], 'base64'),
         extension: 'png',
       });
       worksheet.addImage(signatureImage, {

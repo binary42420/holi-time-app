@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/middleware';
 import { generateTimesheetExcel } from '@/lib/excel-generator';
+import { generateSignedTimesheetPdf } from '@/lib/enhanced-pdf-generator';
 import { prisma } from '@/lib/prisma';
-import libre from 'libreoffice-convert';
-import util from 'util';
-import fs from 'fs';
-import path from 'path';
-
-const convertAsync = util.promisify(libre.convert);
 
 export async function POST(
   request: NextRequest,
@@ -24,48 +19,41 @@ export async function POST(
     // Get timesheet to check if it has a signature
     const timesheet = await prisma.timesheet.findUnique({
       where: { id: timesheetId },
-      select: { id: true, clientSignature: true }
+      select: { id: true, company_signature: true }
     });
 
     if (!timesheet) {
       return NextResponse.json({ error: 'Timesheet not found' }, { status: 404 });
     }
 
-    if (!timesheet.clientSignature) {
+    if (!timesheet.company_signature) {
       return NextResponse.json({ error: 'No signature to add' }, { status: 400 });
     }
 
-    // Generate Excel with signature
-    const workbook = await generateTimesheetExcel(timesheetId);
-    const excelBuffer = await workbook.xlsx.writeBuffer();
+    // Use transaction to ensure consistency
+    await prisma.$transaction(async (tx) => {
+      // Generate Excel with signature
+      const workbook = await generateTimesheetExcel(timesheetId);
+      const excelBuffer = await workbook.xlsx.writeBuffer();
 
-    // Store Excel as base64 in database
-    const excelDataUrl = `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,${Buffer.from(excelBuffer).toString('base64')}`;
+      // Store Excel as base64 in database (if needed)
+      const excelDataUrl = `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,${Buffer.from(excelBuffer).toString('base64')}`;
 
-    // Convert Excel to PDF
-    const tempDir = path.join(process.cwd(), 'temp');
-    if (!fs.existsSync(tempDir)) {
-      fs.mkdirSync(tempDir, { recursive: true });
-    }
-    
-    const tempFilePath = path.join(tempDir, `${timesheetId}-signed.xlsx`);
-    fs.writeFileSync(tempFilePath, excelBuffer as any);
+      // Generate signed PDF using enhanced generator
+      const pdfUrl = await generateSignedTimesheetPdf(timesheetId, tx);
 
-    const pdfBuffer = await convertAsync(fs.readFileSync(tempFilePath), '.pdf', undefined);
-    
-    // Clean up temp file
-    fs.unlinkSync(tempFilePath);
+      // Update timesheet with signed files (only update if we have new data)
+      const updateData: any = {
+        signed_pdf_url: pdfUrl,
+      };
 
-    // Store PDF as base64 in database
-    const pdfDataUrl = `data:application/pdf;base64,${pdfBuffer.toString('base64')}`;
+      // Only update Excel URL if we want to store it
+      // updateData.signed_excel_url = excelDataUrl;
 
-    // Update timesheet with signed files
-    await prisma.timesheet.update({
-      where: { id: timesheetId },
-      data: {
-        signed_excel_url: excelDataUrl,
-        signed_pdf_url: pdfDataUrl,
-      },
+      await tx.timesheet.update({
+        where: { id: timesheetId },
+        data: updateData,
+      });
     });
 
     return NextResponse.json({

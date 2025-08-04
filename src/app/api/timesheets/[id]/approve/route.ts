@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
 import { TimesheetStatus, UserRole } from '@prisma/client';
 import { canCrewChiefManageShift, isCrewChiefAssignedToShift } from '@/lib/auth';
-import { generateTimesheetPdf } from '@/lib/pdf';
+import { generateSignedTimesheetPdf, generateFinalTimesheetPdf } from '@/lib/enhanced-pdf-generator';
 
 // Define schema for input validation
 const clientApprovalBodySchema = z.object({
@@ -94,26 +94,27 @@ export async function POST(
         return NextResponse.json({ error: 'Timesheet is not pending company approval' }, { status: 400 });
       }
 
-      const updatedTimesheet = await prisma.timesheet.update({
-        where: { id: timesheetId },
-        data: {
-          status: TimesheetStatus.PENDING_MANAGER_APPROVAL,
-          company_signature: parsedData.signature,
-          company_approved_at: new Date(),
-          companyApprovedBy: user.id,
-          company_notes: parsedData.notes,
-        },
-      });
-
-      // Update Excel and PDF files with signature
-      try {
-        await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/timesheets/${timesheetId}/regenerate-with-signature`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
+      const updatedTimesheet = await prisma.$transaction(async (tx) => {
+        const timesheet = await tx.timesheet.update({
+          where: { id: timesheetId },
+          data: {
+            status: TimesheetStatus.PENDING_MANAGER_APPROVAL,
+            company_signature: parsedData.signature,
+            company_approved_at: new Date(),
+            companyApprovedBy: user.id,
+            company_notes: parsedData.notes,
+          },
         });
-      } catch (error) {
-        console.warn('Failed to regenerate files with signature:', error);
-      }
+
+        // Generate signed PDF with company signature
+        try {
+          await generateSignedTimesheetPdf(timesheetId, tx);
+        } catch (error) {
+          console.warn('Failed to generate signed PDF:', error);
+        }
+
+        return timesheet;
+      });
 
       // TODO: Implement a robust notification service for managers
       console.log(`TODO: Notify managers for final approval of timesheet ${updatedTimesheet.id}`);
@@ -136,19 +137,30 @@ export async function POST(
       }
 
       // Manager approval doesn't require signature - just simple approval
-      const updatedTimesheet = await prisma.timesheet.update({
-        where: { id: timesheetId },
-        data: {
-          status: TimesheetStatus.COMPLETED,
-          manager_approved_at: new Date(),
-          managerApprovedBy: user.id,
-          manager_notes: parsedData.notes,
-        },
-      });
+      const updatedTimesheet = await prisma.$transaction(async (tx) => {
+        const timesheet = await tx.timesheet.update({
+          where: { id: timesheetId },
+          data: {
+            status: TimesheetStatus.COMPLETED,
+            manager_approved_at: new Date(),
+            managerApprovedBy: user.id,
+            manager_notes: parsedData.notes,
+          },
+        });
 
-      await prisma.shift.update({
-        where: { id: updatedTimesheet.shiftId },
-        data: { status: 'Completed' },
+        await tx.shift.update({
+          where: { id: timesheet.shiftId },
+          data: { status: 'Completed' },
+        });
+
+        // Generate final PDF with all signatures
+        try {
+          await generateFinalTimesheetPdf(timesheetId, tx);
+        } catch (error) {
+          console.warn('Failed to generate final PDF:', error);
+        }
+
+        return timesheet;
       });
 
       return NextResponse.json({
@@ -168,28 +180,29 @@ export async function POST(
       
       if (timesheet.status === TimesheetStatus.PENDING_COMPANY_APPROVAL) {
         // Admin acting as company approval
-        updatedTimesheet = await prisma.timesheet.update({
-          where: { id: timesheetId },
-          data: {
-            status: TimesheetStatus.PENDING_MANAGER_APPROVAL,
-            company_signature: parsedData.signature || 'Admin Override',
-            company_approved_at: new Date(),
-            companyApprovedBy: user.id,
-            company_notes: parsedData.notes,
-          },
-        });
-        
-        // Update Excel and PDF files with signature if provided
-        if (parsedData.signature) {
-          try {
-            await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/timesheets/${timesheetId}/regenerate-with-signature`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' }
-            });
-          } catch (error) {
-            console.warn('Failed to regenerate files with signature:', error);
+        updatedTimesheet = await prisma.$transaction(async (tx) => {
+          const timesheet = await tx.timesheet.update({
+            where: { id: timesheetId },
+            data: {
+              status: TimesheetStatus.PENDING_MANAGER_APPROVAL,
+              company_signature: parsedData.signature || 'Admin Override',
+              company_approved_at: new Date(),
+              companyApprovedBy: user.id,
+              company_notes: parsedData.notes,
+            },
+          });
+          
+          // Generate signed PDF if signature provided
+          if (parsedData.signature) {
+            try {
+              await generateSignedTimesheetPdf(timesheetId, tx);
+            } catch (error) {
+              console.warn('Failed to generate signed PDF:', error);
+            }
           }
-        }
+
+          return timesheet;
+        });
         
         return NextResponse.json({
           success: true,
@@ -198,19 +211,30 @@ export async function POST(
         });
       } else if (timesheet.status === TimesheetStatus.PENDING_MANAGER_APPROVAL) {
         // Admin acting as manager approval
-        updatedTimesheet = await prisma.timesheet.update({
-          where: { id: timesheetId },
-          data: {
-            status: TimesheetStatus.COMPLETED,
-            manager_approved_at: new Date(),
-            managerApprovedBy: user.id,
-            manager_notes: parsedData.notes,
-          },
-        });
+        updatedTimesheet = await prisma.$transaction(async (tx) => {
+          const timesheet = await tx.timesheet.update({
+            where: { id: timesheetId },
+            data: {
+              status: TimesheetStatus.COMPLETED,
+              manager_approved_at: new Date(),
+              managerApprovedBy: user.id,
+              manager_notes: parsedData.notes,
+            },
+          });
 
-        await prisma.shift.update({
-          where: { id: updatedTimesheet.shiftId },
-          data: { status: 'Completed' },
+          await tx.shift.update({
+            where: { id: timesheet.shiftId },
+            data: { status: 'Completed' },
+          });
+
+          // Generate final PDF
+          try {
+            await generateFinalTimesheetPdf(timesheetId, tx);
+          } catch (error) {
+            console.warn('Failed to generate final PDF:', error);
+          }
+
+          return timesheet;
         });
         
         return NextResponse.json({

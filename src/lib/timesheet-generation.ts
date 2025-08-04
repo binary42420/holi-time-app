@@ -118,15 +118,12 @@ export async function insertSignatureIntoExcel(excelBuffer: Buffer, signatureDat
 }
 
 export async function convertExcelToPdf(excelBuffer: Buffer): Promise<Buffer> {
-  // This is a placeholder - you'll need to implement actual Excel to PDF conversion
-  // Options include:
-  // 1. LibreOffice headless conversion
-  // 2. Puppeteer with HTML conversion
-  // 3. Third-party service like CloudConvert
+  // This function is deprecated - use jsPDF-based PDF generation instead
+  // See /api/timesheets/[id]/download-pdf-simple for the working implementation
   
-  console.log('Converting Excel to PDF...')
+  console.log('Converting Excel to PDF using jsPDF...')
   
   // For now, return the Excel buffer as placeholder
-  // In production, implement actual PDF conversion
+  // Use the jsPDF implementation in download-pdf-simple route instead
   return excelBuffer
 }

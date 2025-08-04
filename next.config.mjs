@@ -20,6 +20,9 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
   images: {
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     domains: ['localhost', 'lh3.googleusercontent.com', 'avatars.githubusercontent.com', 'media.licdn.com', 'image.pollinations.ai', 'ui-avatars.com'],
     remotePatterns: [
       {

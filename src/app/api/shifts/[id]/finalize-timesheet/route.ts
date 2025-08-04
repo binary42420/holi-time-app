@@ -151,12 +151,6 @@ export async function POST(
     // Generate both Excel and PDF files immediately after finalization
     try {
       const { generateTimesheetExcel } = await import('@/lib/excel-generator');
-      const libre = await import('libreoffice-convert');
-      const util = await import('util');
-      const fs = await import('fs');
-      const path = await import('path');
-      
-      const convertAsync = util.promisify(libre.convert);
       
       // Generate Excel using template
       const workbook = await generateTimesheetExcel(timesheetId);
@@ -165,29 +159,19 @@ export async function POST(
       // Store Excel as base64 in database
       const excelDataUrl = `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,${Buffer.from(excelBuffer).toString('base64')}`;
 
-      // Convert Excel to PDF
-      const tempDir = path.join(process.cwd(), 'temp');
-      if (!fs.existsSync(tempDir)) {
-        fs.mkdirSync(tempDir, { recursive: true });
-      }
+      // Generate PDF using jsPDF (same logic as download-pdf-simple)
+      const { generateTimesheetPdf } = await import('@/lib/pdf');
+      const pdfUrl = await generateTimesheetPdf(timesheetId);
       
-      const tempFilePath = path.join(tempDir, `${timesheetId}-unsigned.xlsx`);
-      fs.writeFileSync(tempFilePath, excelBuffer as any);
-
-      const pdfBuffer = await convertAsync(fs.readFileSync(tempFilePath), '.pdf', undefined);
+      // For now, we'll store the URL instead of base64 data
+      // If you need base64 storage, you can modify the generateTimesheetPdf function
       
-      // Clean up temp file
-      fs.unlinkSync(tempFilePath);
-
-      // Store PDF as base64 in database
-      const pdfDataUrl = `data:application/pdf;base64,${pdfBuffer.toString('base64')}`;
-
       // Update timesheet with unsigned files
       await prisma.timesheet.update({
         where: { id: timesheetId },
         data: {
           unsigned_excel_url: excelDataUrl,
-          unsigned_pdf_url: pdfDataUrl,
+          unsigned_pdf_url: pdfUrl, // This will be a GCS URL
         },
       });
 
