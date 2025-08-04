@@ -17,7 +17,7 @@ const nextConfig = {
   images: {
     domains: ['localhost', 'lh3.googleusercontent.com', 'avatars.githubusercontent.com', 'ui-avatars.com', 'storage.googleapis.com'],
   },
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, dev }) => {
     if (isServer) {
       config.externals.push('_http_common');
     }
@@ -28,6 +28,14 @@ const nextConfig = {
         net: false,
         tls: false,
         dns: false,
+      };
+    }
+
+    // Fix WebSocket HMR connection issues in development
+    if (dev) {
+      config.watchOptions = {
+        poll: 1000,
+        aggregateTimeout: 300,
       };
     }
 

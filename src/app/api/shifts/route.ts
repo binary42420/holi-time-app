@@ -87,9 +87,19 @@ export async function GET(request: NextRequest) {
       const totalAssigned = shift.assignedPersonnel.filter(ap => ap.userId).length;
       const requested = totalRequired || shift.requestedWorkers || 0;
       
+      // Transform assignments to include avatarUrl for users
+      const transformedAssignments = shift.assignedPersonnel.map(assignment => ({
+        ...assignment,
+        user: assignment.user ? {
+          ...assignment.user,
+          avatarUrl: assignment.user.avatarData ? `/api/users/${assignment.user.id}/avatar/image` : null,
+        } : null,
+      }));
+
       return {
         ...shift,
-        assignments: shift.assignedPersonnel,
+        assignments: transformedAssignments,
+        assignedPersonnel: transformedAssignments, // Keep both for backward compatibility
         fulfillment: {
           totalRequired: requested,
           totalAssigned,

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test</title>
+</head>
+<body>
+    <h1>WebSocket Connection Test</h1>
+    <div id="status">Connecting...</div>
+    <div id="messages"></div>
+
+    <script>
+        const status = document.getElementById('status');
+        const messages = document.getElementById('messages');
+        
+        function testWebSocket(url) {
+            const ws = new WebSocket(url);
+            
+            ws.onopen = function() {
+                status.innerHTML = `✅ Connected to ${url}`;
+                status.style.color = 'green';
+            };
+            
+            ws.onerror = function(error) {
+                status.innerHTML = `❌ Failed to connect to ${url}`;
+                status.style.color = 'red';
+                console.error('WebSocket error:', error);
+            };
+            
+            ws.onclose = function() {
+                status.innerHTML = `🔌 Connection closed to ${url}`;
+                status.style.color = 'orange';
+            };
+        }
+        
+        // Test different WebSocket URLs
+        const urls = [
+            'ws://localhost:3000/_next/webpack-hmr',
+            'ws://127.0.0.1:3000/_next/webpack-hmr',
+            'ws://0.0.0.0:3000/_next/webpack-hmr'
+        ];
+        
+        urls.forEach((url, index) => {
+            setTimeout(() => {
+                console.log(`Testing ${url}`);
+                testWebSocket(url);
+            }, index * 2000);
+        });
+    </script>
+</body>
+</html>

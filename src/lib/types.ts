@@ -51,6 +51,7 @@ export type RoleCode = WorkerRole;
 // Models
 export interface User extends PrismaUser {
   avatarUrl?: string; // Added by API transformation from avatarData
+  OSHA_10_Certifications: boolean; // Explicitly include this property for type safety
 }
 
 export interface UserWithAssignments extends User {

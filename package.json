@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
+    "dev:firefox": "next dev --hostname 127.0.0.1 --port 3001",
+    "dev:custom": "node dev-server.js",
     "build": "prisma generate && next build",
     "start": "next start",
     "start:prod": "node scripts/startup-with-migration.js",

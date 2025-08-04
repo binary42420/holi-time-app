@@ -61,6 +61,7 @@ export async function GET(request: NextRequest) {
           location: true,
           certifications: true,
           performance: true,
+          avatarData: true,
         },
         orderBy: { name: 'asc' },
         skip: (page - 1) * limit,
@@ -69,8 +70,14 @@ export async function GET(request: NextRequest) {
       prisma.user.count({ where }),
     ]);
 
+    // Transform users to include avatarUrl for backward compatibility
+    const transformedUsers = users.map(user => ({
+      ...user,
+      avatarUrl: user.avatarData ? `/api/users/${user.id}/avatar/image` : null,
+    }));
+
     return NextResponse.json({
-      users,
+      users: transformedUsers,
       pagination: {
         page,
         limit,

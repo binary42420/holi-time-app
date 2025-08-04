@@ -172,6 +172,7 @@ export class DatabaseQueryService {
                 select: {
                   id: true,
                   name: true,
+                  avatarData: true,
                 },
               },
             },
@@ -311,6 +312,7 @@ export class DatabaseQueryService {
                       select: {
                         id: true,
                         name: true,
+                        avatarData: true,
                       },
                     },
                   },
@@ -335,7 +337,7 @@ export class DatabaseQueryService {
           take: limit,
         });
 
-        // Calculate fulfillment efficiently
+        // Calculate fulfillment efficiently and transform avatar data
         const jobsWithFulfillment = jobs.map(job => {
           const recentShifts = job.shifts.map(shift => {
             const required = (shift.requiredCrewChiefs ?? 0) +
@@ -347,8 +349,19 @@ export class DatabaseQueryService {
             // Only count assignments that have actual users assigned (not placeholders)
             const assigned = shift.assignedPersonnel.filter(p => p.userId).length;
             const requested = required || shift.requestedWorkers || 0;
+            
+            // Transform assignedPersonnel to include avatarUrl
+            const transformedAssignments = shift.assignedPersonnel.map(assignment => ({
+              ...assignment,
+              user: assignment.user ? {
+                ...assignment.user,
+                avatarUrl: assignment.user.avatarData ? `/api/users/${assignment.user.id}/avatar/image` : null,
+              } : null,
+            }));
+            
             return { 
               ...shift, 
+              assignedPersonnel: transformedAssignments,
               fulfillment: `${assigned}/${requested}`,
               fulfillmentPercentage: requested > 0 ? Math.round((assigned / requested) * 100) : 100,
               totalRequired: requested,
@@ -435,8 +448,8 @@ export class DatabaseQueryService {
           OSHA_10_Certifications: true,
           certifications: true,
           performance: true,
+          avatarData: true,
           location: true,
-          avatarData: true, // Include avatarData for avatar transformation
           company: {
             select: {
               id: true,

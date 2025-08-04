@@ -275,7 +275,7 @@ const EnhancedWorkerSelector: React.FC<EnhancedWorkerSelectorProps> = ({
       >
         {selectedUser ? (
           <div className="flex items-center gap-2 flex-1 min-w-0">
-            <Avatar src={selectedUser.avatarUrl} name={selectedUser.name} userId={selectedUser.id} size="sm" enableSmartCaching={true} className="w-6 h-6 flex-shrink-0" />
+            <Avatar name={selectedUser.name} userId={selectedUser.id} size="sm" enableSmartCaching={true} className="w-6 h-6 flex-shrink-0" />
             <span className="truncate">{selectedUser.name}</span>
             {!selectedUser.isActive && (
               <span className="flex-shrink-0 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
