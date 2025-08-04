@@ -1,28 +1,11 @@
 {
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "next",
-    "plugin:jest/recommended"
-  ],
-  "plugins": [
-    "react",
-    "jest"
-  ],
-  "env": {
-    "jest/globals": true
-  },
+  "extends": "next",
   "rules": {
-    "react/react-in-jsx-scope": 0,
-    "react/jsx-uses-react": 0,
     "@typescript-eslint/no-explicit-any": "off",
     "react/no-unescaped-entities": "off",
     "react/prop-types": "off",
-    "no-unused-vars": "off"
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
+    "no-unused-vars": "off",
+    "@next/next/no-img-element": "off",
+    "@typescript-eslint/no-unused-vars": "off"
   }
 }

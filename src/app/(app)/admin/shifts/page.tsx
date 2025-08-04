@@ -234,7 +234,7 @@ function AdminShiftsPage() {
             <div className="flex items-center justify-center py-8">
               <div className="text-destructive">Error loading shifts: {error.message}</div>
             </div>
-          ) : shifts.length === 0 ? (
+          ) : !shifts || shifts.length === 0 ? (
             <div className="text-center py-8">
               <Calendar className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
               <h3 className="text-lg font-semibold mb-2">No Shifts Found</h3>

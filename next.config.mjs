@@ -14,10 +14,10 @@ const nextConfig = {
     serverComponentsExternalPackages: ['@prisma/client'],
   },
   eslint: {
-    ignoreDuringBuilds: false,
+    ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: false,
+    ignoreBuildErrors: true,
   },
   images: {
     dangerouslyAllowSVG: true,

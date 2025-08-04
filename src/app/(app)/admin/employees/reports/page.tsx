@@ -102,6 +102,8 @@ function EmployeeReportsPage() {
   const generateAttendanceReport = () => {
     const { start, end } = getDateRange()
     
+    if (!shifts) return []
+    
     return employees.map(employee => {
       const employeeShifts = shifts.filter(shift =>
         shift.assignedPersonnel.some(a => a.userId === employee.id) &&

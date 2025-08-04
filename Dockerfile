@@ -42,19 +42,25 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
+# Create a non-root user
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
 # Copy only the necessary, optimized files from the builder stage.
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/package.json ./package.json
 
-# Make scripts executable
-RUN chmod +x ./scripts/migrate.sh ./scripts/startup-with-migration.js
+# Set correct permissions
+RUN chown -R nextjs:nodejs /app
+USER nextjs
 
-EXPOSE 3000
-# Run the app as a non-root user for better security
-USER node
+# Cloud Run expects the app to listen on PORT environment variable
+ENV PORT=8080
+EXPOSE 8080
 
-# The command to start the app with migration check
-CMD ["npm", "run", "start:prod"]
+# Start the Next.js standalone server directly
+CMD ["node", "server.js"]
