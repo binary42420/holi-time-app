@@ -58,7 +58,6 @@ export async function GET(request: NextRequest) {
           crew_chief_eligible: true,
           fork_operator_eligible: true,
           OSHA_10_Certifications: true,
-          OSHA_10_Certifications: true,
           location: true,
           certifications: true,
           performance: true,

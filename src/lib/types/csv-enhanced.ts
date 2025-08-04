@@ -31,7 +31,6 @@ export const EMPLOYEE_CSV_HEADERS = [
   'crew_chief_eligible',
   'fork_operator_eligible',
   'OSHA_10_Certifications',
-  'OSHA_10_Certifications',
   'certifications',
   'location'
 ] as const;
@@ -303,7 +302,6 @@ export const CSV_TEMPLATES = {
         'false',                      // crew_chief_eligible
         'false',                      // fork_operator_eligible
         'true',                       // OSHA_10_Certifications
-        'true',                       // OSHA_10_Certifications
         'Safety Training,First Aid',   // certifications
         'Downtown Office'             // location
       ],
@@ -315,7 +313,6 @@ export const CSV_TEMPLATES = {
         'Acme Construction',          // company_name
         'true',                       // crew_chief_eligible
         'true',                       // fork_operator_eligible
-        'true',                       // OSHA_10_Certifications
         'true',                       // OSHA_10_Certifications
         'Forklift Certified,OSHA 30', // certifications
         'Warehouse District'          // location
