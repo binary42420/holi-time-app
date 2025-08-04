@@ -468,9 +468,9 @@ export class DatabaseQueryService {
           // Transform avatarData to avatarUrl for each user
           const usersWithAvatarUrl = users.map(user => ({
             ...user,
-            avatarUrl: user.avatarData && user.avatarData.startsWith('data:')
+            avatarUrl: user.avatarData 
               ? `/api/users/${user.id}/avatar/image`
-              : user.avatarData,
+              : null,
           }));
           
           return {
@@ -495,9 +495,9 @@ export class DatabaseQueryService {
         // Transform avatarData to avatarUrl for each user
         const usersWithAvatarUrl = users.map(user => ({
           ...user,
-          avatarUrl: user.avatarData && user.avatarData.startsWith('data:')
+          avatarUrl: user.avatarData 
             ? `/api/users/${user.id}/avatar/image`
-            : user.avatarData,
+            : null,
         }));
 
         return {

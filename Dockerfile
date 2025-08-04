@@ -45,7 +45,12 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
+COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=builder /app/start.js ./start.js
+COPY --from=builder /app/migrate.js ./migrate.js
+COPY --from=builder /app/startup.js ./startup.js
+COPY --from=builder /app/package.json ./package.json
 
 # Set the correct permission for prerender cache
 RUN chown -R nextjs:nodejs .next
@@ -56,4 +61,4 @@ USER nextjs
 ENV PORT 8080
 EXPOSE 8080
 
-CMD ["node", "start.js"]
+CMD ["node", "startup.js"]

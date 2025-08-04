@@ -21,40 +21,10 @@ steps:
       - 'push'
       - 'us-west2-docker.pkg.dev/elated-fabric-460119-t3/holi-repo/holi:latest'
 
-  # Step 2: Create the Database Migration Job
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    id: 'create-migration-job'
-    waitFor: ['push-image']
-    entrypoint: gcloud
-    args:
-      - 'run'
-      - 'jobs'
-      - 'update'
-      - 'holitime-migrate-job'
-      - '--image=us-west2-docker.pkg.dev/elated-fabric-460119-t3/holi-repo/holi:latest'
-      - '--command=npm'
-      - '--args=run,migrate:prod'
-      - '--region=us-west2'
-      - '--set-cloudsql-instances=elated-fabric-460119-t3:us-west2:holitime-db'
-      - '--set-env-vars=^##^DATABASE_URL=postgresql://holitime-user:myDBpassWord1!@/holitime?host=/cloudsql/elated-fabric-460119-t3:us-west2:holitime-db'
-
-  # Step 3: Execute the Database Migration Job
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    id: 'migrate-database'
-    waitFor: ['create-migration-job']
-    entrypoint: gcloud
-    args:
-      - 'run'
-      - 'jobs'
-      - 'execute'
-      - 'holitime-migrate-job'
-      - '--region=us-west2'
-      - '--wait'
-
-  # Step 4: Deploy the main application to Cloud Run.
+  # Step 2: Deploy the main application to Cloud Run (with migration on startup)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     id: 'deploy-service'
-    waitFor: ['migrate-database']
+    waitFor: ['push-image']
     entrypoint: 'gcloud'
     args:
       - 'run'
@@ -75,18 +45,7 @@ steps:
       - '--set-secrets=DATABASE_URL=DATABASE_URL:latest,NEXTAUTH_SECRET=NEXTAUTH_SECRET:latest,GOOGLE_CLIENT_ID=GOOGLE_CLIENT_ID:latest,GOOGLE_CLIENT_SECRET=GOOGLE_CLIENT_SECRET:latest'
       - '--set-env-vars=GCS_BUCKET_NAME=timesheethandsonlaboravar,DB_HOST=/cloudsql/elated-fabric-460119-t3:us-west2:holitime-db,DB_PORT=5432,NEXTAUTH_URL=https://holitime-app-438323004618.us-west2.run.app,NODE_ENV=production,NEXT_TELEMETRY_DISABLED=1'
 
-  # Step 5: Clean up the migration job
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    id: 'delete-migration-job'
-    waitFor: ['deploy-service']
-    entrypoint: gcloud
-    args:
-      - 'run'
-      - 'jobs'
-      - 'delete'
-      - 'holitime-migrate-job'
-      - '--region=us-west2'
-      - '--quiet'
+
 
 # Images are now pushed explicitly in the push-image step
 

@@ -56,9 +56,9 @@ export async function GET(
     const userResponse = {
       ...userData,
       // If user has base64 data in avatarData, provide a URL to access it
-      avatarUrl: userData.avatarData && userData.avatarData.startsWith('data:')
+      avatarUrl: userData.avatarData 
         ? `/api/users/${id}/avatar/image` 
-        : userData.avatarData,
+        : null,
     };
 
     return NextResponse.json({

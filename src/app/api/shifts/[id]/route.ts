@@ -43,9 +43,9 @@ function transformShiftToShiftWithDetails(shift: any): ShiftWithDetails {
       ...assignment,
       user: assignment.user ? {
         ...assignment.user,
-        avatarUrl: assignment.user.avatarData && assignment.user.avatarData.startsWith('data:')
+        avatarUrl: assignment.user.avatarData 
           ? `/api/users/${assignment.user.id}/avatar/image`
-          : assignment.user.avatarData,
+          : null,
       } : null,
     })) || [],
   };
