@@ -93,29 +93,29 @@ function AdminPage() {
       actions: [
         { label: "Merge Employees", href: "/employees" },
         { label: "Merge Clients", href: "/companies" },
-        { label: "Merge Jobs", href: "/jobs" }
+        { label: "Merge Jobs", href: "/admin/jobs" }
       ]
     },
     {
       title: "Job Management",
       description: "Create and manage jobs and projects",
       icon: Briefcase,
-      href: "/jobs",
+      href: "/admin/jobs",
       actions: [
-        { label: "View All Jobs", href: "/jobs" },
-        { label: "Create New Job", href: "/jobs/new" },
-        { label: "Job Templates", href: "/jobs/templates" }
+        { label: "View All Jobs", href: "/admin/jobs" },
+        { label: "Create New Job", href: "/admin/jobs/new" },
+        { label: "Job Templates", href: "/admin/jobs/templates" }
       ]
     },
     {
       title: "Shift Management",
       description: "Schedule and manage work shifts",
       icon: Calendar,
-      href: "/shifts",
+      href: "/admin/shifts",
       actions: [
-        { label: "View All Shifts", href: "/shifts" },
-        { label: "Schedule New Shift", href: "/shifts/new" },
-        { label: "Shift Templates", href: "/shifts/templates" }
+        { label: "View All Shifts", href: "/admin/shifts" },
+        { label: "Schedule New Shift", href: "/admin/shifts/new" },
+        { label: "Shift Templates", href: "/admin/shifts/templates" }
       ]
     },
     {

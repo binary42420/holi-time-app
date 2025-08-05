@@ -5,6 +5,8 @@ import { PrismaClient } from '@prisma/client';
 import { Buffer } from 'buffer';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { TemplatePDFGenerator } from '@/lib/template-pdf-generator';
+import { PDFTemplateStorage } from '@/lib/pdf-template-storage';
 
 // Extend jsPDF type to include autoTable
 declare module 'jspdf' {
@@ -17,6 +19,8 @@ export interface TimesheetPDFOptions {
   includeSignature?: boolean;
   signatureType?: 'company' | 'manager' | 'both';
   uploadToCloud?: boolean;
+  useTemplate?: boolean; // New option to use template-based generation
+  templateId?: string; // Specify which template to use
 }
 
 /**
@@ -37,11 +41,23 @@ export class TimesheetPDFGenerator {
   /**
    * Generate unsigned PDF (for initial timesheet creation)
    */
-  async generateUnsignedPDF(): Promise<string> {
+  async generateUnsignedPDF(options: TimesheetPDFOptions = {}): Promise<string> {
     const db = this.tx || prisma;
     
-    const timesheet = await this.getTimesheetData(db);
-    const pdfBuffer = await this.createPDFBuffer(timesheet, { includeSignature: false });
+    let pdfBuffer: Buffer;
+    
+    if (options.useTemplate) {
+      // Use template-based generation
+      const templateGenerator = new TemplatePDFGenerator(this.timesheetId, this.tx);
+      pdfBuffer = await templateGenerator.generatePDF({
+        includeSignature: false,
+        templateId: options.templateId
+      });
+    } else {
+      // Use legacy generation
+      const timesheet = await this.getTimesheetData(db);
+      pdfBuffer = await this.createPDFBuffer(timesheet, { includeSignature: false });
+    }
     
     // Store as base64 in database
     const pdfDataUrl = `data:application/pdf;base64,${pdfBuffer.toString('base64')}`;
@@ -57,7 +73,7 @@ export class TimesheetPDFGenerator {
   /**
    * Generate signed PDF (after company approval)
    */
-  async generateSignedPDF(): Promise<string> {
+  async generateSignedPDF(options: TimesheetPDFOptions = {}): Promise<string> {
     const db = this.tx || prisma;
     
     const timesheet = await this.getTimesheetData(db);
@@ -66,10 +82,23 @@ export class TimesheetPDFGenerator {
       throw new Error('Cannot generate signed PDF without company signature');
     }
 
-    const pdfBuffer = await this.createPDFBuffer(timesheet, { 
-      includeSignature: true,
-      signatureType: 'company'
-    });
+    let pdfBuffer: Buffer;
+    
+    if (options.useTemplate) {
+      // Use template-based generation
+      const templateGenerator = new TemplatePDFGenerator(this.timesheetId, this.tx);
+      pdfBuffer = await templateGenerator.generatePDF({
+        includeSignature: true,
+        signatureType: 'company',
+        templateId: options.templateId
+      });
+    } else {
+      // Use legacy generation
+      pdfBuffer = await this.createPDFBuffer(timesheet, { 
+        includeSignature: true,
+        signatureType: 'company'
+      });
+    }
 
     let finalUrl: string;
 
@@ -389,10 +418,15 @@ export class TimesheetPDFGenerator {
  */
 export async function generateUnsignedTimesheetPdf(
   timesheetId: string,
-  tx?: Omit<PrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'>
+  tx?: Omit<PrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'>,
+  options: TimesheetPDFOptions = {}
 ): Promise<string> {
   const generator = new TimesheetPDFGenerator(timesheetId, tx);
-  return await generator.generateUnsignedPDF();
+  
+  // Default to using templates for new PDFs
+  const pdfOptions = { useTemplate: true, ...options };
+  
+  return await generator.generateUnsignedPDF(pdfOptions);
 }
 
 /**
@@ -400,10 +434,15 @@ export async function generateUnsignedTimesheetPdf(
  */
 export async function generateSignedTimesheetPdf(
   timesheetId: string,
-  tx?: Omit<PrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'>
+  tx?: Omit<PrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'>,
+  options: TimesheetPDFOptions = {}
 ): Promise<string> {
   const generator = new TimesheetPDFGenerator(timesheetId, tx);
-  return await generator.generateSignedPDF();
+  
+  // Default to using templates for new PDFs
+  const pdfOptions = { useTemplate: true, ...options };
+  
+  return await generator.generateSignedPDF(pdfOptions);
 }
 
 /**
@@ -411,8 +450,13 @@ export async function generateSignedTimesheetPdf(
  */
 export async function generateFinalTimesheetPdf(
   timesheetId: string,
-  tx?: Omit<PrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'>
+  tx?: Omit<PrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'>,
+  options: TimesheetPDFOptions = {}
 ): Promise<string> {
   const generator = new TimesheetPDFGenerator(timesheetId, tx);
-  return await generator.generateFinalPDF();
+  
+  // Default to using templates for new PDFs
+  const pdfOptions = { useTemplate: true, ...options };
+  
+  return await generator.generateFinalPDF(pdfOptions);
 }

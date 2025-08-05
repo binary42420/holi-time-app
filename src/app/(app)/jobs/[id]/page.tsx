@@ -269,7 +269,7 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
                               <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-2">
                                   <div className={`w-3 h-3 rounded-full ${getShiftStatusColor(shift.status)}`} />
-                                  <h4 className="font-semibold">{shift.name || 'Unnamed Shift'}</h4>
+                                  <h4 className="font-semibold">{shift.job?.name || job.name || 'Unnamed Shift'}</h4>
                                 </div>
                                 <p className="text-sm text-muted-foreground mb-2">
                                   {new Date(shift.date).toLocaleDateString()} • {new Date(shift.startTime).toLocaleTimeString()} - {new Date(shift.endTime).toLocaleTimeString()}
@@ -280,9 +280,9 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
                                     <span>{shift.location || 'No location'}</span>
                                   </div>
                                   <div className="flex items-center gap-1">
-                                    {getAssignmentStatusIcon(shift.assignedPersonnel?.length || 0, shift.requiredWorkers || 1)}
-                                    <span className={getAssignmentStatusColor(shift.assignedPersonnel?.length || 0, shift.requiredWorkers || 1)}>
-                                      {shift.assignedPersonnel?.length || 0}/{shift.requiredWorkers || 1} workers
+                                    {getAssignmentStatusIcon(getAssignedWorkerCount(shift), getTotalRequiredWorkers(shift))}
+                                    <span className={getAssignmentStatusColor(getAssignedWorkerCount(shift), getTotalRequiredWorkers(shift))}>
+                                      {getAssignedWorkerCount(shift)}/{getTotalRequiredWorkers(shift)} workers
                                     </span>
                                   </div>
                                 </div>
@@ -331,7 +331,7 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
                               <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-2">
                                   <Clock className="h-4 w-4 text-blue-600" />
-                                  <h4 className="font-semibold">{shift.name || 'Unnamed Shift'}</h4>
+                                  <h4 className="font-semibold">{shift.job?.name || job.name || 'Unnamed Shift'}</h4>
                                 </div>
                                 <p className="text-sm text-muted-foreground mb-2">
                                   {new Date(shift.date).toLocaleDateString()} • {new Date(shift.startTime).toLocaleTimeString()} - {new Date(shift.endTime).toLocaleTimeString()}
@@ -342,9 +342,9 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
                                     <span>{shift.location || 'No location'}</span>
                                   </div>
                                   <div className="flex items-center gap-1">
-                                    {getAssignmentStatusIcon(shift.assignedPersonnel?.length || 0, shift.requiredWorkers || 1)}
-                                    <span className={getAssignmentStatusColor(shift.assignedPersonnel?.length || 0, shift.requiredWorkers || 1)}>
-                                      {shift.assignedPersonnel?.length || 0}/{shift.requiredWorkers || 1} workers assigned
+                                    {getAssignmentStatusIcon(getAssignedWorkerCount(shift), getTotalRequiredWorkers(shift))}
+                                    <span className={getAssignmentStatusColor(getAssignedWorkerCount(shift), getTotalRequiredWorkers(shift))}>
+                                      {getAssignedWorkerCount(shift)}/{getTotalRequiredWorkers(shift)} workers assigned
                                     </span>
                                   </div>
                                   <div className="flex items-center gap-1">

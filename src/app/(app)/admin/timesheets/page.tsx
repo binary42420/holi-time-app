@@ -33,6 +33,7 @@ import { useToast } from "@/hooks/use-toast"
 import { UserRole, TimesheetStatus } from '@prisma/client';
 import { withAuth } from "@/lib/withAuth";
 import { TimesheetDetails } from "@/lib/types";
+import { UnlockTimesheetDialog } from '@/components/unlock-timesheet-dialog';
 
 function AdminTimesheetsPage() {
   const { user } = useUser()
@@ -260,7 +261,9 @@ function AdminTimesheetsPage() {
                     <TableCell>
                       <div className="flex items-center gap-1">
                         <Users className="h-4 w-4 text-muted-foreground" />
-                        {timesheet.shift?.assignedPersonnel?.filter(p => p.userId).length || 0}
+                        {timesheet.shift?.assignedPersonnel?.filter(p => 
+                          p.userId && p.status !== 'NoShow'
+                        ).length || 0}
                       </div>
                     </TableCell>
                     <TableCell>{getStatusBadge(timesheet.status)}</TableCell>
@@ -294,37 +297,46 @@ function AdminTimesheetsPage() {
                           </>
                         )}
                         {timesheet.status === TimesheetStatus.COMPLETED && (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={async () => {
-                              try {
-                                const type = timesheet.signed_pdf_url ? 'signed' : 'unsigned';
-                                const response = await fetch(`/api/timesheets/${timesheet.id}/pdf?type=${type}`)
-                                if (response.ok) {
-                                  const blob = await response.blob()
-                                  const url = window.URL.createObjectURL(blob)
-                                  const a = document.createElement('a')
-                                  a.href = url
-                                  a.download = `timesheet-${timesheet.shift?.job?.name?.replace(/\s+/g, '-') || 'unknown'}-${timesheet.shift?.date ? format(new Date(timesheet.shift.date), 'yyyy-MM-dd') : 'unknown'}.pdf`
-                                  document.body.appendChild(a)
-                                  a.click()
-                                  window.URL.revokeObjectURL(url)
-                                  document.body.removeChild(a)
+                          <>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={async () => {
+                                try {
+                                  const type = timesheet.signed_pdf_url ? 'signed' : 'unsigned';
+                                  const response = await fetch(`/api/timesheets/${timesheet.id}/pdf?type=${type}`)
+                                  if (response.ok) {
+                                    const blob = await response.blob()
+                                    const url = window.URL.createObjectURL(blob)
+                                    const a = document.createElement('a')
+                                    a.href = url
+                                    a.download = `timesheet-${timesheet.shift?.job?.name?.replace(/\s+/g, '-') || 'unknown'}-${timesheet.shift?.date ? format(new Date(timesheet.shift.date), 'yyyy-MM-dd') : 'unknown'}.pdf`
+                                    document.body.appendChild(a)
+                                    a.click()
+                                    window.URL.revokeObjectURL(url)
+                                    document.body.removeChild(a)
+                                  }
+                                } catch (err) {
+                                  const error = err as Error;
+                                  console.error('Error downloading PDF:', error.message)
+                                  toast({
+                                    title: "Error",
+                                    description: `Failed to download PDF: ${error.message}`,
+                                    variant: "destructive",
+                                  })
                                 }
-                              } catch (err) {
-                                const error = err as Error;
-                                console.error('Error downloading PDF:', error.message)
-                                toast({
-                                  title: "Error",
-                                  description: `Failed to download PDF: ${error.message}`,
-                                  variant: "destructive",
-                                })
-                              }
-                            }}
-                          >
-                            <Download className="h-4 w-4" />
-                          </Button>
+                              }}
+                            >
+                              <Download className="h-4 w-4" />
+                            </Button>
+                            <UnlockTimesheetDialog
+                              timesheetId={timesheet.id}
+                              onUnlock={() => {
+                                // Refresh the timesheets data
+                                refetch()
+                              }}
+                            />
+                          </>
                         )}
                       </div>
                     </TableCell>

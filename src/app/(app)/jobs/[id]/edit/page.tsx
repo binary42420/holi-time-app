@@ -140,7 +140,10 @@ export default function JobEditPage({ params }: JobEditPageProps) {
       queryClient.invalidateQueries({ queryKey: ['jobs'] });
       queryClient.invalidateQueries({ queryKey: ['job', id] });
       
-      toast({ title: "Success", description: "Job updated successfully" })
+      toast({ 
+        title: "Job Updated Successfully", 
+        description: `"${formData.name}" has been updated and saved.` 
+      })
       router.push(`/jobs/${id}`)
     } catch (error) {
       console.error('Job update error:', error)

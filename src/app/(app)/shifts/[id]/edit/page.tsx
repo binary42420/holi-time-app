@@ -19,6 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import WorkerRequirements from "@/components/worker-requirements"
 import ShiftImportCSV from "@/components/shift-import-csv"
 import type { RoleCode } from "@/lib/types"
+import { useUser } from "@/hooks/use-user"
 
 const shiftSchema = z.object({
   date: z.string().min(1, "Date is required"),
@@ -41,6 +42,7 @@ export default function EditShiftPage() {
   const params = useParams()
   const router = useRouter()
   const { toast } = useToast()
+  const { user } = useUser()
   const shiftId = params.id as string
 
   const { data: shift, isLoading: shiftLoading, isError: shiftError } = useShift(shiftId)
@@ -129,8 +131,8 @@ export default function EditShiftPage() {
       }
 
       toast({
-        title: "Shift Updated",
-        description: "The shift has been updated successfully.",
+        title: "Shift Updated Successfully",
+        description: `Shift details for ${shift.job?.name} on ${new Date(shift.date).toLocaleDateString()} have been saved.`,
       })
 
       if (shiftId) {
@@ -165,7 +167,11 @@ export default function EditShiftPage() {
               <p className="text-muted-foreground mb-4">
                 The shift you're looking for doesn't exist or you don't have permission to edit it.
               </p>
-              <Button onClick={() => router.push('/shifts')}>
+              <Button onClick={() => {
+                // Navigate to admin/shifts for admins, otherwise to regular shifts page
+                const shiftsPath = user?.role === 'Admin' ? '/admin/shifts' : '/shifts';
+                router.push(shiftsPath);
+              }}>
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Shifts
               </Button>

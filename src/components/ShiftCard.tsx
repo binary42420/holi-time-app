@@ -4,7 +4,10 @@ import { Shift, WorkerRole } from '@/lib/types';
 import { ROLE_DEFINITIONS } from '@/lib/constants';
 import { ShiftStatus } from '@prisma/client';
 import { BuildingOfficeIcon, CalendarIcon, ClockIcon } from './IconComponents';
-import { FileText } from "lucide-react";
+import { FileText, AlertTriangle } from "lucide-react";
+import { CompanyAvatar } from './CompanyAvatar';
+import { getWorkersNeeded, calculateShiftRequirements, calculateAssignedWorkers } from '@/lib/worker-count-utils';
+import { getFulfillmentStatus } from '@/components/ui/status-badge';
 
 interface ShiftCardProps {
   shift: Shift;
@@ -12,15 +15,68 @@ interface ShiftCardProps {
 }
 
 const ShiftCard: React.FC<ShiftCardProps> = ({ shift, onClick }) => {
-  const totalSlots = shift.assignments.length;
-  const filledSlots = shift.assignments.filter(a => a.userId !== null).length;
+  // Use shared calculation functions for consistency
+  const totalSlots = calculateShiftRequirements(shift);
+  const filledSlots = calculateAssignedWorkers(shift);
   const filledPercentage = totalSlots > 0 ? (filledSlots / totalSlots) * 100 : 0;
+  const isOverfilled = filledSlots > totalSlots;
+  const overfilledBy = Math.max(0, filledSlots - totalSlots);
+  
+  // Get fulfillment status
+  const fulfillmentStatus = getFulfillmentStatus(filledSlots, totalSlots);
 
-  const roleCounts = shift.assignments.reduce((acc, assignment) => {
-    const role = assignment.roleCode as WorkerRole;
-    acc[role] = (acc[role] || 0) + 1;
-    return acc;
-  }, {} as Record<WorkerRole, number>);
+  // Get progress bar color based on fulfillment status
+  const getProgressBarColor = () => {
+    switch (fulfillmentStatus) {
+      case 'OVERSTAFFED_HIGH':
+        return "bg-gradient-to-r from-red-400 to-red-500";
+      case 'OVERSTAFFED_MEDIUM':
+        return "bg-gradient-to-r from-orange-400 to-orange-500";
+      case 'OVERSTAFFED_LOW':
+        return "bg-gradient-to-r from-yellow-400 to-yellow-500";
+      case 'FULL':
+        return "bg-gradient-to-r from-green-400 to-green-600";
+      case 'GOOD':
+        return "bg-gradient-to-r from-yellow-400 to-yellow-500"; // 80%+ but not full - yellow warning
+      case 'LOW':
+        return "bg-gradient-to-r from-orange-400 to-orange-500"; // 60-80% - orange warning
+      case 'CRITICAL':
+        return "bg-gradient-to-r from-red-400 to-red-500"; // <60% - red critical
+      default:
+        return "bg-gradient-to-r from-gray-400 to-gray-500";
+    }
+  };
+
+  // Get text color based on fulfillment status
+  const getStatusTextColor = () => {
+    switch (fulfillmentStatus) {
+      case 'OVERSTAFFED_HIGH':
+        return "text-red-400";
+      case 'OVERSTAFFED_MEDIUM':
+        return "text-orange-400";
+      case 'OVERSTAFFED_LOW':
+        return "text-yellow-400";
+      case 'FULL':
+        return "text-green-400";
+      case 'GOOD':
+        return "text-yellow-400";
+      case 'LOW':
+        return "text-orange-400";
+      case 'CRITICAL':
+        return "text-red-400";
+      default:
+        return "text-gray-400";
+    }
+  };
+
+  // Create role counts from required fields
+  const roleCounts: Record<string, number> = {};
+  if ((shift as any).requiredCrewChiefs > 0) roleCounts['CC'] = (shift as any).requiredCrewChiefs;
+  if ((shift as any).requiredStagehands > 0) roleCounts['SH'] = (shift as any).requiredStagehands;
+  if ((shift as any).requiredForkOperators > 0) roleCounts['FO'] = (shift as any).requiredForkOperators;
+  if ((shift as any).requiredReachForkOperators > 0) roleCounts['RFO'] = (shift as any).requiredReachForkOperators;
+  if ((shift as any).requiredRiggers > 0) roleCounts['RG'] = (shift as any).requiredRiggers;
+  if ((shift as any).requiredGeneralLaborers > 0) roleCounts['GL'] = (shift as any).requiredGeneralLaborers;
 
   // Check if shift has a timesheet
   const hasTimesheet = shift.timesheets && shift.timesheets.length > 0;
@@ -58,8 +114,12 @@ const ShiftCard: React.FC<ShiftCardProps> = ({ shift, onClick }) => {
         </div>
 
         <div className="flex items-center text-gray-400 mt-2 mb-4 transition-colors group-hover:text-gray-200">
-          <BuildingOfficeIcon />
-          <span className="ml-2 text-sm">{shift.job.company.name}</span>
+          <CompanyAvatar
+            src={shift.job.company.company_logo_url}
+            name={shift.job.company.name}
+            className="w-5 h-5 mr-2"
+          />
+          <span className="text-sm">{shift.job.company.name}</span>
         </div>
 
         <div className="space-y-2 text-gray-300 text-sm border-t border-b border-gray-700 py-3 my-3">
@@ -74,31 +134,78 @@ const ShiftCard: React.FC<ShiftCardProps> = ({ shift, onClick }) => {
         </div>
 
         <div className="flex-grow">
-          <h3 className="text-xs uppercase font-bold text-gray-500 mb-2">Workers Needed</h3>
-          <div className="flex flex-wrap gap-2">
-            {Object.entries(roleCounts).map(([role, count]) => {
-              const roleDetails = ROLE_DEFINITIONS[role as WorkerRole];
-              if (!roleDetails) return null;
-              return (
-                <span key={role} className={`px-2 py-1 text-xs font-semibold text-white rounded-full ${roleDetails.cardBgColor}`}>
-                  {count} {roleDetails.name}
-                </span>
-              );
-            })}
-          </div>
+          {(() => {
+            const workersNeeded = getWorkersNeeded({
+              assignedPersonnel: shift.assignedPersonnel,
+              requiredCrewChiefs: (shift as any).requiredCrewChiefs,
+              requiredStagehands: (shift as any).requiredStagehands,
+              requiredForkOperators: (shift as any).requiredForkOperators,
+              requiredReachForkOperators: (shift as any).requiredReachForkOperators,
+              requiredRiggers: (shift as any).requiredRiggers,
+              requiredGeneralLaborers: (shift as any).requiredGeneralLaborers,
+            });
+
+            return workersNeeded.length > 0 ? (
+              <>
+                <h3 className="text-xs uppercase font-bold text-gray-500 mb-2">Workers Needed</h3>
+                <div className="flex flex-wrap gap-2">
+                  {workersNeeded.map((worker) => {
+                    const roleDetails = ROLE_DEFINITIONS[worker.roleCode as WorkerRole];
+                    if (!roleDetails) return null;
+                    return (
+                      <span key={worker.roleCode} className={`px-2 py-1 text-xs font-semibold text-white rounded-full ${roleDetails.badgeClasses}`}>
+                        {worker.needed} {worker.roleName}{worker.needed > 1 ? 's' : ''}
+                      </span>
+                    );
+                  })}
+                </div>
+              </>
+            ) : (
+              <>
+                <h3 className="text-xs uppercase font-bold text-green-500 mb-2">Fully Staffed</h3>
+                <div className="text-sm text-green-400">
+                  All positions filled
+                </div>
+              </>
+            );
+          })()}
         </div>
 
         <div className="mt-6">
-          <div className="flex justify-between mb-1 text-xs text-gray-400">
+          <div className="flex justify-between items-center mb-1 text-xs text-gray-400">
             <span>Filled Positions</span>
-            <span>{filledSlots} of {totalSlots}</span>
+            <div className="flex items-center gap-1">
+              {(fulfillmentStatus !== 'FULL' && fulfillmentStatus !== 'GOOD') && (
+                <AlertTriangle className={`h-3 w-3 ${getStatusTextColor()}`} />
+              )}
+              <span className={fulfillmentStatus !== 'FULL' ? `${getStatusTextColor()} font-medium` : ""}>
+                {filledSlots} of {totalSlots}
+              </span>
+            </div>
           </div>
           <div className="w-full bg-gray-700 rounded-full h-2.5">
             <div
-              className="bg-gradient-to-r from-green-400 to-green-600 h-2.5 rounded-full transition-all duration-500"
-              style={{ width: `${filledPercentage}%` }}
+              className={`h-2.5 rounded-full transition-all duration-500 ${getProgressBarColor()}`}
+              style={{ 
+                width: isOverfilled ? '100%' : `${filledPercentage}%`
+              }}
             ></div>
           </div>
+          {isOverfilled && (
+            <div className={`text-xs ${getStatusTextColor()} mt-1 font-medium`}>
+              Overstaffed by {overfilledBy}
+            </div>
+          )}
+          {fulfillmentStatus === 'GOOD' && (
+            <div className={`text-xs ${getStatusTextColor()} mt-1 font-medium`}>
+              {totalSlots - filledSlots} more needed
+            </div>
+          )}
+          {(fulfillmentStatus === 'LOW' || fulfillmentStatus === 'CRITICAL') && (
+            <div className={`text-xs ${getStatusTextColor()} mt-1 font-medium`}>
+              {totalSlots - filledSlots} more needed
+            </div>
+          )}
         </div>
 
         {/* Timesheet Link */}

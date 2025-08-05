@@ -30,7 +30,7 @@ const allNavItems = [
   { href: '/employees', label: 'Employees', icon: Users, roles: ['Admin', 'Manager'] },
   { href: '/companies', label: 'Companies', icon: Building, roles: ['Admin'] },
   { href: '/timesheets', label: 'Timesheets', icon: FileText, roles: ['Admin'] },
-  { href: '/settings', label: 'Settings', icon: Settings, roles: ['Admin'] },
+  { href: '/admin/settings', label: 'Admin Settings', icon: Settings, roles: ['Admin'] },
 ];
 
 export function MobileNavMenu({ className }: MobileNavMenuProps) {
@@ -43,7 +43,22 @@ export function MobileNavMenu({ className }: MobileNavMenuProps) {
     if (!user) return [];
     
     const userRole = user.role as string;
-    return allNavItems.filter(item => item.roles.includes(userRole));
+    let filteredItems = allNavItems.filter(item => item.roles.includes(userRole));
+    
+    // For admin users, redirect jobs and shifts to admin pages
+    if (userRole === 'Admin') {
+      filteredItems = filteredItems.map(item => {
+        if (item.href === '/jobs') {
+          return { ...item, href: '/admin/jobs' };
+        }
+        if (item.href === '/shifts') {
+          return { ...item, href: '/admin/shifts' };
+        }
+        return item;
+      });
+    }
+    
+    return filteredItems;
   };
 
   const visibleNavItems = getVisibleNavItems();

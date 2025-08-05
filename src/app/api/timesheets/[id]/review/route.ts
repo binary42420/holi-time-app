@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+ import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/middleware';
 import { prisma } from '@/lib/prisma';
 import { TimeEntry, TimesheetStatus, UserRole } from '@prisma/client';
@@ -23,7 +23,6 @@ export async function GET(
     const timesheet = await prisma.timesheet.findUnique({
       where: { id: timesheetId },
       include: {
-        submittedBy: { select: { name: true } },
         shift: {
           include: {
             job: { include: { company: true } },
@@ -111,17 +110,27 @@ export async function GET(
     const grandTotalHours = (grandTotalMinutes / 60).toFixed(2);
 
     const crewChief = shift.assignedPersonnel.find(p => p.roleCode === 'CC');
+    
+    // Get submitted user name if available
+    let submittedByName = 'System';
+    if (timesheet.submittedBy) {
+      const submittedUser = await prisma.user.findUnique({
+        where: { id: timesheet.submittedBy },
+        select: { name: true }
+      });
+      submittedByName = submittedUser?.name || 'System';
+    }
 
     const responseData = {
       timesheet: {
         id: timesheet.id,
         status: timesheet.status,
-        clientSignature: timesheet.clientSignature,
-        managerSignature: timesheet.managerSignature,
-        clientApprovedAt: timesheet.clientApprovedAt?.toISOString(),
-        managerApprovedAt: timesheet.managerApprovedAt?.toISOString(),
-        submittedBy: timesheet.submittedBy?.name || 'System',
-        submittedAt: timesheet.createdAt.toISOString(),
+      clientSignature: timesheet.company_signature,
+      managerSignature: timesheet.manager_signature,
+      clientApprovedAt: timesheet.company_approved_at?.toISOString(),
+      managerApprovedAt: timesheet.manager_approved_at?.toISOString(),
+      submittedBy: submittedByName,
+      submittedAt: timesheet.submittedAt?.toISOString() || timesheet.createdAt.toISOString(),
         unsigned_pdf_url: timesheet.unsigned_pdf_url,
         signed_pdf_url: timesheet.signed_pdf_url,
       },
@@ -248,4 +257,3 @@ export async function POST(
     );
   }
 }
-

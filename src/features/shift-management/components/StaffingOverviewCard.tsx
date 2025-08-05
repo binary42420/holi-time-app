@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, UserCheck, UserPlus, Crown } from "lucide-react";
+import { Users, UserCheck, UserPlus, Crown, AlertTriangle } from "lucide-react";
 import { Shift, Assignment } from "@/lib/types";
 import { Progress } from "@/components/ui/progress";
 
@@ -31,9 +31,15 @@ export function StaffingOverviewCard({ shift, assignments }: StaffingOverviewCar
   
   const requested = totalRequired || shift.requestedWorkers || 0;
   const progress = requested > 0 ? (assignedCount / requested) * 100 : 0;
+  const isOverfilled = assignedCount > requested;
 
   const getStaffingStatus = () => {
-    if (assignedCount >= requested) {
+    if (isOverfilled) {
+      return <Badge className="bg-orange-500 hover:bg-orange-600">
+        <AlertTriangle className="h-3 w-3 mr-1" />
+        Overstaffed
+      </Badge>;
+    } else if (assignedCount === requested && requested > 0) {
       return <Badge color="green">Fully Staffed</Badge>;
     } else if (assignedCount > 0) {
       return <Badge color="yellow">Partially Staffed</Badge>;
@@ -62,9 +68,24 @@ export function StaffingOverviewCard({ shift, assignments }: StaffingOverviewCar
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <span className="text-muted-foreground">Staffing Level</span>
-              <span className="font-medium">{`${assignedCount} / ${requested}`}</span>
+              <div className="flex items-center gap-1">
+                {isOverfilled && (
+                  <AlertTriangle className="h-3 w-3 text-orange-500" />
+                )}
+                <span className={`font-medium ${isOverfilled ? "text-orange-500" : ""}`}>
+                  {`${assignedCount} / ${requested}`}
+                </span>
+              </div>
             </div>
-            <Progress value={progress} className="h-2" />
+            <Progress 
+              value={Math.min(progress, 100)} 
+              className={`h-2 ${isOverfilled ? "[&>div]:bg-orange-500" : ""}`}
+            />
+            {isOverfilled && (
+              <div className="text-xs text-orange-500 font-medium">
+                Overstaffed by {assignedCount - requested} worker{assignedCount - requested !== 1 ? 's' : ''}
+              </div>
+            )}
           </div>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div className="flex items-center gap-2">

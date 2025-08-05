@@ -88,8 +88,8 @@ function EditUserPage() {
 
       if (response.ok) {
         toast({
-          title: "Success",
-          description: "User details updated.",
+          title: "User Updated Successfully",
+          description: `${name}'s profile information has been saved successfully.`,
         });
         router.push(`/admin/users/${userId}`);
       } else {

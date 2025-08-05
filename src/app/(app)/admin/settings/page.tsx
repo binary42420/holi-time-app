@@ -21,7 +21,8 @@ import {
   HardDrive,
   Download,
   Upload,
-  RefreshCw
+  RefreshCw,
+  FileText
 } from "lucide-react"
 
 import { UserRole } from '@prisma/client';
@@ -71,6 +72,17 @@ function AdminSettingsPage() {
       ]
     },
     {
+      title: "PDF Templates",
+      description: "Configure and customize PDF timesheet templates",
+      icon: FileText,
+      href: "/admin/pdf-config",
+      actions: [
+        { label: "Template Designer", href: "/admin/pdf-config" },
+        { label: "Manage Templates", href: "/admin/pdf-config" },
+        { label: "Preview Templates", href: "/admin/pdf-config" }
+      ]
+    },
+    {
       title: "Data Import & Export",
       description: "Import/export data from CSV files and external sources",
       icon: HardDrive,
@@ -108,9 +120,9 @@ function AdminSettingsPage() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="sm" onClick={() => router.push('/admin-panel')}>
+        <Button variant="ghost" size="sm" onClick={() => router.push('/dashboard')}>
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Admin Panel
+          Back to Dashboard
         </Button>
         <div className="flex-1">
           <h1 className="text-3xl font-bold font-headline">System Settings</h1>
@@ -192,6 +204,14 @@ function AdminSettingsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
+            <Button 
+              variant="outline" 
+              className="w-full justify-start"
+              onClick={() => router.push('/admin/pdf-config')}
+            >
+              <FileText className="mr-2 h-4 w-4" />
+              Configure PDF Templates
+            </Button>
             <Button variant="outline" className="w-full justify-start">
               <Download className="mr-2 h-4 w-4" />
               Download System Backup

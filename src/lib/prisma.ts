@@ -30,10 +30,20 @@ export const prisma = buildTime
   ? mockPrismaClient
   : (global.prisma ||
     new PrismaClient({
-      log: process.env.NODE_ENV === 'development' ? ['query'] : ['error'],
+      log: process.env.NODE_ENV === 'development' ? ['query', 'info', 'warn'] : ['error'],
       datasources: {
         db: {
           url: process.env.DATABASE_URL
+        }
+      },
+      // Enhanced connection pooling configuration
+      __internal: {
+        engine: {
+          // Connection pool settings
+          connectionLimit: parseInt(process.env.DATABASE_CONNECTION_LIMIT || '10'),
+          poolTimeout: parseInt(process.env.DATABASE_POOL_TIMEOUT || '10000'),
+          // Query optimization
+          queryTimeout: parseInt(process.env.DATABASE_QUERY_TIMEOUT || '30000'),
         }
       }
     }));

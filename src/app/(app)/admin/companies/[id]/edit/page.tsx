@@ -115,8 +115,8 @@ function EditCompanyPage() {
         queryClient.invalidateQueries({ queryKey: ['companies'] });
         
         toast({
-          title: "Success",
-          description: "Company details updated successfully.",
+          title: "Company Updated Successfully",
+          description: `${name}'s information has been saved successfully.`,
         });
         router.push(`/companies/${companyId}`);
       } else {

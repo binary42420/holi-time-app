@@ -23,13 +23,16 @@ import {
 } from "lucide-react";
 import { Avatar } from '@/components/Avatar';
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/hooks/use-user";
 import { format } from 'date-fns';
 import { ROLE_DEFINITIONS } from '@/lib/constants';
 import EnhancedWorkerSelector from '@/components/EnhancedWorkerSelector';
 import WorkerRequirementsManager from '@/components/worker-requirements-manager';
 import QuickRequirementsEditor from '@/components/quick-requirements-editor';
 import { TimesheetApprovalButton } from '@/components/timesheet-approval-button';
+import { UnlockTimesheetDialog } from '@/components/unlock-timesheet-dialog';
 import type { RoleCode, Assignment as WorkerAssignment, User, TimeEntry as TimeEntryType, TimesheetStatus } from '@/lib/types';
+import { UserRole } from '@prisma/client';
 
 interface WorkerRequirement {
   roleCode: RoleCode;
@@ -66,6 +69,7 @@ export default function UnifiedEnhancedTimeTracking({
   timesheets = []
 }: UnifiedEnhancedTimeTrackingProps) {
   const { toast } = useToast();
+  const { user } = useUser();
   const [actionLoading, setActionLoading] = useState<Set<string>>(new Set());
   const [workerRequirements, setWorkerRequirements] = useState<WorkerRequirement[]>([]);
   const [showQuickEditor, setShowQuickEditor] = useState(false);
@@ -822,10 +826,24 @@ export default function UnifiedEnhancedTimeTracking({
                   </span>
                 </div>
                 {timesheets && timesheets.length > 0 && (
-                  <TimesheetApprovalButton
-                    timesheetId={timesheets[0].id}
-                    status={timesheets[0].status as TimesheetStatus}
-                  />
+                  <div className="flex items-center gap-2">
+                    <TimesheetApprovalButton
+                      timesheetId={timesheets[0].id}
+                      status={timesheets[0].status as TimesheetStatus}
+                    />
+                    {user?.role === UserRole.Admin && timesheets[0].status === 'COMPLETED' && (
+                      <UnlockTimesheetDialog
+                        timesheetId={timesheets[0].id}
+                        onUnlock={() => {
+                          toast({
+                            title: "Timesheet Unlocked",
+                            description: "The timesheet has been unlocked and time tracking is now available.",
+                          });
+                          onRefresh();
+                        }}
+                      />
+                    )}
+                  </div>
                 )}
               </div>
             )}

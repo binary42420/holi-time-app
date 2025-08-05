@@ -1,3 +1,45 @@
+// Edge Runtime polyfills - must be defined before any imports
+(function() {
+  'use strict';
+  
+  if (typeof global === 'undefined') {
+    let globalObject: any;
+    
+    if (typeof globalThis !== 'undefined') {
+      globalObject = globalThis;
+    } else if (typeof self !== 'undefined') {
+      globalObject = self;
+    } else {
+      globalObject = {};
+    }
+    
+    try {
+      Object.defineProperty(globalObject, 'global', {
+        value: globalObject,
+        writable: true,
+        enumerable: false,
+        configurable: true
+      });
+    } catch (e) {
+      (globalObject as any).global = globalObject;
+    }
+    
+    // Also ensure globalThis is available
+    if (typeof globalThis === 'undefined') {
+      try {
+        Object.defineProperty(globalObject, 'globalThis', {
+          value: globalObject,
+          writable: true,
+          enumerable: false,
+          configurable: true
+        });
+      } catch (e) {
+        (globalObject as any).globalThis = globalObject;
+      }
+    }
+  }
+})();
+
 import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
 

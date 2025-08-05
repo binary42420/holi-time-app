@@ -21,7 +21,7 @@ export async function POST(
     }
 
     const body = await request.json()
-    const { userId, roleCode, replaceAssignmentId } = body;
+    const { userId, roleCode, replaceAssignmentId, ignoreConflicts = false } = body;
 
     console.log('assign-worker API called:', { shiftId, userId, roleCode, replaceAssignmentId });
 
@@ -39,6 +39,90 @@ export async function POST(
 
     if (existingAssignment) {
       return NextResponse.json({ error: 'User is already assigned to this shift' }, { status: 400 });
+    }
+
+    // Check for scheduling conflicts unless explicitly ignored
+    if (!ignoreConflicts) {
+      // Get the current shift's details
+      const currentShift = await prisma.shift.findUnique({
+        where: { id: shiftId },
+        select: { 
+          date: true, 
+          startTime: true, 
+          endTime: true,
+          job: {
+            include: {
+              company: true
+            }
+          }
+        },
+      });
+
+      if (!currentShift) {
+        return NextResponse.json({ error: 'Shift not found' }, { status: 404 });
+      }
+
+      // Check for conflicting assignments
+      const conflictingAssignments = await prisma.assignedPersonnel.findMany({
+        where: {
+          userId,
+          shift: {
+            date: currentShift.date,
+            id: { not: shiftId },
+            OR: [
+              {
+                startTime: { lt: currentShift.endTime },
+                endTime: { gt: currentShift.startTime },
+              },
+              {
+                startTime: { gte: currentShift.startTime, lt: currentShift.endTime },
+              },
+              {
+                endTime: { gt: currentShift.startTime, lte: currentShift.endTime },
+              },
+            ],
+          },
+          status: { not: 'NoShow' } // Don't consider no-shows as conflicts
+        },
+        include: {
+          shift: {
+            include: {
+              job: {
+                include: {
+                  company: true
+                }
+              }
+            }
+          }
+        },
+      });
+
+      if (conflictingAssignments.length > 0) {
+        const conflicts = conflictingAssignments.map(conflict => ({
+          shiftId: conflict.shift.id,
+          date: conflict.shift.date,
+          startTime: conflict.shift.startTime,
+          endTime: conflict.shift.endTime,
+          location: conflict.shift.location,
+          roleOnShift: conflict.roleCode,
+          jobName: conflict.shift.job?.name,
+          companyName: conflict.shift.job?.company?.name,
+          status: conflict.status,
+        }));
+
+        return NextResponse.json({ 
+          error: 'SCHEDULING_CONFLICT',
+          message: 'Worker is already assigned to another shift at this time',
+          conflicts,
+          currentShift: {
+            date: currentShift.date,
+            startTime: currentShift.startTime,
+            endTime: currentShift.endTime,
+            jobName: currentShift.job?.name,
+            companyName: currentShift.job?.company?.name,
+          }
+        }, { status: 409 });
+      }
     }
 
     // If replaceAssignmentId is provided, replace that assignment

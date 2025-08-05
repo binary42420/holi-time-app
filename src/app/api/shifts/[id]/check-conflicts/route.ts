@@ -32,8 +32,8 @@ export async function POST(
 
     const currentShift = currentShiftResult;
     const shiftDate = currentShift.date
-    const startTime = currentShift.start_time
-    const endTime = currentShift.end_time
+    const startTime = currentShift.startTime
+    const endTime = currentShift.endTime
 
     // Check for conflicting assignments on the same date (simplified - no client info needed)
     const conflictResult = await prisma.assignedPersonnel.findMany({
@@ -57,15 +57,28 @@ export async function POST(
         },
       },
       include: {
-        shift: true,
+        shift: {
+          include: {
+            job: {
+              include: {
+                company: true
+              }
+            }
+          }
+        },
       },
     });
 
     const conflicts = conflictResult.map(conflict => ({
       shiftId: conflict.shift.id,
+      date: conflict.shift.date,
       startTime: conflict.shift.startTime,
       endTime: conflict.shift.endTime,
+      location: conflict.shift.location,
       roleOnShift: conflict.roleCode,
+      jobName: conflict.shift.job?.name,
+      companyName: conflict.shift.job?.company?.name,
+      status: conflict.status,
     }));
 
     return NextResponse.json({

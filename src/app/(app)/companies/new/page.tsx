@@ -61,8 +61,8 @@ function NewClientPage() {
       const result = await response.json()
       
       toast({
-        title: "Success",
-        description: "Client created successfully",
+        title: "Client Created Successfully",
+        description: `"${formData.name}" has been added to your client list.`,
       })
 
       router.push(`/clients/${result.client.id}`)

@@ -11,6 +11,7 @@ import { Calendar, Clock, Users, AlertCircle, RefreshCw, Shield, Target, Zap, Cr
 import { CompanyAvatar } from "@/components/CompanyAvatar";
 import { StatusBadge } from "@/components/StatusBadge";
 import { WorkerRolesBadges } from "@/components/WorkerRolesBadges";
+import { getWorkersNeeded } from "@/lib/worker-count-utils";
 import { Progress } from "@/components/ui/progress";
 import { Enhanced3DStatusBadge, EnhancedDateStatusIndicator } from '@/components/enhanced-date-status-indicators';
 import { getShiftStatus, getShiftStatusDisplay } from '@/lib/shift-status';
@@ -25,15 +26,16 @@ type ActiveShift = Shift & {
   job: Job & {
     company: Company;
   };
-  workerRequirements?: Array<{
-    id: string;
-    roleCode: string;
-    roleName: string;
-    requiredCount: number;
-  }>;
   assignedPersonnel?: Array<{
     id: string;
     userId: string;
+    status: string;
+    roleCode: string;
+    user: {
+      id: string;
+      name: string;
+      avatarData?: string;
+    };
   }>;
 };
 
@@ -56,11 +58,18 @@ export default function CrewChiefDashboard() {
 
   // Helper functions for calculating fulfillment
   const getTotalPositions = (shift: ActiveShift) => {
-    return shift.workerRequirements?.reduce((acc, req) => acc + req.requiredCount, 0) || 0;
+    return ((shift as any).requiredCrewChiefs || 0) + 
+           ((shift as any).requiredStagehands || 0) + 
+           ((shift as any).requiredForkOperators || 0) + 
+           ((shift as any).requiredReachForkOperators || 0) + 
+           ((shift as any).requiredRiggers || 0) + 
+           ((shift as any).requiredGeneralLaborers || 0);
   };
 
   const getFilledPositions = (shift: ActiveShift) => {
-    return shift.assignedPersonnel?.length || 0;
+    return shift.assignedPersonnel?.filter(p => 
+      p.userId && p.status !== 'NoShow'
+    ).length || 0;
   };
 
   const getFulfillmentPercentage = (shift: ActiveShift) => {
@@ -198,15 +207,31 @@ export default function CrewChiefDashboard() {
                           />
                         </div>
                         
-                        {shift.workerRequirements && shift.workerRequirements.length > 0 && (
-                          <div className="space-y-4">
-                            <div>
-                              <h5 className="text-sm font-bold mb-3 flex items-center gap-2">
-                                <Users className="h-4 w-4" />
-                                Workers Needed
-                              </h5>
-                              <WorkerRolesBadges requirements={shift.workerRequirements} />
-                            </div>
+                        {(() => {
+                          const workersNeeded = getWorkersNeeded({
+                            assignedPersonnel: shift.assignedPersonnel,
+                            requiredCrewChiefs: (shift as any).requiredCrewChiefs,
+                            requiredStagehands: (shift as any).requiredStagehands,
+                            requiredForkOperators: (shift as any).requiredForkOperators,
+                            requiredReachForkOperators: (shift as any).requiredReachForkOperators,
+                            requiredRiggers: (shift as any).requiredRiggers,
+                            requiredGeneralLaborers: (shift as any).requiredGeneralLaborers,
+                          });
+
+                          return workersNeeded.length > 0 ? (
+                            <div className="space-y-4">
+                              <div>
+                                <h5 className="text-sm font-bold mb-3 flex items-center gap-2">
+                                  <Users className="h-4 w-4" />
+                                  Workers Still Needed
+                                </h5>
+                                <WorkerRolesBadges requirements={workersNeeded.map(worker => ({
+                                  id: `${shift.id}-${worker.roleCode}`,
+                                  roleCode: worker.roleCode,
+                                  roleName: worker.roleName,
+                                  requiredCount: worker.needed
+                                }))} />
+                              </div>
                             
                             <div className="space-y-3">
                               <div className="flex justify-between items-center">
@@ -237,7 +262,40 @@ export default function CrewChiefDashboard() {
                               </div>
                             </div>
                           </div>
-                        )}
+                          ) : (
+                            <div className="space-y-3">
+                              <div>
+                                <h5 className="text-sm font-bold mb-3 flex items-center gap-2 text-green-500">
+                                  <Users className="h-4 w-4" />
+                                  Fully Staffed
+                                </h5>
+                                <p className="text-sm text-green-400">All positions filled</p>
+                              </div>
+                              <div className="space-y-3">
+                                <div className="flex justify-between items-center">
+                                  <span className="text-sm font-medium">Staffing Progress</span>
+                                  <Enhanced3DStatusBadge 
+                                    status={fulfillmentStatus}
+                                    count={filledPositions}
+                                    total={totalPositions}
+                                    showCount
+                                    size="sm"
+                                  />
+                                </div>
+                                <div className="relative">
+                                  <Progress 
+                                    value={fulfillmentPercentage} 
+                                    className="h-3 bg-gray-200 dark:bg-gray-700"
+                                  />
+                                  <div 
+                                    className="absolute inset-0 rounded-full opacity-75 transition-all duration-500 bg-gradient-to-r from-emerald-500 to-emerald-600"
+                                    style={{ width: `${Math.min(fulfillmentPercentage, 100)}%` }}
+                                  ></div>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })()}
                       </CardContent>
                     </Card>
                   );

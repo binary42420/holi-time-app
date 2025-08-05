@@ -159,9 +159,10 @@ export async function POST(
       // Store Excel as base64 in database
       const excelDataUrl = `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,${Buffer.from(excelBuffer).toString('base64')}`;
 
-      // Generate PDF using jsPDF (same logic as download-pdf-simple)
-      const { generateTimesheetPdf } = await import('@/lib/pdf');
-      const pdfUrl = await generateTimesheetPdf(timesheetId);
+      // Generate PDF using enhanced PDF generator
+      const { TimesheetPDFGenerator } = await import('@/lib/enhanced-pdf-generator');
+      const generator = new TimesheetPDFGenerator(timesheetId);
+      const pdfUrl = await generator.generateUnsignedPDF({ uploadToCloud: true });
       
       // For now, we'll store the URL instead of base64 data
       // If you need base64 storage, you can modify the generateTimesheetPdf function

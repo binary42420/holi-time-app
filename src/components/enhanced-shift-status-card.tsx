@@ -33,6 +33,8 @@ import {
 import { format, differenceInDays, formatDistanceToNow } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { getWorkersNeeded, calculateShiftRequirements, calculateAssignedWorkers } from '@/lib/worker-count-utils';
+import { ROLE_DEFINITIONS } from '@/lib/constants';
 
 interface EnhancedShiftStatusCardProps {
   shift: {
@@ -91,11 +93,9 @@ export function EnhancedShiftStatusCard({
   isOnline = true,
   className
 }: EnhancedShiftStatusCardProps) {
-  // Calculate staffing metrics
-  const totalRequired = shift.requiredCrewChiefs + shift.requiredStagehands + 
-                       shift.requiredForkOperators + shift.requiredReachForkOperators + 
-                       shift.requiredRiggers + shift.requiredGeneralLaborers;
-  const totalAssigned = shift.assignedPersonnel.length;
+  // Use shared calculation functions for consistency
+  const totalRequired = calculateShiftRequirements(shift);
+  const totalAssigned = calculateAssignedWorkers(shift);
   const fulfillmentStatus = getFulfillmentStatus(totalAssigned, totalRequired);
   
   // Calculate time-based metrics
@@ -132,6 +132,9 @@ export function EnhancedShiftStatusCard({
   // Determine card border color based on status and urgency
   const getBorderColor = () => {
     if (noShows > 0) return 'border-l-red-500';
+    if (fulfillmentStatus === 'OVERSTAFFED_HIGH') return 'border-l-red-500';
+    if (fulfillmentStatus === 'OVERSTAFFED_MEDIUM') return 'border-l-orange-500';
+    if (fulfillmentStatus === 'OVERSTAFFED_LOW') return 'border-l-yellow-500';
     if (fulfillmentStatus === 'CRITICAL') return 'border-l-red-500';
     if (fulfillmentStatus === 'LOW') return 'border-l-orange-500';
     if (shift.status === 'Active' || shift.status === 'InProgress') return 'border-l-emerald-500';
@@ -274,6 +277,59 @@ export function EnhancedShiftStatusCard({
               })}
             </div>
           </div>
+          
+          {/* Workers Still Needed */}
+          {(() => {
+            const workersNeeded = getWorkersNeeded({
+              assignedPersonnel: shift.assignedPersonnel,
+              requiredCrewChiefs: shift.requiredCrewChiefs,
+              requiredStagehands: shift.requiredStagehands,
+              requiredForkOperators: shift.requiredForkOperators,
+              requiredReachForkOperators: shift.requiredReachForkOperators,
+              requiredRiggers: shift.requiredRiggers,
+              requiredGeneralLaborers: shift.requiredGeneralLaborers,
+            });
+
+            return workersNeeded.length > 0 ? (
+              <div className="space-y-2">
+                <h4 className="text-sm font-medium flex items-center gap-2">
+                  <AlertTriangle className="h-4 w-4 text-amber-500" />
+                  Workers Still Needed
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {workersNeeded.map((worker) => {
+                    const roleDetails = ROLE_DEFINITIONS[worker.roleCode as keyof typeof ROLE_DEFINITIONS];
+                    if (!roleDetails) return null;
+                    return (
+                      <Badge 
+                        key={worker.roleCode} 
+                        variant="outline"
+                        className={cn(
+                          "text-xs font-medium border-2",
+                          roleDetails.roleColor === 'purple' && "border-purple-300 text-purple-700 bg-purple-50",
+                          roleDetails.roleColor === 'blue' && "border-blue-300 text-blue-700 bg-blue-50",
+                          roleDetails.roleColor === 'green' && "border-green-300 text-green-700 bg-green-50",
+                          roleDetails.roleColor === 'yellow' && "border-yellow-300 text-yellow-700 bg-yellow-50",
+                          roleDetails.roleColor === 'red' && "border-red-300 text-red-700 bg-red-50",
+                          roleDetails.roleColor === 'gray' && "border-gray-300 text-gray-700 bg-gray-50"
+                        )}
+                      >
+                        {worker.needed} {worker.roleName}{worker.needed > 1 ? 's' : ''}
+                      </Badge>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <h4 className="text-sm font-medium text-emerald-600 flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4" />
+                  Fully Staffed
+                </h4>
+                <p className="text-xs text-muted-foreground">All required positions are filled</p>
+              </div>
+            );
+          })()}
           
           {/* Top Workers Preview */}
           {shift.assignedPersonnel.length > 0 && (

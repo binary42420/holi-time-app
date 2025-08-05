@@ -1,7 +1,12 @@
+// Import universal runtime polyfills first (all environments)
+import '@/lib/runtime-polyfills';
+// Import server-side polyfills (server-side only)
+import '@/app/global-polyfills.js';
+
 import React from 'react';
 import type { Metadata, Viewport } from 'next';
 import { Providers } from '@/components/providers/providers';
-import QueryProvider from '@/providers/QueryProvider';
+import { EnhancedQueryProvider } from '@/providers/enhanced-query-provider';
 import HydrationErrorBoundary from '@/components/hydration-error-boundary';
 import { LoadingProvider } from '@/providers/loading-provider';
 import { TopProgressBar } from '@/components/ui/top-progress-bar';
@@ -44,14 +49,12 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className="safe-area-inset-top safe-area-inset-bottom" suppressHydrationWarning>
-        <QueryProvider>
+        <EnhancedQueryProvider>
           <LoadingProvider>
             <TopProgressBar />
             <Providers>{children}</Providers>
           </LoadingProvider>
-        </QueryProvider>
-
-
+        </EnhancedQueryProvider>
       </body>
     </html>
   );

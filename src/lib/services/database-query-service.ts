@@ -47,6 +47,7 @@ export class DatabaseQueryService {
     status?: string;
     date?: string;
     search?: string;
+    jobId?: string;
     page?: number;
     limit?: number;
   }) {
@@ -55,7 +56,7 @@ export class DatabaseQueryService {
     return this.executeWithCache(
       cacheKey,
       async () => {
-        const { userId, userRole, companyId, status, date, search, page = 1, limit = 50 } = filters;
+        const { userId, userRole, companyId, status, date, search, jobId, page = 1, limit = 50 } = filters;
         
         // Build optimized where clause
         const where: Prisma.ShiftWhereInput = {};
@@ -78,6 +79,11 @@ export class DatabaseQueryService {
               status: { not: 'NoShow' }
             } 
           };
+        }
+
+        // Job-specific filtering
+        if (jobId) {
+          where.jobId = jobId;
         }
 
         // Additional filters
@@ -270,6 +276,16 @@ export class DatabaseQueryService {
           ? [{ updatedAt: 'desc' as const }, { createdAt: 'desc' as const }]
           : [{ createdAt: 'desc' as const }];
 
+        // Build shifts where clause for user filtering
+        const shiftsWhere: Prisma.ShiftWhereInput = userId ? {
+          assignedPersonnel: {
+            some: {
+              userId: userId,
+              status: { not: 'NoShow' }
+            }
+          }
+        } : {};
+
         const jobs = await prisma.job.findMany({
           where,
           select: {
@@ -290,6 +306,7 @@ export class DatabaseQueryService {
               },
             },
             shifts: {
+              where: shiftsWhere,
               select: {
                 id: true,
                 date: true,
@@ -329,7 +346,9 @@ export class DatabaseQueryService {
             },
             _count: {
               select: {
-                shifts: true,
+                shifts: userId ? {
+                  where: shiftsWhere
+                } : true,
               },
             },
           },

@@ -1,4 +1,3 @@
-// import { WorkerRequirement } from "@prisma/client";
 "use client"
 
 import React, { useState } from "react"
@@ -12,10 +11,19 @@ import { Plus, Briefcase, AlertCircle, RefreshCw, Filter, Search } from "lucide-
 import { withAuth } from "@/lib/withAuth";
 import { CompanyAvatar } from "@/components/CompanyAvatar";
 import { UserRole, JobStatus } from '@prisma/client'
-import Header from "@/components/Header"
+
 import { Job } from "@/lib/types"
 
 import { WorkerRolesBadges } from "@/components/WorkerRolesBadges"
+import { getWorkersNeeded, WorkerNeeded } from "@/lib/worker-count-utils"
+
+// Define the interface for worker requirements
+interface WorkerRequirement {
+  id: string;
+  roleCode: string;
+  roleName: string;
+  requiredCount: number;
+}
 import { Progress } from "@/components/ui/progress"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
@@ -44,59 +52,71 @@ function AdminJobsPage() {
     router.push(`/jobs/${jobId}`)
   }
 
-  const totalWorkers = (job: Job) => job.shifts.reduce((acc, shift) => acc + ((shift as any).workerRequirements?.length || 0), 0)
-  const filledPositions = (job: Job) => job.shifts.reduce((acc, shift) => acc + (shift.assignedPersonnel?.length || 0), 0)
+  // Calculate total required workers across all shifts for all worker types
+  const totalWorkers = (job: Job) => {
+    return job.shifts.reduce((acc, shift) => {
+      const shiftTotal = (shift as any).requiredCrewChiefs + 
+                        (shift as any).requiredStagehands + 
+                        (shift as any).requiredForkOperators + 
+                        (shift as any).requiredReachForkOperators + 
+                        (shift as any).requiredRiggers + 
+                        (shift as any).requiredGeneralLaborers;
+      return acc + shiftTotal;
+    }, 0);
+  }
+  
+  // Calculate total assigned personnel across all shifts (only actual assignments, not placeholders)
+  const filledPositions = (job: Job) => {
+    return job.shifts.reduce((acc, shift) => {
+      const actualAssignments = shift.assignedPersonnel?.filter(p => 
+        p.userId && p.status !== 'NoShow'
+      ).length || 0;
+      return acc + actualAssignments;
+    }, 0);
+  }
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 text-gray-100">
-        <Header />
-        <main className="p-4 sm:p-6 lg:p-8">
-          <div className="max-w-7xl mx-auto space-y-6">
-            <Skeleton className="h-8 w-1/2 bg-gray-700" />
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-48 w-full bg-gray-800" />)}
-            </div>
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="max-w-7xl mx-auto space-y-6">
+          <Skeleton className="h-8 w-1/2 bg-gray-700" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-48 w-full bg-gray-800" />)}
           </div>
-        </main>
+        </div>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-900 text-gray-100">
-        <Header />
-        <main className="p-4 sm:p-6 lg:p-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-center justify-center min-h-[60vh]">
-              <Alert className="max-w-md bg-red-900/20 border-red-800">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription className="text-red-200">
-                  Error loading jobs: {error.toString()}
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => refetch()}
-                    className="mt-2 w-full border-red-700 text-red-200 hover:bg-red-800"
-                  >
-                    <RefreshCw className="h-4 w-4 mr-2" />
-                    Try Again
-                  </Button>
-                </AlertDescription>
-              </Alert>
-            </div>
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <Alert className="max-w-md bg-red-900/20 border-red-800">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription className="text-red-200">
+                Error loading jobs: {error.toString()}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => refetch()}
+                  className="mt-2 w-full border-red-700 text-red-200 hover:bg-red-800"
+                >
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Try Again
+                </Button>
+              </AlertDescription>
+            </Alert>
           </div>
-        </main>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100">
-      <Header />
-      <main className="p-4 sm:p-6 lg:p-8">
-        <div className="max-w-7xl mx-auto space-y-6">
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold text-white">Manage Jobs</h1>
@@ -189,7 +209,7 @@ function AdminJobsPage() {
                 >
                   <CardHeader>
                     <CardTitle className="text-white">{job.name}</CardTitle>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 mt-2">
                       <CompanyAvatar
                         src={job.company?.company_logo_url}
                         name={job.company?.name || ''}
@@ -202,8 +222,54 @@ function AdminJobsPage() {
                     <div>
                       <StatusBadge status={job.status} />
                       <div className="mt-4">
-                        <h4 className="text-sm font-medium text-gray-300 mb-2">Workers Needed</h4>
-                        <WorkerRolesBadges requirements={job.shifts.flatMap(s => (s as any).workerRequirements).filter((req): req is any => !!req)} />
+                        {(() => {
+                          // Calculate workers needed across all shifts for this job
+                          const allWorkersNeeded: WorkerNeeded[] = [];
+                          const workerNeededMap = new Map<string, WorkerNeeded>();
+
+                          job.shifts.forEach(shift => {
+                            const shiftWorkersNeeded = getWorkersNeeded({
+                              assignedPersonnel: shift.assignedPersonnel,
+                              requiredCrewChiefs: (shift as any).requiredCrewChiefs,
+                              requiredStagehands: (shift as any).requiredStagehands,
+                              requiredForkOperators: (shift as any).requiredForkOperators,
+                              requiredReachForkOperators: (shift as any).requiredReachForkOperators,
+                              requiredRiggers: (shift as any).requiredRiggers,
+                              requiredGeneralLaborers: (shift as any).requiredGeneralLaborers,
+                            });
+
+                            // Aggregate workers needed by role across all shifts
+                            shiftWorkersNeeded.forEach(worker => {
+                              const existing = workerNeededMap.get(worker.roleCode);
+                              if (existing) {
+                                existing.needed += worker.needed;
+                                existing.required += worker.required;
+                                existing.assigned += worker.assigned;
+                              } else {
+                                workerNeededMap.set(worker.roleCode, { ...worker });
+                              }
+                            });
+                          });
+
+                          const workersNeeded = Array.from(workerNeededMap.values());
+
+                          return workersNeeded.length > 0 ? (
+                            <>
+                              <h4 className="text-sm font-medium text-gray-300 mb-2">Workers Still Needed</h4>
+                              <WorkerRolesBadges requirements={workersNeeded.map(worker => ({
+                                id: `${job.id}-${worker.roleCode}`,
+                                roleCode: worker.roleCode,
+                                roleName: worker.roleName,
+                                requiredCount: worker.needed
+                              }))} />
+                            </>
+                          ) : (
+                            <>
+                              <h4 className="text-sm font-medium text-green-400 mb-2">Fully Staffed</h4>
+                              <p className="text-xs text-gray-500">All positions filled across all shifts</p>
+                            </>
+                          );
+                        })()}
                       </div>
                     </div>
                     <div className="mt-4">
@@ -211,15 +277,14 @@ function AdminJobsPage() {
                         <span>Filled Positions</span>
                         <span>{filledPositions(job)} of {totalWorkers(job)}</span>
                       </div>
-                      <Progress value={(filledPositions(job) / totalWorkers(job)) * 100} className="h-2" />
+                      <Progress value={totalWorkers(job) > 0 ? (filledPositions(job) / totalWorkers(job)) * 100 : 0} className="h-2" />
                     </div>
                   </CardContent>
                 </Card>
               ))}
             </div>
           )}
-        </div>
-      </main>
+      </div>
     </div>
   )
 }

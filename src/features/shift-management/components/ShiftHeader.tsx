@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { ShiftStatus } from "@prisma/client";
 import { useToast } from "@/hooks/use-toast"; // Import useToast
 import { CompanyAvatar } from "@/components/CompanyAvatar";
+import { useUser } from "@/hooks/use-user";
 
 interface ShiftHeaderProps {
   shift: ShiftWithDetails;
@@ -26,6 +27,7 @@ const statusStyles: Record<ShiftStatus, string> = {
 export function ShiftHeader({ shift }: ShiftHeaderProps) {
   const router = useRouter();
   const { toast } = useToast();
+  const { user } = useUser();
 
   const handleDownloadPdf = async () => {
     if (!shift.timesheets?.id) {
@@ -70,7 +72,11 @@ export function ShiftHeader({ shift }: ShiftHeaderProps) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" onClick={() => router.push('/shifts')}>
+        <Button variant="ghost" size="icon" onClick={() => {
+          // Navigate to admin/shifts for admins, otherwise to regular shifts page
+          const shiftsPath = user?.role === 'Admin' ? '/admin/shifts' : '/shifts';
+          router.push(shiftsPath);
+        }}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div>

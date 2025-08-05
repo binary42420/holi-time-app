@@ -1,27 +1,15 @@
-export const CSV_HEADERS = [
-  'client_name',
-  'contact_name', 
-  'contact_phone',
-  'job_name',
-  'job_start_date',
-  'shift_date',
-  'shift_start_time',
-  'shift_end_time',
-  'employee_name',
-  'employee_email',
-  'employee_phone',
-  'worker_type',
-  'clock_in_1',
-  'clock_out_1',
-  'clock_in_2',
-  'clock_out_2',
-  'clock_in_3',
-  'clock_out_3'
-] as const;
+// CSV import types - compatibility layer for existing imports
+// This file provides backward compatibility for existing CSV import functionality
 
-export type CSVRow = {
-  [K in typeof CSV_HEADERS[number]]: string;
-} & {
-  _rowNumber: number;
-  _errors: string[];
-};
+import { 
+  COMPREHENSIVE_CSV_HEADERS,
+  ComprehensiveCSVRow,
+  type CSVRow as EnhancedCSVRow
+} from './csv-enhanced';
+
+// Re-export the comprehensive format as the default CSV format
+export const CSV_HEADERS = COMPREHENSIVE_CSV_HEADERS;
+export type CSVRow = ComprehensiveCSVRow;
+
+// Also re-export all enhanced types for future use
+export * from './csv-enhanced';

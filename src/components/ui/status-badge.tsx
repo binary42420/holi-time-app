@@ -442,10 +442,15 @@ export function StatusBadge({
 // Helper function to determine fulfillment status
 export function getFulfillmentStatus(assigned: number, required: number): string {
   if (required === 0) return 'FULL';
-  const percentage = (assigned / required) * 100;
+  const overBy = assigned - required;
+
+  // Different levels of overstaffing
+  if (overBy > 3) return 'OVERSTAFFED_HIGH'; // 4+ over
+  if (overBy > 1) return 'OVERSTAFFED_MEDIUM'; // 2-3 over  
+  if (overBy === 1) return 'OVERSTAFFED_LOW'; // 1 over
+  if (assigned >= required) return 'FULL';
   
-  if (percentage > 110) return 'OVERSTAFFED';
-  if (percentage >= 100) return 'FULL';
+  const percentage = (assigned / required) * 100;
   if (percentage >= 80) return 'GOOD';
   if (percentage >= 60) return 'LOW';
   return 'CRITICAL';

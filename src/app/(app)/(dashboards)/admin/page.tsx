@@ -1,8 +1,10 @@
 'use client';
 
 import { useShifts, useJobs, useTimesheets } from '@/hooks/use-api';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { usePerformanceMonitor } from '@/components/performance-monitor';
+import { useIntelligentPrefetch } from '@/hooks/use-intelligent-prefetch';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -117,6 +119,15 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [shiftsPage, setShiftsPage] = useState(1);
   const shiftsPerPage = 10;
+  
+  // Performance monitoring and intelligent prefetching
+  const { isVisible, toggle, PerformanceMonitor } = usePerformanceMonitor();
+  const { triggerIntelligentPrefetch } = useIntelligentPrefetch();
+  
+  // Initialize intelligent prefetching for admin dashboard
+  useEffect(() => {
+    triggerIntelligentPrefetch('/admin');
+  }, [triggerIntelligentPrefetch]);
   
   const {
     data: jobs,
@@ -298,8 +309,19 @@ export default function AdminDashboard() {
           </div>
         }
         description="Admin Dashboard and track performance with comprehensive insights"
-        buttonText="Admin Panel"
-        buttonAction={() => router.push('/admin-panel')}
+        buttonText="Admin Settings"
+        buttonAction={() => router.push('/admin/settings')}
+        extraActions={
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={toggle}
+            className="flex items-center gap-2"
+          >
+            <Zap className="h-4 w-4" />
+            Performance
+          </Button>
+        }
       >
         {/* Unified Metrics Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -576,6 +598,9 @@ export default function AdminDashboard() {
           </Card>
         </div>
       </DashboardPage>
+      
+      {/* Performance Monitor */}
+      <PerformanceMonitor />
     </div>
   );
 }

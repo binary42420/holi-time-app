@@ -62,6 +62,7 @@ export async function GET(request: NextRequest) {
     const date = searchParams.get('date');
     const companyId = searchParams.get('companyId');
     const search = searchParams.get('search');
+    const jobId = searchParams.get('jobId');
 
     // Use optimized database query service
     const result = await dbQueryService.getShiftsOptimized({
@@ -71,6 +72,7 @@ export async function GET(request: NextRequest) {
       status: status || undefined,
       date: date || undefined,
       search: search || undefined,
+      jobId: jobId || undefined,
       page,
       limit,
     });

@@ -76,8 +76,8 @@ export default function BulkShiftOperations({
       await Promise.all(promises)
 
       toast({
-        title: "Success",
-        description: `Updated ${selectedShifts.length} shift(s) to ${status}`,
+        title: "Shifts Updated Successfully",
+        description: `${selectedShifts.length} shift${selectedShifts.length === 1 ? '' : 's'} ha${selectedShifts.length === 1 ? 's' : 've'} been marked as ${status}.`,
       })
 
       onSelectionChange([])
@@ -105,8 +105,8 @@ export default function BulkShiftOperations({
       await Promise.all(promises)
 
       toast({
-        title: "Success",
-        description: `Deleted ${selectedShifts.length} shift(s)`,
+        title: "Shifts Deleted Successfully",
+        description: `${selectedShifts.length} shift${selectedShifts.length === 1 ? '' : 's'} ha${selectedShifts.length === 1 ? 's' : 've'} been permanently removed.`,
       })
 
       onSelectionChange([])

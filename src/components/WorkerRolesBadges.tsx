@@ -1,6 +1,12 @@
-import { WorkerRequirement } from "@prisma/client";
 import { Badge } from "@/components/ui/badge";
 import { roleColors, roleTextColor } from "@/lib/config/colors";
+
+interface WorkerRequirement {
+  id: string;
+  roleCode: string;
+  roleName: string;
+  requiredCount: number;
+}
 
 interface WorkerRolesBadgesProps {
   requirements: WorkerRequirement[];

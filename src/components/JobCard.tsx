@@ -5,29 +5,9 @@ import { Button } from './ui/button';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from './ui/dropdown-menu';
 import { StatusBadge, getFulfillmentStatus, getPriorityBadge } from './ui/status-badge';
 import { getShiftStatus, getShiftStatusDisplay } from '@/lib/shift-status';
+import { calculateShiftRequirements, calculateAssignedWorkers } from '@/lib/worker-count-utils';
 import Link from 'next/link';
 import { differenceInDays } from 'date-fns';
-
-
-
-const calculateShiftRequirements = (shift: any) => {
-  return (shift.requiredCrewChiefs || 0) + 
-         (shift.requiredStagehands || 0) + 
-         (shift.requiredForkOperators || 0) + 
-         (shift.requiredReachForkOperators || 0) + 
-         (shift.requiredRiggers || 0) + 
-         (shift.requiredGeneralLaborers || 0);
-};
-
-const calculateAssignedWorkers = (shift: any) => {
-  if (!shift.assignedPersonnel) return 0;
-  
-  // Count all assigned personnel that have a valid assignment
-  return shift.assignedPersonnel.filter((p: any) => {
-    // Check if the assignment exists and is not cancelled/withdrawn
-    return p && p.userId && !['Cancelled', 'Withdrawn', 'Rejected'].includes(p.status);
-  }).length;
-};
 
 interface JobCardProps {
   job: Job;

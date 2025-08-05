@@ -25,6 +25,7 @@ import {
 import { format, differenceInDays, isBefore, isAfter } from 'date-fns';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { getWorkersNeeded, calculateShiftRequirements, calculateAssignedWorkers } from '@/lib/worker-count-utils';
 
 interface EnhancedJobCardProps {
   job: {
@@ -77,16 +78,15 @@ export function EnhancedJobCard({ job, onView, onEdit, onDelete, className }: En
   
   // Calculate overall staffing metrics
   const staffingMetrics = job.shifts?.reduce((acc, shift) => {
-    const required = (shift.requiredCrewChiefs || 0) + 
-                    (shift.requiredStagehands || 0) + 
-                    (shift.requiredForkOperators || 0) + 
-                    (shift.requiredReachForkOperators || 0) + 
-                    (shift.requiredRiggers || 0) + 
-                    (shift.requiredGeneralLaborers || 0);
+    const required = calculateShiftRequirements(shift);
+    const assigned = calculateAssignedWorkers(shift);
     
-    const assigned = shift.assignedPersonnel?.length || 0;
-    const working = shift.assignedPersonnel?.filter(p => p.status === 'ClockedIn').length || 0;
-    const completed = shift.assignedPersonnel?.filter(p => p.status === 'ShiftEnded').length || 0;
+    // Get actual assignments for status calculations
+    const actualAssignments = shift.assignedPersonnel?.filter(p =>
+      p.user?.id && p.status !== 'NoShow'
+    ) || [];
+    const working = actualAssignments.filter(p => p.status === 'ClockedIn').length;
+    const completed = actualAssignments.filter(p => p.status === 'ShiftEnded').length;
     
     return {
       totalRequired: acc.totalRequired + required,
@@ -254,6 +254,56 @@ export function EnhancedJobCard({ job, onView, onEdit, onDelete, className }: En
           </div>
         )}
 
+        {/* Workers Still Needed */}
+        {job.shifts && job.shifts.length > 0 && (() => {
+          // Calculate workers needed across all shifts for this job
+          const workerNeededMap = new Map<string, { roleCode: string; roleName: string; needed: number; }>();
+
+          job.shifts.forEach(shift => {
+            const shiftWorkersNeeded = getWorkersNeeded({
+              assignedPersonnel: shift.assignedPersonnel,
+              requiredCrewChiefs: shift.requiredCrewChiefs,
+              requiredStagehands: shift.requiredStagehands,
+              requiredForkOperators: shift.requiredForkOperators,
+              requiredReachForkOperators: shift.requiredReachForkOperators,
+              requiredRiggers: shift.requiredRiggers,
+              requiredGeneralLaborers: shift.requiredGeneralLaborers,
+            });
+
+            // Aggregate workers needed by role across all shifts
+            shiftWorkersNeeded.forEach(worker => {
+              const existing = workerNeededMap.get(worker.roleCode);
+              if (existing) {
+                existing.needed += worker.needed;
+              } else {
+                workerNeededMap.set(worker.roleCode, {
+                  roleCode: worker.roleCode,
+                  roleName: worker.roleName,
+                  needed: worker.needed
+                });
+              }
+            });
+          });
+
+          const workersNeeded = Array.from(workerNeededMap.values()).filter(w => w.needed > 0);
+
+          return workersNeeded.length > 0 ? (
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <AlertCircle className="h-4 w-4 text-amber-500" />
+                <span className="font-medium text-sm">Workers Still Needed</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {workersNeeded.map(worker => (
+                  <Badge key={worker.roleCode} variant="outline" className="text-xs">
+                    {worker.needed} {worker.roleName}{worker.needed > 1 ? 's' : ''}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          ) : null;
+        })()}
+
         {/* Upcoming Shifts Preview */}
         {upcomingShifts.length > 0 && (
           <div className="space-y-2">
@@ -271,13 +321,8 @@ export function EnhancedJobCard({ job, onView, onEdit, onDelete, className }: En
             
             <div className="space-y-1">
               {upcomingShifts.map(shift => {
-                const required = (shift.requiredCrewChiefs || 0) + 
-                                (shift.requiredStagehands || 0) + 
-                                (shift.requiredForkOperators || 0) + 
-                                (shift.requiredReachForkOperators || 0) + 
-                                (shift.requiredRiggers || 0) + 
-                                (shift.requiredGeneralLaborers || 0);
-                const assigned = shift.assignedPersonnel?.length || 0;
+                const required = calculateShiftRequirements(shift);
+                const assigned = calculateAssignedWorkers(shift);
                 const fulfillment = getFulfillmentStatus(assigned, required);
                 const daysUntil = differenceInDays(new Date(shift.date), new Date());
 

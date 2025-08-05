@@ -78,8 +78,8 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ className = '' }) => {
       allowedRoles: ['Admin', 'Manager', 'CrewChief', 'Staff', 'CompanyUser']
     },
     {
-      name: 'Admin',
-      href: '/admin-panel',
+      name: 'Admin Settings',
+      href: '/admin/settings',
       icon: <CogIcon className="h-5 w-5" />,
       allowedRoles: ['Admin']
     }
@@ -89,7 +89,15 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ className = '' }) => {
   const allowedItems = navigationItems
     .filter(item => user && item.allowedRoles.includes(user.role))
     .map(item => {
-      // Admin users will now use the standard pages
+      // For admin users, redirect jobs and shifts to admin pages
+      if (user?.role === 'Admin') {
+        if (item.href === '/jobs') {
+          return { ...item, href: '/admin/jobs' };
+        }
+        if (item.href === '/shifts') {
+          return { ...item, href: '/admin/shifts' };
+        }
+      }
       return item;
     });
 

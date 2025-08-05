@@ -75,18 +75,18 @@ export const useShiftPageData = (shiftId: string) => {
     { onSuccess: invalidateShiftQueries, invalidateQueries: [['shift', shiftId]] }
   );
 
-  const assignWorker = useApiMutation<void, { userId: string, roleCode: string }>(
-    ({ userId, roleCode }) => {
-      console.log('assignWorker mutation called:', { userId, roleCode });
-      return apiService.assignWorker(shiftId, userId, roleCode);
+  const assignWorker = useApiMutation<void, { userId: string, roleCode: string, ignoreConflicts?: boolean }>(
+    ({ userId, roleCode, ignoreConflicts = false }) => {
+      console.log('assignWorker mutation called:', { userId, roleCode, ignoreConflicts });
+      return apiService.assignWorker(shiftId, userId, roleCode, ignoreConflicts);
     },
     {
       onSuccess: (data, variables) => {
         console.log('assignWorker mutation success:', { data, variables });
         invalidateShiftQueries();
       },
-      onMutate: async ({ userId, roleCode }) => {
-        console.log('assignWorker mutation onMutate:', { userId, roleCode });
+      onMutate: async ({ userId, roleCode, ignoreConflicts }) => {
+        console.log('assignWorker mutation onMutate:', { userId, roleCode, ignoreConflicts });
         await queryClient.cancelQueries({ queryKey: ['shift', shiftId] });
         const previousShift = queryClient.getQueryData(['shift', shiftId]);
         queryClient.setQueryData(['shift', shiftId], (old: any) => {

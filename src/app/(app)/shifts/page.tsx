@@ -385,7 +385,9 @@ export default function ShiftsPage() {
                               }
                               
                               // Fallback calculation
-                              const assignedCount = shift.assignedPersonnel?.filter((p: any) => p.userId).length || 0;
+                              const assignedCount = shift.assignedPersonnel?.filter((p: any) => 
+                                p.userId && p.status !== 'NoShow'
+                              ).length || 0;
                               const totalRequired = (shift.requiredCrewChiefs || 0) + 
                                                    (shift.requiredStagehands || 0) + 
                                                    (shift.requiredForkOperators || 0) + 

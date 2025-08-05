@@ -204,8 +204,8 @@ export default function CSVImport({ externalCSVData }: CSVImportProps) {
       document.body.removeChild(a)
 
       toast({
-        title: 'Template Downloaded',
-        description: 'CSV template has been downloaded to your computer'
+        title: 'Template Downloaded Successfully',
+        description: 'CSV template has been downloaded and is ready to use.'
       })
     } catch {
       toast({

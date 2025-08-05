@@ -35,6 +35,17 @@ async function handler(req: Request, { params }: RequestContext) {
             company: true,
           },
         },
+        assignedPersonnel: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                avatarData: true,
+              },
+            },
+          },
+        },
       },
       orderBy: {
         date: 'asc',

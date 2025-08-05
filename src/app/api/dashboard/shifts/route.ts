@@ -126,7 +126,9 @@ export async function GET(request: NextRequest) {
         shift.requiredRiggers +
         shift.requiredGeneralLaborers;
 
-      const totalAssigned = shift.assignedPersonnel.filter(ap => ap.userId).length;
+      const totalAssigned = shift.assignedPersonnel.filter(ap => 
+        ap.userId && ap.status !== 'NoShow'
+      ).length;
       const requested = totalRequired || shift.requestedWorkers || 0;
       const fulfillmentPercentage = requested > 0 ? (totalAssigned / requested) * 100 : 0;
 

@@ -39,7 +39,10 @@
     "test:gcs": "node test-gcs-connection.js",
     "test:avatar-upload": "node test-avatar-upload.js",
     "configure:bucket-public": "node configure-bucket-public.js",
-    "fix:gcs-urls": "node fix-gcs-urls.js"
+    "fix:gcs-urls": "node fix-gcs-urls.js",
+    "analyze:deps": "node scripts/analyze-dependencies.js",
+    "analyze:bundle": "ANALYZE=true npm run build",
+    "analyze:bundle-server": "npx serve .next/static -l 3001"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -84,7 +87,9 @@
     "@tanstack/react-query-devtools": "^5.83.0",
     "@tanstack/react-query-persist-client": "^5.83.0",
     "@types/node-fetch": "^2.6.12",
+    "@types/pdfkit": "^0.17.2",
     "@types/pusher-js": "^5.1.0",
+    "@types/react-beautiful-dnd": "^13.1.8",
     "@vercel/speed-insights": "1.2.0",
     "autoprefixer": "^10.4.19",
     "bcryptjs": "^2.4.3",
@@ -108,12 +113,14 @@
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.10.1",
     "pdf-lib": "^1.17.1",
+    "pdfkit": "^0.17.1",
     "pg": "^8.12.0",
     "postcss": "^8.4.40",
     "postcss-import": "^16.1.0",
     "postcss-preset-mantine": "^1.17.0",
     "pusher-js": "^8.4.0",
     "react": "^18.3.1",
+    "react-beautiful-dnd": "^13.1.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.1",

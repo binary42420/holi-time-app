@@ -34,6 +34,9 @@ import {
 import { format, differenceInDays, formatDistanceToNow, isToday, isTomorrow } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { getWorkersNeeded, calculateShiftRequirements, calculateAssignedWorkers } from '@/lib/worker-count-utils';
+import { getFulfillmentStatus } from '@/components/ui/status-badge';
+import { ROLE_DEFINITIONS } from '@/lib/constants';
 
 interface Enhanced3DShiftCardProps {
   shift: {
@@ -92,21 +95,9 @@ export function Enhanced3DShiftCard({
   isOnline = true,
   className
 }: Enhanced3DShiftCardProps) {
-  // Calculate staffing metrics
-  const totalRequired = shift.requiredCrewChiefs + shift.requiredStagehands + 
-                       shift.requiredForkOperators + shift.requiredReachForkOperators + 
-                       shift.requiredRiggers + shift.requiredGeneralLaborers;
-  const totalAssigned = shift.assignedPersonnel.length;
-  
-  const getFulfillmentStatus = (assigned: number, required: number) => {
-    if (required === 0) return 'FULL';
-    const ratio = assigned / required;
-    if (ratio >= 1.1) return 'OVERSTAFFED';
-    if (ratio >= 1.0) return 'FULL';
-    if (ratio >= 0.8) return 'GOOD';
-    if (ratio >= 0.6) return 'LOW';
-    return 'CRITICAL';
-  };
+  // Use shared calculation functions for consistency
+  const totalRequired = calculateShiftRequirements(shift);
+  const totalAssigned = calculateAssignedWorkers(shift);
 
   const fulfillmentStatus = getFulfillmentStatus(totalAssigned, totalRequired);
   
@@ -132,6 +123,27 @@ export function Enhanced3DShiftCard({
         border: 'border-l-8 border-l-red-500 shadow-xl shadow-red-500/20',
         bg: 'bg-gradient-to-br from-red-50 via-white to-red-50 dark:from-red-950/20 dark:via-gray-900 dark:to-red-950/20',
         glow: 'hover:shadow-2xl hover:shadow-red-500/30'
+      };
+    }
+    if (fulfillmentStatus === 'OVERSTAFFED_HIGH') {
+      return {
+        border: 'border-l-8 border-l-red-500 shadow-xl shadow-red-500/20',
+        bg: 'bg-gradient-to-br from-red-50 via-white to-red-50 dark:from-red-950/20 dark:via-gray-900 dark:to-red-950/20',
+        glow: 'hover:shadow-2xl hover:shadow-red-500/30'
+      };
+    }
+    if (fulfillmentStatus === 'OVERSTAFFED_MEDIUM') {
+      return {
+        border: 'border-l-8 border-l-orange-500 shadow-xl shadow-orange-500/20',
+        bg: 'bg-gradient-to-br from-orange-50 via-white to-orange-50 dark:from-orange-950/20 dark:via-gray-900 dark:to-orange-950/20',
+        glow: 'hover:shadow-2xl hover:shadow-orange-500/30'
+      };
+    }
+    if (fulfillmentStatus === 'OVERSTAFFED_LOW') {
+      return {
+        border: 'border-l-8 border-l-yellow-500 shadow-xl shadow-yellow-500/20',
+        bg: 'bg-gradient-to-br from-yellow-50 via-white to-yellow-50 dark:from-yellow-950/20 dark:via-gray-900 dark:to-yellow-950/20',
+        glow: 'hover:shadow-2xl hover:shadow-yellow-500/30'
       };
     }
     if (fulfillmentStatus === 'CRITICAL') {
@@ -319,6 +331,71 @@ export function Enhanced3DShiftCard({
               </div>
             )}
           </div>
+          
+          {/* Workers Still Needed Section */}
+          {(() => {
+            const workersNeeded = getWorkersNeeded({
+              assignedPersonnel: shift.assignedPersonnel,
+              requiredCrewChiefs: shift.requiredCrewChiefs,
+              requiredStagehands: shift.requiredStagehands,
+              requiredForkOperators: shift.requiredForkOperators,
+              requiredReachForkOperators: shift.requiredReachForkOperators,
+              requiredRiggers: shift.requiredRiggers,
+              requiredGeneralLaborers: shift.requiredGeneralLaborers,
+            });
+
+            return workersNeeded.length > 0 ? (
+              <div className="space-y-4 p-4 bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 dark:from-amber-950/20 dark:via-orange-950/20 dark:to-red-950/20 rounded-xl border-2 border-dashed border-amber-300 dark:border-amber-700">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full shadow-lg">
+                    <AlertTriangle className="h-5 w-5 text-white" />
+                  </div>
+                  <h4 className="text-lg font-bold bg-gradient-to-r from-amber-700 to-orange-700 dark:from-amber-300 dark:to-orange-300 bg-clip-text text-transparent">
+                    Workers Still Needed
+                  </h4>
+                </div>
+                
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {workersNeeded.map((worker) => {
+                    const roleDetails = ROLE_DEFINITIONS[worker.roleCode as keyof typeof ROLE_DEFINITIONS];
+                    if (!roleDetails) return null;
+                    
+                    return (
+                      <div 
+                        key={worker.roleCode} 
+                        className="text-center p-4 bg-white/80 dark:bg-gray-800/80 rounded-xl shadow-lg border-2 border-amber-200 dark:border-amber-800 hover:scale-105 transition-transform duration-200 backdrop-blur-sm"
+                      >
+                        <div className="flex items-center justify-center mb-2">
+                          <div className={`p-3 ${roleDetails.badgeClasses} rounded-full shadow-lg`}>
+                            <Users className="h-5 w-5" />
+                          </div>
+                        </div>
+                        <div className="text-2xl font-bold text-gray-800 dark:text-gray-200">{worker.needed}</div>
+                        <div className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                          {worker.roleName}{worker.needed > 1 ? 's' : ''}
+                        </div>
+                        <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                          {worker.assigned}/{worker.required} filled
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <div className="p-4 bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-950/20 dark:to-green-950/20 rounded-xl border-2 border-emerald-300 dark:border-emerald-700">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full shadow-lg">
+                    <CheckCircle2 className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-bold text-emerald-700 dark:text-emerald-300">Fully Staffed</h4>
+                    <p className="text-sm text-emerald-600 dark:text-emerald-400">All required positions are filled</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
           
           {/* Enhanced Worker Preview with Performance Indicators */}
           {shift.assignedPersonnel.length > 0 && (

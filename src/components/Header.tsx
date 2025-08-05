@@ -25,7 +25,7 @@ const adminNavItems = [
   { href: '/companies', label: 'Companies', icon: Building, roles: ['Admin'] },
   { href: '/clients', label: 'Clients', icon: Users, roles: ['Admin'] },
   { href: '/timesheets', label: 'Timesheets', icon: FileText, roles: ['Admin'] },
-  { href: '/admin', label: 'Admin Dashboard', icon: LayoutDashboard, roles: ['Admin'] },
+  { href: '/admin/settings', label: 'Admin Settings', icon: Settings, roles: ['Admin'] },
 ];
 
 export default function Header({ children }: { children?: React.ReactNode }) {
@@ -39,10 +39,20 @@ export default function Header({ children }: { children?: React.ReactNode }) {
     if (!user) return navItems;
     
     const userRole = user.role as string;
-    const mainItems = navItems.filter(item => item.roles.includes(userRole));
+    let mainItems = navItems.filter(item => item.roles.includes(userRole));
     
-    // Add admin items if user is admin
+    // For admin users, redirect jobs and shifts to admin pages
     if (userRole === 'Admin') {
+      mainItems = mainItems.map(item => {
+        if (item.href === '/jobs') {
+          return { ...item, href: '/admin/jobs' };
+        }
+        if (item.href === '/shifts') {
+          return { ...item, href: '/admin/shifts' };
+        }
+        return item;
+      });
+      
       return [...mainItems, ...adminNavItems];
     }
     

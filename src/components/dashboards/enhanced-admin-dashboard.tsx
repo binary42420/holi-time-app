@@ -177,7 +177,7 @@ export function EnhancedAdminDashboard() {
         }
         description="System overview, manage operations, and track performance with comprehensive insights"
         buttonText="Admin Settings"
-        buttonAction={() => router.push('/admin-panel')}
+        buttonAction={() => router.push('/admin/settings')}
       >
         {/* Enhanced Metrics Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

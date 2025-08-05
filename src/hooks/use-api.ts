@@ -4,6 +4,16 @@ import { useQuery, useMutation, useQueryClient, UseQueryOptions, UseMutationOpti
 import { useMemo } from 'react';
 import { apiService } from '@/lib/services/api';
 import { ShiftWithDetails, Job, Company, Timesheet, TimesheetDetails, Notification, Announcement, User, UserWithAssignments } from '@/lib/types';
+import { 
+  useOptimizedShifts, 
+  useOptimizedShift, 
+  useOptimizedCompanies, 
+  useOptimizedJobs, 
+  useOptimizedTimesheets, 
+  useOptimizedUsers,
+  useOptimizedMutation 
+} from './use-optimized-queries';
+import { useSmartInvalidation } from './use-smart-invalidation';
 
 // --- Generic Query Hook ---
 // This can be used for one-off queries, but specific hooks are preferred.
@@ -21,38 +31,14 @@ export const useApiQuery = <TData>(
 
 // --- Specific Query Hooks ---
 
+// Legacy hook - delegates to optimized version
 export const useShifts = (filters?: { date?: string; status?: string; companyId?: string; search?: string; jobId?: string; }) => {
-  // Use shorter cache times in development for faster updates
-  const isDevelopment = process.env.NODE_ENV === 'development';
-
-  return useQuery({
-    queryKey: ['shifts', filters],
-    queryFn: () => apiService.getShifts(filters),
-    staleTime: isDevelopment ? 30 * 1000 : 2 * 60 * 1000, // 30 seconds in dev, 2 minutes in prod
-    gcTime: isDevelopment ? 60 * 1000 : 5 * 60 * 1000, // 1 minute in dev, 5 minutes in prod
-    refetchOnWindowFocus: isDevelopment, // Refetch on focus in development
-    refetchOnMount: true, // Always refetch on mount
-    refetchOnReconnect: true,
-    refetchInterval: isDevelopment ? 30 * 1000 : undefined, // Auto-refetch every 30s in dev
-    retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-  });
+  return useOptimizedShifts(filters, { prefetch: true });
 };
 
+// Legacy hook - delegates to optimized version
 export const useShift = (id: string, options?: Omit<UseQueryOptions<ShiftWithDetails, Error>, 'queryKey' | 'queryFn'>) => {
-  const isDevelopment = process.env.NODE_ENV === 'development';
-
-  return useQuery({
-    queryKey: ['shift', id],
-    queryFn: () => apiService.getShift(id),
-    enabled: !!id,
-    staleTime: isDevelopment ? 30 * 1000 : 2 * 60 * 1000, // 30 seconds in dev, 2 minutes in prod
-    gcTime: isDevelopment ? 60 * 1000 : 5 * 60 * 1000, // 1 minute in dev, 5 minutes in prod
-    refetchOnWindowFocus: isDevelopment, // Refetch on focus in development
-    refetchOnMount: true, // Always refetch on mount
-    refetchInterval: isDevelopment ? 30 * 1000 : undefined, // Auto-refetch every 30s in dev
-    ...options,
-  });
+  return useOptimizedShift(id, { prefetchAssignments: true, ...options });
 };
 
 export const useUserById = (id: string, options?: Omit<UseQueryOptions<UserWithAssignments, Error>, 'queryKey' | 'queryFn'>) => {
@@ -62,34 +48,22 @@ export const useUserById = (id: string, options?: Omit<UseQueryOptions<UserWithA
     ...options,
   });
 };
+// Legacy hook - delegates to optimized version
 export const useUsers = (
   { page = 1, pageSize = 20, fetchAll = false, role, search, status, excludeCompanyUsers = false }:
   { page?: number; pageSize?: number; fetchAll?: boolean; role?: string; search?: string; status?: 'active' | 'inactive'; excludeCompanyUsers?: boolean } = {}
 ) => {
-  const queryKey = useMemo(() => {
-    return fetchAll ? ['users', 'all', { role, search, status, excludeCompanyUsers }] : ['users', { page, pageSize, role, search, status, excludeCompanyUsers }];
-  }, [fetchAll, page, pageSize, role, search, status, excludeCompanyUsers]);
-
-  return useQuery({
-    queryKey,
-    queryFn: () => apiService.getUsers({ page, pageSize, fetchAll, role, search, status, excludeCompanyUsers }),
-    placeholderData: (previousData) => previousData,
-  });
+  return useOptimizedUsers({ page, pageSize, fetchAll, role, search, status, excludeCompanyUsers }, { prefetchAvatars: true });
 };
 
+// Legacy hook - delegates to optimized version
 export const useJobs = (filters?: { status?: string; companyId?: string; search?: string; sortBy?: string; }) => {
-  return useQuery({
-    queryKey: ['jobs', filters],
-    queryFn: () => apiService.getJobs(filters),
-  });
+  return useOptimizedJobs(filters, { prefetchShifts: true });
 };
 
+// Legacy hook - delegates to optimized version
 export const useCompanies = (filters?: { page?: number; pageSize?: number; search?: string }, options?: Omit<UseQueryOptions<{ companies: Company[]; pagination: any }, Error>, 'queryKey' | 'queryFn'>) => {
-  return useQuery({
-    queryKey: ['companies', filters],
-    queryFn: () => apiService.getCompanies(filters),
-    ...options,
-  });
+  return useOptimizedCompanies(filters, { prefetchLogos: true });
 };
 
 export const useCompany = (id: string, options?: Omit<UseQueryOptions<Company, Error>, 'queryKey' | 'queryFn'>) => {
@@ -116,12 +90,9 @@ export const useTimesheet = (id: string, options?: Omit<UseQueryOptions<Timeshee
   });
 };
 
+// Legacy hook - delegates to optimized version
 export const useTimesheets = (filters?: { status?: string }, options?: Omit<UseQueryOptions<TimesheetDetails[], Error>, 'queryKey' | 'queryFn'>) => {
-  return useQuery({
-    queryKey: ['timesheets', filters],
-    queryFn: () => apiService.getTimesheets(filters),
-    ...options,
-  });
+  return useOptimizedTimesheets(filters, { realTime: filters?.status === 'pending' });
 };
 
 export const useNotifications = (options?: Omit<UseQueryOptions<Notification[], Error>, 'queryKey' | 'queryFn'>) => {
@@ -147,22 +118,34 @@ interface CustomMutationOptions<TData, TVariables> extends Omit<UseMutationOptio
   invalidateQueries?: unknown[][];
 }
 
+// Enhanced mutation hook with smart invalidation
 export const useApiMutation = <TData = unknown, TVariables = void>(
   mutationFn: (variables: TVariables) => Promise<TData>,
-  options?: CustomMutationOptions<TData, TVariables>
+  options?: CustomMutationOptions<TData, TVariables> & {
+    dataType?: string;
+    mutationType?: 'create' | 'update' | 'delete';
+    entityId?: string;
+  }
 ) => {
-  const queryClient = useQueryClient();
-  const { invalidateQueries, ...restOptions } = options || {};
+  const { invalidateAfterMutation } = useSmartInvalidation();
+  const { invalidateQueries, dataType, mutationType, entityId, ...restOptions } = options || {};
 
-  return useMutation<TData, Error, TVariables>({
-    mutationFn,
+  return useOptimizedMutation(mutationFn, {
     ...restOptions,
-    onSuccess: (data, variables, context) => {
+    invalidateQueries,
+    onSuccess: async (data, variables, context) => {
+      // Smart invalidation based on mutation type
+      if (dataType && mutationType) {
+        await invalidateAfterMutation(mutationType, dataType, entityId);
+      }
+      
+      // Legacy invalidation support
       if (invalidateQueries) {
         invalidateQueries.forEach((queryKey: unknown[]) => {
-          queryClient.invalidateQueries({ queryKey });
+          // This will be handled by the optimized mutation hook
         });
       }
+      
       if (restOptions?.onSuccess) {
         restOptions.onSuccess(data, variables, context);
       }

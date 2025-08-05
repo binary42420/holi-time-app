@@ -116,7 +116,10 @@ function NewJobForm() {
       if (!response.ok) throw new Error('Failed to create job')
 
       const result = await response.json()
-      toast({ title: "Success", description: "Job created successfully" })
+      toast({ 
+        title: "Job Created Successfully", 
+        description: `"${formData.name}" has been created and is ready for shift scheduling.` 
+      })
       router.push(`/jobs/${result.job.id}`)
     } catch (error) {
       toast({
