@@ -5,8 +5,9 @@
  * This ensures migrations are always up to date in production
  */
 
-const { spawn } = require('child_process');
-const path = require('path');
+import { spawn } from 'child_process';
+import { readdir, access } from 'fs/promises';
+import path from 'path';
 
 console.log('🚀 Starting HoliTime application with migration check...');
 
@@ -38,31 +39,80 @@ async function main() {
     // Check if we're in production
     const isProduction = process.env.NODE_ENV === 'production';
     
+    console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
+    console.log(`🚪 Port: ${process.env.PORT || '3000'}`);
+    console.log(`📁 Working directory: ${process.cwd()}`);
+    
+    // List files in current directory for debugging
+    try {
+      const files = await readdir('.');
+      console.log('📂 Files in current directory:', files.slice(0, 10).join(', '));
+    } catch (error) {
+      console.log('⚠️  Could not list directory contents');
+    }
+    
+    // Check if server.js exists
+    try {
+      await access('server.js');
+      console.log('✅ server.js found');
+    } catch (error) {
+      console.log('❌ server.js not found in current directory');
+      console.log('🔍 This is likely the cause of the startup failure');
+    }
+    
     if (isProduction) {
-      console.log('🔄 Production environment detected - checking migrations...');
+      console.log('🔄 Production environment detected - running migrations...');
       
-      // Run migration status check
+      // Run database migrations
       try {
-        await runCommand('npx', ['prisma', 'migrate', 'status']);
-        console.log('✅ Migration status check completed');
+        console.log('🔧 Running database migrations...');
+        await runCommand('npx', ['prisma', 'migrate', 'deploy'], {
+          env: {
+            ...process.env,
+            PRISMA_SCHEMA_PATH: './prisma/schema.prisma'
+          }
+        });
+        console.log('✅ Database migrations completed');
       } catch (error) {
-        console.log('⚠️  Migration status check failed, but continuing...');
-        console.log('📝 This is expected if migrations are handled externally');
-      }
-      
-      // Generate Prisma client (in case it's not generated)
-      try {
-        console.log('🔧 Generating Prisma client...');
-        await runCommand('npx', ['prisma', 'generate']);
-        console.log('✅ Prisma client generated');
-      } catch (error) {
-        console.log('⚠️  Prisma client generation failed:', error.message);
+        console.log('⚠️  Migration failed:', error.message);
+        console.log('📝 Continuing without migrations - they may be handled externally');
       }
     }
     
     // Start the Next.js application
-    console.log('🎉 Starting Next.js application...');
-    await runCommand('node', ['server.js']);
+    console.log('🎉 Starting Next.js standalone server...');
+    console.log('📍 Looking for server.js in current directory');
+    
+    // Start the server and keep the process alive
+    const serverProcess = spawn('node', ['server.js'], {
+      stdio: 'inherit',
+      env: {
+        ...process.env,
+        PORT: process.env.PORT || '8080',
+        HOSTNAME: '0.0.0.0'
+      }
+    });
+
+    serverProcess.on('error', (error) => {
+      console.error('❌ Server failed to start:', error);
+      process.exit(1);
+    });
+
+    serverProcess.on('close', (code) => {
+      console.log(`Server process exited with code ${code}`);
+      process.exit(code);
+    });
+
+    // Handle graceful shutdown
+    process.on('SIGTERM', () => {
+      console.log('Received SIGTERM, shutting down gracefully...');
+      serverProcess.kill('SIGTERM');
+    });
+
+    process.on('SIGINT', () => {
+      console.log('Received SIGINT, shutting down gracefully...');
+      serverProcess.kill('SIGINT');
+    });
     
   } catch (error) {
     console.error('❌ Startup failed:', error.message);

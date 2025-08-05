@@ -17,7 +17,7 @@ console.log(`Environment: ${process.env.NODE_ENV}`);
 
 // For production, use the standalone server
 if (!dev) {
-  const standaloneServerPath = path.join(__dirname, '.next', 'standalone', 'server.js');
+  const standaloneServerPath = path.join(__dirname, 'server.js');
   
   console.log(`Starting standalone server from: ${standaloneServerPath}`);
   

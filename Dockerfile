@@ -50,6 +50,7 @@ COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=builder /app/start.js ./start.js
 COPY --from=builder /app/migrate.js ./migrate.js
 COPY --from=builder /app/startup.js ./startup.js
+COPY --from=builder /app/scripts/startup-with-migration.js ./startup-with-migration.js
 COPY --from=builder /app/package.json ./package.json
 
 # Set the correct permission for prerender cache
@@ -61,4 +62,4 @@ USER nextjs
 ENV PORT 8080
 EXPOSE 8080
 
-CMD ["node", "startup.js"]
+CMD ["node", "startup-with-migration.js"]

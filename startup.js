@@ -53,7 +53,7 @@ async function startServer() {
   
   if (!dev) {
     // Production: use standalone server
-    const standaloneServerPath = path.join(__dirname, '.next', 'standalone', 'server.js');
+    const standaloneServerPath = path.join(__dirname, 'server.js');
     console.log(`Starting standalone server from: ${standaloneServerPath}`);
     
     const server = spawn('node', [standaloneServerPath], {

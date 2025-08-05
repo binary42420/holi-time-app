@@ -37,13 +37,14 @@ steps:
       - '--port=8080'
       - '--memory=2Gi' # Allocate 2Gi of memory for PDF generation with Puppeteer
       - '--cpu=2'
-      - '--timeout=1300s'
+      - '--timeout=3600s'
       - '--min-instances=0' # Set to 0 to scale to zero and save costs
       - '--max-instances=2' # Set a reasonable max
       - '--set-cloudsql-instances=elated-fabric-460119-t3:us-west2:holitime-db'
       # Environment variables are now sourced from Google Secret Manager
       - '--set-secrets=DATABASE_URL=DATABASE_URL:latest,NEXTAUTH_SECRET=NEXTAUTH_SECRET:latest,GOOGLE_CLIENT_ID=GOOGLE_CLIENT_ID:latest,GOOGLE_CLIENT_SECRET=GOOGLE_CLIENT_SECRET:latest'
       - '--set-env-vars=GCS_BUCKET_NAME=timesheethandsonlaboravar,DB_HOST=/cloudsql/elated-fabric-460119-t3:us-west2:holitime-db,DB_PORT=5432,NEXTAUTH_URL=https://holitime-app-438323004618.us-west2.run.app,NODE_ENV=production,NEXT_TELEMETRY_DISABLED=1'
+      - '--no-cpu-throttling'
 
 
 
