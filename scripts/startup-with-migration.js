@@ -61,22 +61,13 @@ async function main() {
     }
     
     if (isProduction) {
-      console.log('🔄 Production environment detected - running migrations...');
-      
-      // Run database migrations
-      try {
-        console.log('🔧 Running database migrations...');
-        await runCommand('npx', ['prisma', 'migrate', 'deploy'], {
-          env: {
-            ...process.env,
-            PRISMA_SCHEMA_PATH: './prisma/schema.prisma'
-          }
-        });
-        console.log('✅ Database migrations completed');
-      } catch (error) {
-        console.log('⚠️  Migration failed:', error.message);
-        console.log('📝 Continuing without migrations - they may be handled externally');
-      }
+      console.log('🔄 Production environment detected');
+      console.log('📝 Skipping automatic migrations in containerized production environment');
+      console.log('💡 Database migrations should be handled by:');
+      console.log('   - Cloud Build pipeline');
+      console.log('   - Manual deployment scripts');
+      console.log('   - Database migration jobs');
+      console.log('✅ Application will start with existing database schema');
     }
     
     // Start the Next.js application
