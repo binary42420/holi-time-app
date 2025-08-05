@@ -821,7 +821,7 @@ export default function UnifiedEnhancedTimeTracking({
                     <span className="sm:hidden">Shift Completed</span>
                   </span>
                 </div>
-                {timesheets.length > 0 && (
+                {timesheets && timesheets.length > 0 && (
                   <TimesheetApprovalButton
                     timesheetId={timesheets[0].id}
                     status={timesheets[0].status as TimesheetStatus}
