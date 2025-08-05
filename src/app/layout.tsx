@@ -1,7 +1,4 @@
-// Import universal runtime polyfills first (all environments)
-import '@/lib/runtime-polyfills';
-// Import server-side polyfills (server-side only)
-import '@/app/global-polyfills.js';
+// Let Next.js handle polyfills automatically
 
 import React from 'react';
 import type { Metadata, Viewport } from 'next';

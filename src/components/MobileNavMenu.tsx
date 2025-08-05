@@ -10,7 +10,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "./ui/sheet"
-import { Menu, LogOut, Home, Briefcase, Calendar, Users, Building, FileText, Settings } from "lucide-react"
+import { Menu, LogOut, Home, Briefcase, Calendar, Users, Building, FileText, Settings, CalendarDays } from "lucide-react"
 import { Button } from './ui/button'
 import { ThemeSwitcher } from './theme-switcher'
 import { cn } from '@/lib/utils'
@@ -25,8 +25,7 @@ interface MobileNavMenuProps {
 
 const allNavItems = [
   { href: '/dashboard', label: 'Dashboard', icon: Home, roles: ['Admin', 'Manager', 'CrewChief', 'Staff', 'CompanyUser'] },
-  { href: '/jobs', label: 'Jobs', icon: Briefcase, roles: ['Admin', 'Manager', 'CrewChief', 'CompanyUser'] },
-  { href: '/shifts', label: 'Shifts', icon: Calendar, roles: ['Admin', 'Manager', 'CrewChief', 'Staff'] },
+  { href: '/jobs-shifts', label: 'Scheduled Shifts', icon: CalendarDays, roles: ['Admin', 'Manager', 'CrewChief', 'Staff', 'CompanyUser'] },
   { href: '/employees', label: 'Employees', icon: Users, roles: ['Admin', 'Manager'] },
   { href: '/companies', label: 'Companies', icon: Building, roles: ['Admin'] },
   { href: '/timesheets', label: 'Timesheets', icon: FileText, roles: ['Admin'] },
@@ -35,30 +34,16 @@ const allNavItems = [
 
 export function MobileNavMenu({ className }: MobileNavMenuProps) {
   const pathname = usePathname()
-  const { user } = useUser()
+  const { user, status } = useUser()
   const [open, setOpen] = React.useState(false)
 
   // Filter nav items based on user role
   const getVisibleNavItems = () => {
-    if (!user) return [];
+    // During loading/hydration, show no items to prevent hydration mismatch
+    if (status === 'loading' || !user) return [];
     
     const userRole = user.role as string;
-    let filteredItems = allNavItems.filter(item => item.roles.includes(userRole));
-    
-    // For admin users, redirect jobs and shifts to admin pages
-    if (userRole === 'Admin') {
-      filteredItems = filteredItems.map(item => {
-        if (item.href === '/jobs') {
-          return { ...item, href: '/admin/jobs' };
-        }
-        if (item.href === '/shifts') {
-          return { ...item, href: '/admin/shifts' };
-        }
-        return item;
-      });
-    }
-    
-    return filteredItems;
+    return allNavItems.filter(item => item.roles.includes(userRole));
   };
 
   const visibleNavItems = getVisibleNavItems();
@@ -119,8 +104,8 @@ export function MobileNavMenu({ className }: MobileNavMenuProps) {
                   className={cn(
                     "flex items-center space-x-3 px-3 py-3 rounded-lg text-base font-medium transition-colors",
                     isActive
-                      ? 'bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300'
-                      : 'text-foreground/70 hover:text-foreground hover:bg-surface'
+                      ? 'bg-primary/10 text-primary border border-primary/20'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-hover'
                   )}
                 >
                   <Icon className="h-5 w-5 flex-shrink-0" />
@@ -138,7 +123,7 @@ export function MobileNavMenu({ className }: MobileNavMenuProps) {
             </div>
             <Button
               variant="ghost"
-              className="w-full justify-start text-foreground hover:bg-surface mx-2"
+              className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-hover mx-2"
               onClick={() => signOut()}
             >
               <LogOut className="mr-3 h-5 w-5" />

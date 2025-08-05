@@ -2,7 +2,11 @@
  * Holitime Global Styles - Mobile-First Color System
  */
 
-/* Import time tracking styles - must be first */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import time tracking styles */
 @import '../styles/time-tracking.css';
 
 /* Import enhanced dashboard styles */
@@ -11,84 +15,93 @@
 /* Import custom animations */
 @import '../styles/animations.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @layer base {
   :root {
-    /* Primary Brand Colors */
-    --color-primary-50: #f0f9ff;
-    --color-primary-100: #e0f2fe;
-    --color-primary-200: #bae6fd;
-    --color-primary-300: #7dd3fc;
-    --color-primary-400: #38bdf8;
-    --color-primary-500: #0ea5e9;
-    --color-primary-600: #0284c7;
-    --color-primary-700: #0369a1;
-    --color-primary-800: #075985;
-    --color-primary-900: #0c4a6e;
+    /* Primary Brand Colors - Mobile-First Blue Theme */
+    --color-primary-50: #eff6ff;
+    --color-primary-100: #dbeafe;
+    --color-primary-200: #bfdbfe;
+    --color-primary-300: #93c5fd;
+    --color-primary-400: #60a5fa;
+    --color-primary-500: #3b82f6;
+    --color-primary-600: #2563eb;
+    --color-primary-700: #1d4ed8;
+    --color-primary-800: #1e40af;
+    --color-primary-900: #1e3a8a;
 
-    /* Light Theme Colors */
+    /* Light Theme - Semantic Color System */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 233 50% 48%; /* Deep Blue #3F51B5 */
-    --primary-foreground: 210 40% 98%;
+    --primary: 217 91% 60%; /* Blue #3b82f6 */
+    --primary-foreground: 0 0% 100%;
     --secondary: 210 40% 96%;
     --secondary-foreground: 222.2 84% 4.9%;
     --muted: 210 40% 96%;
     --muted-foreground: 215.4 16.3% 46.9%;
     --accent: 210 40% 96%;
     --accent-foreground: 222.2 84% 4.9%;
-    --accent-green: 142 71% 45%; /* A vibrant green */
-    --accent-orange: 27 87% 58%; /* A warm orange */
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
+    --ring: 217 91% 60%;
     --radius: 0.5rem;
+
+    /* Semantic Status Colors - Light Theme */
+    --color-success: 142 71% 45%; /* Green #10b981 */
+    --color-success-bg: 142 76% 96%;
+    --color-success-border: 142 76% 86%;
+    --color-warning: 38 92% 50%; /* Amber #f59e0b */
+    --color-warning-bg: 48 96% 89%;
+    --color-warning-border: 48 96% 76%;
+    --color-error: 0 84% 60%; /* Red #ef4444 */
+    --color-error-bg: 0 93% 94%;
+    --color-error-border: 0 93% 83%;
+    --color-info: 217 91% 60%; /* Blue #3b82f6 */
+    --color-info-bg: 214 95% 93%;
+    --color-info-border: 214 95% 85%;
 
     /* Surface & Background Colors - Light Theme */
     --color-background: #ffffff;
-    --color-surface: #f9fafb;
-    --color-surface-2: #f3f4f6;
+    --color-surface: #f8fafc;
+    --color-surface-2: #f1f5f9;
+    --color-surface-3: #e2e8f0;
     
     /* Text Colors - Light Theme */
-    --color-text-primary: #111827;
-    --color-text-secondary: #374151;
-    --color-text-muted: #6b7280;
+    --color-text-primary: #0f172a;
+    --color-text-secondary: #334155;
+    --color-text-muted: #64748b;
+    --color-text-disabled: #94a3b8;
 
     /* Border Colors - Light Theme */
-    --color-border: #e5e7eb;
-    --color-border-2: #d1d5db;
+    --color-border: #e2e8f0;
+    --color-border-2: #cbd5e1;
+    --color-border-focus: #3b82f6;
 
-    /* Semantic Colors */
-    --color-success: #10b981;
-    --color-warning: #f59e0b;
-    --color-error: #ef4444;
-    --color-info: #3b82f6;
+    /* Interactive Colors - Light Theme */
+    --color-hover: #f1f5f9;
+    --color-active: #e2e8f0;
+    --color-focus: #dbeafe;
 
     /* Mobile-Focused Sizes */
-    --header-height: 56px;
+    --header-height: 64px;
     --container-padding: 1rem;
+    --mobile-tap-target: 44px;
   }
 
   .dark {
-    /* Dark Theme Colors */
+    /* Dark Theme - Semantic Color System */
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 233 50% 48%; /* Deep Blue #3F51B5 */
-    --accent-green: 142 71% 45%; /* A vibrant green */
-    --accent-orange: 27 87% 58%; /* A warm orange */
+    --primary: 217 91% 60%; /* Blue #3b82f6 */
     --primary-foreground: 222.2 84% 4.9%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -100,27 +113,43 @@
     --destructive-foreground: 210 40% 98%;
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 94.1%;
+    --ring: 217 91% 60%;
+
+    /* Semantic Status Colors - Dark Theme */
+    --color-success: 142 71% 45%; /* Green #10b981 */
+    --color-success-bg: 142 76% 6%;
+    --color-success-border: 142 76% 16%;
+    --color-warning: 38 92% 50%; /* Amber #f59e0b */
+    --color-warning-bg: 48 96% 9%;
+    --color-warning-border: 48 96% 26%;
+    --color-error: 0 84% 60%; /* Red #ef4444 */
+    --color-error-bg: 0 93% 4%;
+    --color-error-border: 0 93% 13%;
+    --color-info: 217 91% 60%; /* Blue #3b82f6 */
+    --color-info-bg: 214 95% 3%;
+    --color-info-border: 214 95% 15%;
 
     /* Surface & Background Colors - Dark Theme */
-    --color-background: #111827;
-    --color-surface: #1f2937;
-    --color-surface-2: #374151;
+    --color-background: #0f172a;
+    --color-surface: #1e293b;
+    --color-surface-2: #334155;
+    --color-surface-3: #475569;
 
     /* Text Colors - Dark Theme */
-    --color-text-primary: #f9fafb;
-    --color-text-secondary: #d1d5db;
-    --color-text-muted: #9ca3af;
+    --color-text-primary: #f8fafc;
+    --color-text-secondary: #cbd5e1;
+    --color-text-muted: #94a3b8;
+    --color-text-disabled: #64748b;
 
     /* Border Colors - Dark Theme */
-    --color-border: #374151;
-    --color-border-2: #4b5563;
+    --color-border: #334155;
+    --color-border-2: #475569;
+    --color-border-focus: #3b82f6;
 
-    /* Semantic Colors */
-    --color-success: #10b981;
-    --color-warning: #f59e0b;
-    --color-error: #ef4444;
-    --color-info: #3b82f6;
+    /* Interactive Colors - Dark Theme */
+    --color-hover: #1e293b;
+    --color-active: #334155;
+    --color-focus: #1e3a8a;
   }
 
   /* Base Styles */
@@ -137,8 +166,22 @@
 
   /* Mobile Tap Target Sizes */
   button, a, [role="button"] {
-    min-height: 44px;
-    min-width: 44px;
+    min-height: var(--mobile-tap-target);
+    min-width: var(--mobile-tap-target);
+  }
+
+  /* Enhanced Mobile-First Styles */
+  @media (max-width: 640px) {
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    
+    /* Larger tap targets on mobile */
+    button, a, [role="button"] {
+      min-height: 48px;
+      min-width: 48px;
+    }
   }
 
   /* Scrollbar Styling */
@@ -176,4 +219,139 @@
 .container {
   @apply mx-auto px-[var(--container-padding)];
   max-width: 1280px;
+}
+
+@layer components {
+  /* Card Components */
+  .card-consistent {
+    @apply bg-card text-card-foreground border-border shadow-sm;
+  }
+
+  .card-header-consistent {
+    @apply border-b border-border/50 pb-4 mb-4;
+  }
+
+  /* Status Indicators */
+  .status-success {
+    @apply bg-green-50 text-green-700 border-green-200 dark:bg-green-950 dark:text-green-300 dark:border-green-800;
+  }
+
+  .status-warning {
+    @apply bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950 dark:text-amber-300 dark:border-amber-800;
+  }
+
+  .status-error {
+    @apply bg-red-50 text-red-700 border-red-200 dark:bg-red-950 dark:text-red-300 dark:border-red-800;
+  }
+
+  .status-info {
+    @apply bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800;
+  }
+
+  /* Interactive Elements */
+  .interactive-hover {
+    @apply hover:bg-muted/50 transition-colors duration-200;
+  }
+
+  .interactive-active {
+    @apply bg-primary/10 text-primary border border-primary/20;
+  }
+
+  /* Mobile-First Button Styles */
+  .btn-mobile {
+    @apply min-h-[48px] min-w-[48px] touch-manipulation;
+  }
+
+  /* Loading States */
+  .loading-spinner {
+    @apply animate-spin rounded-full border-b-2 border-primary;
+  }
+
+  /* Text Hierarchy */
+  .text-primary-consistent {
+    @apply text-foreground;
+  }
+
+  .text-secondary-consistent {
+    @apply text-muted-foreground;
+  }
+
+  .text-muted-consistent {
+    @apply text-muted-foreground/70;
+  }
+
+  /* Form Elements */
+  .form-input-consistent {
+    @apply bg-background border-border text-foreground placeholder:text-muted-foreground;
+  }
+
+  .form-input-consistent:focus {
+    @apply border-primary ring-2 ring-primary/20;
+  }
+
+  /* Navigation */
+  .nav-item-active {
+    @apply bg-primary/10 text-primary border border-primary/20;
+  }
+
+  .nav-item-inactive {
+    @apply text-muted-foreground hover:text-foreground hover:bg-muted/50;
+  }
+
+  /* Mobile Navigation */
+  .mobile-nav-item {
+    @apply flex items-center space-x-3 px-3 py-3 rounded-lg text-base font-medium transition-colors min-h-[48px];
+  }
+
+  /* Responsive Grid */
+  .grid-responsive {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4;
+  }
+
+  /* Safe Area Support */
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Dark Mode Utilities */
+  .dark-mode-card {
+    @apply dark:bg-card dark:text-card-foreground dark:border-border;
+  }
+
+  .dark-mode-surface {
+    @apply dark:bg-muted dark:text-foreground;
+  }
+}
+
+/* Mobile-specific enhancements */
+@media (max-width: 640px) {
+  .mobile-optimized {
+    @apply px-4 py-2;
+  }
+
+  .mobile-text {
+    @apply text-base leading-relaxed;
+  }
+
+  .mobile-spacing {
+    @apply space-y-4;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .high-contrast {
+    @apply border-2 border-foreground;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .respect-motion {
+    @apply transition-none animate-none;
+  }
 }

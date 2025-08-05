@@ -63,7 +63,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, onView, onEdit, onDelete }) => {
             
             return (
               <Link 
-                href={`/shifts/${shift.id}`} 
+                href={`/jobs-shifts/${shift.id}`} 
                 key={shift.id} 
                 className={`block p-3 rounded-md border transition-all ${
                   shiftStatus.isLive

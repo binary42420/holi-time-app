@@ -97,25 +97,14 @@ function AdminPage() {
       ]
     },
     {
-      title: "Job Management",
-      description: "Create and manage jobs and projects",
-      icon: Briefcase,
-      href: "/admin/jobs",
-      actions: [
-        { label: "View All Jobs", href: "/admin/jobs" },
-        { label: "Create New Job", href: "/admin/jobs/new" },
-        { label: "Job Templates", href: "/admin/jobs/templates" }
-      ]
-    },
-    {
-      title: "Shift Management",
-      description: "Schedule and manage work shifts",
+      title: "Jobs & Shifts Management",
+      description: "Create and manage jobs, projects, and work shifts",
       icon: Calendar,
-      href: "/admin/shifts",
+      href: "/jobs-shifts",
       actions: [
-        { label: "View All Shifts", href: "/admin/shifts" },
-        { label: "Schedule New Shift", href: "/admin/shifts/new" },
-        { label: "Shift Templates", href: "/admin/shifts/templates" }
+        { label: "View All Jobs & Shifts", href: "/jobs-shifts" },
+        { label: "Create New Job", href: "/admin/jobs/new" },
+        { label: "Schedule New Shift", href: "/admin/shifts/new" }
       ]
     },
     {

@@ -7,24 +7,16 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { useUser } from "@/hooks/use-user"
 import { useCompanies } from "@/hooks/use-api"
-import {
-  Card,
-  Button,
-  TextInput,
-  Textarea,
-  Select,
-  Group,
-  Stack,
-  Title,
-  Text,
-  Container,
-  Grid,
-} from "@mantine/core"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { ArrowLeft, Save } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { withAuth } from "@/lib/withAuth"
-
-import { JobStatus } from "@prisma/client";
+import { JobStatus, UserRole } from "@prisma/client"
 
 const jobSchema = z.object({
   name: z.string().min(1, "Job name is required"),
@@ -40,8 +32,6 @@ const jobSchema = z.object({
 
 type JobFormData = z.infer<typeof jobSchema>
 
-import { UserRole } from '@prisma/client';
-
 function NewJobPage() {
   const { user } = useUser()
   const router = useRouter()
@@ -49,12 +39,12 @@ function NewJobPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   
   const { data: companiesData } = useCompanies()
-  const clients = companiesData?.companies || []
+  const clients = Array.isArray(companiesData) ? companiesData : companiesData?.companies || []
 
   const form = useForm<JobFormData>({
     resolver: zodResolver(jobSchema),
     defaultValues: {
-      status: "Active",
+      status: JobStatus.Pending,
     },
   })
 
@@ -86,7 +76,7 @@ function NewJobPage() {
         description: "The job has been created successfully.",
       })
 
-      router.push(`/jobs/${result.job.id}`)
+      router.push(`/jobs-shifts`)
     } catch (error) {
       toast({
         title: "Error",
@@ -98,132 +88,218 @@ function NewJobPage() {
     }
   }
 
-
   return (
-    <Container size="md" py="lg">
-      <Stack gap="lg">
-        <Group justify="space-between">
-          <Stack gap={0}>
+    <div className="container max-w-4xl mx-auto py-8 px-4">
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div className="space-y-1">
             <Button
-              variant="subtle"
-              leftSection={<ArrowLeft size={16} />}
-              onClick={() => router.push('/admin/jobs')}
-              size="sm"
-              styles={{ inner: { justifyContent: 'left' }, root: { paddingLeft: 0 } }}
+              variant="ghost"
+              onClick={() => router.push('/jobs-shifts')}
+              className="p-0 h-auto text-muted-foreground hover:text-foreground"
             >
-              Back to Jobs
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Scheduled Shifts
             </Button>
-            <Title order={1}>Create New Job</Title>
-            <Text c="dimmed">Add a new job to the system</Text>
-          </Stack>
-        </Group>
+            <h1 className="text-3xl font-bold text-foreground">Create New Job</h1>
+            <p className="text-muted-foreground">Add a new job to the system</p>
+          </div>
+        </div>
 
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <Stack gap="lg">
-            <Card withBorder>
-              <Card.Section withBorder inheritPadding py="sm">
-                <Title order={4}>Job Information</Title>
-                <Text size="sm" c="dimmed">Enter the basic details for the new job</Text>
-              </Card.Section>
-              <Card.Section inheritPadding py="md">
-                <Stack>
-                  <Grid>
-                    <Grid.Col span={{ base: 12, md: 6 }}>
-                      <TextInput
-                        label="Job Name"
-                        placeholder="Enter job name"
-                        required
-                        {...form.register("name")}
-                        error={form.formState.errors.name?.message}
-                      />
-                    </Grid.Col>
-                    <Grid.Col span={{ base: 12, md: 6 }}>
-                      <Select
-                        label="Client"
-                        placeholder="Select a client"
-                        required
-                        data={clients.map(client => ({ value: client.id, label: client.name }))}
-                        {...form.register("companyId")}
-                        onChange={(value) => form.setValue("companyId", value || "")}
-                        error={form.formState.errors.companyId?.message}
-                        searchable
-                      />
-                    </Grid.Col>
-                  </Grid>
-                  <Textarea
-                    label="Description"
-                    placeholder="Enter job description"
-                    {...form.register("description")}
-                    rows={3}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <Card className="card-consistent">
+              <CardHeader className="card-header-consistent">
+                <CardTitle>Job Information</CardTitle>
+                <CardDescription>Enter the basic details for the new job</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Job Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter job name" {...field} className="form-input-consistent" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                  <Grid>
-                    <Grid.Col span={{ base: 12, md: 6 }}>
-                      <TextInput
-                        label="Location"
-                        placeholder="Enter job location"
-                        required
-                        {...form.register("location")}
-                        error={form.formState.errors.location?.message}
-                      />
-                    </Grid.Col>
-                    <Grid.Col span={{ base: 12, md: 6 }}>
-                      <Select
-                        label="Status"
-                        placeholder="Select status"
-                        data={Object.values(JobStatus)}
-                        {...form.register("status")}
-                        onChange={(value) => form.setValue("status", value as any)}
-                      />
-                    </Grid.Col>
-                  </Grid>
-                  <Grid>
-                    <Grid.Col span={{ base: 12, md: 4 }}>
-                      <TextInput
-                        label="Start Date"
-                        type="date"
-                        {...form.register("startDate")}
-                      />
-                    </Grid.Col>
-                    <Grid.Col span={{ base: 12, md: 4 }}>
-                      <TextInput
-                        label="End Date"
-                        type="date"
-                        {...form.register("endDate")}
-                      />
-                    </Grid.Col>
-                    <Grid.Col span={{ base: 12, md: 4 }}>
-                      <TextInput
-                        label="Budget"
-                        placeholder="$0.00"
-                        {...form.register("budget")}
-                      />
-                    </Grid.Col>
-                  </Grid>
-                  <Textarea
-                    label="Notes"
-                    placeholder="Additional notes or requirements"
-                    {...form.register("notes")}
-                    rows={3}
+                  <FormField
+                    control={form.control}
+                    name="companyId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Client</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger className="form-input-consistent">
+                              <SelectValue placeholder="Select a client" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {clients.map(client => (
+                              <SelectItem key={client.id} value={client.id}>
+                                {client.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </Stack>
-              </Card.Section>
+                </div>
+                
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <Textarea 
+                          placeholder="Enter job description" 
+                          {...field} 
+                          className="form-input-consistent min-h-[100px]"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="location"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Location</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter job location" {...field} className="form-input-consistent" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="status"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Status</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger className="form-input-consistent">
+                              <SelectValue placeholder="Select status" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {Object.values(JobStatus).map(status => (
+                              <SelectItem key={status} value={status}>
+                                {status}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="startDate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Start Date</FormLabel>
+                        <FormControl>
+                          <Input type="date" {...field} className="form-input-consistent" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="endDate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>End Date</FormLabel>
+                        <FormControl>
+                          <Input type="date" {...field} className="form-input-consistent" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="budget"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Budget</FormLabel>
+                        <FormControl>
+                          <Input placeholder="$0.00" {...field} className="form-input-consistent" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                
+                <FormField
+                  control={form.control}
+                  name="notes"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Notes</FormLabel>
+                      <FormControl>
+                        <Textarea 
+                          placeholder="Additional notes or requirements" 
+                          {...field} 
+                          className="form-input-consistent min-h-[100px]"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
             </Card>
 
-            <Group justify="flex-end">
+            <div className="flex justify-end gap-4">
               <Button
-                variant="default"
-                onClick={() => router.push('/admin/jobs')}
+                type="button"
+                variant="outline"
+                onClick={() => router.push('/jobs-shifts')}
+                disabled={isSubmitting}
               >
                 Cancel
               </Button>
-              <Button type="submit" loading={isSubmitting} leftSection={<Save size={16} />}>
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-primary hover:bg-primary/90"
+              >
+                {isSubmitting ? (
+                  <div className="loading-spinner h-4 w-4 mr-2" />
+                ) : (
+                  <Save className="h-4 w-4 mr-2" />
+                )}
                 Create Job
               </Button>
-            </Group>
-          </Stack>
-        </form>
-      </Stack>
-    </Container>
+            </div>
+          </form>
+        </Form>
+      </div>
+    </div>
   )
 }
 

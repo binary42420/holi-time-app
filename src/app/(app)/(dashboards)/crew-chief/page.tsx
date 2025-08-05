@@ -53,7 +53,7 @@ export default function CrewChiefDashboard() {
   );
 
   const handleShiftClick = (shiftId: string) => {
-    router.push(`/shifts/${shiftId}`);
+    router.push(`/jobs-shifts/${shiftId}`);
   };
 
   // Helper functions for calculating fulfillment
@@ -127,7 +127,7 @@ export default function CrewChiefDashboard() {
         }
         description="Lead your team and manage active shifts with enhanced oversight tools"
         buttonText="Create Shift"
-        buttonAction={() => router.push('/shifts/new')}
+        buttonAction={() => router.push('/jobs-shifts/new')}
       >
         <Card className="relative overflow-hidden bg-gradient-to-br from-white via-gray-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 border-2 border-gray-200 dark:border-gray-700 shadow-xl">
           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-400/20 to-red-600/20 rounded-full -translate-y-16 translate-x-16"></div>
@@ -309,7 +309,7 @@ export default function CrewChiefDashboard() {
                 <h3 className="text-lg font-bold mb-2">No Active Shifts</h3>
                 <p className="text-sm mb-4">Create a new shift to start managing your team</p>
                 <Button 
-                  onClick={() => router.push('/shifts/new')}
+                  onClick={() => router.push('/jobs-shifts/new')}
                   className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white shadow-lg hover:shadow-xl transition-all duration-200"
                 >
                   <Zap className="h-4 w-4 mr-2" />

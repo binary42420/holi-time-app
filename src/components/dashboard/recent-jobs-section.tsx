@@ -19,6 +19,7 @@ import {
 import { format, formatDistanceToNow } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { CompanyAvatar } from '@/components/CompanyAvatar';
+import { UnifiedStatusBadge } from '@/components/ui/unified-status-badge';
 
 interface RecentJobsSectionProps {
   jobs: any[];
@@ -28,56 +29,7 @@ interface RecentJobsSectionProps {
   className?: string;
 }
 
-const JobStatusBadge = ({ status, size = 'sm' }: { status: string, size?: 'xs' | 'sm' }) => {
-  const getStatusConfig = (status: string) => {
-    switch (status) {
-      case 'Planning':
-        return {
-          icon: Clock,
-          label: 'Planning',
-          className: 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
-        };
-      case 'Scheduled':
-        return {
-          icon: Calendar,
-          label: 'Scheduled',
-          className: 'bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400'
-        };
-      case 'Active':
-        return {
-          icon: Play,
-          label: 'Active',
-          className: 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400'
-        };
-      case 'Completed':
-        return {
-          icon: CheckCircle,
-          label: 'Completed',
-          className: 'bg-emerald-100 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400'
-        };
-      default:
-        return {
-          icon: Clock,
-          label: status,
-          className: 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
-        };
-    }
-  };
 
-  const config = getStatusConfig(status);
-  const Icon = config.icon;
-
-  return (
-    <div className={cn(
-      "inline-flex items-center gap-1 rounded-full text-xs font-medium",
-      config.className,
-      size === 'xs' ? 'text-xs px-1.5 py-0.5' : 'text-xs px-2 py-1'
-    )}>
-      <Icon className={cn(size === 'xs' ? 'h-3 w-3' : 'h-3 w-3')} />
-      {config.label}
-    </div>
-  );
-};
 
 export function RecentJobsSection({
   jobs,
@@ -181,7 +133,7 @@ export function RecentJobsSection({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <h4 className="font-medium truncate">{job.name}</h4>
-                  <JobStatusBadge status={job.status} size="xs" />
+                  <UnifiedStatusBadge status={job.status} size="sm" />
                 </div>
                 
                 <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2">

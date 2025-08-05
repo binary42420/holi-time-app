@@ -27,7 +27,7 @@ export function CompanyDashboardClient({
   }
 
   const handleShiftClick = (shiftId: string) => {
-    router.push(`/shifts/${shiftId}`)
+    router.push(`/jobs-shifts/${shiftId}`)
   }
 
   return (

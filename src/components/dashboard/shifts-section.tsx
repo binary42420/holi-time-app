@@ -25,6 +25,7 @@ import { format, isToday, isTomorrow, isYesterday } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Avatar } from '@/components/Avatar';
 import { CompanyAvatar } from '@/components/CompanyAvatar';
+import { UnifiedStatusBadge } from '@/components/ui/unified-status-badge';
 
 // Helper function to safely format time strings
 const formatTime = (timeString: string | null | undefined): string => {
@@ -67,62 +68,7 @@ interface ShiftsSectionProps {
   className?: string;
 }
 
-const ShiftStatusBadge = ({ status, size = 'sm' }: { status: string, size?: 'xs' | 'sm' }) => {
-  const getStatusConfig = (status: string) => {
-    switch (status) {
-      case 'Pending':
-        return {
-          icon: Clock,
-          label: 'Pending',
-          className: 'bg-yellow-100 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400'
-        };
-      case 'Active':
-        return {
-          icon: Play,
-          label: 'Active',
-          className: 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400'
-        };
-      case 'InProgress':
-        return {
-          icon: Timer,
-          label: 'In Progress',
-          className: 'bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400'
-        };
-      case 'Completed':
-        return {
-          icon: CheckCircle,
-          label: 'Completed',
-          className: 'bg-emerald-100 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400'
-        };
-      case 'Cancelled':
-        return {
-          icon: XCircle,
-          label: 'Cancelled',
-          className: 'bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400'
-        };
-      default:
-        return {
-          icon: Clock,
-          label: status,
-          className: 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
-        };
-    }
-  };
 
-  const config = getStatusConfig(status);
-  const Icon = config.icon;
-
-  return (
-    <div className={cn(
-      "inline-flex items-center gap-1 rounded-full text-xs font-medium",
-      config.className,
-      size === 'xs' ? 'text-xs px-1.5 py-0.5' : 'text-xs px-2 py-1'
-    )}>
-      <Icon className={cn(size === 'xs' ? 'h-3 w-3' : 'h-3 w-3')} />
-      {config.label}
-    </div>
-  );
-};
 
 interface FulfillmentBadgeProps {
   assigned: number;
@@ -130,23 +76,18 @@ interface FulfillmentBadgeProps {
 }
 
 export const FulfillmentBadge = ({ assigned, requested }: FulfillmentBadgeProps) => {
-  const status = assigned >= requested ? 'full' : 
-               assigned >= requested * 0.7 ? 'good' : 'critical';
+  const fulfillmentStatus = assigned >= requested ? 'FULL' : 
+                           assigned >= requested * 0.7 ? 'GOOD' : 
+                           'CRITICAL';
   
-  const statusClasses = {
-    full: 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400',
-    good: 'bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400',
-    critical: 'bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400'
-  };
-
   return (
-    <div className={cn(
-      "inline-flex items-center gap-1 rounded-full text-xs font-medium px-2 py-1",
-      statusClasses[status]
-    )}>
-      <Users className="h-3 w-3" />
-      {assigned}/{requested}
-    </div>
+    <UnifiedStatusBadge 
+      status={fulfillmentStatus}
+      count={assigned}
+      total={requested}
+      showCount 
+      size="sm"
+    />
   );
 };
 
@@ -314,7 +255,7 @@ export function ShiftsSection({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <h4 className="font-medium truncate">{shift.job.name}</h4>
-                  <ShiftStatusBadge status={shift.status} size="xs" />
+                  <UnifiedStatusBadge status={shift.status} size="sm" />
                   <FulfillmentBadge 
                     assigned={shift.fulfillment.totalAssigned}
                     requested={shift.fulfillment.totalRequired}

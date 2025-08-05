@@ -40,7 +40,7 @@ export default function EmployeeDashboard() {
   );
 
   const handleShiftClick = (shiftId: string) => {
-    router.push(`/shifts/${shiftId}`);
+    router.push(`/jobs-shifts/${shiftId}`);
   };
 
   if (isUserLoading) {
@@ -102,7 +102,7 @@ export default function EmployeeDashboard() {
       >
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           <Card className="text-center p-8 transition-all duration-200 hover:shadow-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
-            <Link href="/shifts" className="block">
+            <Link href="/jobs-shifts" className="block">
               <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-full w-16 h-16 mx-auto mb-4">
                 <Calendar className="h-8 w-8 text-gray-600 dark:text-gray-400" />
               </div>
@@ -211,7 +211,7 @@ export default function EmployeeDashboard() {
               <div className="text-center mt-8">
                 <Button 
                   variant="outline" 
-                  onClick={() => router.push('/shifts')}
+                  onClick={() => router.push('/jobs-shifts')}
                   className="border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800"
                 >
                   <Zap className="h-4 w-4 mr-2" />

@@ -2,7 +2,7 @@ import React from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { StatusBadge } from '@/components/ui/status-badge';
+import { UnifiedStatusBadge } from '@/components/ui/unified-status-badge';
 import { Avatar } from '@/components/Avatar';
 import { 
   Menu,
@@ -184,7 +184,7 @@ export function EnhancedMobileNav({
                               </Badge>
                             )}
                             {item.badge.status && (
-                              <StatusBadge 
+                              <UnifiedStatusBadge 
                                 status={item.badge.status} 
                                 size="sm" 
                                 pulse={item.badge.pulse}
@@ -223,7 +223,7 @@ export function EnhancedMobileNav({
                                   </Badge>
                                 )}
                                 {subItem.badge.status && (
-                                  <StatusBadge status={subItem.badge.status} size="sm" />
+                                  <UnifiedStatusBadge status={subItem.badge.status} size="sm" />
                                 )}
                               </div>
                             )}
@@ -285,8 +285,8 @@ export function createNavigationItems(metrics?: {
       } : undefined
     },
     {
-      href: '/shifts',
-      label: 'Shifts',
+      href: '/jobs-shifts',
+      label: 'Jobs & Shifts',
       icon: Calendar,
       badge: metrics?.activeShifts ? {
         count: metrics.activeShifts,
@@ -294,21 +294,13 @@ export function createNavigationItems(metrics?: {
       } : undefined,
       subItems: [
         {
-          href: '/shifts/today',
-          label: 'Today\'s Shifts',
+          href: '/jobs-shifts',
+          label: 'All Jobs & Shifts',
           badge: metrics?.activeShifts ? { count: metrics.activeShifts } : undefined
         },
         {
-          href: '/shifts/upcoming',
-          label: 'Upcoming',
-          badge: metrics?.urgentShifts ? { 
-            count: metrics.urgentShifts,
-            status: 'URGENT' 
-          } : undefined
-        },
-        {
-          href: '/shifts/calendar',
-          label: 'Calendar View'
+          href: '/admin/jobs/new',
+          label: 'Create New Job'
         }
       ]
     },
@@ -320,15 +312,6 @@ export function createNavigationItems(metrics?: {
         count: metrics.understaffedShifts,
         status: 'CRITICAL',
         pulse: true
-      } : undefined
-    },
-    {
-      href: '/jobs',
-      label: 'Jobs',
-      icon: Briefcase,
-      badge: metrics?.activeJobs ? {
-        count: metrics.activeJobs,
-        status: 'Active'
       } : undefined
     },
     {

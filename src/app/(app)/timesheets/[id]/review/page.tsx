@@ -87,7 +87,7 @@ export default function TimesheetReviewPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [showSignatureModal, setShowSignatureModal] = useState(false)
-  const [approvalType, setApprovalType] = useState<'client' | 'manager'>('client')
+  const [approvalType, setApprovalType] = useState<'client' | 'company' | 'manager'>('client')
   const [submitting, setSubmitting] = useState(false)
   const { toast } = useToast()
 
@@ -174,7 +174,7 @@ export default function TimesheetReviewPage() {
   }
 
   const handleApprove = () => {
-    setApprovalType('client')
+    setApprovalType('company')
     setShowSignatureModal(true)
   }
 
@@ -561,11 +561,21 @@ export default function TimesheetReviewPage() {
       {(data.permissions.canApprove || data.permissions.canFinalApprove) && (
         <Card>
           <CardContent className="pt-6">
+            {/* Debug Information */}
+            <div className="mb-4 p-4 bg-muted/50 rounded text-sm">
+              <p><strong>Debug Info:</strong></p>
+              <p>Status: {data.timesheet.status}</p>
+              <p>Can Approve: {data.permissions.canApprove ? 'true' : 'false'}</p>
+              <p>Can Final Approve: {data.permissions.canFinalApprove ? 'true' : 'false'}</p>
+              <p>Is Company User: {data.permissions.isClientUser ? 'true' : 'false'}</p>
+              <p>Is Admin: {data.permissions.isManager ? 'true' : 'false'}</p>
+              <p>Is Crew Chief: {data.permissions.isCrewChief ? 'true' : 'false'}</p>
+            </div>
             <div className="flex justify-end gap-4">
-              {data.permissions.canApprove && data.timesheet.status === 'pending_client_approval' && (
+              {data.permissions.canApprove && data.timesheet.status === 'PENDING_COMPANY_APPROVAL' && (
                 <Button onClick={handleApprove} size="lg">
                   <FileText className="h-4 w-4 mr-2" />
-                  Approve Timesheet
+                  Company Approval & Signature
                 </Button>
               )}
               {data.permissions.canFinalApprove && data.timesheet.status === 'PENDING_MANAGER_APPROVAL' && (
@@ -584,10 +594,16 @@ export default function TimesheetReviewPage() {
         isOpen={showSignatureModal}
         onClose={() => setShowSignatureModal(false)}
         onSignatureSubmit={handleSignatureSubmit}
-        title={approvalType === 'client' ? 'Client Approval Signature' : 'Manager Final Approval Signature'}
+        title={
+          approvalType === 'client' ? 'Client Approval Signature' :
+          approvalType === 'company' ? 'Company Approval Signature' :
+          'Manager Final Approval Signature'
+        }
         description={
           approvalType === 'client'
             ? 'Please sign below to approve this timesheet for your review'
+            : approvalType === 'company'
+            ? 'Please sign below to approve this timesheet on behalf of the company'
             : 'Please sign below to provide final approval for this timesheet'
         }
         loading={submitting}

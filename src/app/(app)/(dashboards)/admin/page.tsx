@@ -240,11 +240,11 @@ export default function AdminDashboard() {
   };
 
   const handleShiftClick = (shiftId: string) => {
-    router.push(`/shifts/${shiftId}`);
+    router.push(`/jobs-shifts/${shiftId}`);
   };
 
   const handleTimesheetClick = (timesheetId: string, shiftId: string) => {
-    router.push(`/shifts/${shiftId}?tab=timesheet`);
+    router.push(`/jobs-shifts/${shiftId}?tab=timesheet`);
   };
 
   const getTimesheetForShift = (shiftId: string) => {

@@ -34,7 +34,7 @@ export function EnhancedAdminDashboard() {
   const { timesheets, jobs, shifts, isLoading, isError, error, refetchAll } = useDashboardData(shiftsPage, 5);
 
   const handleTimesheetClick = (timesheetId: string, shiftId: string) => {
-    router.push(`/shifts/${shiftId}?tab=timesheet`);
+    router.push(`/jobs-shifts/${shiftId}?tab=timesheet`);
   };
 
   const handleJobClick = (jobId: string) => {
@@ -42,7 +42,7 @@ export function EnhancedAdminDashboard() {
   };
 
   const handleShiftClick = (shiftId: string) => {
-    router.push(`/shifts/${shiftId}`);
+    router.push(`/jobs-shifts/${shiftId}`);
   };
 
   const handleApproveTimesheet = async (timesheetId: string) => {

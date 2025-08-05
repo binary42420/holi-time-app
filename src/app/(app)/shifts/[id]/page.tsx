@@ -53,10 +53,10 @@ function ShiftDetailsContent() {
 
   if (!shift) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="flex items-center justify-center h-64 bg-background">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Shift Not Found</h2>
-          <p className="text-gray-400">
+          <h2 className="text-2xl font-bold text-foreground mb-4">Shift Not Found</h2>
+          <p className="text-muted-foreground">
             The shift you are looking for does not exist or has been deleted.
           </p>
         </div>
@@ -65,7 +65,14 @@ function ShiftDetailsContent() {
   }
 
   if (!assignments || !users) {
-    return <div>Data incomplete.</div>;
+    return (
+      <div className="flex items-center justify-center h-64 bg-background">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-foreground mb-2">Loading Data</h2>
+          <p className="text-muted-foreground">Please wait while we load the shift details...</p>
+        </div>
+      </div>
+    );
   }
 
   const sortedAssignments = [...assignments].sort((a, b) => {

@@ -63,7 +63,7 @@ export function TimesheetApprovalButton({
         return {
           label: 'Download Approved Timesheet PDF',
           href: `/api/timesheets/${timesheetId}/download-pdf-simple`,
-          icon: <CheckCircle className="h-4 w-4 mr-2" />,
+          icon: <CheckCircle className="h-4 w-4 mr-2 text-green-600" />,
           variant: 'default'
         };
 
@@ -92,7 +92,11 @@ export function TimesheetApprovalButton({
     <Link href={stageInfo.href}>
       <Button 
         variant={stageInfo.variant}
-        className={`flex items-center gap-2 text-xs sm:text-sm ${className}`}
+        className={`flex items-center gap-2 text-xs sm:text-sm ${
+          status === 'COMPLETED' 
+            ? 'bg-green-100 hover:bg-green-200 text-green-800 border-green-200' 
+            : ''
+        } ${className}`}
         disabled={stageInfo.disabled}
         size="sm"
       >

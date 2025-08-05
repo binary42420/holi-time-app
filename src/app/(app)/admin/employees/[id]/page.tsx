@@ -88,7 +88,7 @@ function EmployeeProfilePage() {
                   <Crown className="h-4 w-4 text-blue-500" />
                   Crew Chief Eligible:
                 </p>
-                <Badge variant={employee.crew_chief_eligible ? 'default' : 'secondary'} className={employee.crew_chief_eligible ? 'bg-blue-100 text-blue-800' : ''}>
+                <Badge variant={employee.crew_chief_eligible ? 'default' : 'secondary'} className={employee.crew_chief_eligible ? 'status-info' : ''}>
                   <Crown className="h-3 w-3 mr-1" />
                   {employee.crew_chief_eligible ? 'Yes' : 'No'}
                 </Badge>
@@ -98,7 +98,7 @@ function EmployeeProfilePage() {
                   <Truck className="h-4 w-4 text-green-500" />
                   Fork Operator Eligible:
                 </p>
-                <Badge variant={employee.fork_operator_eligible ? 'default' : 'secondary'} className={employee.fork_operator_eligible ? 'bg-green-100 text-green-800' : ''}>
+                <Badge variant={employee.fork_operator_eligible ? 'default' : 'secondary'} className={employee.fork_operator_eligible ? 'status-success' : ''}>
                   <Truck className="h-3 w-3 mr-1" />
                   {employee.fork_operator_eligible ? 'Yes' : 'No'}
                 </Badge>
@@ -108,7 +108,7 @@ function EmployeeProfilePage() {
                   <HardHat className="h-4 w-4 text-orange-500" />
                   OSHA 10 Certified:
                 </p>
-                <Badge variant={employee.OSHA_10_Certifications ? 'default' : 'secondary'} className={employee.OSHA_10_Certifications ? 'bg-orange-100 text-orange-800' : ''}>
+                <Badge variant={employee.OSHA_10_Certifications ? 'default' : 'secondary'} className={employee.OSHA_10_Certifications ? 'status-warning' : ''}>
                   <HardHat className="h-3 w-3 mr-1" />
                   {employee.OSHA_10_Certifications ? 'Yes' : 'No'}
                 </Badge>

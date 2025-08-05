@@ -62,7 +62,7 @@ export default function ProfilePage() {
 
   const handleSaveChanges = async () => {
     try {
-      let uploadedAvatarUrl = user.avatarUrl;
+      let uploadedAvatarUrl = user.avatar;
 
       // Upload avatar if a new file was selected
       if (avatarFile) {

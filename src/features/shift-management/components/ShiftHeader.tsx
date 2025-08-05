@@ -11,18 +11,13 @@ import { ShiftStatus } from "@prisma/client";
 import { useToast } from "@/hooks/use-toast"; // Import useToast
 import { CompanyAvatar } from "@/components/CompanyAvatar";
 import { useUser } from "@/hooks/use-user";
+import { UnifiedStatusBadge } from "@/components/ui/unified-status-badge";
 
 interface ShiftHeaderProps {
   shift: ShiftWithDetails;
 }
 
-const statusStyles: Record<ShiftStatus, string> = {
-  [ShiftStatus.Pending]: "bg-yellow-100 text-yellow-800 border-yellow-200",
-  [ShiftStatus.InProgress]: "bg-green-100 text-green-800 border-green-200",
-  [ShiftStatus.Completed]: "bg-gray-100 text-gray-800 border-gray-200",
-  [ShiftStatus.Cancelled]: "bg-red-100 text-red-800 border-red-200",
-  [ShiftStatus.Active]: "bg-blue-100 text-blue-800 border-blue-200",
-};
+
 
 export function ShiftHeader({ shift }: ShiftHeaderProps) {
   const router = useRouter();
@@ -73,9 +68,8 @@ export function ShiftHeader({ shift }: ShiftHeaderProps) {
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" onClick={() => {
-          // Navigate to admin/shifts for admins, otherwise to regular shifts page
-          const shiftsPath = user?.role === 'Admin' ? '/admin/shifts' : '/shifts';
-          router.push(shiftsPath);
+          // Navigate to jobs-shifts page for all users
+          router.push('/jobs-shifts');
         }}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
@@ -96,9 +90,7 @@ export function ShiftHeader({ shift }: ShiftHeaderProps) {
         </div>
       </div>
       <div className="flex flex-col sm:flex-row gap-2">
-        <Badge variant="outline" className={cn("text-sm", statusStyles[shift.status])}>
-          {shift.status}
-        </Badge>
+        <UnifiedStatusBadge status={shift.status} size="sm" />
         <Button
           variant="outline"
           onClick={handleDownloadPdf}
@@ -108,7 +100,7 @@ export function ShiftHeader({ shift }: ShiftHeaderProps) {
         </Button>
         <Button
           variant="outline"
-          onClick={() => router.push(`/shifts/${shift.id}/edit`)}
+          onClick={() => router.push(`/jobs-shifts/${shift.id}/edit`)}
         >
           <Pencil className="mr-2 h-4 w-4" />
           Edit Shift

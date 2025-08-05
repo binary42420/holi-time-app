@@ -7,21 +7,39 @@ declare global {
   var prisma: PrismaClient | undefined
 }
 
-// Create a mock Prisma client for build time
+// Create a comprehensive mock Prisma client for build time
+const createMockModel = () => ({
+  findMany: () => Promise.resolve([]),
+  findUnique: () => Promise.resolve(null),
+  findFirst: () => Promise.resolve(null),
+  create: () => Promise.resolve({}),
+  createMany: () => Promise.resolve({ count: 0 }),
+  update: () => Promise.resolve({}),
+  updateMany: () => Promise.resolve({ count: 0 }),
+  upsert: () => Promise.resolve({}),
+  delete: () => Promise.resolve({}),
+  deleteMany: () => Promise.resolve({ count: 0 }),
+  count: () => Promise.resolve(0),
+  aggregate: () => Promise.resolve({}),
+  groupBy: () => Promise.resolve([]),
+});
+
 const mockPrismaClient = {
   $connect: () => Promise.resolve(),
   $disconnect: () => Promise.resolve(),
   $queryRaw: () => Promise.resolve([]),
   $executeRaw: () => Promise.resolve(0),
-  user: {
-    findMany: () => Promise.resolve([]),
-    findUnique: () => Promise.resolve(null),
-    create: () => Promise.resolve({}),
-    update: () => Promise.resolve({}),
-    delete: () => Promise.resolve({}),
-    count: () => Promise.resolve(0),
-  },
-  // Add other models as needed
+  $transaction: () => Promise.resolve([]),
+  user: createMockModel(),
+  company: createMockModel(),
+  job: createMockModel(),
+  shift: createMockModel(),
+  assignedPersonnel: createMockModel(),
+  timeEntry: createMockModel(),
+  timesheet: createMockModel(),
+  document: createMockModel(),
+  notification: createMockModel(),
+  workerRequirement: createMockModel(),
 } as any;
 
 const buildTime = isBuildTime();

@@ -43,10 +43,10 @@ const nextConfig = {
   poweredByHeader: false,
   // Enhanced webpack configuration
   webpack: (config, { isServer, dev, webpack }) => {
-    // Universal global polyfill using ProvidePlugin (no conflicts)
+    // Simplified polyfills - only what's absolutely necessary
     config.plugins.push(
       new webpack.ProvidePlugin({
-        global: './polyfills.js',
+        // Only provide global, let Next.js handle process
       })
     );
 
@@ -67,12 +67,7 @@ const nextConfig = {
         worker_threads: false,
       };
 
-      // Add browser polyfills for Node.js globals
-      config.plugins.push(
-        new webpack.DefinePlugin({
-          global: 'globalThis',
-        })
-      );
+      // Let Next.js handle polyfills automatically
     }
 
     // Development optimizations

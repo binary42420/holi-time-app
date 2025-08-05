@@ -56,37 +56,37 @@ export interface StatusBadgeProps {
   className?: string;
 }
 
-// Enhanced status configurations with modern color palette
+// Enhanced status configurations with consistent semantic color system
 const statusConfigs = {
   // Job Statuses
   'Pending': { 
     label: 'Pending', 
-    color: 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400', 
+    color: 'bg-warning-bg text-warning border-warning-border dark:bg-warning-bg dark:text-warning dark:border-warning-border', 
     icon: Clock,
     pulse: false
   },
   'Active': { 
     label: 'Active', 
-    color: 'bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400', 
+    color: 'bg-success-bg text-success border-success-border dark:bg-success-bg dark:text-success dark:border-success-border', 
     icon: Play,
     pulse: true
   },
   'OnHold': { 
     label: 'On Hold', 
-    color: 'bg-orange-100 text-orange-800 border-orange-200 dark:bg-orange-900/20 dark:text-orange-400', 
+    color: 'bg-warning-bg text-warning border-warning-border dark:bg-warning-bg dark:text-warning dark:border-warning-border', 
     icon: Pause,
     pulse: false
   },
   'Completed': { 
     label: 'Completed', 
-    color: 'bg-green-100 text-green-800 border-green-300 dark:bg-green-900/30 dark:text-green-300', 
+    color: 'bg-success-bg text-success border-success-border dark:bg-success-bg dark:text-success dark:border-success-border', 
     icon: CheckCircle2,
     pulse: false,
     isCompleted: true
   },
   'Cancelled': { 
     label: 'Cancelled', 
-    color: 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/20 dark:text-red-400', 
+    color: 'bg-error-bg text-error border-error-border dark:bg-error-bg dark:text-error dark:border-error-border', 
     icon: XCircle,
     pulse: false
   },
@@ -94,27 +94,27 @@ const statusConfigs = {
   // Shift Statuses
   'InProgress': { 
     label: 'In Progress', 
-    color: 'bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400', 
+    color: 'bg-success-bg text-success border-success-border dark:bg-success-bg dark:text-success dark:border-success-border', 
     icon: Timer,
     pulse: true
   },
   'Ongoing': { 
     label: 'Live', 
-    color: 'bg-red-100 text-red-800 border-red-300 dark:bg-red-900/30 dark:text-red-300', 
+    color: 'bg-error text-white border-error dark:bg-error dark:text-white dark:border-error', 
     icon: Activity,
     pulse: true,
     isLive: true
   },
   'Live': { 
     label: 'Live', 
-    color: 'bg-red-100 text-red-800 border-red-300 dark:bg-red-900/30 dark:text-red-300', 
+    color: 'bg-error text-white border-error dark:bg-error dark:text-white dark:border-error', 
     icon: Activity,
     pulse: true,
     isLive: true
   },
   'Scheduled': { 
     label: 'Scheduled', 
-    color: 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/20 dark:text-blue-400', 
+    color: 'bg-info-bg text-info border-info-border dark:bg-info-bg dark:text-info dark:border-info-border', 
     icon: Calendar,
     pulse: false
   },
@@ -122,43 +122,43 @@ const statusConfigs = {
   // Worker Statuses
   'Assigned': { 
     label: 'Assigned', 
-    color: 'bg-slate-100 text-slate-800 border-slate-200 dark:bg-slate-900/20 dark:text-slate-400', 
+    color: 'bg-info-bg text-info border-info-border dark:bg-info-bg dark:text-info dark:border-info-border', 
     icon: UserCheck,
     pulse: false
   },
   'ClockedIn': { 
     label: 'Working', 
-    color: 'bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400', 
+    color: 'bg-success-bg text-success border-success-border dark:bg-success-bg dark:text-success dark:border-success-border', 
     icon: Play,
     pulse: true
   },
   'OnBreak': { 
     label: 'On Break', 
-    color: 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400', 
+    color: 'bg-warning-bg text-warning border-warning-border dark:bg-warning-bg dark:text-warning dark:border-warning-border', 
     icon: Coffee,
     pulse: false
   },
   'ClockedOut': { 
     label: 'Break', 
-    color: 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400', 
+    color: 'bg-warning-bg text-warning border-warning-border dark:bg-warning-bg dark:text-warning dark:border-warning-border', 
     icon: Coffee,
     pulse: false
   },
   'ShiftEnded': { 
     label: 'Completed', 
-    color: 'bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400', 
+    color: 'bg-success-bg text-success border-success-border dark:bg-success-bg dark:text-success dark:border-success-border', 
     icon: CheckCircle2,
     pulse: false
   },
   'NoShow': { 
     label: 'No Show', 
-    color: 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/20 dark:text-red-400', 
+    color: 'bg-error-bg text-error border-error-border dark:bg-error-bg dark:text-error dark:border-error-border', 
     icon: XCircle,
     pulse: false
   },
   'UpForGrabs': { 
     label: 'Available', 
-    color: 'bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-900/20 dark:text-purple-400', 
+    color: 'bg-primary-100 text-primary-700 border-primary-200 dark:bg-primary-900/20 dark:text-primary-400 dark:border-primary-800', 
     icon: Users,
     pulse: true
   },
@@ -166,25 +166,25 @@ const statusConfigs = {
   // Timesheet Statuses
   'DRAFT': { 
     label: 'Draft', 
-    color: 'bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-900/20 dark:text-gray-400', 
+    color: 'bg-muted text-muted-foreground border-border dark:bg-muted dark:text-muted-foreground dark:border-border', 
     icon: FileText,
     pulse: false
   },
   'PENDING_COMPANY_APPROVAL': { 
     label: 'Pending Company', 
-    color: 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400', 
+    color: 'bg-warning-bg text-warning border-warning-border dark:bg-warning-bg dark:text-warning dark:border-warning-border', 
     icon: Clock,
     pulse: true
   },
   'PENDING_MANAGER_APPROVAL': { 
     label: 'Pending Manager', 
-    color: 'bg-orange-100 text-orange-800 border-orange-200 dark:bg-orange-900/20 dark:text-orange-400', 
+    color: 'bg-warning-bg text-warning border-warning-border dark:bg-warning-bg dark:text-warning dark:border-warning-border', 
     icon: Clock,
     pulse: true
   },
   'REJECTED': { 
     label: 'Rejected', 
-    color: 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/20 dark:text-red-400', 
+    color: 'bg-error-bg text-error border-error-border dark:bg-error-bg dark:text-error dark:border-error-border', 
     icon: XCircle,
     pulse: false
   },
@@ -192,31 +192,31 @@ const statusConfigs = {
   // Fulfillment Statuses (for worker assignment ratios)
   'CRITICAL': { 
     label: 'Critical', 
-    color: 'bg-red-100 text-red-800 border-red-300 dark:bg-red-900/30 dark:text-red-300', 
+    color: 'bg-error text-white border-error dark:bg-error dark:text-white dark:border-error', 
     icon: AlertTriangle,
     pulse: true
   },
   'LOW': { 
     label: 'Low', 
-    color: 'bg-orange-100 text-orange-800 border-orange-300 dark:bg-orange-900/30 dark:text-orange-300', 
+    color: 'bg-warning-bg text-warning border-warning-border dark:bg-warning-bg dark:text-warning dark:border-warning-border', 
     icon: BatteryLow,
     pulse: false
   },
   'GOOD': { 
     label: 'Good', 
-    color: 'bg-amber-100 text-amber-800 border-amber-300 dark:bg-amber-900/30 dark:text-amber-300', 
+    color: 'bg-info-bg text-info border-info-border dark:bg-info-bg dark:text-info dark:border-info-border', 
     icon: Battery,
     pulse: false
   },
   'FULL': { 
     label: 'Full', 
-    color: 'bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-900/30 dark:text-emerald-300', 
+    color: 'bg-success text-white border-success dark:bg-success dark:text-white dark:border-success', 
     icon: CheckCircle2,
     pulse: false
   },
   'OVERSTAFFED': { 
     label: 'Overstaffed', 
-    color: 'bg-blue-100 text-blue-800 border-blue-300 dark:bg-blue-900/30 dark:text-blue-300', 
+    color: 'bg-info-bg text-info border-info-border dark:bg-info-bg dark:text-info dark:border-info-border', 
     icon: Users,
     pulse: false
   },

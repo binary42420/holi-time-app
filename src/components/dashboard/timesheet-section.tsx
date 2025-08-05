@@ -20,6 +20,7 @@ import {
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Avatar } from '@/components/Avatar';
+import { UnifiedStatusBadge } from '@/components/ui/unified-status-badge';
 
 interface TimesheetSectionProps {
   timesheets: any[];
@@ -31,62 +32,7 @@ interface TimesheetSectionProps {
   className?: string;
 }
 
-const TimesheetStatusBadge = ({ status, size = 'sm' }: { status: string, size?: 'xs' | 'sm' }) => {
-  const getStatusConfig = (status: string) => {
-    switch (status) {
-      case 'DRAFT':
-        return {
-          icon: FileText,
-          label: 'Draft',
-          className: 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
-        };
-      case 'PENDING_COMPANY_APPROVAL':
-        return {
-          icon: Clock,
-          label: 'Pending Company',
-          className: 'bg-orange-100 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400'
-        };
-      case 'PENDING_MANAGER_APPROVAL':
-        return {
-          icon: Clock,
-          label: 'Pending Manager',
-          className: 'bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400'
-        };
-      case 'COMPLETED':
-        return {
-          icon: CheckCircle,
-          label: 'Approved',
-          className: 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400'
-        };
-      case 'REJECTED':
-        return {
-          icon: XCircle,
-          label: 'Rejected',
-          className: 'bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400'
-        };
-      default:
-        return {
-          icon: FileText,
-          label: status,
-          className: 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
-        };
-    }
-  };
 
-  const config = getStatusConfig(status);
-  const Icon = config.icon;
-
-  return (
-    <div className={cn(
-      "inline-flex items-center gap-1 rounded-full text-xs font-medium",
-      config.className,
-      size === 'xs' ? 'text-xs px-1.5 py-0.5' : 'text-xs px-2 py-1'
-    )}>
-      <Icon className={cn(size === 'xs' ? 'h-3 w-3' : 'h-3 w-3')} />
-      {config.label}
-    </div>
-  );
-};
 
 export function TimesheetSection({
   timesheets,
@@ -208,7 +154,7 @@ export function TimesheetSection({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <h4 className="font-medium truncate">{timesheet.shift.job.name}</h4>
-                  <TimesheetStatusBadge status={timesheet.status} size="xs" />
+                  <UnifiedStatusBadge status={timesheet.status} size="sm" />
                 </div>
                 
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">

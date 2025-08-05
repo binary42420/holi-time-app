@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
-import { Home, Briefcase, Calendar, Users, LogOut, Building, FileText, Settings, LayoutDashboard } from "lucide-react"
+import { Home, Briefcase, Calendar, Users, LogOut, Building, FileText, Settings, LayoutDashboard, CalendarDays } from "lucide-react"
 import { signOut } from 'next-auth/react'
 import { MobileNavMenu } from './MobileNavMenu'
 import { ThemeSwitcher } from './theme-switcher'
@@ -16,8 +16,7 @@ import { UserRole } from '@prisma/client'
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: Home, roles: ['Admin', 'Manager', 'CrewChief', 'Staff', 'CompanyUser'] },
-  { href: '/jobs', label: 'Jobs', icon: Briefcase, roles: ['Admin', 'Manager', 'CrewChief', 'CompanyUser'] },
-  { href: '/shifts', label: 'Shifts', icon: Calendar, roles: ['Admin', 'Manager', 'CrewChief', 'Staff'] },
+  { href: '/jobs-shifts', label: 'Scheduled Shifts', icon: CalendarDays, roles: ['Admin', 'Manager', 'CrewChief', 'Staff', 'CompanyUser'] },
   { href: '/employees', label: 'Employees', icon: Users, roles: ['Admin', 'Manager'] },
 ];
 
@@ -32,27 +31,16 @@ export default function Header({ children }: { children?: React.ReactNode }) {
   const pathname = usePathname();
   const { user, status } = useUser();
   
-  // Authentication is working properly - debug logging removed
-
   // Combine nav items based on user role
   const getVisibleNavItems = () => {
-    if (!user) return navItems;
+    // During loading/hydration, show default nav items to prevent hydration mismatch
+    if (status === 'loading' || !user) return navItems;
     
     const userRole = user.role as string;
     let mainItems = navItems.filter(item => item.roles.includes(userRole));
     
-    // For admin users, redirect jobs and shifts to admin pages
+    // For admin users, add admin-specific items
     if (userRole === 'Admin') {
-      mainItems = mainItems.map(item => {
-        if (item.href === '/jobs') {
-          return { ...item, href: '/admin/jobs' };
-        }
-        if (item.href === '/shifts') {
-          return { ...item, href: '/admin/shifts' };
-        }
-        return item;
-      });
-      
       return [...mainItems, ...adminNavItems];
     }
     
@@ -85,8 +73,8 @@ export default function Header({ children }: { children?: React.ReactNode }) {
                     className={cn(
                       'flex items-center space-x-2 px-3 py-2 rounded-md font-medium whitespace-nowrap transition-colors',
                       isActive
-                        ? 'bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300'
-                        : 'text-foreground/70 hover:text-foreground hover:bg-surface'
+                        ? 'bg-primary/10 text-primary border border-primary/20'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-hover'
                     )}
                   >
                     <Icon size={16} />

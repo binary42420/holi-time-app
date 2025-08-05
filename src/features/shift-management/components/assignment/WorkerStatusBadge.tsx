@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge } from "@mantine/core";
+import { UnifiedStatusBadge } from "@/components/ui/unified-status-badge";
 
 interface WorkerStatusBadgeProps {
   status: string | undefined;
@@ -8,15 +8,23 @@ interface WorkerStatusBadgeProps {
 
 export function WorkerStatusBadge({ status }: WorkerStatusBadgeProps) {
   if (!status) return null;
+  
   const s = status.toLowerCase();
+  
+  // Map status strings to our unified status keys
+  let unifiedStatus = 'Assigned'; // default
+  
   if (s.includes('clocked in')) {
-    return <Badge color="green">Clocked In</Badge>;
+    unifiedStatus = 'ClockedIn';
+  } else if (s.includes('not clocked in') || s.includes('assigned')) {
+    unifiedStatus = 'Assigned';
+  } else if (s.includes('ended')) {
+    unifiedStatus = 'ShiftEnded';
+  } else if (s.includes('break')) {
+    unifiedStatus = 'OnBreak';
+  } else if (s.includes('no show')) {
+    unifiedStatus = 'NoShow';
   }
-  if (s.includes('not clocked in') || s.includes('assigned')) {
-    return <Badge color="gray">Not Clocked In</Badge>;
-  }
-  if (s.includes('ended')) {
-    return <Badge color="red">Shift Ended</Badge>;
-  }
-  return <Badge color="blue">{status}</Badge>;
+  
+  return <UnifiedStatusBadge status={unifiedStatus} size="sm" />;
 }

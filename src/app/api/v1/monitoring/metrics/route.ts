@@ -4,6 +4,9 @@ import { NextRequest } from 'next/server';
 import { withApiMiddleware, createSuccessResponse, RequestContext } from '@/lib/middleware/api-middleware';
 import { performanceMonitor } from '@/lib/monitoring/performance-monitor';
 
+// Force dynamic rendering for this route since it uses authentication
+export const dynamic = 'force-dynamic';
+
 // GET /api/v1/monitoring/metrics - Get performance metrics
 export const GET = withApiMiddleware(
   async (req: NextRequest, context: RequestContext) => {

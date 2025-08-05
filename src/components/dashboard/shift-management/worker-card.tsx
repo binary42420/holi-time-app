@@ -6,6 +6,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Clock, Play, StopCircle, Coffee, CheckCircle2, AlertCircle } from "lucide-react";
 import { IWorkerCardProps } from './types';
 import { format, differenceInMinutes } from 'date-fns';
+import { UnifiedStatusBadge } from '@/components/ui/unified-status-badge';
 
 const roleColors: Record<string, { name: string; color: string; bgColor: string; borderColor: string }> = {
   'CC': { name: 'Crew Chief', color: 'text-blue-700', bgColor: 'bg-blue-50', borderColor: 'border-blue-200' },
@@ -16,25 +17,7 @@ const roleColors: Record<string, { name: string; color: string; bgColor: string;
   'GL': { name: 'General Labor', color: 'text-gray-700', bgColor: 'bg-gray-50', borderColor: 'border-gray-200' },
 };
 
-const getStatusConfig = (status: string) => {
-  switch (status) {
-    case 'Assigned':
-      return { label: 'Not Started', color: 'bg-gray-100 text-gray-800', icon: Clock };
-    case 'ClockedIn':
-      return { label: 'Working', color: 'bg-green-100 text-green-800', icon: Play };
-    case 'OnBreak':
-    case 'ClockedOut':
-      return { label: 'On Break', color: 'bg-yellow-100 text-yellow-800', icon: Coffee };
-    case 'ShiftEnded':
-      return { label: 'Completed', color: 'bg-blue-100 text-blue-800', icon: CheckCircle2 };
-    case 'NoShow':
-      return { label: 'No Show', color: 'bg-red-100 text-red-800', icon: AlertCircle };
-    case 'UpForGrabs':
-      return { label: 'Available', color: 'bg-orange-100 text-orange-800', icon: AlertCircle };
-    default:
-      return { label: status, color: 'bg-gray-100 text-gray-800', icon: AlertCircle };
-  }
-};
+
 
 const calculateTotalHours = (timeEntries: any[] = []) => {
   let totalMinutes = 0;
@@ -49,9 +32,7 @@ const calculateTotalHours = (timeEntries: any[] = []) => {
 };
 
 const WorkerCard: React.FC<IWorkerCardProps> = ({ worker, onClockAction, onEndShift, loading, isOnline }) => {
-  const statusConfig = getStatusConfig(worker.status);
   const roleConfig = roleColors[worker.role_code] || { name: worker.role_code, color: 'text-gray-700', bgColor: 'bg-gray-50', borderColor: 'border-gray-200' };
-  const StatusIcon = statusConfig.icon;
 
   return (
     <div className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors" style={{ opacity: loading ? 0.5 : 1 }}>
@@ -74,10 +55,7 @@ const WorkerCard: React.FC<IWorkerCardProps> = ({ worker, onClockAction, onEndSh
           </div>
           
           <div className="flex items-center gap-2">
-            <Badge className={statusConfig.color}>
-              <StatusIcon className="h-4 w-4 mr-1" />
-              {statusConfig.label}
-            </Badge>
+            <UnifiedStatusBadge status={worker.status} size="sm" />
             
             {worker.timeEntries && worker.timeEntries.length > 0 && (
               <span className="text-sm text-muted-foreground">

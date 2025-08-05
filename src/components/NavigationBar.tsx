@@ -42,16 +42,10 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ className = '' }) => {
       exact: true
     },
     {
-      name: 'Jobs',
-      href: '/jobs',
-      icon: <BriefcaseIcon className="h-5 w-5" />,
-      allowedRoles: ['Admin', 'Manager', 'CrewChief', 'CompanyUser']
-    },
-    {
-      name: 'Shifts',
-      href: '/shifts',
+      name: 'Jobs & Shifts',
+      href: '/jobs-shifts',
       icon: <CalendarDaysIcon className="h-5 w-5" />,
-      allowedRoles: ['Admin', 'Manager', 'CrewChief', 'Staff']
+      allowedRoles: ['Admin', 'Manager', 'CrewChief', 'Staff', 'CompanyUser']
     },
     {
       name: 'Employees',
@@ -69,7 +63,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ className = '' }) => {
       name: 'Timesheets',
       href: '/timesheets',
       icon: <ClockIcon className="h-5 w-5" />,
-      allowedRoles: ['Admin', 'Manager', 'CrewChief', 'Staff', 'CompanyUser']
+      allowedRoles: ['Admin', 'Manager', 'CrewChief', 'Staff', 'Employee', 'CompanyUser']
     },
     {
       name: 'Documents',
@@ -85,21 +79,9 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ className = '' }) => {
     }
   ];
 
-  // Filter and map navigation items based on user role
+  // Filter navigation items based on user role
   const allowedItems = navigationItems
-    .filter(item => user && item.allowedRoles.includes(user.role))
-    .map(item => {
-      // For admin users, redirect jobs and shifts to admin pages
-      if (user?.role === 'Admin') {
-        if (item.href === '/jobs') {
-          return { ...item, href: '/admin/jobs' };
-        }
-        if (item.href === '/shifts') {
-          return { ...item, href: '/admin/shifts' };
-        }
-      }
-      return item;
-    });
+    .filter(item => user && item.allowedRoles.includes(user.role));
 
   const isActive = (item: NavItem) => {
     if (item.exact) {

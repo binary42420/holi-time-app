@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { StatusBadge, getFulfillmentStatus, getPriorityBadge } from '@/components/ui/status-badge';
+import { UnifiedStatusBadge, getFulfillmentStatus, getPriorityBadge } from '@/components/ui/unified-status-badge';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { 
   Briefcase, 
@@ -150,9 +150,9 @@ export function EnhancedJobCard({ job, onView, onEdit, onDelete, className }: En
           <div className="space-y-1 flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
               <h3 className="font-semibold text-lg leading-tight truncate">{job.name}</h3>
-              <StatusBadge status={job.status} size="sm" />
+              <UnifiedStatusBadge status={job.status} size="sm" />
               {timelineStatus !== 'SCHEDULED' && (
-                <StatusBadge status={timelineStatus} size="sm" />
+                <UnifiedStatusBadge status={timelineStatus} size="sm" />
               )}
             </div>
             
@@ -234,7 +234,7 @@ export function EnhancedJobCard({ job, onView, onEdit, onDelete, className }: En
                 <Users className="h-4 w-4 text-muted-foreground" />
                 <span className="font-medium text-sm">Overall Staffing</span>
               </div>
-              <StatusBadge 
+              <UnifiedStatusBadge 
                 status={overallFulfillment}
                 count={staffingMetrics.totalAssigned}
                 total={staffingMetrics.totalRequired}
@@ -328,7 +328,7 @@ export function EnhancedJobCard({ job, onView, onEdit, onDelete, className }: En
 
                 return (
                   <Link 
-                    href={`/shifts/${shift.id}`} 
+                    href={`/jobs-shifts/${shift.id}`} 
                     key={shift.id}
                     className="block p-2 rounded-md hover:bg-muted/50 transition-colors"
                   >
@@ -341,11 +341,11 @@ export function EnhancedJobCard({ job, onView, onEdit, onDelete, className }: En
                           {format(new Date(shift.startTime), 'h:mm a')}
                         </span>
                         {daysUntil <= 1 && (
-                          <StatusBadge status={getPriorityBadge(daysUntil)} size="sm" />
+                          <UnifiedStatusBadge status={getPriorityBadge(daysUntil)} size="sm" />
                         )}
                       </div>
                       
-                      <StatusBadge 
+                      <UnifiedStatusBadge 
                         status={fulfillment}
                         count={assigned}
                         total={required}

@@ -37,7 +37,7 @@ export function EnhancedCrewChiefDashboard() {
   const { timesheets, jobs, shifts, isLoading, isError, error, refetchAll } = useDashboardData(shiftsPage, 5);
 
   const handleTimesheetClick = (timesheetId: string, shiftId: string) => {
-    router.push(`/shifts/${shiftId}?tab=timesheet`);
+    router.push(`/jobs-shifts/${shiftId}?tab=timesheet`);
   };
 
   const handleJobClick = (jobId: string) => {
@@ -45,7 +45,7 @@ export function EnhancedCrewChiefDashboard() {
   };
 
   const handleShiftClick = (shiftId: string) => {
-    router.push(`/shifts/${shiftId}`);
+    router.push(`/jobs-shifts/${shiftId}`);
   };
 
   // Calculate summary metrics for crew chief
@@ -301,7 +301,7 @@ export function EnhancedCrewChiefDashboard() {
                 <Button
                   variant="outline"
                   className="w-full justify-start"
-                  onClick={() => router.push('/shifts')}
+                  onClick={() => router.push('/jobs-shifts')}
                 >
                   <Calendar className="h-4 w-4 mr-2" />
                   View All Shifts

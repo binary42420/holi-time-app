@@ -2,7 +2,6 @@
 // This module provides the global object for all environments
 
 // Define the global object based on the environment
-let globalObject;
 
 if (typeof global !== 'undefined') {
   // Node.js environment

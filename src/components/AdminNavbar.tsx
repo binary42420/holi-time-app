@@ -10,8 +10,7 @@ const adminNavLinks = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/companies', label: 'Companies', icon: Building },
   { href: '/employees', label: 'Employees', icon: Users },
-  { href: '/admin/jobs', label: 'Jobs', icon: Calendar },
-  { href: '/admin/shifts', label: 'Shifts', icon: Calendar },
+  { href: '/jobs-shifts', label: 'Jobs & Shifts', icon: Calendar },
   { href: '/timesheets', label: 'Timesheets', icon: FileText },
   { href: '/admin/settings', label: 'Admin Settings', icon: Settings },
 ];

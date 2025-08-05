@@ -227,7 +227,7 @@ export function PageLoading({
 }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background">
-      <Loader2 className="h-12 w-12 animate-spin text-[#3F51B5] mb-4 transition-all duration-500 ease-in-out transform hover:scale-110" />
+      <Loader2 className="h-12 w-12 animate-spin text-primary mb-4 transition-all duration-500 ease-in-out transform hover:scale-110" />
       <h3 className="text-xl font-semibold text-foreground">{title}</h3>
       <p className="text-muted-foreground">{description}</p>
     </div>

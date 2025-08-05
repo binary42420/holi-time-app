@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
-import { StatusBadge, getFulfillmentStatus, getPriorityBadge } from '@/components/ui/status-badge';
+import { UnifiedStatusBadge, getFulfillmentStatus, getPriorityBadge } from '@/components/ui/unified-status-badge';
 import { 
   Calendar, 
   Clock, 
@@ -116,8 +116,8 @@ export function EnhancedShiftCard({ shift, onView, onEdit, className }: Enhanced
           <div className="space-y-1">
             <div className="flex items-center gap-2 flex-wrap">
               <h3 className="font-semibold text-lg leading-tight">{shift.job.name}</h3>
-              <StatusBadge status={shift.status} size="sm" />
-              <StatusBadge status={priorityStatus} size="sm" />
+              <UnifiedStatusBadge status={shift.status} size="sm" />
+              <UnifiedStatusBadge status={priorityStatus} size="sm" />
             </div>
             <p className="text-sm text-muted-foreground">{shift.job.company.name}</p>
           </div>
@@ -170,7 +170,7 @@ export function EnhancedShiftCard({ shift, onView, onEdit, className }: Enhanced
             <div className="flex items-center gap-2">
               <Users className="h-4 w-4 text-muted-foreground" />
               <span className="font-medium">Staffing</span>
-              <StatusBadge 
+              <UnifiedStatusBadge 
                 status={fulfillmentStatus} 
                 count={totalAssigned} 
                 total={totalRequired}
@@ -320,7 +320,7 @@ export function EnhancedShiftCard({ shift, onView, onEdit, className }: Enhanced
              `${Math.abs(daysUntil)} days ago`}
           </div>
           
-          <Link href={`/shifts/${shift.id}`}>
+          <Link href={`/jobs-shifts/${shift.id}`}>
             <Button variant="outline" size="sm" className="text-xs">
               <Eye className="h-3 w-3 mr-1" />
               View Details

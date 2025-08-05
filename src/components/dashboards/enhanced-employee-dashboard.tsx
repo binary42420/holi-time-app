@@ -39,7 +39,7 @@ export function EnhancedEmployeeDashboard() {
   };
 
   const handleShiftClick = (shiftId: string) => {
-    router.push(`/shifts/${shiftId}`);
+    router.push(`/jobs-shifts/${shiftId}`);
   };
 
   // Calculate summary metrics for employee
