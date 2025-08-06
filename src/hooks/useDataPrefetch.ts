@@ -9,7 +9,8 @@ const useDataPrefetch = () => {
   const { user } = useUser();
 
   const prefetchWithPriority = useCallback(async () => {
-    if (!user) return;
+    // Don't prefetch during build time or SSR
+    if (!user || typeof window === 'undefined') return;
 
     try {
       console.log('Data prefetching enabled - user authenticated:', user.name);
@@ -51,7 +52,8 @@ const useDataPrefetch = () => {
   }, [user, queryClient]);
 
   useEffect(() => {
-    if (user) {
+    // Only run in browser environment with authenticated user
+    if (user && typeof window !== 'undefined') {
       // Increased debounce to reduce prefetching frequency
       const timeoutId = setTimeout(prefetchWithPriority, 500);
       return () => clearTimeout(timeoutId);

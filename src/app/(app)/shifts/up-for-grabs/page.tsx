@@ -8,6 +8,14 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
 
+// Helper function to get shift display name (prioritize description, fallback to job name)
+const getShiftDisplayName = (shift: any) => {
+  if (shift.description && shift.description.trim()) {
+    return shift.description.trim()
+  }
+  return shift.job?.name || 'Unknown Job'
+}
+
 interface UpForGrabsShift {
   id: string;
   roleCode: string;
@@ -98,7 +106,7 @@ export default function UpForGrabsPage() {
           {availableShifts.map(assignment => (
             <Card key={assignment.id}>
               <CardHeader>
-                <CardTitle>{assignment.shift.job.name}</CardTitle>
+                <CardTitle>{getShiftDisplayName(assignment.shift)}</CardTitle>
                 <p className="text-sm text-muted-foreground">{assignment.shift.job.company.name}</p>
               </CardHeader>
               <CardContent>

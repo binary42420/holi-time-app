@@ -7,6 +7,9 @@ import useDataPrefetch from "@/hooks/useDataPrefetch";
 import Header from "@/components/Header";
 import { LoadingProvider } from "@/providers/loading-provider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+
+// Force dynamic rendering for all pages under this layout
+export const dynamic = 'force-dynamic';
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   useDataPrefetch();
 

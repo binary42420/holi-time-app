@@ -35,6 +35,14 @@ import { format } from 'date-fns';
 import { DashboardPage } from '@/components/DashboardPage';
 import { cn } from '@/lib/utils';
 
+// Helper function to get shift display name (prioritize description, fallback to job name)
+const getShiftDisplayName = (shift: any) => {
+  if (shift.description && shift.description.trim()) {
+    return shift.description.trim()
+  }
+  return shift.job?.name || 'Unknown Job'
+}
+
 type FullJob = Job & {
   company: Company;
   shifts: Shift[];
@@ -559,7 +567,7 @@ export default function AdminDashboard() {
                             {(shiftsPage - 1) * shiftsPerPage + index + 1}
                           </div>
                           <div className="flex-1">
-                            <h4 className="font-bold text-foreground">{shift.job?.name || 'Unknown Job'}</h4>
+                            <h4 className="font-bold text-foreground">{getShiftDisplayName(shift)}</h4>
                             <div className="flex items-center gap-3 mt-2">
                               <CompanyAvatar
                                 src={shift.job?.company?.company_logo_url}

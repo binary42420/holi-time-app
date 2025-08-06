@@ -10,6 +10,14 @@ import { Enhanced3DStatusBadge, EnhancedDateStatusIndicator } from '@/components
 import { getShiftStatus, getShiftStatusDisplay } from '@/lib/shift-status'
 import { cn } from "@/lib/utils"
 
+// Helper function to get shift display name (prioritize description, fallback to job name)
+const getShiftDisplayName = (shift: any) => {
+  if (shift.description && shift.description.trim()) {
+    return shift.description.trim()
+  }
+  return shift.job?.name || 'Unknown Job'
+}
+
 interface CompanyDashboardClientProps {
   initialData: DashboardData
   companyId: string
@@ -172,7 +180,7 @@ export function CompanyDashboardClient({
                           {index + 1}
                         </div>
                         <div className="flex-1">
-                          <h4 className="font-bold text-foreground">{shift.job?.name || 'Unknown Job'}</h4>
+                          <h4 className="font-bold text-foreground">{getShiftDisplayName(shift)}</h4>
                           <div className="mt-2 flex items-center gap-2">
                             <Enhanced3DStatusBadge status={shiftStatus.status} size="sm" />
                             <EnhancedDateStatusIndicator

@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
+  // Disable static optimization for faster builds with database dependencies
+  trailingSlash: false,
   experimental: {
     serverComponentsExternalPackages: ['@prisma/client'],
     // Enable optimized package imports
@@ -26,7 +28,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Enhanced build optimization
+  // Enhanced build optimization with unique build ID
   generateBuildId: async () => {
     return 'build-' + Date.now();
   },

@@ -16,6 +16,14 @@ import { useToast } from "@/hooks/use-toast"
 import { format, isPast, isFuture, isToday, isYesterday, isTomorrow, differenceInHours } from 'date-fns';
 import { Progress } from "@/components/ui/progress"; // Assuming a Progress component exists
 
+// Helper function to get shift display name (prioritize description, fallback to job name)
+const getShiftDisplayName = (shift: any) => {
+  if (shift.description && shift.description.trim()) {
+    return shift.description.trim()
+  }
+  return shift.job?.name || 'Unknown Job'
+}
+
 // Helper functions for status indicators (copied from companies/[id]/page.tsx for consistency)
 const getShiftStatusColor = (status: string) => {
   switch (status?.toLowerCase()) {
@@ -346,7 +354,7 @@ export default function EmployeeProfilePage() {
                         <Calendar className="h-5 w-5 text-muted-foreground" />
                       </div>
                       <div className="flex-1">
-                        <p className="font-medium">{activity.shift.job?.name || 'Unknown Job'}</p>
+                        <p className="font-medium">{getShiftDisplayName(activity.shift)}</p>
                         <p className="text-sm text-muted-foreground">
                           {format(new Date(activity.shift.date), 'MMM d, yyyy')} - {format(new Date(activity.shift.startTime), 'h:mm a')} to {format(new Date(activity.shift.endTime), 'h:mm a')}
                         </p>

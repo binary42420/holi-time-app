@@ -20,6 +20,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ShiftStatus } from "@prisma/client"
 import { getAssignedWorkerCount, getTotalRequiredWorkers } from "@/lib/worker-count-utils"
 
+// Helper function to get shift display name (prioritize description, fallback to job name)
+const getShiftDisplayName = (shift: any, fallbackJobName?: string) => {
+  if (shift.description && shift.description.trim()) {
+    return shift.description.trim()
+  }
+  return shift.job?.name || fallbackJobName || 'Unnamed Shift'
+}
+
 // Helper functions for status indicators (copied from companies/[id]/page.tsx for consistency)
 const getShiftStatusColor = (status: string) => {
   switch (status?.toLowerCase()) {
@@ -147,14 +155,24 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
             Back to Jobs
           </Button>
         </div>
-        {canEdit && (
+        <div className="flex items-center gap-2">
           <Button
-            onClick={() => router.push(`/jobs/${job.id}/edit`)}
+            variant="outline"
+            onClick={() => router.push(`/jobs/${jobId}/scheduling-timeline`)}
             className="flex items-center gap-2"
           >
-            Edit Job
+            <Calendar className="h-4 w-4" />
+            Timeline Scheduling
           </Button>
-        )}
+          {canEdit && (
+            <Button
+              onClick={() => router.push(`/jobs/${jobId}/edit`)}
+              className="flex items-center gap-2"
+            >
+              Edit Job
+            </Button>
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -235,17 +253,32 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
           </Card>
 
           {/* Enhanced Tabs Section */}
-          <Tabs defaultValue="recentShifts" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="recentShifts" className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                Recent Shifts ({recentShifts.length})
-              </TabsTrigger>
-              <TabsTrigger value="upcomingShifts" className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                Upcoming Shifts ({upcomingShifts.length})
-              </TabsTrigger>
-            </TabsList>
+          <div className="space-y-4">
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <h3 className="text-lg font-semibold">Shift Management</h3>
+              {canEdit && (
+                <Button
+                  onClick={() => router.push(`/jobs/${job.id}/shifts/new`)}
+                  className="flex items-center justify-center gap-2"
+                >
+                  <Plus className="h-4 w-4" />
+                  Add Shift
+                </Button>
+              )}
+            </div>
+            
+            <Tabs defaultValue="recentShifts" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="recentShifts" className="flex items-center gap-2">
+                  <Calendar className="h-4 w-4" />
+                  Recent Shifts ({recentShifts.length})
+                </TabsTrigger>
+                <TabsTrigger value="upcomingShifts" className="flex items-center gap-2">
+                  <Clock className="h-4 w-4" />
+                  Upcoming Shifts ({upcomingShifts.length})
+                </TabsTrigger>
+              </TabsList>
 
             <TabsContent value="recentShifts" className="space-y-4">
               <Card>
@@ -269,7 +302,7 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
                               <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-2">
                                   <div className={`w-3 h-3 rounded-full ${getShiftStatusColor(shift.status)}`} />
-                                  <h4 className="font-semibold">{shift.job?.name || job.name || 'Unnamed Shift'}</h4>
+                                  <h4 className="font-semibold">{getShiftDisplayName(shift, job?.name)}</h4>
                                 </div>
                                 <p className="text-sm text-muted-foreground mb-2">
                                   {new Date(shift.date).toLocaleDateString()} • {new Date(shift.startTime).toLocaleTimeString()} - {new Date(shift.endTime).toLocaleTimeString()}
@@ -331,7 +364,7 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
                               <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-2">
                                   <Clock className="h-4 w-4 text-blue-600" />
-                                  <h4 className="font-semibold">{shift.job?.name || job.name || 'Unnamed Shift'}</h4>
+                                  <h4 className="font-semibold">{getShiftDisplayName(shift, job?.name)}</h4>
                                 </div>
                                 <p className="text-sm text-muted-foreground mb-2">
                                   {new Date(shift.date).toLocaleDateString()} • {new Date(shift.startTime).toLocaleTimeString()} - {new Date(shift.endTime).toLocaleTimeString()}
@@ -384,6 +417,7 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
               </Card>
             </TabsContent>
           </Tabs>
+          </div>
 
           {canEdit && job && (
             <>

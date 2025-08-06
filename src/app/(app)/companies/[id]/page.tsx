@@ -19,6 +19,14 @@ import { useUser } from "@/hooks/use-user"
 import { ShiftStatus } from "@prisma/client"
 import { getAssignedWorkerCount, getTotalRequiredWorkers } from "@/lib/worker-count-utils"
 
+// Helper function to get shift display name (prioritize description, fallback to job name)
+const getShiftDisplayName = (shift: any) => {
+  if (shift.description && shift.description.trim()) {
+    return shift.description.trim()
+  }
+  return shift.job?.name || 'Unnamed Shift'
+}
+
 // Helper functions for status indicators
 const getShiftStatusColor = (status: string) => {
   switch (status?.toLowerCase()) {
@@ -298,16 +306,26 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
                       <Briefcase className="h-5 w-5" />
                       Recent Jobs
                     </CardTitle>
-                    {canEdit && (
+                    <div className="flex items-center gap-2">
                       <Button
+                        variant="outline"
                         size="sm"
-                        onClick={() => router.push(`/admin/jobs/new?companyId=${company.id}`)}
+                        onClick={() => router.push(`/companies/${company.id}/jobs`)}
                         className="flex items-center gap-2"
                       >
-                        <Plus className="h-4 w-4" />
-                        New Job
+                        View All Jobs
                       </Button>
-                    )}
+                      {canEdit && (
+                        <Button
+                          size="sm"
+                          onClick={() => router.push(`/admin/jobs/new?companyId=${company.id}`)}
+                          className="flex items-center gap-2"
+                        >
+                          <Plus className="h-4 w-4" />
+                          New Job
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -373,10 +391,20 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
             <TabsContent value="shifts" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Calendar className="h-5 w-5" />
-                    Recent Shifts
-                  </CardTitle>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Calendar className="h-5 w-5" />
+                      Recent Shifts
+                    </CardTitle>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => router.push(`/companies/${company.id}/shifts`)}
+                      className="flex items-center gap-2"
+                    >
+                      View All Shifts
+                    </Button>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   {recentShifts.length > 0 ? (
@@ -392,7 +420,7 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
                               <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-2">
                                   <div className={`w-3 h-3 rounded-full ${getShiftStatusColor(shift.status)}`} />
-                                  <h4 className="font-semibold">{shift.job ? shift.job.name : 'No Job Assigned'}</h4>
+                                  <h4 className="font-semibold">{getShiftDisplayName(shift)}</h4>
                                 </div>
                                 <p className="text-sm text-muted-foreground mb-2">
                                   {new Date(shift.date).toLocaleDateString()} • {new Date(shift.startTime).toLocaleTimeString()} - {new Date(shift.endTime).toLocaleTimeString()}
@@ -443,10 +471,20 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
             <TabsContent value="upcoming" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Clock className="h-5 w-5" />
-                    Upcoming Shifts
-                  </CardTitle>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Clock className="h-5 w-5" />
+                      Upcoming Shifts
+                    </CardTitle>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => router.push(`/companies/${company.id}/upcoming`)}
+                      className="flex items-center gap-2"
+                    >
+                      View All Upcoming
+                    </Button>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   {upcomingShifts.length > 0 ? (
@@ -462,7 +500,7 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
                               <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-2">
                                   <Clock className="h-4 w-4 text-blue-600" />
-                                  <h4 className="font-semibold">{shift.job ? shift.job.name : 'No Job Assigned'}</h4>
+                                  <h4 className="font-semibold">{getShiftDisplayName(shift)}</h4>
                                 </div>
                                 <p className="text-sm text-muted-foreground mb-2">
                                   {new Date(shift.date).toLocaleDateString()} • {new Date(shift.startTime).toLocaleTimeString()} - {new Date(shift.endTime).toLocaleTimeString()}

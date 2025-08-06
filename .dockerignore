@@ -1,24 +1,104 @@
+# Dependencies
+**/node_modules
+**/npm-debug.log
+**/.pnpm-debug.log*
+
+# Build outputs
+**/.next*
+**/out
+**/build
+**/dist
+
+# Environment files
+**/.env*
+!**/.env.example
+
+# IDE and editor files
+**/.vscode
+**/.vs
+**/.idea
 **/.classpath
-**/.dockerignore
-**/.env
-**/.git
-**/.gitignore
 **/.project
 **/.settings
 **/.toolstarget
-**/.vs
-**/.vscode
 **/*.*proj.user
 **/*.dbmdl
 **/*.jfm
-**/charts
+
+# OS generated files
+**/.DS_Store
+**/Thumbs.db
+
+# Git
+**/.git
+**/.gitignore
+
+# Docker
+**/Dockerfile*
 **/docker-compose*
 **/compose*
-**/Dockerfile*
-**/node_modules
-**/npm-debug.log
-**/obj
+**/.dockerignore
+
+# Charts and deployment
+**/charts
 **/secrets.dev.yaml
 **/values.dev.yaml
+
+# Documentation
 LICENSE
 README.md
+**/docs
+**/*.md
+!package*.json
+
+# Test files
+**/coverage
+**/.nyc_output
+**/test-results
+**/playwright-report
+
+# Temporary files
+**/tmp
+**/temp
+**/.tmp
+**/.temp
+
+# Logs
+**/logs
+**/*.log
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+
+# Cache directories
+**/.cache
+**/.parcel-cache
+**/.npm
+**/.yarn
+**/node_modules/.cache
+
+# TypeScript build info
+**/tsconfig.tsbuildinfo
+
+# Optional npm cache directory
+**/.npm
+
+# ESLint cache
+**/.eslintcache
+
+# Prisma migrations (if you have a large migration history)
+# Uncomment if needed:
+# **/prisma/migrations
+
+# Large files that aren't needed for build
+**/*.csv
+**/*.xlsx
+**/*.pdf
+**/*.zip
+**/*.tar.gz
+**/*.sql
+
+# Scripts that aren't needed in container
+**/*.ps1
+**/*.sh
+**/*.bat

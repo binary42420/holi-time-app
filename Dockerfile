@@ -21,6 +21,9 @@ RUN apt-get update -y && apt-get install -y openssl ca-certificates && rm -rf /v
 # Generate Prisma client
 RUN npx prisma generate
 
+ENV NODE_OPTIONS="--max-old-space-size=8192"
+
+
 # Build the application
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV NODE_ENV production

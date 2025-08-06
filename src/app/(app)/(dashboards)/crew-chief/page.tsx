@@ -22,6 +22,14 @@ import { format } from 'date-fns';
 import { DashboardPage } from '@/components/DashboardPage';
 import { cn } from '@/lib/utils';
 
+// Helper function to get shift display name (prioritize description, fallback to job name)
+const getShiftDisplayName = (shift: any) => {
+  if (shift.description && shift.description.trim()) {
+    return shift.description.trim()
+  }
+  return shift.job?.name || 'Unknown Job'
+}
+
 type ActiveShift = Shift & {
   job: Job & {
     company: Company;
@@ -182,7 +190,7 @@ export default function CrewChiefDashboard() {
                       
                       <CardHeader className="pb-3 relative z-10">
                         <div className="flex items-start justify-between">
-                          <CardTitle className="text-lg font-bold text-foreground">{shift.job?.name || 'Unknown Job'}</CardTitle>
+                          <CardTitle className="text-lg font-bold text-foreground">{getShiftDisplayName(shift)}</CardTitle>
                           <Enhanced3DStatusBadge status={shiftStatus.status} size="sm" />
                         </div>
                         <div className="flex items-center gap-2">

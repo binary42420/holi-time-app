@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast"; // Import useToast
 import { CompanyAvatar } from "@/components/CompanyAvatar";
 import { useUser } from "@/hooks/use-user";
 import { UnifiedStatusBadge } from "@/components/ui/unified-status-badge";
+import { getShiftDisplayName } from "@/lib/shift-display-utils";
 
 interface ShiftHeaderProps {
   shift: ShiftWithDetails;
