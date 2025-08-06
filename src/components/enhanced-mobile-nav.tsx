@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { UnifiedStatusBadge } from '@/components/ui/unified-status-badge';
 import { Avatar } from '@/components/Avatar';
+import { useNavigationPerformance } from '@/hooks/use-navigation-performance';
 import { 
   Menu,
   Home,
@@ -72,6 +73,13 @@ export function EnhancedMobileNav({
   className 
 }: EnhancedMobileNavProps) {
   const [open, setOpen] = React.useState(false);
+  
+  // Enhanced navigation performance
+  const { navigateWithPrefetch, handleHover, cancelHover } = useNavigationPerformance({
+    enableHoverPrefetch: true,
+    enableRoutePreloading: true,
+    prefetchDelay: 200, // Faster for mobile interactions
+  });
 
   const isActivePath = (href: string) => {
     if (href === '/') return currentPath === '/';
@@ -156,7 +164,14 @@ export function EnhancedMobileNav({
                   <div key={item.href}>
                     <Link 
                       href={item.href}
-                      onClick={() => setOpen(false)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setOpen(false);
+                        navigateWithPrefetch(item.href);
+                      }}
+                      onMouseEnter={() => handleHover(item.href)}
+                      onMouseLeave={cancelHover}
+                      onTouchStart={() => handleHover(item.href)} // For mobile touch interactions
                       className={cn(
                         "flex items-center justify-between w-full px-3 py-3 text-sm font-medium rounded-lg transition-colors",
                         isActive 
@@ -206,7 +221,14 @@ export function EnhancedMobileNav({
                           <Link
                             key={subItem.href}
                             href={subItem.href}
-                            onClick={() => setOpen(false)}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setOpen(false);
+                              navigateWithPrefetch(subItem.href);
+                            }}
+                            onMouseEnter={() => handleHover(subItem.href)}
+                            onMouseLeave={cancelHover}
+                            onTouchStart={() => handleHover(subItem.href)}
                             className={cn(
                               "flex items-center justify-between w-full px-3 py-2 text-sm rounded-md transition-colors",
                               currentPath === subItem.href

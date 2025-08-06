@@ -4,6 +4,9 @@ import { useEffect, useMemo } from "react"
 import { useRouter, useParams } from 'next/navigation';
 import { useUserById } from '@/hooks/use-api';
 import { useUser } from "@/hooks/use-user";
+import { useNavigationPerformance } from "@/hooks/use-navigation-performance";
+import { useEmployeeCache } from "@/hooks/use-entity-cache";
+import { useEnhancedPerformance } from "@/hooks/use-enhanced-performance";
 import { UserRole, ShiftStatus } from '@prisma/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -65,7 +68,34 @@ export default function EmployeeProfilePage() {
   const router = useRouter();
   const { user: currentUser } = useUser();
   const { toast } = useToast()
-  const { data: employee, isLoading, isError, refetch } = useUserById(id as string);
+  
+  // Enhanced navigation performance
+  const { navigateWithPrefetch, handleHover, cancelHover } = useNavigationPerformance({
+    enableHoverPrefetch: true,
+    enableRoutePreloading: true,
+  });
+  
+  // Performance optimizations
+  const { smartPrefetch } = useEnhancedPerformance();
+  
+  // Enhanced employee caching with related data prefetching
+  const { 
+    data: employee, 
+    isLoading, 
+    isError, 
+    refetch,
+    hasPrefetchedRelated
+  } = useEmployeeCache(id as string, {
+    prefetchRelated: true,
+    maxRelatedPrefetch: 5,
+  });
+
+  // Prefetch employee page data on mount
+  useEffect(() => {
+    if (currentUser && id) {
+      smartPrefetch(`/employees/${id}`);
+    }
+  }, [currentUser, id, smartPrefetch]);
 
   // Check if current user can edit this profile
   const canEdit = currentUser && (
@@ -219,7 +249,9 @@ export default function EmployeeProfilePage() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => router.push('/employees')}
+            onClick={() => navigateWithPrefetch('/employees')}
+            onMouseEnter={() => handleHover('/employees')}
+            onMouseLeave={cancelHover}
             className="flex items-center gap-2"
           >
             <ArrowLeft className="h-4 w-4" />

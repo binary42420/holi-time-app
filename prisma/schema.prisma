@@ -203,6 +203,13 @@ model Shift {
   @@index([date, status])
   @@index([status, date])
   @@index([jobId, status])
+  @@index([startTime])
+  @@index([endTime])
+  @@index([date, startTime])
+  @@index([date, endTime])
+  @@index([jobId, date, status])
+  @@index([createdAt])
+  @@index([updatedAt])
   @@map("shifts")
 }
 
@@ -232,6 +239,11 @@ model Job {
   @@index([companyId, status])
   @@index([status, startDate])
   @@index([companyId, startDate])
+  @@index([createdAt])
+  @@index([updatedAt])
+  @@index([name])
+  @@index([companyId, name])
+  @@index([status, createdAt])
   @@map("jobs")
 }
 

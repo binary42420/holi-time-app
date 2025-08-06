@@ -7,6 +7,8 @@ import { useUser } from "@/hooks/use-user"
 import { useJobs, useCompanies } from "@/hooks/use-api"
 import { useEnhancedPerformance } from "@/hooks/use-enhanced-performance"
 import { useCacheManagement } from "@/hooks/use-cache-management"
+import { useNavigationPerformance } from "@/hooks/use-navigation-performance"
+import { useHoverPrefetch } from "@/hooks/use-intelligent-prefetch"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -61,6 +63,14 @@ export default function JobsShiftsPage() {
   const router = useRouter()
   const { smartPrefetch, prefetchForPage } = useEnhancedPerformance()
   const { refreshShifts, isDevelopment } = useCacheManagement()
+  
+  // Enhanced navigation performance
+  const { navigateWithPrefetch, handleHover, cancelHover } = useNavigationPerformance({
+    enableHoverPrefetch: true,
+    enableRoutePreloading: true,
+  })
+  
+  const { cancelHover: cancelIntelligentHover } = useHoverPrefetch()
 
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
@@ -133,12 +143,15 @@ export default function JobsShiftsPage() {
   }
 
   const handleJobView = (jobId: string) => {
-    prefetchForPage(`/jobs/${jobId}`);
-    router.push(`/jobs/${jobId}`)
+    navigateWithPrefetch(`/jobs/${jobId}`)
   }
 
   const handleJobEdit = (jobId: string) => {
-    router.push(`/jobs/${jobId}/edit`)
+    navigateWithPrefetch(`/jobs/${jobId}/edit`)
+  }
+
+  const handleJobHover = (jobId: string) => {
+    handleHover(`/jobs/${jobId}`)
   }
 
   const handleJobDelete = async (jobId: string, jobName: string) => {
@@ -161,13 +174,19 @@ export default function JobsShiftsPage() {
   }
 
   const handleShiftClick = (shiftId: string) => {
-    prefetchForPage(`/jobs-shifts/${shiftId}`);
-    router.push(`/jobs-shifts/${shiftId}`)
+    navigateWithPrefetch(`/jobs-shifts/${shiftId}`)
   }
 
   const handleCompanyClick = (companyId: string) => {
-    prefetchForPage(`/companies/${companyId}`);
-    router.push(`/companies/${companyId}`)
+    navigateWithPrefetch(`/companies/${companyId}`)
+  }
+
+  const handleShiftHover = (shiftId: string) => {
+    handleHover(`/jobs-shifts/${shiftId}`)
+  }
+
+  const handleCompanyHover = (companyId: string) => {
+    handleHover(`/companies/${companyId}`)
   }
 
   if (!mounted || isLoading) {
@@ -241,7 +260,12 @@ export default function JobsShiftsPage() {
           </div>
           <div className="flex gap-2">
             {canManage && (
-              <Button onClick={() => router.push('/admin/jobs/new')} className="bg-primary hover:bg-primary/90">
+              <Button 
+                onClick={() => navigateWithPrefetch('/admin/jobs/new')}
+                onMouseEnter={() => handleHover('/admin/jobs/new')}
+                onMouseLeave={cancelHover}
+                className="bg-primary hover:bg-primary/90"
+              >
                 <Plus className="h-4 w-4 mr-2" />
                 Create New Job
               </Button>
@@ -351,6 +375,8 @@ export default function JobsShiftsPage() {
                 key={job.id}
                 className="group hover:shadow-lg transition-all duration-300 cursor-pointer card-consistent hover:border-primary/30"
                 onClick={() => handleJobView(job.id)}
+                onMouseEnter={() => handleJobHover(job.id)}
+                onMouseLeave={cancelHover}
               >
                 <CardContent className="p-6">
                   <div className="space-y-5">
@@ -372,6 +398,8 @@ export default function JobsShiftsPage() {
                               e.stopPropagation();
                               handleCompanyClick(job.company?.id);
                             }}
+                            onMouseEnter={() => handleCompanyHover(job.company?.id)}
+                            onMouseLeave={cancelHover}
                             className="text-sm text-primary hover:text-primary/80 truncate transition-colors flex items-center gap-1"
                           >
                             {job.company?.name}
@@ -425,6 +453,8 @@ export default function JobsShiftsPage() {
                             e.stopPropagation();
                             handleCompanyClick(job.company?.id);
                           }}
+                          onMouseEnter={() => handleCompanyHover(job.company?.id)}
+                          onMouseLeave={cancelHover}
                           className="text-xs text-primary hover:text-primary/80 transition-colors flex items-center gap-1"
                         >
                           View Company
@@ -477,6 +507,8 @@ export default function JobsShiftsPage() {
                               e.stopPropagation();
                               handleShiftClick(shift.id);
                             }}
+                            onMouseEnter={() => handleShiftHover(shift.id)}
+                            onMouseLeave={cancelHover}
                             className={`block p-4 rounded-lg border transition-all hover:shadow-lg group/shift ${
                               shiftStatus.isLive
                                 ? 'bg-error/10 border-error/40 hover:border-error/60 hover:shadow-error/20'

@@ -27,9 +27,9 @@ class ServerCache {
   constructor(config: Partial<CacheConfig> = {}) {
     this.config = {
       defaultStaleTime: 5 * 60 * 1000, // 5 minutes
-      maxSize: 1000,
+      maxSize: 2000,
       cleanupInterval: 10 * 60 * 1000, // 10 minutes
-      maxMemoryMB: 100, // 100MB memory limit
+      maxMemoryMB: 200, // 100MB memory limit
       compressionEnabled: true,
       ...config
     }

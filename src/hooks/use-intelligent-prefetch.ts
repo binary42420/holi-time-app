@@ -69,9 +69,9 @@ const PREFETCH_RULES: PrefetchRule[] = [
     ],
   },
 
-  // Admin jobs page prefetching
+  // Admin jobs-shifts page prefetching
   {
-    condition: (path, role) => path === '/admin/jobs' && role === 'Admin',
+    condition: (path, role) => path === '/admin/jobs-shifts' && role === 'Admin',
     queries: [
       {
         queryKey: createSmartCacheKey('jobs'),
@@ -80,9 +80,40 @@ const PREFETCH_RULES: PrefetchRule[] = [
         staleTime: 5 * 60 * 1000,
       },
       {
+        queryKey: createSmartCacheKey('shifts', { status: 'active' }),
+        queryFn: () => apiService.getShifts({ status: 'active' }),
+        priority: 'high',
+        staleTime: 2 * 60 * 1000,
+      },
+      {
         queryKey: createSmartCacheKey('companies'),
         queryFn: () => apiService.getCompanies(),
         priority: 'high',
+        staleTime: 15 * 60 * 1000,
+      },
+    ],
+  },
+
+  // Jobs-shifts page prefetching (for all users)
+  {
+    condition: (path) => path === '/jobs-shifts',
+    queries: [
+      {
+        queryKey: createSmartCacheKey('jobs'),
+        queryFn: () => apiService.getJobs(),
+        priority: 'high',
+        staleTime: 5 * 60 * 1000,
+      },
+      {
+        queryKey: createSmartCacheKey('shifts', { status: 'upcoming' }),
+        queryFn: () => apiService.getShifts({ status: 'upcoming' }),
+        priority: 'high',
+        staleTime: 2 * 60 * 1000,
+      },
+      {
+        queryKey: createSmartCacheKey('companies'),
+        queryFn: () => apiService.getCompanies(),
+        priority: 'medium',
         staleTime: 15 * 60 * 1000,
       },
     ],
@@ -142,12 +173,13 @@ const PREFETCH_RULES: PrefetchRule[] = [
 
 // Navigation patterns for predictive prefetching
 const NAVIGATION_PATTERNS = {
-  '/admin': ['/admin/shifts', '/admin/jobs', '/admin/timesheets'],
-  '/admin/shifts': ['/shifts/[id]', '/admin/jobs'],
-  '/admin/jobs': ['/jobs/[id]', '/admin/shifts'],
+  '/admin': ['/admin/shifts', '/admin/jobs-shifts', '/admin/timesheets'],
+  '/admin/shifts': ['/shifts/[id]', '/admin/jobs-shifts'],
+  '/admin/jobs-shifts': ['/jobs/[id]', '/admin/shifts'],
   '/admin/timesheets': ['/timesheets/[id]'],
-  '/dashboard': ['/shifts', '/profile'],
+  '/dashboard': ['/shifts', '/jobs-shifts', '/profile'],
   '/shifts': ['/shifts/[id]'],
+  '/jobs-shifts': ['/jobs/[id]', '/shifts'],
 };
 
 export const useIntelligentPrefetch = () => {

@@ -15,6 +15,9 @@
 /* Import custom animations */
 @import '../styles/animations.css';
 
+/* Import job timeline styles */
+@import '../styles/job-timeline.css';
+
 @layer base {
   :root {
     /* Primary Brand Colors - Mobile-First Blue Theme */

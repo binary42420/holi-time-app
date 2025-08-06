@@ -1,9 +1,11 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useUser } from "@/hooks/use-user"
 import { useUsers } from "@/hooks/use-api"
+import { useEnhancedPerformance } from "@/hooks/use-enhanced-performance"
+import { useHoverPrefetch } from "@/hooks/use-intelligent-prefetch"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -66,6 +68,17 @@ export default function EmployeesPage() {
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all')
   const [page, setPage] = useState(1)
   const [mounted, setMounted] = useState(false)
+  
+  // Performance optimizations
+  const { smartPrefetch, prefetchForPage } = useEnhancedPerformance()
+  const { cancelHover } = useHoverPrefetch()
+
+  // Prefetch employees page data on mount
+  useEffect(() => {
+    if (user) {
+      smartPrefetch('/employees');
+    }
+  }, [user, smartPrefetch]);
 
   // Ensure component is mounted on client side to prevent hydration mismatch
   React.useEffect(() => {
@@ -158,9 +171,11 @@ export default function EmployeesPage() {
     try {
       switch (action) {
         case 'view':
+          prefetchForPage(`/employees/${userId}`)
           router.push(`/employees/${userId}`)
           break
         case 'edit':
+          prefetchForPage(`/admin/employees/${userId}/edit`)
           router.push(`/admin/employees/${userId}/edit`)
           break
         case 'delete':
@@ -188,6 +203,11 @@ export default function EmployeesPage() {
         variant: "destructive",
       })
     }
+  }
+
+  const handleEmployeeHover = (userId: string) => {
+    // Prefetch employee details on hover
+    prefetchForPage(`/employees/${userId}`)
   }
 
   if (!mounted || isLoading) {
@@ -360,20 +380,17 @@ export default function EmployeesPage() {
               {filteredUsers.map((employee: User) => (
                 <Card
                   key={employee.id}
-                  className="bg-gray-800 border-gray-700 hover:bg-gray-750 transition-colors"
+                  className="bg-gray-800 border-gray-700 hover:bg-gray-750 transition-colors cursor-pointer"
+                  onMouseEnter={() => handleEmployeeHover(employee.id)}
+                  onMouseLeave={cancelHover}
+                  onClick={() => handleUserAction('view', employee.id, employee.name)}
                 >
                   <CardContent className="p-6">
                     <div className="space-y-4">
                       {/* Header */}
                       <div className="flex items-start justify-between">
                         <div className="flex items-center space-x-3 flex-1 min-w-0">
-                          <div 
-                            className="cursor-pointer hover:opacity-80 transition-opacity"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              router.push(`/employees/${employee.id}`);
-                            }}
-                          >
+                          <div className="hover:opacity-80 transition-opacity">
                             <Avatar
                               src={employee.avatarUrl}
                               name={employee.name || employee.email || 'U'}

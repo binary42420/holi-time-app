@@ -4,6 +4,8 @@ import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useCompany, useCompanies, useJobs, useShifts } from "@/hooks/use-api"
 import { useQueryClient } from '@tanstack/react-query'
+import { useNavigationPerformance } from "@/hooks/use-navigation-performance"
+import { useCompanyCache } from "@/hooks/use-entity-cache"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -71,8 +73,25 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
   const canEdit = user?.role === 'Admin'
 
   const queryClient = useQueryClient();
+  
+  // Enhanced navigation performance
+  const { navigateWithPrefetch, handleHover, cancelHover } = useNavigationPerformance({
+    enableHoverPrefetch: true,
+    enableRoutePreloading: true,
+  });
 
-  const { data: company, isLoading: singleCompanyLoading, isError: singleCompanyError, refetch: refetchCompany } = useCompany(companyId);
+  // Enhanced company caching with related data prefetching
+  const { 
+    data: company, 
+    isLoading: singleCompanyLoading, 
+    isError: singleCompanyError, 
+    refetch: refetchCompany,
+    hasPrefetchedRelated
+  } = useCompanyCache(companyId, {
+    prefetchRelated: true,
+    maxRelatedPrefetch: 10,
+  });
+
   const { data: jobs, isLoading: jobsLoading, isError: jobsError, refetch: refetchJobs } = useJobs({ companyId });
   const { data: shifts, isLoading: shiftsLoading, isError: shiftsError, refetch: refetchShifts } = useShifts({ companyId });
 
@@ -150,7 +169,9 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => router.push('/companies')}
+            onClick={() => navigateWithPrefetch('/companies')}
+            onMouseEnter={() => handleHover('/companies')}
+            onMouseLeave={cancelHover}
             className="flex items-center gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -159,7 +180,9 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
         </div>
         {canEdit && (
           <Button
-            onClick={() => router.push(`/admin/companies/${company.id}/edit`)}
+            onClick={() => navigateWithPrefetch(`/admin/companies/${company.id}/edit`)}
+            onMouseEnter={() => handleHover(`/admin/companies/${company.id}/edit`)}
+            onMouseLeave={cancelHover}
             className="flex items-center gap-2"
           >
             Edit Company
@@ -335,7 +358,7 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
                         <Card 
                           key={job.id} 
                           className="cursor-pointer hover:bg-accent/50 transition-colors" 
-                          onClick={() => router.push(`/jobs/${job.id}`)}
+                          onClick={() => router.push(`/jobs-shifts?jobId=${job.id}`)}
                         >
                           <CardContent className="p-4">
                             <div className="flex items-center justify-between">

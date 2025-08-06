@@ -86,11 +86,11 @@ function AdminJobsPage() {
   }
 
   const handleJobView = (jobId: string) => {
-    router.push(`/jobs/${jobId}`)
+    router.push(`/jobs-shifts?jobId=${jobId}`)
   }
 
   const handleJobEdit = (jobId: string) => {
-    router.push(`/jobs/${jobId}/edit`)
+    router.push(`/admin/jobs/${jobId}/edit`)
   }
 
   const handleJobDelete = async (jobId: string, jobName: string) => {

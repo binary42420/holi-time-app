@@ -1,7 +1,7 @@
 {
-  "name": "Hands On Labor - Mobile Workforce",
-  "short_name": "HOL Mobile",
-  "description": "Mobile workforce management for field employees",
+  "name": "Hands On Labor - WFM Portal",
+  "short_name": "HOLi Mobile",
+  "description": "Mobile workforce management",
   "start_url": "/dashboard",
   "display": "standalone",
   "background_color": "#ffffff",

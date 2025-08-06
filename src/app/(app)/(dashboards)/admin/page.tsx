@@ -244,7 +244,7 @@ export default function AdminDashboard() {
   }, [timesheets]);
 
   const handleJobClick = (jobId: string) => {
-    router.push(`/jobs/${jobId}`);
+    router.push(`/jobs-shifts?jobId=${jobId}`);
   };
 
   const handleShiftClick = (shiftId: string) => {

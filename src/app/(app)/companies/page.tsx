@@ -1,10 +1,12 @@
 "use client"
 
-import React, { useState, useMemo } from "react"
+import React, { useState, useMemo, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { useUser } from "@/hooks/use-user"
 import { useCompanies } from "@/hooks/use-api"
+import { useEnhancedPerformance } from "@/hooks/use-enhanced-performance"
+import { useHoverPrefetch } from "@/hooks/use-intelligent-prefetch"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -22,6 +24,17 @@ export default function CompaniesPage() {
   const companies = data?.companies || []
   const [searchTerm, setSearchTerm] = useState('')
   const [mounted, setMounted] = useState(false)
+  
+  // Performance optimizations
+  const { smartPrefetch, prefetchForPage } = useEnhancedPerformance()
+  const { cancelHover } = useHoverPrefetch()
+
+  // Prefetch companies page data on mount
+  useEffect(() => {
+    if (user) {
+      smartPrefetch('/companies');
+    }
+  }, [user, smartPrefetch]);
 
   // Ensure component is mounted on client side to prevent hydration mismatch
   React.useEffect(() => {
@@ -37,7 +50,13 @@ export default function CompaniesPage() {
   }, [companies, searchTerm])
 
   const handleRowClick = (companyId: string) => {
+    prefetchForPage(`/companies/${companyId}`)
     router.push(`/companies/${companyId}`)
+  }
+
+  const handleCompanyHover = (companyId: string) => {
+    // Prefetch company details, jobs, and shifts on hover
+    prefetchForPage(`/companies/${companyId}`)
   }
 
   if (!mounted || loading) {
@@ -152,6 +171,8 @@ export default function CompaniesPage() {
                   key={company.id}
                   className="bg-gray-800 border-gray-700 hover:bg-gray-750 transition-colors cursor-pointer"
                   onClick={() => handleRowClick(company.id)}
+                  onMouseEnter={() => handleCompanyHover(company.id)}
+                  onMouseLeave={cancelHover}
                 >
                   <CardContent className="p-6">
                     <div className="space-y-4">

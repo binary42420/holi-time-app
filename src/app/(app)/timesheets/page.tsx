@@ -1,10 +1,13 @@
 "use client"
 
-import { useState, useMemo, Suspense } from "react"
+import { useState, useMemo, Suspense, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useQueryClient } from '@tanstack/react-query'
 import { useUser } from "@/hooks/use-user"
 import { useTimesheets } from "@/hooks/use-api"
+import { useNavigationPerformance } from "@/hooks/use-navigation-performance"
+import { useTimesheetCache } from "@/hooks/use-entity-cache"
+import { useEnhancedPerformance } from "@/hooks/use-enhanced-performance"
 import { format } from "date-fns"
 import type { TimesheetDetails } from "@/lib/types"
 import { TimesheetDetails as TimesheetDetailsComponent } from "@/components/timesheet-details"
@@ -25,6 +28,15 @@ function TimesheetsContent() {
   const selectedTimesheetId = searchParams.get('id');
 
   const [activeTab, setActiveTab] = useState('pending_client_approval');
+  
+  // Enhanced navigation performance
+  const { navigateWithPrefetch, handleHover, cancelHover } = useNavigationPerformance({
+    enableHoverPrefetch: true,
+    enableRoutePreloading: true,
+  });
+  
+  // Performance optimizations
+  const { smartPrefetch } = useEnhancedPerformance();
 
   const { data: timesheetsData, isLoading: loading, error, refetch } = useTimesheets({ status: activeTab });
 
@@ -35,15 +47,19 @@ function TimesheetsContent() {
 
   const queryClient = useQueryClient();
 
+  // Prefetch timesheets page data on mount
+  useEffect(() => {
+    if (user) {
+      smartPrefetch('/timesheets');
+    }
+  }, [user, smartPrefetch]);
+
   const handlePrefetchTimesheet = (id: string) => {
-    queryClient.prefetchQuery({
-      queryKey: ['timesheet', id],
-      queryFn: async () => {
-        const response = await fetch(`/api/timesheets/${id}`)
-        if (!response.ok) throw new Error('Failed to fetch timesheet')
-        return response.json()
-      },
-    });
+    handleHover(`/timesheets/${id}/review`);
+  };
+
+  const handleTimesheetClick = (id: string) => {
+    navigateWithPrefetch(`/timesheets/${id}/review`);
   };
 
   const getStatusBadgeVariant = (status: string) => {
@@ -181,7 +197,8 @@ function TimesheetsContent() {
                           : ''
                       }`}
                       onMouseEnter={() => handlePrefetchTimesheet(timesheet.id)}
-                      onClick={() => router.push(`/timesheets/${timesheet.id}/review`)}
+                      onMouseLeave={cancelHover}
+                      onClick={() => handleTimesheetClick(timesheet.id)}
                     >
                       <CardContent className="p-4">
                         <div className="space-y-2">
