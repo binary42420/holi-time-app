@@ -2114,10 +2114,9 @@ export default function SchedulingTimelineDashboard({ jobId }: SchedulingTimelin
                           </Button>
                         </div>
                       </div>
+                    </>
                     )}
                   </div>
-                      </>
-                    )}
                 </div>
               )
             })}
