@@ -23,25 +23,132 @@ export enum UserRole {
   Employee = 'Employee'
 }
 
-export type {
-  PrismaCompany,
-  PrismaJob,
-  PrismaShift,
-  PrismaAssignment,
-  PrismaTimeEntry,
-  PrismaUser,
-  PrismaCrewChiefPermission,
-  PrismaTimesheet,
-  PrismaJobStatus,
-  PrismaShiftStatus,
-  PrismaNotification,
-  PrismaAnnouncement,
-  PrismaWorkerStatus
-};
+// Basic type definitions (client-safe)
+export interface Company {
+  id: string;
+  name: string;
+  slug: string;
+  contactEmail: string;
+  contactPhone?: string;
+  address?: string;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-// Manually defined enums based on schema strings
-// Removed export const ShiftStatus and JobStatus as they are imported from Prisma
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  isActive: boolean;
+  companyId?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
+export interface Job {
+  id: string;
+  title: string;
+  description?: string;
+  location: string;
+  companyId: string;
+  status: string;
+  startDate: Date;
+  endDate?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Shift {
+  id: string;
+  jobId: string;
+  date: Date;
+  startTime: string;
+  endTime: string;
+  status: string;
+  maxCapacity: number;
+  currentCount: number;
+  hourlyRate: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// Additional interfaces for client-side use
+export interface Assignment {
+  id: string;
+  shiftId: string;
+  userId: string;
+  status: string;
+  assignedAt: Date;
+}
+
+export interface TimeEntry {
+  id: string;
+  userId: string;
+  shiftId: string;
+  clockInTime: Date;
+  clockOutTime?: Date;
+  breakStartTime?: Date;
+  breakEndTime?: Date;
+  totalHours?: number;
+}
+
+export interface Notification {
+  id: string;
+  userId: string;
+  type: string;
+  title: string;
+  message: string;
+  isRead: boolean;
+  createdAt: Date;
+}
+
+export interface Announcement {
+  id: string;
+  title: string;
+  content: string;
+  authorId: string;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CrewChiefPermission {
+  id: string;
+  userId: string;
+  companyId: string;
+  grantedBy: string;
+  grantedAt: Date;
+}
+
+export interface Timesheet {
+  id: string;
+  userId: string;
+  weekStarting: Date;
+  weekEnding: Date;
+  totalHours: number;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// Extended interfaces with relations (client-safe)
+export interface UserWithAssignments extends User {
+  assignments?: Assignment[];
+}
+
+export interface ShiftWithDetails extends Shift {
+  job?: Job;
+  assignments?: Assignment[];
+}
+
+export interface TimesheetDetails extends Timesheet {
+  user?: User;
+  timeEntries?: TimeEntry[];
+}
+
+// Manually defined enums and constants
 export const WorkerRoles = {
   CrewChief: 'CC',
   StageHand: 'SH',

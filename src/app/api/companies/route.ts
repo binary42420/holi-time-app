@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/middleware';
 import { prisma } from '@/lib/prisma';
 import { getAllCompanies } from '@/lib/services/companies';
+import { UserRole } from '@/lib/types';
 import { z } from 'zod';
 
 const companySchema = z.object({
@@ -14,7 +15,7 @@ const companySchema = z.object({
 export async function GET(request: NextRequest) {
   try {
     const user = await getCurrentUser(request);
-    if (!user || !['Admin', 'Manager', 'CrewChief'].includes(user.role)) {
+    if (!user || ![UserRole.Admin, UserRole.CrewChief].includes(user.role)) {
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }

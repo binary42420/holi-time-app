@@ -1,5 +1,6 @@
 import { prisma } from '../prisma';
-import { Prisma, Company, UserRole, User } from '@prisma/client';
+import { Prisma, Company, User } from '@prisma/client';
+import { UserRole } from '@/lib/types';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import { hasAnyRole } from '../auth';

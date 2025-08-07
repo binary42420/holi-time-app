@@ -101,6 +101,7 @@ export async function GET(request: NextRequest) {
                     id: true,
                     name: true,
                     email: true,
+                    // Explicitly exclude avatarData and other large fields
                   },
                 },
               },

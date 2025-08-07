@@ -366,7 +366,7 @@ function AdminJobsPage() {
                           
                           const isCompleted = shiftStatus.isCompleted;
                           const hasTimesheet = shift.timesheets && shift.timesheets.length > 0;
-                          const timesheet = hasTimesheet ? shift.timesheets[0] : null;
+                          const timesheet = hasTimesheet ? shift.timesheets![0] : null;
                           
                           return (
                             <Link 

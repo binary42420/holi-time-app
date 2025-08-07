@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/middleware';
 import { dbQueryService } from '@/lib/services/database-query-service';
-import { ShiftWithDetails, User } from '@/lib/types';
-import { UserRole } from '@prisma/client';
+import { ShiftWithDetails, User, UserRole } from '@/lib/types';
 import { prisma } from '@/lib/prisma';
 
 const shiftWithDetailsInclude = {
@@ -94,7 +93,7 @@ export async function GET(request: NextRequest) {
         ...assignment,
         user: assignment.user ? {
           ...assignment.user,
-          avatarUrl: assignment.user.avatarData ? `/api/users/${assignment.user.id}/avatar/image` : null,
+          avatarUrl: `/api/users/${assignment.user.id}/avatar/image`,
         } : null,
       }));
 

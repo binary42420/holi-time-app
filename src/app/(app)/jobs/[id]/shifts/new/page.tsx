@@ -23,37 +23,140 @@ interface JobShiftPageProps {
 }
 
 export default function NewJobShiftPage({ params }: JobShiftPageProps) {
-  const { id } = params
-  const { user } = useUser()
-  const router = useRouter()
-  const { toast } = useToast()
-  const [loading, setLoading] = useState(false)
-  const [showCustomLocation, setShowCustomLocation] = useState(false)
-  
-  const { data: jobsData, isLoading: jobsLoading } = useJobs()
-  const { data: usersData, isLoading: usersLoading } = useUsers()
-  const { data: shiftsData, isLoading: shiftsLoading } = useShifts({ jobId: id })
+  try {
+    const { id } = params
+    const { user } = useUser()
+    const router = useRouter()
+    const { toast } = useToast()
+    const [loading, setLoading] = useState(false)
+    const [showCustomLocation, setShowCustomLocation] = useState(false)
+    
+    const { data: jobsData, isLoading: jobsLoading } = useJobs()
+    const { data: usersData, isLoading: usersLoading } = useUsers()
+    const { data: shiftsData, isLoading: shiftsLoading } = useShifts({ jobId: id })
 
-  // Data processing with safe fallbacks
+    // CRITICAL: Early detection of data corruption with null safety
+    if (jobsData && usersData && typeof jobsData === 'object' && typeof usersData === 'object' && jobsData === usersData) {
+    console.error("CRITICAL ERROR: Hook data corruption detected - jobsData and usersData are identical!")
+    return (
+      <div className="flex items-center justify-center py-8">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-2 text-red-600">Data Corruption Error</h2>
+          <p className="text-muted-foreground mb-4">
+            A critical data corruption issue has been detected. Please refresh the page.
+          </p>
+          <Button onClick={() => window.location.reload()}>
+            Refresh Page
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  // Additional check: ensure jobsData doesn't contain user data structure
+  if (jobsData && typeof jobsData === 'object' && jobsData !== null && 'users' in jobsData) {
+    console.error("CRITICAL ERROR: jobsData contains users property - wrong data structure!")
+    return (
+      <div className="flex items-center justify-center py-8">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-2 text-red-600">Data Structure Error</h2>
+          <p className="text-muted-foreground mb-4">
+            Jobs data contains user information. Please refresh the page.
+          </p>
+          <Button onClick={() => window.location.reload()}>
+            Refresh Page
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  // Debug logging for data structure with error handling
+  try {
+    console.log("Raw hook data:", { 
+      usersData: usersData ? "present" : "null", 
+      usersDataType: typeof usersData,
+      usersDataIsArray: usersData ? Array.isArray(usersData) : "N/A",
+      jobsData: jobsData ? "present" : "null", 
+      jobsDataType: typeof jobsData,
+      jobsDataIsArray: jobsData ? Array.isArray(jobsData) : "N/A",
+      shiftsData: shiftsData ? "present" : "null",
+      shiftsDataType: typeof shiftsData
+    })
+    
+    // Additional safety check - ensure no data corruption
+    if (usersData && jobsData && usersData === jobsData) {
+      console.error("DATA CORRUPTION DETECTED: usersData and jobsData are the same object!")
+    }
+  } catch (loggingError) {
+    console.error("Error in debug logging:", loggingError)
+  }
+
+  // Final safety check before processing
+  if (usersData && typeof usersData !== 'object') {
+    console.error("CRITICAL: usersData is not an object:", usersData, typeof usersData)
+    return (
+      <div className="flex items-center justify-center py-8">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-2 text-red-600">Data Type Error</h2>
+          <p className="text-muted-foreground mb-4">
+            Invalid data type received. Please refresh the page.
+          </p>
+          <Button onClick={() => window.location.reload()}>
+            Refresh Page
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  // Data processing with safe fallbacks - ensure we always return a proper array
   const users = useMemo(() => {
     try {
-      // Early return for null/undefined
+      // Early return for null/undefined - always return empty array
       if (!usersData) {
+        console.log("usersData is null/undefined, returning empty array")
         return []
       }
+      
+      console.log("Processing usersData:", { 
+        type: typeof usersData, 
+        isObject: typeof usersData === 'object',
+        hasUsers: usersData && 'users' in usersData,
+        usersData: usersData
+      })
       
       // Handle the API response structure: { users: User[], pagination: any }
       if (usersData && typeof usersData === 'object' && 'users' in usersData) {
         const usersList = usersData.users
+        console.log("Found users property:", { 
+          usersList, 
+          isArray: Array.isArray(usersList),
+          length: Array.isArray(usersList) ? usersList.length : 'N/A'
+        })
+        
         if (Array.isArray(usersList)) {
           // Additional validation that each user has required properties
-          return usersList.filter((user): user is User => user && typeof user === 'object' && 'id' in user && user.id)
+          const validUsers = usersList.filter((user): user is User => {
+            const isValid = user && typeof user === 'object' && 'id' in user && !!user.id
+            if (!isValid) {
+              console.warn("Invalid user found:", user)
+            }
+            return isValid
+          })
+          console.log("Filtered valid users:", validUsers.length)
+          return validUsers
+        } else {
+          console.warn("usersData.users is not an array:", usersList, typeof usersList)
+          return []
         }
       }
       
       // Fallback for direct array (shouldn't happen with current API)
       if (Array.isArray(usersData)) {
-        return usersData.filter((user): user is User => user && typeof user === 'object' && 'id' in user && user.id)
+        console.log("usersData is direct array, processing...")
+        const validUsers = usersData.filter((user): user is User => user && typeof user === 'object' && 'id' in user && !!user.id)
+        return validUsers
       }
       
       console.warn("Unexpected usersData structure:", usersData, typeof usersData)
@@ -90,43 +193,96 @@ export default function NewJobShiftPage({ params }: JobShiftPageProps) {
   }, [shiftsData])
 
   const job = useMemo(() => {
-    if (!jobsData) return null
+    console.log("Processing job with jobsData:", { 
+      jobsData, 
+      jobsDataType: typeof jobsData,
+      isArray: Array.isArray(jobsData),
+      id: id
+    })
+    
+    if (!jobsData) {
+      console.log("jobsData is null/undefined, returning null")
+      return null
+    }
     
     try {
-      // Handle the API response structure: Job[] (already extracted by the apiService)
-      if (Array.isArray(jobsData)) {
-        return jobsData.find(j => j.id === id) || null
+      // Additional safety check - ensure jobsData doesn't contain user data
+      if (jobsData && typeof jobsData === 'object' && 'users' in jobsData) {
+        console.error("CRITICAL: jobsData contains user data instead of job data!", jobsData)
+        return null
       }
       
-      console.warn('Unexpected jobsData structure:', jobsData)
+      // Handle the API response structure: Job[] (already extracted by the apiService)
+      if (Array.isArray(jobsData)) {
+        console.log("jobsData is array, finding job with id:", id)
+        // Additional safety check - ensure array contains job objects, not user objects
+        if (jobsData.length > 0 && jobsData[0] && 'email' in jobsData[0]) {
+          console.error("CRITICAL: jobsData array contains user objects instead of job objects!", jobsData)
+          return null
+        }
+        const foundJob = jobsData.find(j => j && j.id === id) || null
+        console.log("Found job:", foundJob ? foundJob.name : "not found")
+        return foundJob
+      }
+      
+      console.warn('Unexpected jobsData structure:', jobsData, typeof jobsData)
       return null
     } catch (error) {
-      console.error('Error processing job data:', error)
+      console.error('Error processing job data:', error, {
+        jobsData,
+        jobsDataType: typeof jobsData,
+        isArray: Array.isArray(jobsData),
+        errorMessage: error.message,
+        errorStack: error.stack
+      })
       return null
     }
   }, [jobsData, id])
 
   const crewChiefs = useMemo(() => {
     try {
-      // Early return if users is not ready or not an array
-      if (!users || !Array.isArray(users) || users.length === 0) {
+      console.log("Processing crewChiefs with users:", { 
+        users, 
+        isArray: Array.isArray(users), 
+        length: Array.isArray(users) ? users.length : 'N/A',
+        type: typeof users
+      })
+      
+      // Ensure users is always an array - this should be guaranteed by the users memoized value above
+      if (!Array.isArray(users)) {
+        console.error('users is not an array in crewChiefs calculation', { 
+          users: users || 'undefined/null', 
+          usersType: typeof users, 
+          usersConstructor: users?.constructor?.name || 'no constructor'
+        })
+        return []
+      }
+      
+      // Early return if users array is empty
+      if (users.length === 0) {
+        console.log("Users array is empty, returning empty crew chiefs")
         return []
       }
       
       // Filter crew chiefs with additional safety checks
       const filtered = users.filter(u => {
         try {
-          return u && typeof u === 'object' && u.role === UserRole.CrewChief
+          const isCrewChief = u && typeof u === 'object' && 'role' in u && u.role === UserRole.CrewChief
+          if (isCrewChief) {
+            console.log("Found crew chief:", u.name || u.id)
+          }
+          return isCrewChief
         } catch (filterError) {
           console.warn('Error checking user role:', filterError, u)
           return false
         }
       })
       
-      return Array.isArray(filtered) ? filtered : []
+      console.log("Filtered crew chiefs:", filtered.length)
+      return filtered
     } catch (error) {
       console.error('Error filtering crew chiefs:', error, { 
-        users, 
+        users: users || 'undefined/null', 
         usersType: typeof users, 
         usersIsArray: Array.isArray(users),
         usersLength: Array.isArray(users) ? users.length : 'N/A'
@@ -314,8 +470,29 @@ export default function NewJobShiftPage({ params }: JobShiftPageProps) {
     )
   }
 
-  // Data validation
+  // Data validation with detailed error logging
   if (!Array.isArray(users) || !Array.isArray(crewChiefs)) {
+    console.error('Data validation failed:', {
+      users: {
+        value: users,
+        type: typeof users,
+        isArray: Array.isArray(users),
+        constructor: users?.constructor?.name
+      },
+      crewChiefs: {
+        value: crewChiefs,
+        type: typeof crewChiefs,
+        isArray: Array.isArray(crewChiefs),
+        constructor: crewChiefs?.constructor?.name
+      },
+      usersData: {
+        value: usersData,
+        type: typeof usersData,
+        hasUsers: usersData && 'users' in usersData,
+        usersIsArray: usersData && 'users' in usersData && Array.isArray(usersData.users)
+      }
+    })
+    
     return (
       <div className="flex items-center justify-center py-8">
         <div className="text-center">
@@ -345,17 +522,16 @@ export default function NewJobShiftPage({ params }: JobShiftPageProps) {
     )
   }
 
-  // Worker type configurations
-  const workerTypes = [
-    { key: 'StageHand', label: 'Stage Hands', icon: '👷', color: 'bg-blue-100 text-blue-800' },
-    { key: 'ForkOperator', label: 'Fork Operators', icon: '🏗️', color: 'bg-green-100 text-green-800' },
-    { key: 'ReachForkOperator', label: 'Reach Fork Ops', icon: '🚛', color: 'bg-purple-100 text-purple-800' },
-    { key: 'General', label: 'General Workers', icon: '👤', color: 'bg-gray-100 text-gray-800' }
-  ]
-
-  return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center gap-4">
+    // Worker type configurations
+    const workerTypes = [
+      { key: 'StageHand', label: 'Stage Hands', icon: '👷', color: 'bg-blue-100 text-blue-800' },
+      { key: 'ForkOperator', label: 'Fork Operators', icon: '🏗️', color: 'bg-green-100 text-green-800' },
+      { key: 'ReachForkOperator', label: 'Reach Fork Ops', icon: '🚛', color: 'bg-purple-100 text-purple-800' },
+      { key: 'General', label: 'General Workers', icon: '👤', color: 'bg-gray-100 text-gray-800' }
+    ]
+    return (
+      <div className="flex flex-col gap-6">
+        <div className="flex items-center gap-4">
         <Button
           variant="ghost"
           size="sm"
@@ -600,332 +776,21 @@ export default function NewJobShiftPage({ params }: JobShiftPageProps) {
           </form>
         </CardContent>
       </Card>
-    </div>
-  )
-}'use client'
-
-import React, { useState, useMemo, useCallback, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { useJobs, useUsers, useShifts } from '@/hooks/use-api'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { useToast } from "@/hooks/use-toast"
-import { ArrowLeft, Save, Plus, Users } from "lucide-react"
-import { generateShiftUrl } from "@/lib/url-utils"
-import { useUser } from "@/hooks/use-user"
-import { UserRole } from "@/lib/types"
-
-interface JobShiftPageProps {
-  params: {
-    id: string
-  }
-}
-
-export default function NewJobShiftPage({ params }: JobShiftPageProps) {
-  const { id } = params
-  const { user } = useUser()
-  const router = useRouter()
-  const { toast } = useToast()
-  const [loading, setLoading] = useState(false)
-  const [showCustomLocation, setShowCustomLocation] = useState(false)
-  
-  const { data: jobsData, isLoading: jobsLoading } = useJobs()
-  const { data: usersData, isLoading: usersLoading } = useUsers()
-  const { data: shiftsData, isLoading: shiftsLoading } = useShifts({ jobId: id })
-
-  // Data processing with safe fallbacks
-  const users = useMemo(() => {
-    try {
-      // Early return for null/undefined
-      if (!usersData) {
-        return []
-      }
-      
-      // Handle the API response structure: { users: User[], pagination: any }
-      if (usersData && typeof usersData === 'object' && 'users' in usersData) {
-        const usersList = usersData.users
-        if (Array.isArray(usersList)) {
-          // Additional validation that each user has required properties
-          return usersList.filter(user => user && typeof user === 'object' && user.id)
-        }
-      }
-      
-      // Fallback for direct array (shouldn't happen with current API)
-      if (Array.isArray(usersData)) {
-        return usersData.filter(user => user && typeof user === 'object' && user.id)
-      }
-      
-      console.warn("Unexpected usersData structure:", usersData, typeof usersData)
-      return []
-    } catch (error) {
-      console.error("Error processing users data:", error, { 
-        usersData, 
-        type: typeof usersData,
-        hasUsers: usersData && 'users' in usersData,
-        usersIsArray: usersData && 'users' in usersData && Array.isArray(usersData.users)
-      })
-      return []
-    }
-  }, [usersData])
-
-  const shifts = useMemo(() => {
-    if (!shiftsData) return []
-    
-    try {
-      // Handle direct array (current API structure)
-      if (Array.isArray(shiftsData)) return shiftsData
-      
-      // Handle wrapped response structure: { shifts: ShiftWithDetails[] }
-      if (shiftsData && typeof shiftsData === 'object' && 'shifts' in shiftsData && Array.isArray((shiftsData as any).shifts)) {
-        return (shiftsData as any).shifts || []
-      }
-      
-      console.warn('Unexpected shiftsData structure:', shiftsData)
-      return []
-    } catch (error) {
-      console.error('Error processing shifts data:', error)
-      return []
-    }
-  }, [shiftsData])
-
-  const job = useMemo(() => {
-    if (!jobsData) return null
-    
-    try {
-      // Handle the API response structure: Job[] (already extracted by the apiService)
-      if (Array.isArray(jobsData)) {
-        return jobsData.find(j => j.id === id) || null
-      }
-      
-      console.warn('Unexpected jobsData structure:', jobsData)
-      return null
-    } catch (error) {
-      console.error('Error processing job data:', error)
-      return null
-    }
-  }, [jobsData, id])
-
-  const crewChiefs = useMemo(() => {
-    try {
-      // Early return if users is not ready or not an array
-      if (!users || !Array.isArray(users) || users.length === 0) {
-        return []
-      }
-      
-      // Filter crew chiefs with additional safety checks
-      const filtered = users.filter(u => {
-        try {
-          return u && typeof u === 'object' && u.role === UserRole.CrewChief
-        } catch (filterError) {
-          console.warn('Error checking user role:', filterError, u)
-          return false
-        }
-      })
-      
-      return Array.isArray(filtered) ? filtered : []
-    } catch (error) {
-      console.error('Error filtering crew chiefs:', error, { 
-        users, 
-        usersType: typeof users, 
-        usersIsArray: Array.isArray(users),
-        usersLength: Array.isArray(users) ? users.length : 'N/A'
-      })
-      return []
-    }
-  }, [users])
-
-  const existingLocations = useMemo(() => {
-    const locations = []
-    
-    // Add job location as primary option if it exists
-    if (job?.location?.trim()) {
-      locations.push(job.location.trim())
-    }
-    
-    // Add any additional locations from existing shifts (for flexibility)
-    if (Array.isArray(shifts)) {
-      try {
-        const shiftLocations = shifts
-          .filter(shift => shift?.location?.trim())
-          .map(shift => shift.location.trim())
-          .filter(location => location !== job?.location?.trim()) // Avoid duplicates
-        locations.push(...shiftLocations)
-      } catch (error) {
-        console.error("Error processing shift locations:", error)
-      }
-    }
-    
-    return [...new Set(locations)].sort()
-  }, [job, shifts])
-
-  const [formData, setFormData] = useState({
-    jobId: id,
-    date: '',
-    startTime: '',
-    endTime: '',
-    location: '',
-    customLocation: '',
-    crewChiefId: '',
-    workerCounts: {
-      'StageHand': 2,
-      'ForkOperator': 1,
-      'ReachForkOperator': 0,
-      'General': 0
-    },
-    notes: ''
-  })
-
-  // Calculate workers safely
-  const totalWorkersExcludingCrewChief = useMemo(() => {
-    if (!formData?.workerCounts) return 0
-    return Object.values(formData.workerCounts).reduce((sum, count) => sum + (Number(count) || 0), 0)
-  }, [formData?.workerCounts])
-
-  const totalWorkers = totalWorkersExcludingCrewChief + 1 // Always +1 for crew chief
-
-  // Authorization check
-  const canCreateShift = useMemo(() => {
-    if (!user || !job) return false
-    return (
-      user.role === UserRole.Admin ||
-      (user.role === UserRole.CrewChief && job.companyId === user.companyId) ||
-      (user.role === UserRole.CompanyUser && job.companyId === user.companyId)
-    )
-  }, [user, job])
-
-  // Set default location to job location when job data loads
-  useEffect(() => {
-    if (job?.location?.trim() && !formData.location) {
-      setFormData(prev => ({
-        ...prev,
-        location: job.location.trim()
-      }))
-    }
-  }, [job?.location, formData.location])
-
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
-  }, [])
-
-  const handleSelectChange = useCallback((name: string) => (value: string) => {
-    if (name === 'location') {
-      if (value === 'ADD_NEW') {
-        setShowCustomLocation(true)
-        setFormData(prev => ({
-          ...prev,
-          location: '',
-          customLocation: ''
-        }))
-      } else {
-        setShowCustomLocation(false)
-        setFormData(prev => ({
-          ...prev,
-          location: value,
-          customLocation: ''
-        }))
-      }
-    } else {
-      setFormData(prev => ({
-        ...prev,
-        [name]: value
-      }))
-    }
-  }, [])
-
-  const handleWorkerCountChange = useCallback((workerType: string, count: number) => {
-    setFormData(prev => ({
-      ...prev,
-      workerCounts: {
-        ...prev.workerCounts,
-        [workerType]: Math.max(0, count)
-      }
-    }))
-  }, [])
-
-  const handleSubmit = useCallback(async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-
-    try {
-      const finalLocation = showCustomLocation ? formData.customLocation : formData.location
-
-      const response = await fetch('/api/shifts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          jobId: formData.jobId,
-          date: formData.date,
-          startTime: formData.startTime,
-          endTime: formData.endTime,
-          location: finalLocation,
-          crewChiefId: formData.crewChiefId || null,
-          requestedWorkers: Math.max(2, totalWorkers),
-          workerRequirements: formData.workerCounts,
-          notes: formData.notes
-        }),
-      })
-
-      if (!response.ok) {
-        throw new Error("Failed to create shift")
-      }
-
-      const result = await response.json()
-      
-      toast({
-        title: "Success",
-        description: "Shift created successfully",
-      })
-
-      router.push(generateShiftUrl(result.shift.id))
-    } catch (error) {
-      console.error("Error creating shift: ", error)
-      toast({
-        title: "Error",
-        description: "Failed to create shift. Please try again.",
-        variant: "destructive",
-      })
-    } finally {
-      setLoading(false)
-    }
-  }, [formData, showCustomLocation, totalWorkers, toast, router])
-
-  // Loading state - wait for all data to be available
-  if (jobsLoading || usersLoading || shiftsLoading) {
-    return (
-      <div className="flex items-center justify-center py-8">
-        <div className="text-muted-foreground">Loading...</div>
       </div>
     )
-  }
-
-  // Additional safety check - ensure data is properly loaded
-  if (!usersData || !jobsData) {
-    return (
-      <div className="flex items-center justify-center py-8">
-        <div className="text-muted-foreground">Loading data...</div>
-      </div>
-    )
-  }
-
-  // Data validation
-  if (!Array.isArray(users) || !Array.isArray(crewChiefs)) {
+  } catch (error) {
+    console.error('Error in NewJobShiftPage:', error, {
+      errorMessage: error?.message,
+      errorStack: error?.stack,
+      params: params
+    })
+    
     return (
       <div className="flex items-center justify-center py-8">
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-2 text-red-600">Data Loading Error</h2>
+          <h2 className="text-2xl font-bold mb-2 text-red-600">Component Error</h2>
           <p className="text-muted-foreground mb-4">
-            Unable to load user data properly. Please refresh the page.
+            A critical error occurred while loading the page. Please refresh and try again.
           </p>
           <Button onClick={() => window.location.reload()}>
             Refresh Page
@@ -934,276 +799,4 @@ export default function NewJobShiftPage({ params }: JobShiftPageProps) {
       </div>
     )
   }
-
-  // Access check
-  if (!canCreateShift) {
-    return (
-      <div className="flex items-center justify-center py-8">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold mb-2">Access Denied</h2>
-          <p className="text-muted-foreground">
-            Only administrators, crew chiefs, or company users for this job can create shifts.
-          </p>
-        </div>
-      </div>
-    )
-  }
-
-  // Worker type configurations
-  const workerTypes = [
-    { key: 'StageHand', label: 'Stage Hands', icon: '👷', color: 'bg-blue-100 text-blue-800' },
-    { key: 'ForkOperator', label: 'Fork Operators', icon: '🏗️', color: 'bg-green-100 text-green-800' },
-    { key: 'ReachForkOperator', label: 'Reach Fork Ops', icon: '🚛', color: 'bg-purple-100 text-purple-800' },
-    { key: 'General', label: 'General Workers', icon: '👤', color: 'bg-gray-100 text-gray-800' }
-  ]
-
-  return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center gap-4">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => router.push(`/jobs/${id}`)}
-          className="flex items-center gap-2"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to {job?.name || 'Job'}
-        </Button>
-        <h1 className="text-3xl font-bold font-headline">New Shift</h1>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Shift Information</CardTitle>
-          <CardDescription>
-            Create a new shift for {job?.name}. Configure field worker requirements (crew chief automatically included).
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Crew Chief Selection */}
-              <div className="space-y-2">
-                <Label htmlFor="crewChiefId">Crew Chief (Optional)</Label>
-                <Select value={formData.crewChiefId} onValueChange={handleSelectChange('crewChiefId')}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select crew chief (optional)" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">No crew chief assigned</SelectItem>
-                    {Array.isArray(crewChiefs) && crewChiefs.map((chief) => (
-                      <SelectItem key={chief.id} value={chief.id}>
-                        {chief.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Date */}
-              <div className="space-y-2">
-                <Label htmlFor="date">Date *</Label>
-                <Input
-                  id="date"
-                  name="date"
-                  type="date"
-                  value={formData.date}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-
-              {/* Location */}
-              <div className="space-y-2">
-                <Label htmlFor="location">Location {job?.location && '(defaults to job location)'}</Label>
-                {!showCustomLocation ? (
-                  <Select value={formData.location} onValueChange={handleSelectChange('location')}>
-                    <SelectTrigger>
-                      <SelectValue placeholder={job?.location ? `${job.location} (job location)` : "Select location"} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {existingLocations.length > 0 && (
-                        <>
-                          {existingLocations.map((location) => (
-                            <SelectItem key={location} value={location}>
-                              {location}
-                            </SelectItem>
-                          ))}
-                          <hr className="my-1" />
-                        </>
-                      )}
-                      <SelectItem value="ADD_NEW">
-                        <div className="flex items-center gap-2">
-                          <Plus className="h-4 w-4" />
-                          Add new location
-                        </div>
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                ) : (
-                  <div className="flex gap-2">
-                    <Input
-                      id="customLocation"
-                      name="customLocation"
-                      value={formData.customLocation}
-                      onChange={handleInputChange}
-                      placeholder="Enter new location"
-                      className="flex-1"
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => {
-                        setShowCustomLocation(false)
-                        setFormData(prev => ({
-                          ...prev,
-                          location: '',
-                          customLocation: ''
-                        }))
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                )}
-              </div>
-
-              {/* Time Range */}
-              <div className="space-y-2">
-                <Label htmlFor="startTime">Start Time *</Label>
-                <Input
-                  id="startTime"
-                  name="startTime"
-                  type="time"
-                  value={formData.startTime}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="endTime">End Time *</Label>
-                <Input
-                  id="endTime"
-                  name="endTime"
-                  type="time"
-                  value={formData.endTime}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Worker Requirements Section */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label className="text-lg font-semibold">Field Worker Requirements</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Configure field workers needed (1 crew chief automatically included in total)
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Badge variant="secondary" className="flex items-center gap-1">
-                    <Users className="h-3 w-3" />
-                    Total Workers: {totalWorkers}
-                  </Badge>
-                  <Badge variant="outline">
-                    {totalWorkersExcludingCrewChief} field workers + 1 crew chief
-                  </Badge>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {workerTypes.map((workerType) => (
-                  <Card key={workerType.key} className="p-4">
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <span className="text-lg">{workerType.icon}</span>
-                          <div>
-                            <Label className="text-sm font-medium">{workerType.label}</Label>
-                          </div>
-                        </div>
-                        <Badge className={workerType.color}>
-                          {formData?.workerCounts?.[workerType.key] || 0}
-                        </Badge>
-                      </div>
-                      
-                      <div className="flex items-center gap-2">
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleWorkerCountChange(workerType.key, (formData?.workerCounts?.[workerType.key] || 0) - 1)}
-                          disabled={(formData?.workerCounts?.[workerType.key] || 0) === 0}
-                        >
-                          -
-                        </Button>
-                        <Input
-                          type="number"
-                          min="0"
-                          value={formData?.workerCounts?.[workerType.key] || 0}
-                          onChange={(e) => handleWorkerCountChange(workerType.key, parseInt(e.target.value) || 0)}
-                          className="h-8 text-center"
-                        />
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleWorkerCountChange(workerType.key, (formData?.workerCounts?.[workerType.key] || 0) + 1)}
-                        >
-                          +
-                        </Button>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            {/* Notes */}
-            <div className="space-y-2">
-              <Label htmlFor="notes">Notes</Label>
-              <Textarea
-                id="notes"
-                name="notes"
-                value={formData.notes}
-                onChange={handleInputChange}
-                placeholder="Enter any additional notes"
-                rows={3}
-              />
-            </div>
-
-            {/* Actions */}
-            <div className="flex justify-end gap-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => router.push(`/jobs/${id}`)}
-                disabled={loading}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                disabled={
-                  loading || 
-                  !formData.date || 
-                  !formData.startTime || 
-                  !formData.endTime ||
-                  totalWorkersExcludingCrewChief === 0 ||
-                  (showCustomLocation && !formData.customLocation.trim())
-                }
-                className="flex items-center gap-2"
-              >
-                <Save className="h-4 w-4" />
-                {loading ? 'Creating...' : `Create Shift (${totalWorkers} total workers)`}
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
-  )
 }

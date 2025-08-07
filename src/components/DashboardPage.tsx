@@ -10,6 +10,7 @@ interface DashboardPageProps {
   description?: string;
   buttonText?: string;
   buttonAction?: () => void;
+  extraActions?: React.ReactNode;
   children: React.ReactNode;
 }
 
@@ -18,13 +19,21 @@ export function DashboardPage({
   description,
   buttonText,
   buttonAction,
+  extraActions,
   children,
 }: DashboardPageProps) {
-  const actions = buttonText && buttonAction ? (
+  const mainAction = buttonText && buttonAction ? (
     <Button onClick={buttonAction}>
       <Plus className="h-4 w-4 mr-2" />
       {buttonText}
     </Button>
+  ) : null;
+
+  const actions = (mainAction || extraActions) ? (
+    <>
+      {extraActions}
+      {mainAction}
+    </>
   ) : undefined;
 
   return (

@@ -2,7 +2,7 @@ import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { prisma } from './prisma';
-import bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 import { UserRole } from '@/lib/types';
 import { isBuildTime } from './build-time-check';
 
@@ -86,7 +86,15 @@ export const authOptions: NextAuthOptions = {
       if (account?.provider === 'google') {
         try {
           const existingUser = await prisma.user.findUnique({
-            where: { email: user.email! }
+            where: { email: user.email! },
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              isActive: true,
+              avatarData: true, // Only needed for updating avatar
+              // Exclude other large fields
+            }
           });
 
           if (existingUser) {
@@ -130,9 +138,8 @@ export const authOptions: NextAuthOptions = {
         // For OAuth providers, we need to fetch the user from the database
         // because the user object from OAuth doesn't have our custom fields
         if (account?.provider === 'google') {
-          const dbUser = await prisma.user.findUnique({
-            where: { email: user.email! }
-          });
+          const { getUserBasicByEmail } = await import('./user-queries');
+          const dbUser = await getUserBasicByEmail(user.email!);
           
           if (dbUser) {
             token.id = dbUser.id;
@@ -155,22 +162,38 @@ export const authOptions: NextAuthOptions = {
         }
       }
       // This block runs on subsequent JWT requests (e.g., page navigation).
-      // We need to re-fetch from the DB to ensure data is fresh.
+      // Only refresh user data periodically to reduce database load
       else if (token.email && !isBuildTime()) {
-        const dbUser = await prisma.user.findUnique({
-          where: { email: token.email }
-        });
-        if (dbUser) {
-          token.id = dbUser.id;
-          token.role = dbUser.role;
-          token.name = dbUser.name;
-          
+        const now = Math.floor(Date.now() / 1000);
+        const lastRefresh = token.lastRefresh as number || 0;
+        const refreshInterval = 5 * 60; // 5 minutes
+        
+        // Only refresh if it's been more than 5 minutes since last refresh
+        if (now - lastRefresh > refreshInterval) {
+          const { getUserBasicByEmail } = await import('./user-queries');
+          const dbUser = await getUserBasicByEmail(token.email);
+          if (dbUser) {
+            token.id = dbUser.id;
+            token.role = dbUser.role;
+            token.name = dbUser.name;
+            token.lastRefresh = now;
+            
 
-          if (dbUser.companyId) {
-            token.companyId = dbUser.companyId;
+            if (dbUser.companyId) {
+              token.companyId = dbUser.companyId;
+            }
           }
         }
       }
+      // Monitor JWT token size to help debug large session data issues
+      if (process.env.NODE_ENV === 'development') {
+        const tokenSize = JSON.stringify(token).length;
+        if (tokenSize > 4096) { // 4KB threshold
+          console.warn(`⚠️  Large JWT token detected: ${tokenSize} bytes`);
+          console.warn('Token contents:', Object.keys(token));
+        }
+      }
+      
       return token;
     },
     async session({ session, token }) {
@@ -184,6 +207,15 @@ export const authOptions: NextAuthOptions = {
 
         if (token.companyId) {
           session.user.companyId = token.companyId;
+        }
+      }
+      
+      // Monitor session size to help debug large session data issues
+      if (process.env.NODE_ENV === 'development') {
+        const sessionSize = JSON.stringify(session).length;
+        if (sessionSize > 4096) { // 4KB threshold
+          console.warn(`⚠️  Large session detected: ${sessionSize} bytes`);
+          console.warn('Session user keys:', Object.keys(session.user));
         }
       }
       

@@ -32,6 +32,7 @@ export async function GET(request: NextRequest) {
                   select: {
                     id: true,
                     name: true,
+                    // Explicitly exclude avatarData and other large fields
                   },
                 },
               },

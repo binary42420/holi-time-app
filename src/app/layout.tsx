@@ -1,5 +1,3 @@
-// Let Next.js handle polyfills automatically
-
 import React from 'react';
 import type { Metadata, Viewport } from 'next';
 import { Providers } from '@/components/providers/providers';
@@ -46,12 +44,14 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className="safe-area-inset-top safe-area-inset-bottom" suppressHydrationWarning>
-        <EnhancedQueryProvider>
-          <LoadingProvider>
-            <TopProgressBar />
-            <Providers>{children}</Providers>
-          </LoadingProvider>
-        </EnhancedQueryProvider>
+        <HydrationErrorBoundary>
+          <EnhancedQueryProvider>
+            <LoadingProvider>
+              <TopProgressBar />
+              <Providers>{children}</Providers>
+            </LoadingProvider>
+          </EnhancedQueryProvider>
+        </HydrationErrorBoundary>
       </body>
     </html>
   );

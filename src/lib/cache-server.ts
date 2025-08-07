@@ -52,11 +52,8 @@ class ServerCache {
       this.evictOldest()
     }
 
-    // Compress data if enabled and data is large
-    let processedData = data
-    if (this.config.compressionEnabled && this.shouldCompress(data)) {
-      processedData = this.compressData(data)
-    }
+    // Skip compression for speed optimization
+    const processedData = data
 
     this.cache.set(key, {
       data: processedData,

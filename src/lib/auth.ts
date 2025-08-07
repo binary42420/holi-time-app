@@ -1,7 +1,6 @@
 import { prisma } from '@/lib/prisma';
-import { User } from '@prisma/client';
 import { UserRole } from '@/lib/types';
-import * as bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 
 interface UserContext {
   id: string;
@@ -107,8 +106,8 @@ export async function createUser(data: any) {
 }
 
 export async function refreshUserData(userId: string) {
-    const user = await prisma.user.findUnique({ where: { id: userId } });
-    return user;
+    const { getUserBasic } = await import('./user-queries');
+    return getUserBasic(userId);
 }
 
 export function hasAnyRole(user: AuthenticatedUser | User, roles: UserRole[]): boolean {
@@ -119,6 +118,18 @@ export function hasAnyRole(user: AuthenticatedUser | User, roles: UserRole[]): b
 }
 
 export function verifySignatureRequest(signature: string, data: any): boolean {
-    // This is a placeholder.
-    return true;
+    // TODO: Implement proper signature verification
+    // This is currently a placeholder and should NOT be used in production
+    console.warn('WARNING: verifySignatureRequest is not implemented - always returns true');
+    
+    if (!signature || typeof signature !== 'string') {
+        return false;
+    }
+    
+    if (!data) {
+        return false;
+    }
+    
+    // For now, just check if signature exists and is non-empty
+    return signature.length > 0;
 }

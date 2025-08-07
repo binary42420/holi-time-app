@@ -18,7 +18,6 @@ import {
   CheckCircle
 } from 'lucide-react';
 import { useQueryPerformanceStats, useCacheManagement } from '@/providers/enhanced-query-provider';
-import { useQueryPerformance } from '@/hooks/use-optimized-queries';
 
 interface PerformanceMonitorProps {
   isVisible?: boolean;
@@ -27,7 +26,6 @@ interface PerformanceMonitorProps {
 
 export const PerformanceMonitor = ({ isVisible = false, onClose }: PerformanceMonitorProps) => {
   const { getStats, clearCache, invalidateAll, removeStaleQueries } = useQueryPerformanceStats();
-  const { getPerformanceStats, optimizeCache } = useQueryPerformance();
   const { invalidateByPattern } = useCacheManagement();
   
   const [stats, setStats] = useState(getStats());
@@ -75,7 +73,7 @@ export const PerformanceMonitor = ({ isVisible = false, onClose }: PerformanceMo
   };
 
   const handleOptimizeCache = async () => {
-    await optimizeCache();
+    // Optimize cache functionality removed
     setStats(getStats());
   };
 

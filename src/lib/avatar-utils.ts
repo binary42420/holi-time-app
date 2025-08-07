@@ -69,3 +69,51 @@ export function isTrustedAvatarSource(url: string): boolean {
     return false;
   }
 }
+
+/**
+ * Gets a user's avatar URL without loading the full base64 data
+ * This is optimized for session data to prevent large payloads
+ * @param userId - The user ID
+ * @returns Promise<string | null> - The avatar URL or null if not found
+ */
+export async function getUserAvatarUrl(userId: string): Promise<string | null> {
+  try {
+    const { prisma } = await import('./prisma');
+    
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        avatarData: true,
+      }
+    });
+
+    if (!user?.avatarData) {
+      return null;
+    }
+
+    // If it's already a URL, return it
+    if (user.avatarData.startsWith('http')) {
+      return user.avatarData;
+    }
+
+    // If it's base64 data, we could create an endpoint to serve it
+    // For now, return null to avoid including large data
+    if (user.avatarData.startsWith('data:')) {
+      return `/api/users/${userId}/avatar`;
+    }
+
+    return user.avatarData;
+  } catch (error) {
+    console.error('Error fetching user avatar URL:', error);
+    return null;
+  }
+}
+
+/**
+ * Checks if avatar data is base64 encoded (and potentially large)
+ * @param avatarData - The avatar data string
+ * @returns boolean - True if it's base64 data
+ */
+export function isBase64Avatar(avatarData: string | null): boolean {
+  return avatarData?.startsWith('data:') || false;
+}

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { UserRole } from '@prisma/client';
+import { UserRole } from '@/lib/types';
 
 // Common validation patterns
 export const commonValidation = {

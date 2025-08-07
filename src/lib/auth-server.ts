@@ -12,10 +12,9 @@ export async function getAuthenticatedUser(): Promise<User | null> {
       return null;
     }
 
-    // Fetch the complete user data from the database
-    const user = await prisma.user.findUnique({
-      where: { id: session.user.id }
-    });
+    // Fetch user data from the database (excluding large fields)
+    const { getUserExtended } = await import('./user-queries');
+    const user = await getUserExtended(session.user.id);
 
     return user;
   } catch (error) {

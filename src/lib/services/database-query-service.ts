@@ -40,7 +40,22 @@ export class DatabaseQueryService {
     return result;
   }
 
-  // Optimized shift queries
+  // Fast cache key generation (avoid JSON.stringify)
+  private createFastCacheKey(prefix: string, filters: Record<string, any>): string {
+    const parts = [prefix];
+    if (filters.userId) parts.push(`u:${filters.userId}`);
+    if (filters.userRole) parts.push(`r:${filters.userRole}`);
+    if (filters.companyId) parts.push(`c:${filters.companyId}`);
+    if (filters.status) parts.push(`s:${filters.status}`);
+    if (filters.date) parts.push(`d:${filters.date}`);
+    if (filters.search) parts.push(`q:${filters.search.substring(0, 10)}`);
+    if (filters.jobId) parts.push(`j:${filters.jobId}`);
+    if (filters.page) parts.push(`p:${filters.page}`);
+    if (filters.limit) parts.push(`l:${filters.limit}`);
+    return parts.join('-');
+  }
+
+  // Optimized shift queries with fast cache keys
   async getShiftsOptimized(filters: {
     userId?: string;
     userRole?: UserRole;
@@ -52,7 +67,7 @@ export class DatabaseQueryService {
     page?: number;
     limit?: number;
   }) {
-    const cacheKey = `shifts-optimized-${JSON.stringify(filters)}`;
+    const cacheKey = this.createFastCacheKey('shifts', filters);
     
     return this.executeWithCache(
       cacheKey,
@@ -179,7 +194,7 @@ export class DatabaseQueryService {
                 select: {
                   id: true,
                   name: true,
-                  avatarData: true,
+                  // Explicitly exclude avatarData to prevent session bloat
                 },
               },
             },
@@ -225,7 +240,7 @@ export class DatabaseQueryService {
     );
   }
 
-  // Optimized job queries
+  // Optimized job queries with fast cache keys
   async getJobsOptimized(filters: {
     companyId?: string;
     status?: string;
@@ -234,7 +249,10 @@ export class DatabaseQueryService {
     limit?: number;
     userId?: string; // Add userId to filters
   }) {
-    const cacheKey = `jobs-optimized-${JSON.stringify(filters)}`;
+    const cacheKey = this.createFastCacheKey('jobs', { 
+      ...filters, 
+      sortBy: filters.sortBy || 'recentShifts' 
+    });
     
     return this.executeWithCache(
       cacheKey,
@@ -330,7 +348,7 @@ export class DatabaseQueryService {
                       select: {
                         id: true,
                         name: true,
-                        avatarData: true,
+                        // Explicitly exclude avatarData to prevent session bloat
                       },
                     },
                   },
@@ -375,7 +393,7 @@ export class DatabaseQueryService {
               ...assignment,
               user: assignment.user ? {
                 ...assignment.user,
-                avatarUrl: assignment.user.avatarData ? `/api/users/${assignment.user.id}/avatar/image` : null,
+                avatarUrl: `/api/users/${assignment.user.id}/avatar/image`,
               } : null,
             }));
             
@@ -406,7 +424,7 @@ export class DatabaseQueryService {
     );
   }
 
-  // Optimized user queries
+  // Optimized user queries with fast cache keys  
   async getUsersOptimized(filters: {
     role?: UserRole;
     companyId?: string;
@@ -417,7 +435,12 @@ export class DatabaseQueryService {
     pageSize?: number;
     fetchAll?: boolean;
   }) {
-    const cacheKey = `users-optimized-${JSON.stringify(filters)}`;
+    const cacheKey = this.createFastCacheKey('users', { 
+      ...filters,
+      isActive: filters.isActive ? 'true' : 'false',
+      excludeCompanyUsers: filters.excludeCompanyUsers ? 'true' : 'false',
+      fetchAll: filters.fetchAll ? 'true' : 'false'
+    });
     
     return this.executeWithCache(
       cacheKey,

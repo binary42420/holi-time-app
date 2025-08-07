@@ -76,8 +76,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Only managers can create users
-    if (user.role !== 'Admin') {
+    // Only admins can create users
+    if (user.role !== UserRole.Admin) {
       return NextResponse.json(
         { error: 'Insufficient permissions' },
         { status: 403 }
@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
     // Hash password
     const passwordHash = await bcrypt.hash(password, 12);
 
-    // Generate avatar data URL for new users
+    // Generate avatar URL for new users
     const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(
       name
     )}&background=random&color=fff&size=128`;
@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
         email,
         passwordHash,
         role,
-        avatarData: avatarUrl, // Store in avatarData instead of avatarUrl
+        avatarData: avatarUrl, // Store external URL temporarily
         companyId,
       },
     });

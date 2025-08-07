@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/middleware';
 import { prisma } from '@/lib/prisma';
-import { UserRole, TimesheetStatus } from '@prisma/client';
+import { UserRole } from '@/lib/types';
+import { TimesheetStatus } from '@prisma/client';
 import { z } from 'zod';
 
 export const dynamic = 'force-dynamic';

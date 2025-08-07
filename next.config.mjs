@@ -13,11 +13,11 @@ const nextConfig = {
   },
   
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
   
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   
   images: {
@@ -37,19 +37,18 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   
-  // Minimal webpack configuration to avoid module loading conflicts
+  // Simplified webpack configuration to avoid module resolution issues
   webpack: (config, { isServer }) => {
-    // Only essential configurations
+    // Only essential externals to prevent server/client conflicts
     config.externals = config.externals || [];
     config.externals.push('pg-native');
     
+    // Server-side externals
     if (isServer) {
-      config.externals.push('_http_common', 'archiver', 'exceljs', 'pusher-js');
-      // Handle Prisma client for server-side rendering
-      config.externals.push('@prisma/client');
+      config.externals.push('_http_common', 'archiver', 'exceljs');
     }
     
-    // Minimal client-side fallbacks
+    // Client-side fallbacks only
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,

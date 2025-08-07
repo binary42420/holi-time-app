@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/middleware';
 import { prisma } from '@/lib/prisma';
 import { dbQueryService } from '@/lib/services/database-query-service';
-import { UserRole, JobStatus, User, Prisma } from '@prisma/client';
+import { UserRole } from '@/lib/types';
+import { JobStatus, User, Prisma } from '@prisma/client';
 import { jobValidation } from '@/lib/validation';
 import { handleDatabaseError, createErrorResponse } from '@/lib/api-error-handler';
 
@@ -16,7 +17,7 @@ export async function GET(request: NextRequest) {
       return createErrorResponse({ message: 'Authentication required', statusCode: 401 });
     }
 
-    if (![UserRole.Admin, UserRole.CompanyUser, UserRole.Employee].includes(user.role as any)) {
+    if (![UserRole.Admin, UserRole.CompanyUser, UserRole.Employee].includes(user.role)) {
       return createErrorResponse({ message: 'Insufficient permissions', statusCode: 403 });
     }
 
@@ -57,7 +58,7 @@ export async function POST(request: NextRequest) {
       return createErrorResponse({ message: 'Authentication required', statusCode: 401 });
     }
 
-    if (![UserRole.Admin, UserRole.CompanyUser, UserRole.Employee].includes(user.role as any)) {
+    if (![UserRole.Admin, UserRole.CompanyUser, UserRole.Employee].includes(user.role)) {
       return createErrorResponse({ message: 'Insufficient permissions', statusCode: 403 });
     }
 
