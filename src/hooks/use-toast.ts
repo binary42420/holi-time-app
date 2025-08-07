@@ -49,7 +49,14 @@ const toastFunction = (options: ToastOptions) => {
 };
 
 export function useToast() {
-  return { toast: toastFunction }
+  // Check if we're in a browser environment
+  const toast = React.useCallback((options: ToastOptions) => {
+    if (typeof window !== 'undefined') {
+      toastFunction(options)
+    }
+  }, [])
+  
+  return { toast }
 }
 
 export const toast = toastFunction;

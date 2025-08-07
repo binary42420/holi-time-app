@@ -3,7 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { prisma } from './prisma';
 import bcrypt from 'bcryptjs';
-import { UserRole } from '@prisma/client'; // <-- Correctly imported
+import { UserRole } from '@/lib/types';
 import { isBuildTime } from './build-time-check';
 
 export const authOptions: NextAuthOptions = {

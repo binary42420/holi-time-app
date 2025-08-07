@@ -3,6 +3,7 @@ import { getCurrentUser } from '@/lib/middleware';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { userValidation } from '@/lib/validation';
+import { UserRole } from '@/lib/types';
 
 export async function GET(request: NextRequest) {
   try {
@@ -15,7 +16,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Only managers can view all employees
-    if (user.role !== 'Admin') {
+    if (user.role !== UserRole.Admin) {
       return NextResponse.json(
         { error: 'Insufficient permissions' },
         { status: 403 }

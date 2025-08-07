@@ -111,6 +111,7 @@ function AdminSettingsPage() {
       href: "/admin/settings/appearance",
       actions: [
         { label: "Theme Settings", href: "/admin/settings/appearance/theme" },
+        { label: "Timeline Colors", href: "/admin/timeline-colors" },
         { label: "Branding", href: "/admin/settings/appearance/branding" },
         { label: "Layout Options", href: "/admin/settings/appearance/layout" }
       ]

@@ -1,5 +1,6 @@
 import { prisma } from '../prisma';
-import { User as PrismaUser, UserRole } from '@prisma/client';
+import { User as PrismaUser } from '@prisma/client';
+import { UserRole } from '@/lib/types';
 import { User } from 'next-auth';
 import { hasAnyRole } from '../auth';
 

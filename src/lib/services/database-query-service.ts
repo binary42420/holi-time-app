@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
-import { Prisma, UserRole, ShiftStatus, JobStatus } from '@prisma/client';
+import { Prisma, ShiftStatus, JobStatus } from '@prisma/client';
+import { UserRole } from '@/lib/types';
 import { serverCache, cacheKeys, cacheTags } from '@/lib/cache-server';
 
 interface QueryOptions {

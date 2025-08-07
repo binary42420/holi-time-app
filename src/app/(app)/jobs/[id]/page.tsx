@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { format } from "date-fns";
 import Link from "next/link";
 import { useUser } from "@/hooks/use-user";
@@ -39,8 +38,8 @@ import {
   Activity,
   UserCheck,
   UserX,
-  Timeline,
   BarChart3,
+  FileText,
 } from "lucide-react";
 import { CrewChiefPermissionManager } from "@/components/crew-chief-permission-manager";
 import { DangerZone } from "@/components/danger-zone";
@@ -115,12 +114,9 @@ const getAssignmentStatusIcon = (
   return <UserX className="h-4 w-4 text-red-600" />;
 };
 
-interface JobDetailPageProps {
-  params: { id: string };
-}
-
-export default function JobDetailPage({ params }: JobDetailPageProps) {
-  const { id: jobId } = params;
+export default function JobDetailPage() {
+  const params = useParams();
+  const jobId = params.id as string;
   const { user } = useUser();
   const router = useRouter();
   const canEdit = user?.role === "Admin";
@@ -130,7 +126,7 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
     isLoading: jobsLoading,
     isError: jobsError,
     refetch: refetchJobs,
-  } = useJobs();
+  } = useJobs({});
   const {
     data: shifts,
     isLoading: shiftsLoading,
@@ -224,11 +220,26 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
-            onClick={() => router.push(`/jobs/${jobId}/scheduling-timeline`)}
-            className="flex items-center gap-2"
+            onClick={() => router.push(`/jobs/${jobId}/report`)}
+            className="flex items-center gap-2 bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900 text-green-700 dark:text-green-300"
+          >
+            <FileText className="h-4 w-4" />
+            Job Report
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              console.log(
+                "Timeline button clicked, navigating to:",
+                `/jobs/${jobId}/scheduling-timeline`
+              );
+              router.push(`/jobs/${jobId}/scheduling-timeline`);
+            }}
+            className="flex items-center gap-2 bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900 text-blue-700 dark:text-blue-300"
+            style={{ minWidth: "180px" }}
           >
             <BarChart3 className="h-4 w-4" />
-            Job Manager Timeline
+            Timeline Manager
           </Button>
           {canEdit && (
             <Button
@@ -300,7 +311,7 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
                   <div>
                     <p className="text-sm font-medium">Location</p>
                     <p className="text-sm text-muted-foreground">
-                      {job.location || "N/A"}
+                      {job.location || "No location specified"}
                     </p>
                   </div>
                 </div>
@@ -310,8 +321,8 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
                     <p className="text-sm font-medium">Start Date</p>
                     <p className="text-sm text-muted-foreground">
                       {job.startDate
-                        ? format(new Date(job.startDate), "MMM d, yyyy")
-                        : "N/A"}
+                        ? format(new Date(job.startDate), "PPP")
+                        : "Not specified"}
                     </p>
                   </div>
                 </div>
@@ -321,8 +332,8 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
                     <p className="text-sm font-medium">End Date</p>
                     <p className="text-sm text-muted-foreground">
                       {job.endDate
-                        ? format(new Date(job.endDate), "MMM d, yyyy")
-                        : "N/A"}
+                        ? format(new Date(job.endDate), "PPP")
+                        : "Not specified"}
                     </p>
                   </div>
                 </div>
@@ -331,7 +342,7 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
                   <div>
                     <p className="text-sm font-medium">Total Shifts</p>
                     <p className="text-sm text-muted-foreground">
-                      {totalShifts}
+                      {totalShifts} shifts
                     </p>
                   </div>
                 </div>
@@ -339,108 +350,73 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
             </CardContent>
           </Card>
 
-          {/* Enhanced Tabs Section */}
-          <div className="space-y-4">
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <h3 className="text-lg font-semibold">Shift Management</h3>
-              {canEdit && (
-                <Button
-                  onClick={() => router.push(`/jobs/${job.id}/shifts/new`)}
-                  className="flex items-center justify-center gap-2"
-                >
-                  <Plus className="h-4 w-4" />
-                  Add Shift
-                </Button>
-              )}
-            </div>
+          {/* Shifts Overview */}
+          <Tabs defaultValue="all" className="w-full">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="all">All Shifts ({totalShifts})</TabsTrigger>
+              <TabsTrigger value="upcoming">
+                Upcoming ({upcomingShifts.length})
+              </TabsTrigger>
+              <TabsTrigger value="completed">
+                Completed ({completedShiftsCount})
+              </TabsTrigger>
+            </TabsList>
 
-            <Tabs defaultValue="recentShifts" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger
-                  value="recentShifts"
-                  className="flex items-center gap-2"
-                >
-                  <Calendar className="h-4 w-4" />
-                  Recent Shifts ({recentShifts.length})
-                </TabsTrigger>
-                <TabsTrigger
-                  value="upcomingShifts"
-                  className="flex items-center gap-2"
-                >
-                  <Clock className="h-4 w-4" />
-                  Upcoming Shifts ({upcomingShifts.length})
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="recentShifts" className="space-y-4">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Calendar className="h-5 w-5" />
-                      Recent Shifts
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    {recentShifts.length > 0 ? (
-                      <div className="space-y-4">
-                        {recentShifts.map((shift: any) => (
-                          <Card
-                            key={shift.id}
-                            className="cursor-pointer hover:bg-accent/50 transition-colors"
-                            onClick={() => router.push(`/shifts/${shift.id}`)}
-                          >
-                            <CardContent className="p-4">
-                              <div className="flex items-center justify-between">
-                                <div className="flex-1">
-                                  <div className="flex items-center gap-2 mb-2">
-                                    <div
-                                      className={`w-3 h-3 rounded-full ${getShiftStatusColor(
-                                        shift.status
-                                      )}`}
-                                    />
-                                    <h4 className="font-semibold">
-                                      {shift?.description?.trim()
-                                        ? shift.description.slice(0, 30)
-                                       }
-                                    </h4>{" "}
-                                  </div>
-                                  <p className="text-sm text-muted-foreground mb-2">
-                                    {new Date(shift.date).toLocaleDateString()}{" "}
-                                    •{" "}
-                                    {new Date(
-                                      shift.startTime
-                                    ).toLocaleTimeString()}{" "}
-                                    -{" "}
-                                    {new Date(
-                                      shift.endTime
-                                    ).toLocaleTimeString()}
-                                  </p>
-                                  <div className="flex items-center gap-4 text-xs">
-                                    <div className="flex items-center gap-1">
-                                      <MapPin className="h-3 w-3" />
-                                      <span>
-                                        {shift.location || "No location"}
-                                      </span>
+            <TabsContent value="all" className="mt-4">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <CardTitle className="flex items-center gap-2">
+                    <Calendar className="h-5 w-5" />
+                    All Shifts
+                  </CardTitle>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => router.push(`/jobs/${jobId}/shifts/new`)}
+                    className="flex items-center gap-2"
+                  >
+                    <Plus className="h-4 w-4" />
+                    Add Shift
+                  </Button>
+                </CardHeader>
+                <CardContent>
+                  {recentShifts.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Date & Time</TableHead>
+                            <TableHead>Description</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead>Workers</TableHead>
+                            <TableHead>Actions</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {recentShifts.map((shift: any) => {
+                            const assigned = getAssignedWorkerCount(shift);
+                            const required = getTotalRequiredWorkers(shift);
+                            return (
+                              <TableRow key={shift.id}>
+                                <TableCell>
+                                  <div>
+                                    <div className="font-medium">
+                                      {format(new Date(shift.date), "PPP")}
                                     </div>
-                                    <div className="flex items-center gap-1">
-                                      {getAssignmentStatusIcon(
-                                        getAssignedWorkerCount(shift),
-                                        getTotalRequiredWorkers(shift)
-                                      )}
-                                      <span
-                                        className={getAssignmentStatusColor(
-                                          getAssignedWorkerCount(shift),
-                                          getTotalRequiredWorkers(shift)
-                                        )}
-                                      >
-                                        {getAssignedWorkerCount(shift)}/
-                                        {getTotalRequiredWorkers(shift)} workers
-                                      </span>
+                                    <div className="text-sm text-muted-foreground flex items-center gap-1">
+                                      <Clock className="h-3 w-3" />
+                                      {format(
+                                        new Date(shift.startTime),
+                                        "p"
+                                      )} -{" "}
+                                      {format(new Date(shift.endTime), "p")}
                                     </div>
                                   </div>
-                                </div>
-                                <div className="flex items-center gap-2">
+                                </TableCell>
+                                <TableCell>
+                                  {getShiftDisplayName(shift, job.name)}
+                                </TableCell>
+                                <TableCell>
                                   <Badge
                                     variant={getShiftStatusBadgeVariant(
                                       shift.status
@@ -448,161 +424,200 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
                                   >
                                     {shift.status}
                                   </Badge>
-                                  <Button variant="outline" size="sm">
-                                    View
-                                  </Button>
-                                </div>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="flex flex-col items-center justify-center py-12">
-                        <Calendar className="h-12 w-12 text-muted-foreground mb-4" />
-                        <h3 className="text-lg font-semibold mb-2">
-                          No Recent Shifts
-                        </h3>
-                        <p className="text-muted-foreground text-center">
-                          This job doesn't have any recent shifts.
-                        </p>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              <TabsContent value="upcomingShifts" className="space-y-4">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Clock className="h-5 w-5" />
-                      Upcoming Shifts
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    {upcomingShifts.length > 0 ? (
-                      <div className="space-y-4">
-                        {upcomingShifts.map((shift: any) => (
-                          <Card
-                            key={shift.id}
-                            className="cursor-pointer hover:bg-accent/50 transition-colors border-l-4 border-l-blue-500"
-                            onClick={() => router.push(`/shifts/${shift.id}`)}
-                          >
-                            <CardContent className="p-4">
-                              <div className="flex items-center justify-between">
-                                <div className="flex-1">
-                                  <div className="flex items-center gap-2 mb-2">
-                                    <Clock className="h-4 w-4 text-blue-600" />
-                                    <h4 className="font-semibold">
-                                      {getShiftDisplayName(shift, job?.name)}
-                                    </h4>
-                                  </div>
-                                  <p className="text-sm text-muted-foreground mb-2">
-                                    {new Date(shift.date).toLocaleDateString()}{" "}
-                                    •{" "}
-                                    {new Date(
-                                      shift.startTime
-                                    ).toLocaleTimeString()}{" "}
-                                    -{" "}
-                                    {new Date(
-                                      shift.endTime
-                                    ).toLocaleTimeString()}
-                                  </p>
-                                  <div className="flex items-center gap-4 text-xs">
-                                    <div className="flex items-center gap-1">
-                                      <MapPin className="h-3 w-3" />
-                                      <span>
-                                        {shift.location || "No location"}
-                                      </span>
-                                    </div>
-                                    <div className="flex items-center gap-1">
-                                      {getAssignmentStatusIcon(
-                                        getAssignedWorkerCount(shift),
-                                        getTotalRequiredWorkers(shift)
+                                </TableCell>
+                                <TableCell>
+                                  <div className="flex items-center gap-2">
+                                    {getAssignmentStatusIcon(
+                                      assigned,
+                                      required
+                                    )}
+                                    <span
+                                      className={getAssignmentStatusColor(
+                                        assigned,
+                                        required
                                       )}
-                                      <span
-                                        className={getAssignmentStatusColor(
-                                          getAssignedWorkerCount(shift),
-                                          getTotalRequiredWorkers(shift)
-                                        )}
-                                      >
-                                        {getAssignedWorkerCount(shift)}/
-                                        {getTotalRequiredWorkers(shift)} workers
-                                        assigned
-                                      </span>
-                                    </div>
-                                    <div className="flex items-center gap-1">
-                                      <Activity className="h-3 w-3" />
-                                      <span>
-                                        {Math.ceil(
-                                          (new Date(shift.date).getTime() -
-                                            new Date().getTime()) /
-                                            (1000 * 60 * 60 * 24)
-                                        )}{" "}
-                                        days away
-                                      </span>
-                                    </div>
+                                    >
+                                      {assigned}/{required}
+                                    </span>
                                   </div>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <Badge
-                                    variant="outline"
-                                    className="border-blue-500 text-blue-600"
+                                </TableCell>
+                                <TableCell>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    asChild
+                                    className="h-8 px-2"
                                   >
-                                    Scheduled
-                                  </Badge>
-                                  <Button variant="outline" size="sm">
-                                    View
+                                    <Link href={`/jobs-shifts/${shift.id}`}>
+                                      View
+                                    </Link>
                                   </Button>
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                      <h3 className="text-lg font-semibold mb-2">
+                        No shifts found
+                      </h3>
+                      <p className="text-muted-foreground mb-4">
+                        This job doesn't have any shifts yet.
+                      </p>
+                      <Button
+                        onClick={() => router.push(`/jobs/${jobId}/shifts/new`)}
+                        className="flex items-center gap-2"
+                      >
+                        <Plus className="h-4 w-4" />
+                        Add First Shift
+                      </Button>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="upcoming" className="mt-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Clock className="h-5 w-5" />
+                    Upcoming Shifts
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {upcomingShifts.length > 0 ? (
+                    <div className="space-y-4">
+                      {upcomingShifts.map((shift: any) => {
+                        const assigned = getAssignedWorkerCount(shift);
+                        const required = getTotalRequiredWorkers(shift);
+                        return (
+                          <div
+                            key={shift.id}
+                            className="flex items-center justify-between p-4 border rounded-lg"
+                          >
+                            <div className="flex items-center gap-4">
+                              <div>
+                                <p className="font-medium">
+                                  {format(new Date(shift.date), "PPP")}
+                                </p>
+                                <p className="text-sm text-muted-foreground">
+                                  {format(new Date(shift.startTime), "p")} -{" "}
+                                  {format(new Date(shift.endTime), "p")}
+                                </p>
+                              </div>
+                              <div>
+                                <p className="text-sm font-medium">
+                                  {getShiftDisplayName(shift, job.name)}
+                                </p>
+                                <div className="flex items-center gap-2 mt-1">
+                                  {getAssignmentStatusIcon(assigned, required)}
+                                  <span
+                                    className={`text-sm ${getAssignmentStatusColor(
+                                      assigned,
+                                      required
+                                    )}`}
+                                  >
+                                    {assigned}/{required} workers assigned
+                                  </span>
                                 </div>
                               </div>
-                            </CardContent>
-                          </Card>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="flex flex-col items-center justify-center py-12">
-                        <Clock className="h-12 w-12 text-muted-foreground mb-4" />
-                        <h3 className="text-lg font-semibold mb-2">
-                          No Upcoming Shifts
-                        </h3>
-                        <p className="text-muted-foreground text-center">
-                          This job doesn't have any upcoming shifts scheduled.
-                        </p>
-                        {canEdit && (
-                          <Button
-                            onClick={() =>
-                              router.push(`/jobs/${job.id}/shifts/new`)
-                            }
-                            className="flex items-center gap-2 mt-4"
-                          >
-                            <Plus className="h-4 w-4" />
-                            Schedule First Shift
-                          </Button>
-                        )}
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            </Tabs>
-          </div>
+                            </div>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              asChild
+                              className="flex items-center gap-2"
+                            >
+                              <Link href={`/jobs-shifts/${shift.id}`}>
+                                View Details
+                              </Link>
+                            </Button>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <Clock className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                      <h3 className="text-lg font-semibold mb-2">
+                        No upcoming shifts
+                      </h3>
+                      <p className="text-muted-foreground">
+                        All shifts for this job are in the past or completed.
+                      </p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-          {canEdit && job && (
-            <>
+            <TabsContent value="completed" className="mt-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <TrendingUp className="h-5 w-5" />
+                    Completed Shifts
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {completedShifts.length > 0 ? (
+                    <div className="space-y-4">
+                      {completedShifts.slice(0, 10).map((shift: any) => (
+                        <div
+                          key={shift.id}
+                          className="flex items-center justify-between p-4 border rounded-lg bg-green-50"
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className="w-2 h-2 rounded-full bg-green-500" />
+                            <div>
+                              <p className="font-medium">
+                                {format(new Date(shift.date), "PPP")}
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                {getShiftDisplayName(shift, job.name)}
+                              </p>
+                            </div>
+                          </div>
+                          <Badge variant="default">Completed</Badge>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <TrendingUp className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                      <h3 className="text-lg font-semibold mb-2">
+                        No completed shifts
+                      </h3>
+                      <p className="text-muted-foreground">
+                        Shifts will appear here once they are completed.
+                      </p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+
+          {/* Company-specific actions */}
+          {job.company && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <CrewChiefPermissionManager
                 targetId={job.id}
                 targetType="job"
                 targetName={job.name}
               />
-              <DangerZone
+              <DangerZone 
                 entityType="job"
                 entityId={job.id}
                 entityName={job.name}
-                redirectTo="/admin/jobs"
+                redirectTo="/jobs"
               />
-            </>
+            </div>
           )}
         </div>
 
@@ -611,25 +626,30 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
           {/* Quick Stats */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <TrendingUp className="h-5 w-5" />
-                Quick Stats
-              </CardTitle>
+              <CardTitle className="text-lg">Quick Stats</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">Total Shifts</span>
-                  <Badge variant="outline">{totalShifts}</Badge>
+                  <span className="text-sm font-medium">Total Shifts</span>
+                  <span className="text-sm font-bold">{totalShifts}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">Completed Shifts</span>
-                  <Badge variant="secondary">{completedShiftsCount}</Badge>
+                  <span className="text-sm font-medium">Completed</span>
+                  <span className="text-sm font-bold text-green-600">
+                    {completedShiftsCount}
+                  </span>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <span>Completion Rate</span>
-                    <span className="font-medium">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Upcoming</span>
+                  <span className="text-sm font-bold text-blue-600">
+                    {upcomingShifts.length}
+                  </span>
+                </div>
+                <div className="pt-3 border-t">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium">Completion Rate</span>
+                    <span className="text-sm font-bold">
                       {completionRate.toFixed(0)}%
                     </span>
                   </div>

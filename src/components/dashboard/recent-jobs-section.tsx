@@ -120,14 +120,14 @@ export function RecentJobsSection({
         {jobs.map((job) => (
           <div
             key={job.id}
-            className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors cursor-pointer"
+            className="flex flex-col lg:flex-row lg:items-center gap-4 p-4 border rounded-lg hover:bg-muted/50 transition-colors cursor-pointer"
             onClick={() => onJobClick(job.id)}
           >
-            <div className="flex items-center space-x-4 flex-1">
+            <div className="flex items-center space-x-4 flex-1 min-w-0">
               <CompanyAvatar
                 company={job.company}
                 size="md"
-                className="h-12 w-12"
+                className="h-12 w-12 flex-shrink-0"
               />
               
               <div className="flex-1 min-w-0">
@@ -136,34 +136,34 @@ export function RecentJobsSection({
                   <UnifiedStatusBadge status={job.status} size="sm" />
                 </div>
                 
-                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2">
+                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2 flex-wrap">
                   <div className="flex items-center gap-1">
-                    <Calendar className="h-3 w-3" />
-                    {job.stats.totalShifts} shifts
+                    <Calendar className="h-3 w-3 flex-shrink-0" />
+                    <span>{job.stats.totalShifts} shifts</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Users className="h-3 w-3" />
-                    {job.stats.uniqueWorkers} workers
+                    <Users className="h-3 w-3 flex-shrink-0" />
+                    <span>{job.stats.uniqueWorkers} workers</span>
                   </div>
                   {job.location && (
                     <div className="flex items-center gap-1">
-                      <MapPin className="h-3 w-3" />
-                      {job.location}
+                      <MapPin className="h-3 w-3 flex-shrink-0" />
+                      <span className="truncate">{job.location}</span>
                     </div>
                   )}
                 </div>
 
-                <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                  <span>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
+                  <span className="truncate">
                     Last activity: {formatDistanceToNow(new Date(job.lastActivity), { addSuffix: true })}
                   </span>
                   {job.stats.activeShifts > 0 && (
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline" className="text-xs flex-shrink-0">
                       {job.stats.activeShifts} active
                     </Badge>
                   )}
                   {job.stats.upcomingShifts > 0 && (
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline" className="text-xs flex-shrink-0">
                       {job.stats.upcomingShifts} upcoming
                     </Badge>
                   )}
@@ -177,17 +177,17 @@ export function RecentJobsSection({
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <div className="text-right">
-                <div className="text-sm font-medium">
+            <div className="flex items-center justify-between lg:justify-end gap-2 flex-shrink-0">
+              <div className="text-right min-w-0">
+                <div className="text-sm font-medium whitespace-nowrap">
                   {job.stats.completedShifts}/{job.stats.totalShifts}
                 </div>
-                <div className="text-xs text-muted-foreground">
+                <div className="text-xs text-muted-foreground whitespace-nowrap">
                   completed
                 </div>
               </div>
               
-              <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              <ChevronRight className="h-4 w-4 text-muted-foreground flex-shrink-0" />
             </div>
           </div>
         ))}

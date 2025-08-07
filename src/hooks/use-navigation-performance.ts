@@ -6,7 +6,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useUser } from './use-user';
 import { useIntelligentPrefetch } from './use-intelligent-prefetch';
 import { apiService } from '@/lib/services/api';
-import { createSmartCacheKey } from './use-optimized-queries';
+import { createSmartCacheKey } from '@/lib/query-config';
 
 interface NavigationPerformanceOptions {
   enableHoverPrefetch?: boolean;

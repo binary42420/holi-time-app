@@ -1,11 +1,11 @@
 "use client"
 
-import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useCompany, useCompanies, useJobs, useShifts } from "@/hooks/use-api"
 import { useQueryClient } from '@tanstack/react-query'
 import { useNavigationPerformance } from "@/hooks/use-navigation-performance"
 import { useCompanyCache } from "@/hooks/use-entity-cache"
+import { Company } from "@/lib/types"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -82,7 +82,7 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
 
   // Enhanced company caching with related data prefetching
   const { 
-    data: company, 
+    data: companyData, 
     isLoading: singleCompanyLoading, 
     isError: singleCompanyError, 
     refetch: refetchCompany,
@@ -91,6 +91,9 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
     prefetchRelated: true,
     maxRelatedPrefetch: 10,
   });
+
+  // Type assertion to ensure proper typing
+  const company = companyData as Company | undefined;
 
   const { data: jobs, isLoading: jobsLoading, isError: jobsError, refetch: refetchJobs } = useJobs({ companyId });
   const { data: shifts, isLoading: shiftsLoading, isError: shiftsError, refetch: refetchShifts } = useShifts({ companyId });
@@ -180,8 +183,8 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
         </div>
         {canEdit && (
           <Button
-            onClick={() => navigateWithPrefetch(`/admin/companies/${company.id}/edit`)}
-            onMouseEnter={() => handleHover(`/admin/companies/${company.id}/edit`)}
+            onClick={() => navigateWithPrefetch(`/admin/companies/${companyId}/edit`)}
+            onMouseEnter={() => handleHover(`/admin/companies/${companyId}/edit`)}
             onMouseLeave={cancelHover}
             className="flex items-center gap-2"
           >
@@ -222,7 +225,7 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
             {canEdit && (
               <CardContent>
                 <CompanyAvatarUploader
-                  companyId={company.id}
+                  companyId={companyId}
                   currentLogoUrl={company.company_logo_url}
                   onUploadSuccess={(newLogoUrl) => {
                     queryClient.setQueryData(['company', companyId], (oldCompany: any) => {
@@ -247,7 +250,7 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
               <CardContent>
                 <div>
                   <h4 className="font-medium mb-2">Description</h4>
-                  <p className="text-muted-foreground">{company.description}</p>
+                  <p className="text-muted-foreground">{company.description || 'No description available'}</p>
                 </div>
               </CardContent>
             )}
@@ -333,7 +336,7 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => router.push(`/companies/${company.id}/jobs`)}
+                        onClick={() => router.push(`/companies/${companyId}/jobs`)}
                         className="flex items-center gap-2"
                       >
                         View All Jobs
@@ -341,7 +344,7 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
                       {canEdit && (
                         <Button
                           size="sm"
-                          onClick={() => router.push(`/admin/jobs/new?companyId=${company.id}`)}
+                          onClick={() => router.push(`/admin/jobs/new?companyId=${companyId}`)}
                           className="flex items-center gap-2"
                         >
                           <Plus className="h-4 w-4" />
@@ -398,7 +401,7 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
                       <p className="text-muted-foreground text-center mb-4">This client doesn't have any jobs assigned yet.</p>
                       {canEdit && (
                         <Button 
-                          onClick={() => router.push(`/admin/jobs/new?companyId=${company.id}`)}
+                          onClick={() => router.push(`/admin/jobs/new?companyId=${companyId}`)}
                           className="flex items-center gap-2"
                         >
                           <Plus className="h-4 w-4" />
@@ -422,7 +425,7 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => router.push(`/companies/${company.id}/shifts`)}
+                      onClick={() => router.push(`/companies/${companyId}/shifts`)}
                       className="flex items-center gap-2"
                     >
                       View All Shifts
@@ -502,7 +505,7 @@ export default function CompanyDetailPage({ params }: { params: { id: string } }
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => router.push(`/companies/${company.id}/upcoming`)}
+                      onClick={() => router.push(`/companies/${companyId}/upcoming`)}
                       className="flex items-center gap-2"
                     >
                       View All Upcoming

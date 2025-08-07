@@ -65,6 +65,7 @@ export const apiService = {
   getCrewChiefPermissions: (shiftId: string) => fetchFromApi<{ permissions: CrewChiefPermission[] }>(`/crew-chief-permissions/manage?permissionType=shift&targetId=${shiftId}`).then(data => data.permissions),
 
   // Jobs
+  getJob: (id: string) => fetchFromApi<{ job: Job }>(`/jobs/${id}`).then(data => data.job),
   getJobs: (filters?: { status?: string; companyId?: string; search?: string; sortBy?: string; }) => {
     const params = new URLSearchParams();
     if (filters?.status && filters.status !== 'all') params.append('status', filters.status);

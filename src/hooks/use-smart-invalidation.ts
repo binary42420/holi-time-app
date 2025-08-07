@@ -2,7 +2,7 @@
 
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useRef } from 'react';
-import { createSmartCacheKey } from './use-optimized-queries';
+import { createSmartCacheKey } from '@/lib/query-config';
 
 // Define relationships between different data types
 const DATA_RELATIONSHIPS = {

@@ -4,9 +4,20 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { useUser } from './use-user';
 import { apiService } from '@/lib/services/api';
-import { createSmartCacheKey, QUERY_CONFIG } from './use-optimized-queries';
+import { createSmartCacheKey, QUERY_CONFIG } from '@/lib/query-config';
+import { Company, Job, ShiftWithDetails, TimesheetDetails, UserWithAssignments } from '@/lib/types';
 
 export type EntityType = 'company' | 'job' | 'shift' | 'timesheet' | 'user' | 'employee';
+
+// Type mapping for entity types
+type EntityTypeMap = {
+  company: Company;
+  job: Job;
+  shift: ShiftWithDetails;
+  timesheet: TimesheetDetails;
+  user: UserWithAssignments;
+  employee: UserWithAssignments;
+};
 
 interface EntityCacheOptions {
   prefetchRelated?: boolean;
@@ -19,8 +30,8 @@ interface EntityCacheOptions {
  * Enhanced caching hook for individual entities with intelligent
  * prefetching of related data and real-time updates
  */
-export const useEntityCache = (
-  entityType: EntityType,
+export const useEntityCache = <T extends EntityType>(
+  entityType: T,
   entityId: string,
   options: EntityCacheOptions = {}
 ) => {
@@ -57,19 +68,19 @@ export const useEntityCache = (
   }, [entityType, customStaleTime]);
 
   // Get appropriate query function
-  const getQueryFunction = useCallback(() => {
+  const getQueryFunction = useCallback((): (() => Promise<EntityTypeMap[T]>) => {
     switch (entityType) {
       case 'company':
-        return () => apiService.getCompany(entityId);
+        return () => apiService.getCompany(entityId) as Promise<EntityTypeMap[T]>;
       case 'job':
-        return () => apiService.getJobs({ companyId: entityId }); // Assuming job details
+        return () => apiService.getJob(entityId) as Promise<EntityTypeMap[T]>;
       case 'shift':
-        return () => apiService.getShift(entityId);
+        return () => apiService.getShift(entityId) as Promise<EntityTypeMap[T]>;
       case 'timesheet':
-        return () => apiService.getTimesheet(entityId);
+        return () => apiService.getTimesheet(entityId) as Promise<EntityTypeMap[T]>;
       case 'user':
       case 'employee':
-        return () => apiService.getUserById(entityId);
+        return () => apiService.getUserById(entityId) as Promise<EntityTypeMap[T]>;
       default:
         throw new Error(`Unsupported entity type: ${entityType}`);
     }
@@ -94,7 +105,7 @@ export const useEntityCache = (
   const prefetchRelatedEntities = useCallback(async () => {
     if (!prefetchRelated || !entityQuery.data || !entityId) return;
 
-    const entity = entityQuery.data;
+    const entity = entityQuery.data as unknown as EntityTypeMap[T];
     const prefetchPromises: Promise<any>[] = [];
 
     try {
@@ -119,11 +130,12 @@ export const useEntityCache = (
 
         case 'job':
           // Prefetch job shifts and company
-          if (entity.companyId) {
+          const jobEntity = entity as Job;
+          if (jobEntity.companyId) {
             prefetchPromises.push(
               queryClient.prefetchQuery({
-                queryKey: ['company', entity.companyId],
-                queryFn: () => apiService.getCompany(entity.companyId),
+                queryKey: ['company', jobEntity.companyId],
+                queryFn: () => apiService.getCompany(jobEntity.companyId),
                 staleTime: QUERY_CONFIG.STALE_TIMES.STATIC,
               })
             );
@@ -139,6 +151,7 @@ export const useEntityCache = (
 
         case 'shift':
           // Prefetch shift assignments, job, and company
+          const shiftEntity = entity as ShiftWithDetails;
           prefetchPromises.push(
             queryClient.prefetchQuery({
               queryKey: ['shift-assignments', entityId],
@@ -146,19 +159,19 @@ export const useEntityCache = (
               staleTime: QUERY_CONFIG.STALE_TIMES.DYNAMIC,
             })
           );
-          if (entity.jobId) {
+          if (shiftEntity.jobId) {
             prefetchPromises.push(
               queryClient.prefetchQuery({
-                queryKey: ['job', entity.jobId],
-                queryFn: () => apiService.getJobs({ companyId: entity.job?.companyId }),
+                queryKey: ['job', shiftEntity.jobId],
+                queryFn: () => apiService.getJob(shiftEntity.jobId),
                 staleTime: QUERY_CONFIG.STALE_TIMES.SEMI_STATIC,
               })
             );
-            if (entity.job?.companyId) {
+            if (shiftEntity.job?.company?.id) {
               prefetchPromises.push(
                 queryClient.prefetchQuery({
-                  queryKey: ['company', entity.job.companyId],
-                  queryFn: () => apiService.getCompany(entity.job.companyId),
+                  queryKey: ['company', shiftEntity.job.company.id],
+                  queryFn: () => apiService.getCompany(shiftEntity.job.company.id),
                   staleTime: QUERY_CONFIG.STALE_TIMES.STATIC,
                 })
               );
@@ -168,11 +181,12 @@ export const useEntityCache = (
 
         case 'timesheet':
           // Prefetch related shift and its details
-          if (entity.shiftId) {
+          const timesheetEntity = entity as TimesheetDetails;
+          if (timesheetEntity.shiftId) {
             prefetchPromises.push(
               queryClient.prefetchQuery({
-                queryKey: ['shift', entity.shiftId],
-                queryFn: () => apiService.getShift(entity.shiftId),
+                queryKey: ['shift', timesheetEntity.shiftId],
+                queryFn: () => apiService.getShift(timesheetEntity.shiftId),
                 staleTime: QUERY_CONFIG.STALE_TIMES.DYNAMIC,
               })
             );
@@ -182,10 +196,11 @@ export const useEntityCache = (
         case 'user':
         case 'employee':
           // Prefetch user's recent assignments and shifts
+          const userEntity = entity as UserWithAssignments;
           prefetchPromises.push(
             queryClient.prefetchQuery({
               queryKey: createSmartCacheKey('shifts', { userId: entityId }),
-              queryFn: () => apiService.getShifts({ search: entity.name }),
+              queryFn: () => apiService.getShifts({ search: userEntity.name }),
               staleTime: QUERY_CONFIG.STALE_TIMES.DYNAMIC,
             })
           );
@@ -285,6 +300,7 @@ export const useEntityCache = (
   return {
     // Main query result
     ...entityQuery,
+    data: entityQuery.data as unknown as EntityTypeMap[T] | undefined,
     
     // Additional utilities
     prefetchRelatedEntities,

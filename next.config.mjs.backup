@@ -1,0 +1,154 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'standalone',
+  // Disable static optimization for faster builds with database dependencies
+  trailingSlash: false,
+  // Move serverComponentsExternalPackages to top level
+  serverExternalPackages: ['@prisma/client'],
+  experimental: {
+    // Enable optimized package imports
+    optimizePackageImports: [
+      '@radix-ui/react-icons',
+      'lucide-react',
+      '@mantine/core',
+      'recharts'
+    ],
+  },
+  // Move turbo config to top level as turbopack
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+
+  // Optimized image configuration
+  images: {
+    domains: ['localhost', 'lh3.googleusercontent.com', 'avatars.githubusercontent.com', 'ui-avatars.com', 'storage.googleapis.com'],
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "script-src 'none'; sandbox;",
+  },
+  // Compression and performance
+  compress: true,
+  poweredByHeader: false,
+  webpack: (config, { isServer, dev, webpack }) => {
+    // Suppress webpack warnings
+    config.infrastructureLogging = { level: 'error' };
+    
+    // Essential externals only
+    config.externals = config.externals || [];
+    config.externals.push('pg-native');
+    
+    if (isServer) {
+      config.externals.push('_http_common', 'archiver', 'exceljs', 'pusher-js');
+    } else {
+      // Client-side fallbacks
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        dns: false,
+        child_process: false,
+        worker_threads: false,
+      };
+    }
+    
+    // Development watch options
+    if (dev) {
+      config.watchOptions = {
+        poll: 1000,
+        aggregateTimeout: 300,
+        ignored: /node_modules/,
+      };
+    }
+    
+    // Bundle analyzer (optional)
+    if (process.env.ANALYZE === 'true') {
+      try {
+        const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+        config.plugins.push(
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            openAnalyzer: false,
+            reportFilename: 'bundle-analyzer-report.html',
+          })
+        );
+      } catch (error) {
+        console.warn('webpack-bundle-analyzer not available');
+      }
+    }
+    
+    // Ignore moment locales
+    config.plugins.push(
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^\.\/locale$/,
+        contextRegExp: /moment$/,
+      })
+    );
+    
+    return config;
+  },
+  // Headers for better caching and security
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+        ],
+      },
+      {
+        source: '/api/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, max-age=0',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
+  // Redirects for better SEO
+  async redirects() {
+    return [
+      {
+        source: '/home',
+        destination: '/',
+        permanent: true,
+      },
+    ];
+  },
+};
+
+export default nextConfig;

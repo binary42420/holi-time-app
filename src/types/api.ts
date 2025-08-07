@@ -117,6 +117,10 @@ export interface CreateCompanyRequest {
   email?: string;
   phone?: string;
   address?: string;
+  website?: string;
+  description?: string;
+  company_logo_url?: string;
+  isActive?: boolean;
 }
 
 export interface UpdateCompanyRequest {
@@ -124,6 +128,10 @@ export interface UpdateCompanyRequest {
   email?: string;
   phone?: string;
   address?: string;
+  website?: string;
+  description?: string;
+  company_logo_url?: string;
+  isActive?: boolean;
 }
 
 export interface CompanyResponse {
@@ -132,6 +140,10 @@ export interface CompanyResponse {
   email?: string;
   phone?: string;
   address?: string;
+  website?: string;
+  description?: string;
+  company_logo_url?: string;
+  isActive: boolean;
   createdAt: string;
   updatedAt: string;
   _count?: {
@@ -461,6 +473,10 @@ export interface DatabaseCompany {
   email?: string;
   phone?: string;
   address?: string;
+  website?: string;
+  description?: string;
+  company_logo_url?: string;
+  isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
   _count?: {

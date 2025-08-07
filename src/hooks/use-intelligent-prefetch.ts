@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from './use-user';
 import { apiService } from '@/lib/services/api';
-import { createSmartCacheKey } from './use-optimized-queries';
+import { createSmartCacheKey } from '@/lib/query-config';
 
 interface PrefetchRule {
   condition: (currentPath: string, userRole: string) => boolean;

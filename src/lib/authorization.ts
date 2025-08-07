@@ -1,4 +1,5 @@
-import { UserRole, User } from '@prisma/client';
+import { User } from '@prisma/client';
+import { UserRole } from '@/lib/types';
 import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/middleware';
 

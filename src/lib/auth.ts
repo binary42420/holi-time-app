@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
-import { UserRole, User } from '@prisma/client';
+import { User } from '@prisma/client';
+import { UserRole } from '@/lib/types';
 import * as bcrypt from 'bcryptjs';
 
 interface UserContext {
@@ -18,12 +19,12 @@ interface UserContext {
  */
 export async function canCrewChiefManageShift(user: UserContext, shiftId: string): Promise<boolean> {
   // Admins and Staff always have permission.
-  if (user.role === 'Admin' || user.role === 'Staff') {
+  if (user.role === UserRole.Admin || user.role === UserRole.Staff) {
     return true;
   }
 
   // Only users with the CrewChief role can have this special permission.
-  if (user.role !== 'CrewChief') {
+  if (user.role !== UserRole.CrewChief) {
     return false;
   }
 
@@ -49,7 +50,7 @@ export async function canCrewChiefManageShift(user: UserContext, shiftId: string
  */
 export async function isCrewChiefAssignedToShift(user: UserContext, shiftId: string): Promise<boolean> {
   // Only crew chiefs can use this function
-  if (user.role !== 'CrewChief') {
+  if (user.role !== UserRole.CrewChief) {
     return false;
   }
 

@@ -41,7 +41,8 @@ function AdminJobsPage() {
     sortBy: sortBy,
   })
   const { data: companiesData } = useCompanies()
-  const rawJobs = jobsData || []
+  
+  const rawJobs = React.useMemo(() => jobsData || [], [jobsData])
   const companies = companiesData?.companies || []
 
   // Enhanced sorting: sort jobs by their most recent shift date (most recent first)
@@ -62,7 +63,7 @@ function AdminJobsPage() {
   console.log('Jobs data:', jobs);
 
   // Helper function for shift date badges (matching shifts page style)
-  const getDateBadge = (date: string) => {
+  const getDateBadge = (date: string | Date) => {
     const shiftDate = new Date(date)
     if (isToday(shiftDate)) {
       return <Badge variant="default" className="bg-blue-600 text-white text-xs">Today</Badge>
@@ -83,6 +84,14 @@ function AdminJobsPage() {
 
   const formatSimpleDate = (date: string | Date) => {
     return format(new Date(date), 'MM/dd/yyyy')
+  }
+
+  // Helper function to convert days until shift to priority level
+  const getDaysPriority = (daysUntil: number): 'high' | 'medium' | 'low' => {
+    if (daysUntil < 0) return 'high'; // Past due
+    if (daysUntil <= 1) return 'high'; // Today or tomorrow
+    if (daysUntil <= 3) return 'medium'; // Within 3 days
+    return 'low'; // More than 3 days away
   }
 
   const handleJobView = (jobId: string) => {
@@ -349,7 +358,7 @@ function AdminJobsPage() {
                           const assigned = calculateAssignedWorkers(shift);
                           const fulfillmentStatus = getFulfillmentStatus(assigned, required);
                           const daysUntil = differenceInDays(new Date(shift.date), new Date());
-                          const priorityStatus = getPriorityBadge(daysUntil);
+                          const priorityStatus = getPriorityBadge(getDaysPriority(daysUntil));
                           
                           // Get actual shift status based on timing and completion
                           const shiftStatus = getShiftStatus(shift);

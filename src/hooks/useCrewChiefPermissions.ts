@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import type { CrewChiefPermissionCheck } from '@/lib/types';
+import { UserRole } from '@/lib/types';
 
 interface UseCrewChiefPermissionsResult {
   hasPermission: boolean;
@@ -28,7 +29,7 @@ export function useCrewChiefPermissions(shiftId: string | null): UseCrewChiefPer
     }
 
     // Managers/Admins always have permission
-    if (session.user.role === 'Admin') {
+    if (session.user.role === UserRole.Admin) {
       setPermissionCheck({
         hasPermission: true,
         permissionSource: 'none', // Admin access doesn't need specific permissions

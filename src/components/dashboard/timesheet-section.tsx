@@ -125,11 +125,11 @@ export function TimesheetSection({
         {timesheets.map((timesheet) => (
           <div
             key={timesheet.id}
-            className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors cursor-pointer"
+            className="flex flex-col lg:flex-row lg:items-center gap-4 p-4 border rounded-lg hover:bg-muted/50 transition-colors cursor-pointer"
             onClick={() => onTimesheetClick(timesheet.id, timesheet.shiftId)}
           >
-            <div className="flex items-center space-x-4 flex-1">
-              <div className="flex -space-x-2">
+            <div className="flex items-center space-x-4 flex-1 min-w-0">
+              <div className="flex -space-x-2 flex-shrink-0">
                 {timesheet.shift.assignedPersonnel.slice(0, 3).map((ap: any, index: number) => (
                   <Avatar
                     key={ap.user.id}
@@ -157,18 +157,18 @@ export function TimesheetSection({
                   <UnifiedStatusBadge status={timesheet.status} size="sm" />
                 </div>
                 
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
                   <div className="flex items-center gap-1">
-                    <Calendar className="h-3 w-3" />
-                    {format(new Date(timesheet.shift.date), 'MMM d, yyyy')}
+                    <Calendar className="h-3 w-3 flex-shrink-0" />
+                    <span className="truncate">{format(new Date(timesheet.shift.date), 'MMM d, yyyy')}</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Building2 className="h-3 w-3" />
-                    {timesheet.shift.job.company.name}
+                    <Building2 className="h-3 w-3 flex-shrink-0" />
+                    <span className="truncate">{timesheet.shift.job.company.name}</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Users className="h-3 w-3" />
-                    {timesheet.shift.assignedPersonnel.length} workers
+                    <Users className="h-3 w-3 flex-shrink-0" />
+                    <span>{timesheet.shift.assignedPersonnel.length} workers</span>
                   </div>
                 </div>
                 
@@ -180,49 +180,53 @@ export function TimesheetSection({
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              {timesheet.permissions.canApprove && onApproveTimesheet && (
+            <div className="flex items-center justify-between lg:justify-end gap-2 flex-shrink-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                {timesheet.permissions.canApprove && onApproveTimesheet && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onApproveTimesheet(timesheet.id);
+                    }}
+                    className="text-green-600 border-green-200 hover:bg-green-50 flex-shrink-0"
+                  >
+                    <CheckCircle className="h-4 w-4 lg:mr-1" />
+                    <span className="hidden lg:inline">Approve</span>
+                  </Button>
+                )}
+                
+                {timesheet.permissions.canModify && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onTimesheetClick(timesheet.id, timesheet.shiftId);
+                    }}
+                    className="flex-shrink-0"
+                  >
+                    <Edit className="h-4 w-4 lg:mr-1" />
+                    <span className="hidden lg:inline">Edit</span>
+                  </Button>
+                )}
+                
                 <Button
                   size="sm"
-                  variant="outline"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onApproveTimesheet(timesheet.id);
-                  }}
-                  className="text-green-600 border-green-200 hover:bg-green-50"
-                >
-                  <CheckCircle className="h-4 w-4 mr-1" />
-                  Approve
-                </Button>
-              )}
-              
-              {timesheet.permissions.canModify && (
-                <Button
-                  size="sm"
-                  variant="outline"
+                  variant="ghost"
                   onClick={(e) => {
                     e.stopPropagation();
                     onTimesheetClick(timesheet.id, timesheet.shiftId);
                   }}
+                  className="flex-shrink-0"
                 >
-                  <Edit className="h-4 w-4 mr-1" />
-                  Edit
+                  <Eye className="h-4 w-4 lg:mr-1" />
+                  <span className="hidden lg:inline">View</span>
                 </Button>
-              )}
+              </div>
               
-              <Button
-                size="sm"
-                variant="ghost"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onTimesheetClick(timesheet.id, timesheet.shiftId);
-                }}
-              >
-                <Eye className="h-4 w-4 mr-1" />
-                View
-              </Button>
-              
-              <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              <ChevronRight className="h-4 w-4 text-muted-foreground flex-shrink-0" />
             </div>
           </div>
         ))}

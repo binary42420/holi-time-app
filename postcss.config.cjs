@@ -2,6 +2,10 @@
 module.exports = {
   plugins: {
     tailwindcss: {},
-    autoprefixer: {},
+    autoprefixer: {
+      // Suppress warnings that cause webpack cache serialization issues
+      overrideBrowserslist: ['defaults'],
+      ignoreUnknownVersions: true,
+    },
   },
 }

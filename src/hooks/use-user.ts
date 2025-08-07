@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import { UserRole } from '@prisma/client';
+import { UserRole } from '@/lib/types';
 import { useMemo } from 'react';
 
 import { Company } from "@/lib/types";

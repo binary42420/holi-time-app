@@ -2,8 +2,13 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://holitime-user:myDBpassWord1%21@35.235.75.173:5432/holitime"
+  
 }
+  
+  //env("DATABASE_URL")
+//"postgresql://holitime-user:myDBpassWord1%21@35.235.75.173:5432/holitime"
+  
 
 generator client {
   provider      = "prisma-client-js"
@@ -113,6 +118,19 @@ model PasswordResetToken {
   createdAt DateTime @default(now())
 
   @@map("password_reset_tokens")
+}
+
+model SystemSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy String
+  updatedBy String
+
+  @@index([key])
+  @@map("system_settings")
 }
 
 model AssignedPersonnel {

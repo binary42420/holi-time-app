@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import { useUsers, useCompanies } from "@/hooks/use-api"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -53,9 +53,45 @@ function AdminUsersPage() {
   const router = useRouter()
   const { toast } = useToast()
   const { data: usersResponse, isLoading: usersLoading, isError: usersError } = useUsers({ fetchAll: true })
-  const users = usersResponse?.users || []
+  const users = useMemo(() => {
+    if (!usersResponse) return []
+    
+    try {
+      // Handle the API response structure: { users: User[], pagination: any }
+      if (usersResponse && typeof usersResponse === 'object' && Array.isArray(usersResponse.users)) {
+        return usersResponse.users || []
+      }
+      
+      // Fallback for direct array (shouldn't happen with current API)
+      if (Array.isArray(usersResponse)) return usersResponse
+      
+      console.warn('Unexpected usersResponse structure:', usersResponse)
+      return []
+    } catch (error) {
+      console.error('Error processing users data:', error)
+      return []
+    }
+  }, [usersResponse])
   const { data: companiesData, isLoading: companiesLoading, isError: companiesError } = useCompanies()
-  const companies = companiesData?.companies || []
+  const companies = useMemo(() => {
+    if (!companiesData) return []
+    
+    try {
+      // Handle the API response structure: { companies: Company[], pagination: any }
+      if (companiesData && typeof companiesData === 'object' && Array.isArray(companiesData.companies)) {
+        return companiesData.companies || []
+      }
+      
+      // Fallback for direct array (shouldn't happen with current API)
+      if (Array.isArray(companiesData)) return companiesData
+      
+      console.warn('Unexpected companiesData structure:', companiesData)
+      return []
+    } catch (error) {
+      console.error('Error processing companies data:', error)
+      return []
+    }
+  }, [companiesData])
 
   const [searchTerm, setSearchTerm] = useState("")
   const [roleFilter, setRoleFilter] = useState("all")
@@ -68,25 +104,43 @@ function AdminUsersPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [isResetting, setIsResetting] = useState(false)
 
+  const companyMap = useMemo(() => {
+    if (!Array.isArray(companies)) {
+      console.warn('Companies is not an array when creating map:', companies)
+      return new Map<string, string>()
+    }
+    return new Map(
+      companies
+        .filter(c => c && c.id && c.name) // Filter out companies without id or name
+        .map(c => [c.id, c.name] as [string, string]) // Type assertion for the tuple
+    )
+  }, [companies])
+
+  const filteredUsers = useMemo(() => {
+    // Ensure users is always an array before filtering
+    if (!Array.isArray(users)) {
+      console.warn('Users is not an array when filtering:', users)
+      return []
+    }
+
+    return users.filter(u => {
+      const companyName = u.companyId ? companyMap.get(u.companyId) : ''
+      const matchesSearch = 
+        u.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        u.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        companyName?.toLowerCase().includes(searchTerm.toLowerCase())
+      
+      const matchesRole = roleFilter === 'all' || u.role === roleFilter
+
+      return matchesSearch && matchesRole
+    })
+  }, [users, searchTerm, roleFilter, companyMap])
+
   // Redirect if not admin
   if (user?.role !== UserRole.Admin) {
     router.push('/dashboard')
     return null
   }
-
-  const companyMap = new Map(companies.map(c => [c.id, c.name]))
-
-  const filteredUsers = users.filter(u => {
-    const companyName = u.companyId ? companyMap.get(u.companyId) : ''
-    const matchesSearch = 
-      u.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      u.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      companyName?.toLowerCase().includes(searchTerm.toLowerCase())
-    
-    const matchesRole = roleFilter === 'all' || u.role === roleFilter
-
-    return matchesSearch && matchesRole
-  })
 
   const handleResetPassword = async () => {
     if (!resetPasswordDialog.user) return

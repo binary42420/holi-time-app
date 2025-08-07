@@ -1,5 +1,4 @@
 import {
-  UserRole,
   Company as PrismaCompany,
   Job as PrismaJob,
   Shift as PrismaShift,
@@ -14,8 +13,17 @@ import {
   Announcement as PrismaAnnouncement,
   WorkerStatus as PrismaWorkerStatus
 } from "@prisma/client";
+
+// Manual UserRole enum definition (temporary fix for Prisma client issue)
+export enum UserRole {
+  Staff = 'Staff',
+  Admin = 'Admin',
+  CompanyUser = 'CompanyUser',
+  CrewChief = 'CrewChief',
+  Employee = 'Employee'
+}
+
 export type {
-  UserRole,
   PrismaCompany,
   PrismaJob,
   PrismaShift,

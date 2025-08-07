@@ -358,3 +358,112 @@
     @apply transition-none animate-none;
   }
 }
+
+/* Print styles for job reports */
+@media print {
+  /* Hide non-essential elements when printing */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Optimize print layout */
+  .print-content {
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+    color: #000 !important;
+  }
+
+  .print-content .text-2xl {
+    font-size: 18px !important;
+  }
+
+  .print-content .text-xl {
+    font-size: 16px !important;
+  }
+
+  .print-content .text-lg {
+    font-size: 14px !important;
+  }
+
+  .print-content .text-sm {
+    font-size: 11px !important;
+  }
+
+  .print-content .text-xs {
+    font-size: 10px !important;
+  }
+
+  /* Ensure proper page breaks */
+  .break-inside-avoid {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .break-before {
+    break-before: page !important;
+    page-break-before: always !important;
+  }
+
+  .break-after {
+    break-after: page !important;
+    page-break-after: always !important;
+  }
+
+  /* Print-friendly colors */
+  .print-content .bg-blue-50,
+  .print-content .bg-green-50,
+  .print-content .bg-purple-50,
+  .print-content .bg-orange-50 {
+    background-color: #f8f9fa !important;
+    border: 1px solid #dee2e6 !important;
+  }
+
+  .print-content .text-blue-600,
+  .print-content .text-green-600,
+  .print-content .text-purple-600,
+  .print-content .text-orange-600 {
+    color: #333 !important;
+  }
+
+  /* Ensure borders are visible in print */
+  .print-content .border {
+    border: 1px solid #333 !important;
+  }
+
+  .print-content .border-2 {
+    border: 2px solid #333 !important;
+  }
+
+  /* Print-friendly shadows */
+  .print-content .shadow,
+  .print-content .shadow-sm,
+  .print-content .shadow-md,
+  .print-content .shadow-lg {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+  }
+
+  /* Optimize spacing for print */
+  .print-content .space-y-6 > * + * {
+    margin-top: 1rem !important;
+  }
+
+  .print-content .space-y-4 > * + * {
+    margin-top: 0.75rem !important;
+  }
+
+  .print-content .space-y-2 > * + * {
+    margin-top: 0.5rem !important;
+  }
+
+  /* Print page setup */
+  @page {
+    margin: 0.75in;
+    size: letter;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect } from 'react';
 import { api } from '@/lib/api-client';
 import { useUser } from './use-user';
-import { createSmartCacheKey, QUERY_CONFIG } from './use-optimized-queries';
+import { createSmartCacheKey, QUERY_CONFIG } from '@/lib/query-config';
 
 // Enhanced hook for dashboard timesheets with smart caching
 export function useDashboardTimesheets() {

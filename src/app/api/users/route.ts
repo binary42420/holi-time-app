@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { dbQueryService } from '@/lib/services/database-query-service';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
-import { UserRole } from '@prisma/client';
+import { UserRole } from '@/lib/types';
 
 const userSchema = z.object({
   name: z.string().min(1, 'Name is required'),
